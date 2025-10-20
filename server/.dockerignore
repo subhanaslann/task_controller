@@ -1,0 +1,17 @@
+node_modules
+dist
+npm-debug.log
+.env
+.env.local
+*.log
+.DS_Store
+coverage
+.vscode
+.idea
+*.test.ts
+tests
+prisma/dev.db
+prisma/dev.db-journal
+prisma/test.db
+README.md
+QUICKSTART.md
