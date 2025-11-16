@@ -120,10 +120,10 @@ export const deleteTopicSchema = z.object({
 // Member task creation schema (self-assign only)
 export const createMemberTaskSchema = z.object({
   body: z.object({
-    topicId: z.string().uuid('Invalid topic ID'),
+    topicId: z.string().uuid('Invalid topic ID').optional(),
     title: z.string().min(1, 'Title is required'),
     note: z.string().optional(),
     priority: z.enum(['LOW', 'NORMAL', 'HIGH']).optional(),
-    dueDate: z.string().datetime('Due date is required'),
+    dueDate: z.string().datetime().optional(),
   }),
 });

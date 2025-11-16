@@ -74,4 +74,5 @@ export const addRequestId = (requestId: string) => {
   return logger.child({ requestId });
 };
 
+export { logger };
 export default logger;

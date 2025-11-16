@@ -1,0 +1,1849 @@
+﻿
+> mini-task-tracker-server@1.0.0 test
+> jest
+
+node.exe : FAIL tests/integration/user-management.test.ts (7.971 s)
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL tests/inte...st.ts (7.971 s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:34:46.255Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Team Manager or Admin access required","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"ForbiddenError: Team Manager or Admin access 
+required\n    at requireTeamManagerOrAdmin (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\roles.ts:31:17)\n 
+   at Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at authenticate (C:\
+\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:48:5)","timestamp":"2025-11-16T23:34:46.929Z","url":"/use
+rs"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Team Managers cannot create Admin users","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ForbiddenError: Team Managers cannot create Admin 
+users\n    at createUser (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:68:11)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\src\\routes\\users.ts:54:36\n    at Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Tektech\\mini
+-task-tracker\\server\\src\\middleware\\validate.ts:12:7","timestamp":"2025-11-16T23:34:47.904Z","url":"/users"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Team Managers cannot create other Team Manager 
+users","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ForbiddenError: Team Managers cannot create other 
+Team Manager users\n    at createUser (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:73:11)\n  
+  at C:\\Tektech\\mini-task-tracker\\server\\src\\routes\\users.ts:54:36\n    at Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Tektech\\mini
+-task-tracker\\server\\src\\middleware\\validate.ts:12:7","timestamp":"2025-11-16T23:34:48.392Z","url":"/users"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"You do not have access to resources from another 
+organization","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"CrossOrganizationAccessError: You do not have 
+access to resources from another organization\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:
+119:15","timestamp":"2025-11-16T23:34:50.480Z","url":"/users/d16358f1-574a-45d2-a1d0-06e084e2cf63"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Your organization has reached the maximum of 15 
+users","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"OrganizationUserLimitReachedError: Your 
+organization has reached the maximum of 15 users\n    at checkActiveUserLimit 
+(C:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:51:11)\n    at createUser 
+(C:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:78:5)\n    at C:\\Tektech\\mini-task-tracker\\se
+rver\\src\\routes\\users.ts:54:20","timestamp":"2025-11-16T23:34:52.062Z","url":"/users"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ User Management Tests ÔÇ║ USER_09: Cross-Organization Access Prevention ÔÇ║ should return 404 when accessing 
+user from different organization
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 403
+
+      238 |         .set('Authorization', `Bearer ${techManagerToken}`);
+      239 |
+    > 240 |       expect(response.status).toBe(404);
+          |                               ^
+      241 |       expect(response.body).toHaveProperty('error');
+      242 |     });
+      243 |   });
+
+      at Object.<anonymous> (tests/integration/user-management.test.ts:240:31)
+
+  ÔùÅ User Management Tests ÔÇ║ USER_10: Delete User ÔÇ║ should delete user successfully
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 200
+
+      272 |         .set('Authorization', `Bearer ${acmeManagerToken}`);
+      273 |
+    > 274 |       expect(getRes.status).toBe(404);
+          |                             ^
+      275 |     });
+      276 |   });
+      277 |
+
+      at Object.<anonymous> (tests/integration/user-management.test.ts:274:29)
+
+  ÔùÅ User Management Tests ÔÇ║ USER_11: Enforce User Limit (15 max) ÔÇ║ should return 400 when user limit is reached
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 403
+
+      307 |         });
+      308 |
+    > 309 |       expect(response.status).toBe(400);
+          |                               ^
+      310 |       expect(response.body).toHaveProperty('error');
+      311 |       // Error should indicate user limit exceeded
+      312 |     });
+
+      at Object.<anonymous> (tests/integration/user-management.test.ts:309:31)
+
+FAIL tests/integration/task-member.test.ts (5.127 s)
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:34:52.501Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"You do not have access to resources from another 
+organization","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"PATCH","service":"mini-task-tracker-api","stack":"CrossOrganizationAccessError: You do not have 
+access to resources from another organization\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:
+119:15","timestamp":"2025-11-16T23:34:55.925Z","url":"/tasks/780a5a63-2433-4170-a411-f98a68a73a04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Guest users cannot create tasks","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ForbiddenError: Guest users cannot create tasks\n 
+   at C:\\Tektech\\mini-task-tracker\\server\\src\\routes\\memberTasks.ts:34:15\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+next (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Tektech\
+\mini-task-tracker\\server\\src\\middleware\\validate.ts:12:7","timestamp":"2025-11-16T23:34:56.804Z","url":"/tasks"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Guest users cannot update tasks","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"PATCH","service":"mini-task-tracker-api","stack":"ForbiddenError: Guest users cannot update 
+tasks\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\routes\\memberTasks.ts:67:15\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+next (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Tektech\
+\mini-task-tracker\\server\\src\\middleware\\validate.ts:12:7","timestamp":"2025-11-16T23:34:57.213Z","url":"/tasks/407
+4c1db-4a36-401a-8351-fab1abbb7ad4/status"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ Task Management - Member Operations Tests ÔÇ║ TASK_09: Member Cannot Update Other's Task ÔÇ║ should return 404 
+when member from different org tries to update task
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 403
+
+      268 |         });
+      269 |
+    > 270 |       expect(response.status).toBe(404);
+          |                               ^
+      271 |       expect(response.body).toHaveProperty('error');
+      272 |     });
+      273 |   });
+
+      at Object.<anonymous> (tests/integration/task-member.test.ts:270:31)
+
+FAIL tests/integration/topic-management.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:34:57.597Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Topic not found","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"NotFoundError: Topic not found\n    at getTopic 
+(C:\\Tektech\\mini-task-tracker\\server\\src\\services\\topicService.ts:96:11)\n    at C:\\Tektech\\mini-task-tracker\\
+server\\src\\routes\\adminTopics.ts:43:21","timestamp":"2025-11-16T23:35:00.968Z","url":"/admin/topics/a40b8d7f-4d7f-4c
+4a-bca4-bf25bda34a0b"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"You do not have access to resources from another 
+organization","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"CrossOrganizationAccessError: You do not have 
+access to resources from another organization\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:
+119:15","timestamp":"2025-11-16T23:35:01.442Z","url":"/admin/topics/f8fb9696-0eab-478a-889a-892fd35e9066"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Team Manager or Admin access required","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ForbiddenError: Team Manager or Admin access 
+required\n    at requireTeamManagerOrAdmin (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\roles.ts:31:17)\n 
+   at Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at authenticate (C:\
+\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:48:5)","timestamp":"2025-11-16T23:35:01.919Z","url":"/adm
+in/topics"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ Topic Management Tests ÔÇ║ TOPIC_08: Cross-Organization Topic Access Prevention ÔÇ║ should return 404 when 
+accessing topic from different organization
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 403
+
+      221 |         .set('Authorization', `Bearer ${techManagerToken}`);
+      222 |
+    > 223 |       expect(response.status).toBe(404);
+          |                               ^
+      224 |       expect(response.body).toHaveProperty('error');
+      225 |     });
+      226 |   });
+
+      at Object.<anonymous> (tests/integration/topic-management.test.ts:223:31)
+
+FAIL tests/integration/auth.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:02.354Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:02.357Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:02.617Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:02.901Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:03.173Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": 
+\"undefined\",\n    \"path\": [\n      \"body\",\n      \"password\"\n    ],\n    \"message\": \"Required\"\n  
+}\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"code\": 
+\"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"body\",\n 
+     \"password\"\n    ],\n    \"message\": \"Required\"\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\validate.ts:
+7:7","timestamp":"2025-11-16T23:35:03.428Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": 
+\"undefined\",\n    \"path\": [\n      \"body\",\n      \"usernameOrEmail\"\n    ],\n    \"message\": \"Required\"\n  
+}\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"code\": 
+\"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"body\",\n 
+     \"usernameOrEmail\"\n    ],\n    \"message\": \"Required\"\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\validate.ts:
+7:7","timestamp":"2025-11-16T23:35:03.690Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:03.936Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:03.946Z","url":"/tasks?scope=team_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:63:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:04.250Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:04.254Z","url":"/tasks?scope=team_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:63:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:04.561Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:04.567Z","url":"/tasks?scope=team_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:63:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:04.888Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:04.893Z","url":"/tasks?scope=my_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:05.146Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:05.151Z","url":"/tasks?scope=team_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:63:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:05.450Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:05.456Z","url":"/tasks?scope=my_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ POST /auth/login ÔÇ║ should login successfully with valid credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      28 |         .send({ usernameOrEmail: 'admin', password: 'test123' });
+      29 |
+    > 30 |       expect(response.status).toBe(200);
+         |                               ^
+      31 |       expect(response.body).toHaveProperty('token');
+      32 |       expect(response.body.user.role).toBe('ADMIN');
+      33 |       expect(response.body.user.username).toBe('admin');
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:30:31)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ POST /auth/login ÔÇ║ should login with email instead of username
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      40 |         .send({ usernameOrEmail: 'alice@test.com', password: 'test123' });
+      41 |
+    > 42 |       expect(response.status).toBe(200);
+         |                               ^
+      43 |       expect(response.body).toHaveProperty('token');
+      44 |       expect(response.body.user.username).toBe('alice');
+      45 |     });
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:42:31)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ GET /tasks?scope=team_active as GUEST ÔÇ║ should return trimmed fields for 
+guest users
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+       96 |         .set('Authorization', `Bearer ${token}`);
+       97 |
+    >  98 |       expect(response.status).toBe(200);
+          |                               ^
+       99 |
+      100 |       // 3. Verify sensitive fields are omitted
+      101 |       const tasks = response.body.tasks;
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:98:31)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ GET /tasks?scope=team_active as GUEST ÔÇ║ should return full fields for 
+member users
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      130 |         .set('Authorization', `Bearer ${token}`);
+      131 |
+    > 132 |       expect(response.status).toBe(200);
+          |                               ^
+      133 |
+      134 |       // 3. Verify all fields are present for member
+      135 |       const tasks = response.body.tasks;
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:132:31)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ PATCH /tasks/:id/status ownership validation ÔÇ║ should forbid status 
+change for non-assignee non-admin
+
+    TypeError: Cannot read properties of undefined (reading 'find')
+
+      160 |         .set('Authorization', `Bearer ${token}`);
+      161 |
+    > 162 |       const bobTask = tasksResponse.body.tasks.find(
+          |                                                ^
+      163 |         (t: any) => t.title === 'Bob Task - In Progress'
+      164 |       );
+      165 |
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:162:48)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ PATCH /tasks/:id/status ownership validation ÔÇ║ should allow status change 
+for task assignee
+
+    TypeError: Cannot read properties of undefined (reading '0')
+
+      189 |         .set('Authorization', `Bearer ${token}`);
+      190 |
+    > 191 |       const aliceTask = tasksResponse.body.tasks[0];
+          |                                                 ^
+      192 |       expect(aliceTask).toBeDefined();
+      193 |
+      194 |       // 3. Update her own task - should succeed
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:191:49)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ PATCH /tasks/:id/status ownership validation ÔÇ║ should allow admin to 
+update any task status
+
+    TypeError: Cannot read properties of undefined (reading '0')
+
+      215 |         .set('Authorization', `Bearer ${token}`);
+      216 |
+    > 217 |       const anyTask = tasksResponse.body.tasks[0];
+          |                                               ^
+      218 |       expect(anyTask).toBeDefined();
+      219 |
+      220 |       // 3. Update any task - should succeed
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:217:47)
+
+  ÔùÅ Authentication Integration Tests ÔÇ║ PATCH /tasks/:id/status ownership validation ÔÇ║ should reject invalid 
+status transition
+
+    TypeError: Cannot read properties of undefined (reading '0')
+
+      239 |         .set('Authorization', `Bearer ${token}`);
+      240 |
+    > 241 |       const aliceTask = tasksResponse.body.tasks[0];
+          |                                                 ^
+      242 |
+      243 |       const response = await request(app)
+      244 |         .patch(`/tasks/${aliceTask.id}/status`)
+
+      at Object.<anonymous> (tests/integration/auth.test.ts:241:49)
+
+FAIL tests/integration/validation.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:05.981Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"[\n  {\n    \"code\": \"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": 
+\"undefined\",\n    \"path\": [\n      \"body\",\n      \"title\"\n    ],\n    \"message\": \"Required\"\n  
+}\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"code\": 
+\"invalid_type\",\n    \"expected\": \"string\",\n    \"received\": \"undefined\",\n    \"path\": [\n      \"body\",\n 
+     \"title\"\n    ],\n    \"message\": \"Required\"\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at C:\\Tektech\\mini-task-tracke
+r\\server\\src\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:06.102Z","url":"/tasks"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"received\": \"INVALID_PRIORITY\",\n    \"code\": \"invalid_enum_value\",\n    
+\"options\": [\n      \"LOW\",\n      \"NORMAL\",\n      \"HIGH\"\n    ],\n    \"path\": [\n      \"body\",\n      
+\"priority\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'LOW' | 'NORMAL' | 'HIGH', received 
+'INVALID_PRIORITY'\"\n  }\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"received\": 
+\"INVALID_PRIORITY\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"LOW\",\n      \"NORMAL\",\n  
+    \"HIGH\"\n    ],\n    \"path\": [\n      \"body\",\n      \"priority\"\n    ],\n    \"message\": \"Invalid enum 
+value. Expected 'LOW' | 'NORMAL' | 'HIGH', received 'INVALID_PRIORITY'\"\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at C:\\Tektech\\mini-task-tracke
+r\\server\\src\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:06.952Z","url":"/tasks"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"validation\": \"email\",\n    \"code\": \"invalid_string\",\n    \"message\": \"Invalid 
+email address\",\n    \"path\": [\n      \"body\",\n      \"email\"\n    ]\n  
+}\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"validation\": 
+\"email\",\n    \"code\": \"invalid_string\",\n    \"message\": \"Invalid email address\",\n    \"path\": [\n      
+\"body\",\n      \"email\"\n    ]\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at C:\\Tektech\\mini-task-tracke
+r\\server\\src\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:07.341Z","url":"/users"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"level":"error","message":"şÆÑ Database error: \nInvalid `prisma.user.create()` invocation 
+in\nC:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:83:34\n\n  80 \n  81 const passwordHash = 
+await hashPassword(input.password);\n  82 \nÔåÆ 83 const user = await prisma.user.create(\nUnique constraint failed on 
+the fields: (`organizationId`,`username`)","service":"mini-task-tracker-api","target":"user.create","timestamp":"2025-1
+1-16T23:35:07.826Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"\nInvalid `prisma.user.create()` invocation 
+in\nC:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:83:34\n\n  80 \n  81 const passwordHash = 
+await hashPassword(input.password);\n  82 \nÔåÆ 83 const user = await prisma.user.create(\nUnique constraint failed on 
+the fields: (`organizationId`,`username`)","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"PrismaClientKnownRequestError: \nInvalid 
+`prisma.user.create()` invocation in\nC:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:83:34\n\n  
+80 \n  81 const passwordHash = await hashPassword(input.password);\n  82 \nÔåÆ 83 const user = await 
+prisma.user.create(\nUnique constraint failed on the fields: (`organizationId`,`username`)\n    at 
+$n.handleRequestError 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\@prisma\\client\\runtime\\library.js:121:7315)\n    at 
+$n.handleAndLogRequestError 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\@prisma\\client\\runtime\\library.js:121:6623)\n    at 
+$n.request (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\@prisma\\client\\runtime\\library.js:121:6307)\n    
+at l (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\@prisma\\client\\runtime\\library.js:130:9633)\n    at 
+createUser (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\userService.ts:83:16)\n    at C:\\Tektech\\mini-task
+-tracker\\server\\src\\routes\\users.ts:54:20","timestamp":"2025-11-16T23:35:07.828Z","url":"/users"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"received\": \"invalid_scope\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": 
+[\n      \"my_active\",\n      \"team_active\",\n      \"my_done\"\n    ],\n    \"path\": [\n      \"query\",\n      
+\"scope\"\n    ],\n    \"message\": \"Invalid enum value. Expected 'my_active' | 'team_active' | 'my_done', received 
+'invalid_scope'\"\n  }\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"received\": 
+\"invalid_scope\",\n    \"code\": \"invalid_enum_value\",\n    \"options\": [\n      \"my_active\",\n      
+\"team_active\",\n      \"my_done\"\n    ],\n    \"path\": [\n      \"query\",\n      \"scope\"\n    ],\n    
+\"message\": \"Invalid enum value. Expected 'my_active' | 'team_active' | 'my_done', received 'invalid_scope'\"\n  
+}\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at C:\\Tektech\\mini-task-tracke
+r\\server\\src\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:08.241Z","url":"/tasks/view?scope=invalid_sc
+ope"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"code\": \"invalid_string\",\n    \"validation\": \"datetime\",\n    \"message\": 
+\"Invalid datetime\",\n    \"path\": [\n      \"body\",\n      \"dueDate\"\n    ]\n  
+}\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"code\": 
+\"invalid_string\",\n    \"validation\": \"datetime\",\n    \"message\": \"Invalid datetime\",\n    \"path\": [\n      
+\"body\",\n      \"dueDate\"\n    ]\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at C:\\Tektech\\mini-task-tracke
+r\\server\\src\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:09.330Z","url":"/tasks"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ Data Validation & Error Handling Tests ÔÇ║ VAL_02: Create Task with Invalid Status ÔÇ║ should return 400 when 
+creating task with invalid status
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      61 |         });
+      62 |
+    > 63 |       expect(response.status).toBe(400);
+         |                               ^
+      64 |       expect(response.body).toHaveProperty('error');
+      65 |       // Valid statuses are: TODO, IN_PROGRESS, DONE
+      66 |     });
+
+      at Object.<anonymous> (tests/integration/validation.test.ts:63:31)
+
+  ÔùÅ Data Validation & Error Handling Tests ÔÇ║ VAL_05: Create User with Duplicate Username in Same Org ÔÇ║ should 
+return 400 when creating user with duplicate username
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 409
+
+      114 |         });
+      115 |
+    > 116 |       expect(response.status).toBe(400);
+          |                               ^
+      117 |       expect(response.body).toHaveProperty('error');
+      118 |     });
+      119 |   });
+
+      at Object.<anonymous> (tests/integration/validation.test.ts:116:31)
+
+  ÔùÅ Data Validation & Error Handling Tests ÔÇ║ VAL_08: Invalid UUID Format ÔÇ║ should return 400 for invalid UUID 
+format
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 404
+
+      150 |         .set('Authorization', `Bearer ${acmeMemberToken}`);
+      151 |
+    > 152 |       expect(response.status).toBe(400);
+          |                               ^
+      153 |       expect(response.body).toHaveProperty('error');
+      154 |     });
+      155 |   });
+
+      at Object.<anonymous> (tests/integration/validation.test.ts:152:31)
+
+FAIL tests/integration/security.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:10.159Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"No token provided","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: No token provided\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:21:13)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+next (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at 
+Route.dispatch (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:10.217Z","url":"/tasks/view?scope=my_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+next (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at 
+Route.dispatch (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:10.521Z","url":"/tasks/view?scope=my_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid token","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid token\n    at 
+authenticate (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:57:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+next (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at 
+Route.dispatch (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at urlencodedParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\urlencoded.js:94:7)\n    at 
+Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at jsonParser 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\body-parser\\lib\\types\\json.js:113:7)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at cors 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:188:7)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:224:17\n    at originCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:214:15)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:219:13\n    at optionsCallback 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:199:9)\n    at corsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\cors\\lib\\index.js:204:7)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:531:6)\n    at xXssProtectionMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:311:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xPoweredByMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:304:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+xPermittedCrossDomainPoliciesMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:297:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xFrameOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:281:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDownloadOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:261:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xDnsPrefetchControlMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:254:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at xContentTypeOptionsMiddleware 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:246:3)\n    at internalNext 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+strictTransportSecurityMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:239:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+referrerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:207:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+originAgentClusterMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:182:3)\n    at 
+internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginResourcePolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:175:3)\n  
+  at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+crossOriginOpenerPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:159:3)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+contentSecurityPolicyMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:124:4)\n    
+at internalNext (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:529:6)\n    at 
+helmetMiddleware (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\helmet\\index.cjs:533:6)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at expressInit 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\init.js:40:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at query 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\middleware\\query.js:45:5)\n    at Layer.handle 
+[as handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    
+at trim_prefix (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at Function.handle 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\application.js:181:10)\n    at Server.app 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\express.js:39:9)\n    at Server.emit 
+(node:events:518:28)\n    at parserOnIncoming (node:_http_server:1153:12)\n    at HTTPParser.parserOnHeadersComplete 
+(node:_http_common:117:17)","timestamp":"2025-11-16T23:35:10.836Z","url":"/tasks/view?scope=my_active"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"You do not have access to resources from another 
+organization","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"CrossOrganizationAccessError: You do not have 
+access to resources from another organization\n    at C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:
+119:15","timestamp":"2025-11-16T23:35:11.202Z","url":"/admin/tasks/4096f60f-531b-4e7e-9a99-aaa02d058804"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:11.858Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Account is deactivated","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Account is deactivated\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:52:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:12.458Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Your organization has been deactivated. Please contact 
+support.","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"OrganizationInactiveError: Your organization has 
+been deactivated. Please contact support.\n    at login 
+(C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:57:11)\n    at C:\\Tektech\\mini-task-tracker\\s
+erver\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:12.761Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ Authorization & Security Tests ÔÇ║ SEC_04: Cross-Organization Resource Access - Tasks ÔÇ║ should return 404 when 
+accessing task from different organization
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 404
+    Received: 403
+
+      82 |         .set('Authorization', `Bearer ${techManagerToken}`);
+      83 |
+    > 84 |       expect(response.status).toBe(404);
+         |                               ^
+      85 |       expect(response.body).toHaveProperty('error');
+      86 |     });
+      87 |   });
+
+      at Object.<anonymous> (tests/integration/security.test.ts:84:31)
+
+FAIL tests/integration/auth-registration.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:13.906Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:63:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:15.262Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Invalid credentials","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"UnauthorizedError: Invalid credentials\n    at 
+login (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\authService.ts:47:11)\n    at C:\\Tektech\\mini-task-trac
+ker\\server\\src\\routes\\auth.ts:14:22","timestamp":"2025-11-16T23:35:15.526Z","url":"/auth/login"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"level":"info","managerEmail":"jane@newstartup.com","managerId":"4cd27904-2d81-4331-8cb7-51e0542d9440","message"
+:"Team registered successfully","organizationId":"16660fb0-9ab4-4e19-b919-d068fb61a74b","organizationName":"New 
+Startup LLC","service":"mini-task-tracker-api","timestamp":"2025-11-16T23:35:15.844Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Email is already registered","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ConflictError: Email is already registered\n    
+at registerTeamManager (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\registrationService.ts:62:11)\n    at C:
+\\Tektech\\mini-task-tracker\\server\\src\\routes\\registration.ts:18:22","timestamp":"2025-11-16T23:35:16.094Z","url":
+"/auth/register"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"[\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 8,\n    \"type\": \"string\",\n    
+\"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"Password must be at least 8 characters\",\n    
+\"path\": [\n      \"body\",\n      \"password\"\n    ]\n  
+}\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"code\": \"too_small\",\n  
+  \"minimum\": 8,\n    \"type\": \"string\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": 
+\"Password must be at least 8 characters\",\n    \"path\": [\n      \"body\",\n      \"password\"\n    ]\n  }\n]\n    
+at Object.get error [as error] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    
+at ZodObject.parseAsync (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at 
+processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at C:\\Tektech\\mini-task-tracker\\server\\src
+\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:16.361Z","url":"/auth/register"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+  ÔùÅ Authentication & Registration Tests ÔÇ║ AUTH_01: Login with Email (Team Manager) ÔÇ║ should login successfully 
+with email and return JWT token
+
+    expect(received).toHaveProperty(path)
+
+    Expected path: "createdAt"
+    Received path: []
+
+    Received value: {"active": true, "email": "john@acme.com", "id": "6f7f8372-cc3e-4e5c-89d6-d23faac84321", "name": 
+"John Manager", "organizationId": "c54a991d-cb1b-4244-aa08-6abce6ec6c7c", "role": "TEAM_MANAGER", "username": "john", 
+"visibleTopicIds": []}
+
+      46 |       expect(user.role).toBe('TEAM_MANAGER');
+      47 |       expect(user.active).toBe(true);
+    > 48 |       expect(user).toHaveProperty('createdAt');
+         |                    ^
+      49 |       expect(user).toHaveProperty('updatedAt');
+      50 |
+      51 |       // Validate organization details
+
+      at Object.<anonymous> (tests/integration/auth-registration.test.ts:48:20)
+
+  ÔùÅ Authentication & Registration Tests ÔÇ║ REG_02: Register with Duplicate Email ÔÇ║ should return 400 when email 
+already exists
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 409
+
+      222 |         });
+      223 |
+    > 224 |       expect(response.status).toBe(400);
+          |                               ^
+      225 |       expect(response.body).toHaveProperty('error');
+      226 |       // Error message should indicate email already exists
+      227 |     });
+
+      at Object.<anonymous> (tests/integration/auth-registration.test.ts:224:31)
+
+PASS tests/integration/edge-cases.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:16.803Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"[\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"type\": \"string\",\n    
+\"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"String must contain at least 1 character(s)\",\n    
+\"path\": [\n      \"body\",\n      \"title\"\n    ]\n  }\n]","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî 
+Error handled:","method":"PATCH","service":"mini-task-tracker-api","stack":"ZodError: [\n  {\n    \"code\": 
+\"too_small\",\n    \"minimum\": 1,\n    \"type\": \"string\",\n    \"inclusive\": true,\n    \"exact\": false,\n    
+\"message\": \"String must contain at least 1 character(s)\",\n    \"path\": [\n      \"body\",\n      \"title\"\n    
+]\n  }\n]\n    at Object.get error [as error] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:45:31)\n    at ZodObject.parseAsync 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\zod\\v3\\types.cjs:183:22)\n    at C:\\Tektech\\mini-task-tracke
+r\\server\\src\\middleware\\validate.ts:7:7","timestamp":"2025-11-16T23:35:18.489Z","url":"/tasks/0ccf638b-fd4e-457a-a4
+94-06c86b9bd61a"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+PASS tests/integration/organization.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:19.745Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"level":"info","message":"Organization updated","organizationId":"c89ff0c6-0f38-4f44-89ed-754e0cc7d6a3","service
+":"mini-task-tracker-api","timestamp":"2025-11-16T23:35:20.436Z","updatedBy":"9f12959b-66f1-4102-b484-c5800540129c"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Team Manager or Admin access required","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"PATCH","service":"mini-task-tracker-api","stack":"ForbiddenError: Team Manager or Admin access 
+required\n    at requireTeamManagerOrAdmin (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\roles.ts:31:17)\n 
+   at Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as 
+handle_request] (C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at authenticate (C:\
+\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:48:5)","timestamp":"2025-11-16T23:35:20.984Z","url":"/org
+anization"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+PASS tests/integration/task-admin.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:22.676Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      {"error":"Assignee not found in your organization","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"POST","service":"mini-task-tracker-api","stack":"ValidationError: Assignee not found in your 
+organization\n    at createTask (C:\\Tektech\\mini-task-tracker\\server\\src\\services\\taskService.ts:190:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\src\\routes\\adminTasks.ts:59:20","timestamp":"2025-11-16T23:35:23.619Z","url":
+"/admin/tasks"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+    console.log
+      {"error":"Team Manager or Admin access required","ip":"::ffff:127.0.0.1","level":"error","message":"ÔØî Error 
+handled:","method":"GET","service":"mini-task-tracker-api","stack":"ForbiddenError: Team Manager or Admin access 
+required\n    at requireTeamManagerOrAdmin (C:\\Tektech\\mini-task-tracker\\server\\src\\middleware\\roles.ts:31:17)\n 
+   at Layer.handle [as handle_request] 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at 
+C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at 
+Function.process_params 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next 
+(C:\\Tektech\\mini-task-tracker\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at authenticate (C:\
+\Tektech\\mini-task-tracker\\server\\src\\middleware\\auth.ts:48:5)","timestamp":"2025-11-16T23:35:24.939Z","url":"/adm
+in/tasks"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:59:25)
+
+PASS tests/integration/health.test.ts
+  ÔùÅ Console
+
+    console.log
+      {"level":"info","message":"Ôä╣´©Å Database info: Starting a sqlite pool with 29 
+connections.","service":"mini-task-tracker-api","target":"quaint::pooled","timestamp":"2025-11-16T23:35:25.458Z"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:87:23)
+
+
+Test Suites: 7 failed, 4 passed, 11 total
+Tests:       19 failed, 74 passed, 93 total
+Snapshots:   0 total
+Time:        41.591 s, estimated 43 s
+Ran all test suites.

@@ -67,7 +67,7 @@ export const login = async (
   const token = generateToken({
     userId: user.id,
     organizationId: user.organizationId,
-    role: user.role,
+    role: user.role as Role,
     email: user.email,
   });
 
@@ -79,7 +79,7 @@ export const login = async (
       name: user.name,
       username: user.username,
       email: user.email,
-      role: user.role,
+      role: user.role as Role,
       active: user.active,
       visibleTopicIds: user.accessibleTopics.map((a) => a.topicId),
     },

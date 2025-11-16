@@ -1,5 +1,5 @@
 import prisma from '../db/connection';
-import { NotFoundError, ForbiddenError } from '../utils/errors';
+import { NotFoundError } from '../utils/errors';
 import { UpdateOrganizationDto, OrganizationStatsResponse, OrganizationResponse } from '../types';
 
 /**

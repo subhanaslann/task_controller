@@ -105,7 +105,7 @@ export async function registerTeamManager(data: RegisterTeamDto): Promise<Regist
   const token = generateToken({
     userId: result.user.id,
     organizationId: result.organization.id,
-    role: result.user.role,
+    role: result.user.role as Role,
     email: result.user.email,
   });
 
@@ -127,7 +127,7 @@ export async function registerTeamManager(data: RegisterTeamDto): Promise<Regist
       name: result.user.name,
       username: result.user.username,
       email: result.user.email,
-      role: result.user.role,
+      role: result.user.role as Role,
       active: result.user.active,
       createdAt: result.user.createdAt,
       updatedAt: result.user.updatedAt,

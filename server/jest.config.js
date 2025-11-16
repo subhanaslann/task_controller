@@ -14,4 +14,9 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  transformIgnorePatterns: [
+    'node_modules/(?!uuid)',
+  ],
+  modulePathIgnorePatterns: [],
+  maxWorkers: 1, // Run tests serially to avoid database conflicts
 };

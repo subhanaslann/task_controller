@@ -1,5 +1,2 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
-export default prisma;
+// Re-export the main Prisma client from connection.ts to avoid multiple instances
+export { default as prisma, default } from './connection';
