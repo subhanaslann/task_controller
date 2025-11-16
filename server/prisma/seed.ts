@@ -40,7 +40,7 @@ async function main() {
   });
 
   // Acme Users
-  const acmeManager = await prisma.user.create({
+  await prisma.user.create({
     data: {
       organizationId: acmeOrg.id,
       name: 'John Manager',
@@ -168,7 +168,7 @@ async function main() {
   });
 
   // Tech Startup Users
-  const techManager = await prisma.user.create({
+  await prisma.user.create({
     data: {
       organizationId: techOrg.id,
       name: 'Sarah Manager',

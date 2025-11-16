@@ -1,4 +1,4 @@
-import { prisma } from '../db/prisma';
+import prisma from '../db/connection';
 import { NotFoundError, ForbiddenError } from '../utils/errors';
 import { UpdateOrganizationDto, OrganizationStatsResponse, OrganizationResponse } from '../types';
 

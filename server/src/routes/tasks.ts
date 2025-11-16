@@ -1,5 +1,5 @@
 import { Router, Response, NextFunction } from 'express';
-import { authenticate, AuthRequest } from '../middleware/auth';
+import { authenticate, AuthRequest, ensureOrganizationAccess } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import {
   getTasksSchema,
@@ -24,19 +24,20 @@ router.get(
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { scope } = req.query;
-      const userId = req.user!.userId;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
 
       let tasks;
       switch (scope) {
         case 'my_active':
-          tasks = await getMyActiveTasks(userId);
+          tasks = await getMyActiveTasks(userId, organizationId);
           break;
         case 'team_active':
-          tasks = await getTeamActiveTasks(userRole);
+          tasks = await getTeamActiveTasks(organizationId, userRole);
           break;
         case 'my_done':
-          tasks = await getMyCompletedTasks(userId);
+          tasks = await getMyCompletedTasks(userId, organizationId);
           break;
         default:
           throw new ValidationError('Invalid scope parameter');
@@ -53,18 +54,21 @@ router.get(
 router.patch(
   '/:id/status',
   authenticate,
+  ensureOrganizationAccess('task'),
   validate(updateTaskStatusSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
-      const userId = req.user!.userId;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
 
       const task = await updateTaskStatus(
         id,
         status as TaskStatus,
         userId,
+        organizationId,
         userRole
       );
 

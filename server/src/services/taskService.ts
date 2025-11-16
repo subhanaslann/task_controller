@@ -1,6 +1,6 @@
 import prisma from '../db/connection';
 import { NotFoundError, ForbiddenError, ValidationError } from '../utils/errors';
-import { Role } from '@prisma/client';
+import { Role } from '../types';
 
 // Enum types as string literals
 type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';

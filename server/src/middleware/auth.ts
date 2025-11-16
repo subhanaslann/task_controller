@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt';
 import { UnauthorizedError, OrganizationInactiveError, OrganizationNotFoundError, CrossOrganizationAccessError } from '../utils/errors';
 import { RequestUser } from '../types';
-import { prisma } from '../db/prisma';
-import { Role } from '@prisma/client';
+import prisma from '../db/connection';
+import { Role } from '../types';
 
 export interface AuthRequest extends Request {
   user?: RequestUser;

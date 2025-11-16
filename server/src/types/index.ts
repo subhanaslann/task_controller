@@ -1,4 +1,13 @@
-import { Role } from '@prisma/client';
+// =====================================================
+// Role Enum (for SQLite compatibility)
+// =====================================================
+
+export enum Role {
+  ADMIN = 'ADMIN',           // System-wide admin (for platform management)
+  TEAM_MANAGER = 'TEAM_MANAGER', // Organization owner/manager (can manage their org users)
+  MEMBER = 'MEMBER',         // Regular team member
+  GUEST = 'GUEST'            // Limited access user
+}
 
 // =====================================================
 // Authentication & Authorization Types

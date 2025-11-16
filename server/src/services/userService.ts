@@ -2,7 +2,7 @@ import prisma from '../db/connection';
 import { hashPassword } from '../utils/password';
 import { ConflictError, NotFoundError, ForbiddenError, OrganizationUserLimitReachedError } from '../utils/errors';
 import { config } from '../config';
-import { Role } from '@prisma/client';
+import { Role } from '../types';
 
 export interface CreateUserInput {
   name: string;

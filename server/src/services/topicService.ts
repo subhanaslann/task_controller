@@ -1,6 +1,6 @@
 import prisma from '../db/connection';
 import { NotFoundError } from '../utils/errors';
-import { Role } from '@prisma/client';
+import { Role } from '../types';
 
 export interface CreateTopicInput {
   title: string;

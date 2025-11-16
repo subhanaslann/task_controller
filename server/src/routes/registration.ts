@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { registerTeamManager } from '../services/registrationService';
 import { validate } from '../middleware/validate';
 import { registerTeamSchema } from '../schemas';
-import { logger } from '../utils/logger';
+import logger from '../utils/logger';
 
 const router = Router();
 

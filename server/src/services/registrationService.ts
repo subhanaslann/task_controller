@@ -1,9 +1,9 @@
-import { prisma } from '../db/prisma';
+import prisma from '../db/connection';
 import { hashPassword } from '../utils/password';
 import { generateToken } from '../utils/jwt';
 import { ConflictError, ValidationError } from '../utils/errors';
 import { RegisterTeamDto, RegisterTeamResponse } from '../types';
-import { Role } from '@prisma/client';
+import { Role } from '../types';
 
 /**
  * Generate a URL-friendly slug from company and team names

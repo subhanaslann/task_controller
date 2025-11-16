@@ -1,6 +1,6 @@
 import { Router, Response, NextFunction } from 'express';
-import { authenticate, AuthRequest } from '../middleware/auth';
-import { requireAdmin } from '../middleware/roles';
+import { authenticate, AuthRequest, ensureOrganizationAccess } from '../middleware/auth';
+import { requireTeamManagerOrAdmin } from '../middleware/roles';
 import { validate } from '../middleware/validate';
 import {
   createTaskSchema,
@@ -19,15 +19,15 @@ type Priority = 'LOW' | 'NORMAL' | 'HIGH';
 
 const router = Router();
 
-// All admin task routes require admin authentication
-router.use(authenticate, requireAdmin);
+// All admin task routes require team manager or admin authentication
+router.use(authenticate, requireTeamManagerOrAdmin);
 
 // GET /admin/tasks - List all tasks
 router.get(
   '/',
-  async (_req: AuthRequest, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const tasks = await getAllTasks();
+      const tasks = await getAllTasks(req.user!.organizationId);
       res.json({ tasks });
     } catch (error) {
       next(error);
@@ -38,10 +38,11 @@ router.get(
 // GET /admin/tasks/:id - Get task by ID
 router.get(
   '/:id',
+  ensureOrganizationAccess('task'),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const task = await getTask(id);
+      const task = await getTask(id, req.user!.organizationId);
       res.json({ task });
     } catch (error) {
       next(error);
@@ -55,7 +56,7 @@ router.post(
   validate(createTaskSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const task = await createTask({
+      const task = await createTask(req.user!.organizationId, {
         topicId: req.body.topicId,
         title: req.body.title,
         note: req.body.note,
@@ -74,11 +75,12 @@ router.post(
 // PATCH /admin/tasks/:id - Update task
 router.patch(
   '/:id',
+  ensureOrganizationAccess('task'),
   validate(updateTaskSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const task = await updateTask(id, {
+      const task = await updateTask(id, req.user!.organizationId, {
         title: req.body.title,
         note: req.body.note,
         status: req.body.status as TaskStatus | undefined,
@@ -95,11 +97,12 @@ router.patch(
 // DELETE /admin/tasks/:id - Delete task
 router.delete(
   '/:id',
+  ensureOrganizationAccess('task'),
   validate(deleteTaskSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const result = await deleteTask(id);
+      const result = await deleteTask(id, req.user!.organizationId);
       res.json(result);
     } catch (error) {
       next(error);

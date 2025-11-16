@@ -1,5 +1,5 @@
 import { Router, Response, NextFunction } from 'express';
-import { authenticate, AuthRequest } from '../middleware/auth';
+import { authenticate, AuthRequest, ensureOrganizationAccess } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import { createMemberTaskSchema, updateTaskSchema, updateTaskStatusSchema } from '../schemas';
 import {
@@ -10,6 +10,7 @@ import {
 } from '../services/taskService';
 import { ForbiddenError, NotFoundError } from '../utils/errors';
 import prisma from '../db/connection';
+import { Role } from '../types';
 
 type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 
@@ -24,15 +25,16 @@ router.post(
   validate(createMemberTaskSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!.userId;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
 
       // Guest users cannot create tasks
-      if (userRole === 'GUEST') {
+      if (userRole === Role.GUEST) {
         throw new ForbiddenError('Guest users cannot create tasks');
       }
 
-      const task = await createMemberTask({
+      const task = await createMemberTask(organizationId, {
         topicId: req.body.topicId,
         title: req.body.title,
         note: req.body.note,
@@ -51,15 +53,17 @@ router.post(
 // PATCH /tasks/:id/status - Update task status (quick update for My Active)
 router.patch(
   '/:id/status',
+  ensureOrganizationAccess('task'),
   validate(updateTaskStatusSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
-      const userId = req.user!.userId;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
 
-      if (userRole === 'GUEST') {
+      if (userRole === Role.GUEST) {
         throw new ForbiddenError('Guest users cannot update tasks');
       }
 
@@ -67,6 +71,7 @@ router.patch(
         id,
         status as TaskStatus,
         userId,
+        organizationId,
         userRole
       );
 
@@ -80,26 +85,33 @@ router.patch(
 // PATCH /tasks/:id - Update own task (full update)
 router.patch(
   '/:id',
+  ensureOrganizationAccess('task'),
   validate(updateTaskSchema),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const userId = req.user!.userId;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
 
       // Admin can update any task (handled separately in admin routes)
       // Member can only update their own tasks
-      if (userRole === 'GUEST') {
+      if (userRole === Role.GUEST) {
         throw new ForbiddenError('Guest users cannot update tasks');
       }
 
-      const task = await updateMemberTask(id, {
-        title: req.body.title,
-        note: req.body.note,
-        status: req.body.status,
-        priority: req.body.priority,
-        dueDate: req.body.dueDate ? new Date(req.body.dueDate) : undefined,
-      }, userId);
+      const task = await updateMemberTask(
+        id,
+        organizationId,
+        {
+          title: req.body.title,
+          note: req.body.note,
+          status: req.body.status,
+          priority: req.body.priority,
+          dueDate: req.body.dueDate ? new Date(req.body.dueDate) : undefined,
+        },
+        userId
+      );
 
       res.json({ task });
     } catch (error) {
@@ -111,30 +123,35 @@ router.patch(
 // DELETE /tasks/:id - Delete own task
 router.delete(
   '/:id',
+  ensureOrganizationAccess('task'),
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const userId = req.user!.userId;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
 
-      if (userRole === 'GUEST') {
+      if (userRole === Role.GUEST) {
         throw new ForbiddenError('Guest users cannot delete tasks');
       }
 
       // Verify task ownership
-      const task = await prisma.task.findUnique({
-        where: { id },
+      const task = await prisma.task.findFirst({
+        where: {
+          id,
+          organizationId,
+        },
       });
 
       if (!task) {
         throw new NotFoundError('Task not found');
       }
 
-      if (userRole !== 'ADMIN' && task.assigneeId !== userId) {
+      if (userRole !== Role.ADMIN && userRole !== Role.TEAM_MANAGER && task.assigneeId !== userId) {
         throw new ForbiddenError('You can only delete your own tasks');
       }
 
-      const result = await deleteTask(id);
+      const result = await deleteTask(id, organizationId);
       res.json(result);
     } catch (error) {
       next(error);

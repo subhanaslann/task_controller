@@ -2,7 +2,7 @@ import prisma from '../db/connection';
 import { comparePassword } from '../utils/password';
 import { generateToken } from '../utils/jwt';
 import { UnauthorizedError, OrganizationInactiveError } from '../utils/errors';
-import { Role } from '@prisma/client';
+import { Role } from '../types';
 
 export interface LoginResult {
   token: string;
