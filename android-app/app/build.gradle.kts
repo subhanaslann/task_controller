@@ -37,17 +37,17 @@ android {
       isDebuggable = true
       applicationIdSuffix = ".debug"
       versionNameSuffix = "-debug"
-      buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/\"")
+      buildConfigField("String", "BASE_URL", "\"https://api.diplomam.net/\"")
     }
     release {
       isMinifyEnabled = true
       isShrinkResources = true
-      signingConfig = signingConfigs.getByName("release")
+      // signingConfig = signingConfigs.getByName("release")
       proguardFiles(
         getDefaultProguardFile("proguard-android-optimize.txt"),
         "proguard-rules.pro"
       )
-      buildConfigField("String", "BASE_URL", "\"https://SIZIN-SUNUCU-URL/\"")
+      buildConfigField("String", "BASE_URL", "\"https://api.diplomam.net/\"")
     }
   }
 

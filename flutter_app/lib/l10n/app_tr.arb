@@ -1,0 +1,151 @@
+{
+  "@@locale": "tr",
+  
+  "appTitle": "Mini Görev Takipçi",
+  "@appTitle": {
+    "description": "Uygulama başlığı"
+  },
+
+  "home": "Ana Sayfa",
+  "tasks": "Görevler",
+  "myTasks": "Görevlerim",
+  "teamTasks": "Ekip Görevleri",
+  "completedTasks": "Tamamlananlar",
+  "admin": "Yönetici",
+  "profile": "Profil",
+  "settings": "Ayarlar",
+  "logout": "Çıkış Yap",
+
+  "login": "Giriş Yap",
+  "email": "E-posta",
+  "username": "Kullanıcı Adı",
+  "password": "Şifre",
+  "usernameOrEmail": "Kullanıcı Adı",
+  "forgotPassword": "Şifremi Unuttum",
+  "rememberMe": "Beni Hatırla",
+
+  "taskTitle": "Görev Başlığı",
+  "taskNote": "Not",
+  "taskPriority": "Öncelik",
+  "taskStatus": "Durum",
+  "taskDueDate": "Bitiş Tarihi",
+  "taskAssignee": "Atanan",
+  "taskTopic": "Konu",
+
+  "priorityLow": "Düşük",
+  "priorityNormal": "Normal",
+  "priorityHigh": "Yüksek",
+
+  "statusTodo": "Yapılacak",
+  "statusInProgress": "Devam Ediyor",
+  "statusDone": "Tamamlandı",
+
+  "createTask": "Görev Oluştur",
+  "editTask": "Görev Düzenle",
+  "deleteTask": "Görevi Sil",
+  "updateTask": "Görevi Güncelle",
+  "assignTask": "Görev Ata",
+
+  "createUser": "Kullanıcı Oluştur",
+  "editUser": "Kullanıcı Düzenle",
+  "deleteUser": "Kullanıcıyı Sil",
+  "users": "Kullanıcılar",
+  "userManagement": "Kullanıcı Yönetimi",
+  "taskManagement": "Görev Yönetimi",
+
+  "roleAdmin": "Yönetici",
+  "roleMember": "Üye",
+  "roleGuest": "Misafir",
+
+  "save": "Kaydet",
+  "cancel": "İptal",
+  "delete": "Sil",
+  "edit": "Düzenle",
+  "create": "Oluştur",
+  "search": "Ara",
+  "filter": "Filtrele",
+  "sort": "Sırala",
+  "refresh": "Yenile",
+  "retry": "Tekrar Dene",
+  "close": "Kapat",
+  "ok": "Tamam",
+  "yes": "Evet",
+  "no": "Hayır",
+
+  "emptyTasksTitle": "Görev Bulunamadı",
+  "emptyTasksMessage": "Henüz hiç göreviniz yok",
+  "emptyUsersTitle": "Kullanıcı Bulunamadı",
+  "emptyUsersMessage": "Henüz kullanıcı eklenmemiş",
+
+  "loading": "Yükleniyor...",
+  "error": "Hata",
+  "success": "Başarılı",
+
+  "errorNetworkTitle": "Bağlantı Hatası",
+  "errorNetworkMessage": "İnternet bağlantınızı kontrol edin",
+  "errorUnauthorizedTitle": "Oturum Süresi Doldu",
+  "errorUnauthorizedMessage": "Lütfen tekrar giriş yapın",
+  "errorServerTitle": "Sunucu Hatası",
+  "errorServerMessage": "Bir hata oluştu, lütfen daha sonra tekrar deneyin",
+  "errorUnknownTitle": "Beklenmeyen Hata",
+  "errorUnknownMessage": "Bir şeyler ters gitti",
+
+  "taskCreatedSuccess": "Görev oluşturuldu",
+  "taskUpdatedSuccess": "Görev güncellendi",
+  "taskDeletedSuccess": "Görev silindi",
+  "userCreatedSuccess": "Kullanıcı oluşturuldu",
+  "userUpdatedSuccess": "Kullanıcı güncellendi",
+  "userDeletedSuccess": "Kullanıcı silindi",
+
+  "confirmDeleteTask": "Bu görevi silmek istediğinizden emin misiniz?",
+  "confirmDeleteUser": "Bu kullanıcıyı silmek istediğinizden emin misiniz?",
+  "confirmLogout": "Çıkış yapmak istediğinizden emin misiniz?",
+
+  "validation_required": "Bu alan zorunludur",
+  "validation_email": "Geçerli bir e-posta adresi girin",
+  "validation_minLength": "En az {min} karakter olmalıdır",
+  "@validation_minLength": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "validation_maxLength": "En fazla {max} karakter olabilir",
+  "@validation_maxLength": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "daysRemaining": "{count} gün kaldı",
+  "@daysRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count} gün önce",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "today": "Bugün",
+  "yesterday": "Dün",
+  "tomorrow": "Yarın",
+
+  "syncInProgress": "Senkronize ediliyor...",
+  "syncCompleted": "Senkronizasyon tamamlandı",
+  "syncFailed": "Senkronizasyon başarısız",
+  "offlineMode": "Çevrimdışı Mod",
+
+  "loginErrorTitle": "Giriş Hatası",
+  "loginErrorMessage": "Kullanıcı adı veya şifre hatalı"
+}

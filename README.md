@@ -1,10 +1,11 @@
 # Mini Task Tracker
 
-A secure monorepo project with Android mobile app and Node.js backend for team task management.
+A secure monorepo project with cross-platform mobile apps (Flutter + Android) and Node.js backend for team task management.
 
 ## 🏗️ Architecture
 
-- **android-app/**: Kotlin + Jetpack Compose mobile client
+- **flutter_app/**: Flutter mobile app (Android + iOS) 🆕
+- **android-app/**: Kotlin + Jetpack Compose mobile client (Android only)
 - **server/**: Node.js + Express + Prisma + SQLite backend
 
 ## 🔐 Security & Features
@@ -48,7 +49,34 @@ npm run dev                 # Start development server
 | Member | `bob` | `member123` |
 | Guest | `guest` | `guest123` |
 
-### 2. Android App Setup
+### 2A. Flutter App Setup (Recommended - Cross Platform)
+
+```bash
+cd flutter_app
+flutter pub get              # Install dependencies
+flutter run                  # Run on connected device/emulator
+```
+
+**Production Build:**
+```bash
+flutter build apk           # Android APK
+flutter build ios           # iOS (requires macOS + Xcode)
+```
+
+📡 **Network Configuration:**
+- **API Base URL:** `https://api.diplomam.net` (configured in code)
+- **Login Screen:** Built-in test credentials display
+
+✅ **Status:**
+- ✅ Login screen working
+- ✅ API integration complete
+- ✅ Theme & UI components ready
+- 🚧 Task screens (TODO)
+- 🚧 Admin screens (TODO)
+
+See `flutter_app/README.md` for details.
+
+### 2B. Android App Setup (Native Kotlin)
 
 ```bash
 cd android-app

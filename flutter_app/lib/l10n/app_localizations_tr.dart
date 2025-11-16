@@ -1,0 +1,312 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Turkish (`tr`).
+class AppLocalizationsTr extends AppLocalizations {
+  AppLocalizationsTr([String locale = 'tr']) : super(locale);
+
+  @override
+  String get appTitle => 'Mini Görev Takipçi';
+
+  @override
+  String get home => 'Ana Sayfa';
+
+  @override
+  String get tasks => 'Görevler';
+
+  @override
+  String get myTasks => 'Görevlerim';
+
+  @override
+  String get teamTasks => 'Ekip Görevleri';
+
+  @override
+  String get completedTasks => 'Tamamlananlar';
+
+  @override
+  String get admin => 'Yönetici';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get settings => 'Ayarlar';
+
+  @override
+  String get logout => 'Çıkış Yap';
+
+  @override
+  String get login => 'Giriş Yap';
+
+  @override
+  String get email => 'E-posta';
+
+  @override
+  String get username => 'Kullanıcı Adı';
+
+  @override
+  String get password => 'Şifre';
+
+  @override
+  String get usernameOrEmail => 'Kullanıcı Adı';
+
+  @override
+  String get forgotPassword => 'Şifremi Unuttum';
+
+  @override
+  String get rememberMe => 'Beni Hatırla';
+
+  @override
+  String get taskTitle => 'Görev Başlığı';
+
+  @override
+  String get taskNote => 'Not';
+
+  @override
+  String get taskPriority => 'Öncelik';
+
+  @override
+  String get taskStatus => 'Durum';
+
+  @override
+  String get taskDueDate => 'Bitiş Tarihi';
+
+  @override
+  String get taskAssignee => 'Atanan';
+
+  @override
+  String get taskTopic => 'Konu';
+
+  @override
+  String get priorityLow => 'Düşük';
+
+  @override
+  String get priorityNormal => 'Normal';
+
+  @override
+  String get priorityHigh => 'Yüksek';
+
+  @override
+  String get statusTodo => 'Yapılacak';
+
+  @override
+  String get statusInProgress => 'Devam Ediyor';
+
+  @override
+  String get statusDone => 'Tamamlandı';
+
+  @override
+  String get createTask => 'Görev Oluştur';
+
+  @override
+  String get editTask => 'Görev Düzenle';
+
+  @override
+  String get deleteTask => 'Görevi Sil';
+
+  @override
+  String get updateTask => 'Görevi Güncelle';
+
+  @override
+  String get assignTask => 'Görev Ata';
+
+  @override
+  String get createUser => 'Kullanıcı Oluştur';
+
+  @override
+  String get editUser => 'Kullanıcı Düzenle';
+
+  @override
+  String get deleteUser => 'Kullanıcıyı Sil';
+
+  @override
+  String get users => 'Kullanıcılar';
+
+  @override
+  String get userManagement => 'Kullanıcı Yönetimi';
+
+  @override
+  String get taskManagement => 'Görev Yönetimi';
+
+  @override
+  String get roleAdmin => 'Yönetici';
+
+  @override
+  String get roleMember => 'Üye';
+
+  @override
+  String get roleGuest => 'Misafir';
+
+  @override
+  String get save => 'Kaydet';
+
+  @override
+  String get cancel => 'İptal';
+
+  @override
+  String get delete => 'Sil';
+
+  @override
+  String get edit => 'Düzenle';
+
+  @override
+  String get create => 'Oluştur';
+
+  @override
+  String get search => 'Ara';
+
+  @override
+  String get filter => 'Filtrele';
+
+  @override
+  String get sort => 'Sırala';
+
+  @override
+  String get refresh => 'Yenile';
+
+  @override
+  String get retry => 'Tekrar Dene';
+
+  @override
+  String get close => 'Kapat';
+
+  @override
+  String get ok => 'Tamam';
+
+  @override
+  String get yes => 'Evet';
+
+  @override
+  String get no => 'Hayır';
+
+  @override
+  String get emptyTasksTitle => 'Görev Bulunamadı';
+
+  @override
+  String get emptyTasksMessage => 'Henüz hiç göreviniz yok';
+
+  @override
+  String get emptyUsersTitle => 'Kullanıcı Bulunamadı';
+
+  @override
+  String get emptyUsersMessage => 'Henüz kullanıcı eklenmemiş';
+
+  @override
+  String get loading => 'Yükleniyor...';
+
+  @override
+  String get error => 'Hata';
+
+  @override
+  String get success => 'Başarılı';
+
+  @override
+  String get errorNetworkTitle => 'Bağlantı Hatası';
+
+  @override
+  String get errorNetworkMessage => 'İnternet bağlantınızı kontrol edin';
+
+  @override
+  String get errorUnauthorizedTitle => 'Oturum Süresi Doldu';
+
+  @override
+  String get errorUnauthorizedMessage => 'Lütfen tekrar giriş yapın';
+
+  @override
+  String get errorServerTitle => 'Sunucu Hatası';
+
+  @override
+  String get errorServerMessage =>
+      'Bir hata oluştu, lütfen daha sonra tekrar deneyin';
+
+  @override
+  String get errorUnknownTitle => 'Beklenmeyen Hata';
+
+  @override
+  String get errorUnknownMessage => 'Bir şeyler ters gitti';
+
+  @override
+  String get taskCreatedSuccess => 'Görev oluşturuldu';
+
+  @override
+  String get taskUpdatedSuccess => 'Görev güncellendi';
+
+  @override
+  String get taskDeletedSuccess => 'Görev silindi';
+
+  @override
+  String get userCreatedSuccess => 'Kullanıcı oluşturuldu';
+
+  @override
+  String get userUpdatedSuccess => 'Kullanıcı güncellendi';
+
+  @override
+  String get userDeletedSuccess => 'Kullanıcı silindi';
+
+  @override
+  String get confirmDeleteTask =>
+      'Bu görevi silmek istediğinizden emin misiniz?';
+
+  @override
+  String get confirmDeleteUser =>
+      'Bu kullanıcıyı silmek istediğinizden emin misiniz?';
+
+  @override
+  String get confirmLogout => 'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get validation_required => 'Bu alan zorunludur';
+
+  @override
+  String get validation_email => 'Geçerli bir e-posta adresi girin';
+
+  @override
+  String validation_minLength(int min) {
+    return 'En az $min karakter olmalıdır';
+  }
+
+  @override
+  String validation_maxLength(int max) {
+    return 'En fazla $max karakter olabilir';
+  }
+
+  @override
+  String daysRemaining(int count) {
+    return '$count gün kaldı';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count gün önce';
+  }
+
+  @override
+  String get today => 'Bugün';
+
+  @override
+  String get yesterday => 'Dün';
+
+  @override
+  String get tomorrow => 'Yarın';
+
+  @override
+  String get syncInProgress => 'Senkronize ediliyor...';
+
+  @override
+  String get syncCompleted => 'Senkronizasyon tamamlandı';
+
+  @override
+  String get syncFailed => 'Senkronizasyon başarısız';
+
+  @override
+  String get offlineMode => 'Çevrimdışı Mod';
+
+  @override
+  String get loginErrorTitle => 'Giriş Hatası';
+
+  @override
+  String get loginErrorMessage => 'Kullanıcı adı veya şifre hatalı';
+}
