@@ -1,10 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../config';
-
-export interface JwtPayload {
-  userId: string;
-  role: string;
-}
+import { JwtPayload } from '../types';
 
 export const generateToken = (payload: JwtPayload): string => {
   return jwt.sign(payload, config.jwt.secret, {
@@ -13,5 +9,12 @@ export const generateToken = (payload: JwtPayload): string => {
 };
 
 export const verifyToken = (token: string): JwtPayload => {
-  return jwt.verify(token, config.jwt.secret) as JwtPayload;
+  const decoded = jwt.verify(token, config.jwt.secret) as JwtPayload;
+
+  // Ensure organizationId exists in the payload
+  if (!decoded.organizationId) {
+    throw new Error('Invalid token: missing organizationId');
+  }
+
+  return decoded;
 };

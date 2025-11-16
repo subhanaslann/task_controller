@@ -1,9 +1,8 @@
 import prisma from '../db/connection';
 import { hashPassword } from '../utils/password';
-import { ConflictError, NotFoundError } from '../utils/errors';
+import { ConflictError, NotFoundError, ForbiddenError, OrganizationUserLimitReachedError } from '../utils/errors';
 import { config } from '../config';
-// Role type: 'ADMIN' | 'MEMBER' | 'GUEST'
-type Role = 'ADMIN' | 'MEMBER' | 'GUEST';
+import { Role } from '@prisma/client';
 
 export interface CreateUserInput {
   name: string;
@@ -23,31 +22,68 @@ export interface UpdateUserInput {
   visibleTopicIds?: string[];
 }
 
-const checkActiveUserLimit = async (excludeUserId?: string): Promise<void> => {
+/**
+ * Check if adding a user would exceed the organization's user limit
+ */
+const checkActiveUserLimit = async (
+  organizationId: string,
+  excludeUserId?: string
+): Promise<void> => {
+  // Get organization to check maxUsers
+  const organization = await prisma.organization.findUnique({
+    where: { id: organizationId },
+    select: { maxUsers: true },
+  });
+
+  if (!organization) {
+    throw new NotFoundError('Organization not found');
+  }
+
+  // Count active users in the organization
   const activeUserCount = await prisma.user.count({
     where: {
+      organizationId,
       active: true,
       ...(excludeUserId && { id: { not: excludeUserId } }),
     },
   });
 
-  if (activeUserCount >= config.maxActiveUsers) {
-    throw new ConflictError(
-      `Maximum active user limit (${config.maxActiveUsers}) reached`
-    );
+  if (activeUserCount >= organization.maxUsers) {
+    throw new OrganizationUserLimitReachedError(organization.maxUsers);
   }
 };
 
-export const createUser = async (input: CreateUserInput) => {
+/**
+ * Create a new user in an organization
+ * @param organizationId - The organization the user belongs to
+ * @param input - User creation data
+ * @param creatorRole - Role of the user creating this user (for permission checks)
+ */
+export const createUser = async (
+  organizationId: string,
+  input: CreateUserInput,
+  creatorRole: Role
+) => {
+  // Prevent TEAM_MANAGER from creating ADMIN users
+  if (creatorRole === Role.TEAM_MANAGER && input.role === Role.ADMIN) {
+    throw new ForbiddenError('Team Managers cannot create Admin users');
+  }
+
+  // Prevent TEAM_MANAGER from creating other TEAM_MANAGER users
+  if (creatorRole === Role.TEAM_MANAGER && input.role === Role.TEAM_MANAGER) {
+    throw new ForbiddenError('Team Managers cannot create other Team Manager users');
+  }
+
   // Check if creating an active user would exceed limit
   if (input.active !== false) {
-    await checkActiveUserLimit();
+    await checkActiveUserLimit(organizationId);
   }
 
   const passwordHash = await hashPassword(input.password);
 
   const user = await prisma.user.create({
     data: {
+      organizationId,
       name: input.name,
       username: input.username,
       email: input.email,
@@ -57,6 +93,7 @@ export const createUser = async (input: CreateUserInput) => {
     },
     select: {
       id: true,
+      organizationId: true,
       name: true,
       username: true,
       email: true,
@@ -68,7 +105,7 @@ export const createUser = async (input: CreateUserInput) => {
   });
 
   // If guest user, set accessible topics
-  if (input.role === 'GUEST' && input.visibleTopicIds && input.visibleTopicIds.length > 0) {
+  if (input.role === Role.GUEST && input.visibleTopicIds && input.visibleTopicIds.length > 0) {
     await prisma.guestTopicAccess.createMany({
       data: input.visibleTopicIds.map((topicId) => ({
         userId: user.id,
@@ -80,18 +117,43 @@ export const createUser = async (input: CreateUserInput) => {
   return user;
 };
 
-export const updateUser = async (userId: string, input: UpdateUserInput) => {
-  const existingUser = await prisma.user.findUnique({
-    where: { id: userId },
+/**
+ * Update a user in an organization
+ * @param userId - User ID to update
+ * @param organizationId - Organization ID (for filtering)
+ * @param input - Update data
+ * @param updaterRole - Role of the user performing the update (for permission checks)
+ */
+export const updateUser = async (
+  userId: string,
+  organizationId: string,
+  input: UpdateUserInput,
+  updaterRole: Role
+) => {
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      organizationId,
+    },
   });
 
   if (!existingUser) {
     throw new NotFoundError('User not found');
   }
 
+  // Prevent TEAM_MANAGER from escalating to ADMIN
+  if (updaterRole === Role.TEAM_MANAGER && input.role === Role.ADMIN) {
+    throw new ForbiddenError('Team Managers cannot promote users to Admin');
+  }
+
+  // Prevent TEAM_MANAGER from promoting to TEAM_MANAGER
+  if (updaterRole === Role.TEAM_MANAGER && input.role === Role.TEAM_MANAGER) {
+    throw new ForbiddenError('Team Managers cannot promote users to Team Manager');
+  }
+
   // If activating a currently inactive user, check limit
   if (input.active === true && !existingUser.active) {
-    await checkActiveUserLimit(userId);
+    await checkActiveUserLimit(organizationId, userId);
   }
 
   const updateData: any = {};
@@ -108,6 +170,7 @@ export const updateUser = async (userId: string, input: UpdateUserInput) => {
     data: updateData,
     select: {
       id: true,
+      organizationId: true,
       name: true,
       username: true,
       email: true,
@@ -119,7 +182,7 @@ export const updateUser = async (userId: string, input: UpdateUserInput) => {
   });
 
   // Update accessible topics if provided and user is GUEST
-  if (input.visibleTopicIds !== undefined && (input.role === 'GUEST' || existingUser.role === 'GUEST')) {
+  if (input.visibleTopicIds !== undefined && (input.role === Role.GUEST || existingUser.role === Role.GUEST)) {
     // Delete existing access
     await prisma.guestTopicAccess.deleteMany({
       where: { userId },
@@ -139,10 +202,15 @@ export const updateUser = async (userId: string, input: UpdateUserInput) => {
   return user;
 };
 
-export const getUsers = async () => {
+/**
+ * Get all users in an organization
+ */
+export const getUsers = async (organizationId: string) => {
   const users = await prisma.user.findMany({
+    where: { organizationId },
     select: {
       id: true,
+      organizationId: true,
       name: true,
       username: true,
       email: true,
@@ -169,11 +237,18 @@ export const getUsers = async () => {
   });
 };
 
-export const getUser = async (userId: string) => {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
+/**
+ * Get a specific user by ID (organization-scoped)
+ */
+export const getUser = async (userId: string, organizationId: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      organizationId,
+    },
     select: {
       id: true,
+      organizationId: true,
       name: true,
       username: true,
       email: true,
@@ -201,18 +276,26 @@ export const getUser = async (userId: string) => {
   };
 };
 
-export const deleteUser = async (userId: string) => {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
+/**
+ * Delete a user (soft delete by deactivating)
+ */
+export const deleteUser = async (userId: string, organizationId: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      organizationId,
+    },
   });
 
   if (!user) {
     throw new NotFoundError('User not found');
   }
 
-  await prisma.user.delete({
+  // Soft delete: deactivate the user instead of hard delete
+  await prisma.user.update({
     where: { id: userId },
+    data: { active: false },
   });
 
-  return { success: true, message: 'User deleted successfully' };
+  return { success: true, message: 'User deactivated successfully' };
 };

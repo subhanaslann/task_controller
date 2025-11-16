@@ -9,196 +9,371 @@ async function main() {
   console.log('🌱 Seeding database...');
 
   // Clear existing data
+  await prisma.guestTopicAccess.deleteMany();
   await prisma.task.deleteMany();
   await prisma.topic.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.organization.deleteMany();
 
-  // Create users
-  const adminPasswordHash = await bcrypt.hash('admin123', SALT_ROUNDS);
-  const guestPasswordHash = await bcrypt.hash('guest123', SALT_ROUNDS);
+  // Password hashes
+  const managerPasswordHash = await bcrypt.hash('manager123', SALT_ROUNDS);
   const memberPasswordHash = await bcrypt.hash('member123', SALT_ROUNDS);
+  const guestPasswordHash = await bcrypt.hash('guest123', SALT_ROUNDS);
 
-  await prisma.user.create({
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const nextWeek = new Date();
+  nextWeek.setDate(nextWeek.getDate() + 7);
+
+  // =====================================================
+  // ORGANIZATION 1: Acme Corporation
+  // =====================================================
+  console.log('\n🏢 Creating Organization 1: Acme Corporation...');
+  const acmeOrg = await prisma.organization.create({
     data: {
-      name: 'Admin User',
-      username: 'admin',
-      email: 'admin@minitasktracker.local',
-      passwordHash: adminPasswordHash,
-      role: 'ADMIN',
+      name: 'Acme Corporation',
+      teamName: 'Engineering Team',
+      slug: 'acme-engineering',
+      isActive: true,
+      maxUsers: 15,
+    },
+  });
+
+  // Acme Users
+  const acmeManager = await prisma.user.create({
+    data: {
+      organizationId: acmeOrg.id,
+      name: 'John Manager',
+      username: 'john',
+      email: 'john@acme.com',
+      passwordHash: managerPasswordHash,
+      role: 'TEAM_MANAGER',
       active: true,
     },
   });
 
-  const member1 = await prisma.user.create({
+  const acmeMember1 = await prisma.user.create({
     data: {
+      organizationId: acmeOrg.id,
       name: 'Alice Johnson',
       username: 'alice',
-      email: 'alice@minitasktracker.local',
+      email: 'alice@acme.com',
       passwordHash: memberPasswordHash,
       role: 'MEMBER',
       active: true,
     },
   });
 
-  const member2 = await prisma.user.create({
+  const acmeMember2 = await prisma.user.create({
     data: {
+      organizationId: acmeOrg.id,
       name: 'Bob Smith',
       username: 'bob',
-      email: 'bob@minitasktracker.local',
+      email: 'bob@acme.com',
       passwordHash: memberPasswordHash,
       role: 'MEMBER',
       active: true,
     },
   });
 
-  await prisma.user.create({
+  const acmeGuest = await prisma.user.create({
     data: {
-      name: 'Guest User',
-      username: 'guest',
-      email: 'guest@minitasktracker.local',
+      organizationId: acmeOrg.id,
+      name: 'Charlie Guest',
+      username: 'charlie',
+      email: 'charlie@acme.com',
       passwordHash: guestPasswordHash,
       role: 'GUEST',
       active: true,
     },
   });
 
-  console.log('✓ Created users:');
-  console.log('  - Admin (admin/admin123)');
-  console.log('  - Alice Johnson (alice/member123)');
-  console.log('  - Bob Smith (bob/member123)');
-  console.log('  - Guest User (guest/guest123)');
-
-  // Create topics
-  const topic1 = await prisma.topic.create({
+  // Acme Topics
+  const acmeTopic1 = await prisma.topic.create({
     data: {
+      organizationId: acmeOrg.id,
       title: 'Backend Development',
-      description: 'Tasks related to backend API and database development',
+      description: 'API and database development tasks',
       isActive: true,
     },
   });
 
-  const topic2 = await prisma.topic.create({
+  const acmeTopic2 = await prisma.topic.create({
     data: {
+      organizationId: acmeOrg.id,
       title: 'Frontend Development',
-      description: 'UI/UX and mobile app development tasks',
+      description: 'UI/UX and client-side development',
       isActive: true,
     },
   });
 
-  const topic3 = await prisma.topic.create({
+  // Acme Tasks
+  await prisma.task.createMany({
+    data: [
+      {
+        organizationId: acmeOrg.id,
+        topicId: acmeTopic1.id,
+        title: 'Setup authentication API',
+        note: 'Implement JWT-based authentication endpoints',
+        assigneeId: acmeMember1.id,
+        status: 'IN_PROGRESS',
+        priority: 'HIGH',
+        dueDate: tomorrow,
+      },
+      {
+        organizationId: acmeOrg.id,
+        topicId: acmeTopic1.id,
+        title: 'Database schema design',
+        note: 'Design the database schema for user management',
+        assigneeId: acmeMember2.id,
+        status: 'TODO',
+        priority: 'HIGH',
+        dueDate: nextWeek,
+      },
+      {
+        organizationId: acmeOrg.id,
+        topicId: acmeTopic2.id,
+        title: 'Build login UI',
+        note: 'Create responsive login page',
+        assigneeId: acmeMember1.id,
+        status: 'DONE',
+        priority: 'NORMAL',
+        completedAt: new Date(),
+      },
+    ],
+  });
+
+  // Guest topic access for Acme
+  await prisma.guestTopicAccess.create({
     data: {
+      userId: acmeGuest.id,
+      topicId: acmeTopic2.id,
+    },
+  });
+
+  console.log('✓ Created Acme Corporation with 4 users and 3 tasks');
+
+  // =====================================================
+  // ORGANIZATION 2: Tech Startup Inc
+  // =====================================================
+  console.log('\n🚀 Creating Organization 2: Tech Startup Inc...');
+  const techOrg = await prisma.organization.create({
+    data: {
+      name: 'Tech Startup Inc',
+      teamName: 'Product Team',
+      slug: 'tech-startup-product',
+      isActive: true,
+      maxUsers: 15,
+    },
+  });
+
+  // Tech Startup Users
+  const techManager = await prisma.user.create({
+    data: {
+      organizationId: techOrg.id,
+      name: 'Sarah Manager',
+      username: 'sarah',
+      email: 'sarah@techstartup.com',
+      passwordHash: managerPasswordHash,
+      role: 'TEAM_MANAGER',
+      active: true,
+    },
+  });
+
+  const techMember1 = await prisma.user.create({
+    data: {
+      organizationId: techOrg.id,
+      name: 'David Developer',
+      username: 'david',
+      email: 'david@techstartup.com',
+      passwordHash: memberPasswordHash,
+      role: 'MEMBER',
+      active: true,
+    },
+  });
+
+  const techMember2 = await prisma.user.create({
+    data: {
+      organizationId: techOrg.id,
+      name: 'Emma Engineer',
+      username: 'emma',
+      email: 'emma@techstartup.com',
+      passwordHash: memberPasswordHash,
+      role: 'MEMBER',
+      active: true,
+    },
+  });
+
+  const techGuest = await prisma.user.create({
+    data: {
+      organizationId: techOrg.id,
+      name: 'Frank Consultant',
+      username: 'frank',
+      email: 'frank@consultant.com',
+      passwordHash: guestPasswordHash,
+      role: 'GUEST',
+      active: true,
+    },
+  });
+
+  // Tech Startup Topics
+  const techTopic1 = await prisma.topic.create({
+    data: {
+      organizationId: techOrg.id,
+      title: 'Mobile App Development',
+      description: 'iOS and Android app development',
+      isActive: true,
+    },
+  });
+
+  const techTopic2 = await prisma.topic.create({
+    data: {
+      organizationId: techOrg.id,
       title: 'DevOps',
-      description: 'Deployment, CI/CD, and infrastructure tasks',
+      description: 'Infrastructure and deployment',
       isActive: true,
     },
   });
 
-  await prisma.topic.create({
+  // Tech Startup Tasks
+  await prisma.task.createMany({
+    data: [
+      {
+        organizationId: techOrg.id,
+        topicId: techTopic1.id,
+        title: 'Implement push notifications',
+        note: 'Add Firebase Cloud Messaging for push notifications',
+        assigneeId: techMember1.id,
+        status: 'TODO',
+        priority: 'HIGH',
+        dueDate: tomorrow,
+      },
+      {
+        organizationId: techOrg.id,
+        topicId: techTopic1.id,
+        title: 'App store submission',
+        note: 'Prepare and submit app to App Store and Play Store',
+        assigneeId: techMember2.id,
+        status: 'IN_PROGRESS',
+        priority: 'NORMAL',
+        dueDate: nextWeek,
+      },
+      {
+        organizationId: techOrg.id,
+        topicId: techTopic2.id,
+        title: 'Setup CI/CD pipeline',
+        note: 'Configure automated testing and deployment',
+        assigneeId: techMember1.id,
+        status: 'TODO',
+        priority: 'HIGH',
+      },
+      {
+        organizationId: techOrg.id,
+        topicId: techTopic2.id,
+        title: 'Monitor server performance',
+        note: 'Setup monitoring and alerting for production servers',
+        status: 'TODO',
+        priority: 'NORMAL',
+      },
+    ],
+  });
+
+  // Guest topic access for Tech Startup
+  await prisma.guestTopicAccess.create({
     data: {
-      title: 'Archived Topic',
-      description: 'This topic is inactive and should not appear in Team Active',
-      isActive: false,
+      userId: techGuest.id,
+      topicId: techTopic1.id,
     },
   });
 
-  console.log('✓ Created 4 topics (3 active, 1 inactive)');
+  console.log('✓ Created Tech Startup Inc with 4 users and 4 tasks');
 
-  // Create sample tasks
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  // =====================================================
+  // ORGANIZATION 3: Design Agency (for backward compatibility testing)
+  // =====================================================
+  console.log('\n🎨 Creating Organization 3: Design Agency...');
+  const designOrg = await prisma.organization.create({
+    data: {
+      name: 'Design Agency',
+      teamName: 'Creative Team',
+      slug: 'design-agency-creative',
+      isActive: true,
+      maxUsers: 15,
+    },
+  });
 
-  const nextWeek = new Date();
-  nextWeek.setDate(nextWeek.getDate() + 7);
+  const designManager = await prisma.user.create({
+    data: {
+      organizationId: designOrg.id,
+      name: 'Lisa Designer',
+      username: 'lisa',
+      email: 'lisa@designagency.com',
+      passwordHash: managerPasswordHash,
+      role: 'TEAM_MANAGER',
+      active: true,
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      organizationId: designOrg.id,
+      name: 'Mark Creative',
+      username: 'mark',
+      email: 'mark@designagency.com',
+      passwordHash: memberPasswordHash,
+      role: 'MEMBER',
+      active: true,
+    },
+  });
+
+  const designTopic = await prisma.topic.create({
+    data: {
+      organizationId: designOrg.id,
+      title: 'Client Projects',
+      description: 'Active client design projects',
+      isActive: true,
+    },
+  });
 
   await prisma.task.create({
     data: {
-      topicId: topic1.id,
-      title: 'Setup development environment',
-      note: 'Install all necessary tools and configure the development environment',
-      assigneeId: member1.id,
+      organizationId: designOrg.id,
+      topicId: designTopic.id,
+      title: 'Design new logo',
+      note: 'Create logo concepts for new client',
+      assigneeId: designManager.id,
       status: 'IN_PROGRESS',
       priority: 'HIGH',
       dueDate: tomorrow,
     },
   });
 
-  await prisma.task.create({
-    data: {
-      topicId: topic1.id,
-      title: 'Review API documentation',
-      note: 'Go through the API documentation and test all endpoints',
-      assigneeId: member1.id,
-      status: 'TODO',
-      priority: 'NORMAL',
-      dueDate: nextWeek,
-    },
-  });
+  console.log('✓ Created Design Agency with 2 users and 1 task');
 
-  await prisma.task.create({
-    data: {
-      topicId: topic1.id,
-      title: 'Implement authentication flow',
-      note: 'Complete the JWT authentication implementation with proper error handling',
-      assigneeId: member2.id,
-      status: 'TODO',
-      priority: 'HIGH',
-      dueDate: tomorrow,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      topicId: topic2.id,
-      title: 'Update user interface',
-      note: 'Make the UI more user-friendly and responsive',
-      assigneeId: member2.id,
-      status: 'IN_PROGRESS',
-      priority: 'NORMAL',
-      dueDate: nextWeek,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      topicId: topic1.id,
-      title: 'Write unit tests',
-      note: 'Add comprehensive unit tests for all services',
-      assigneeId: member1.id,
-      status: 'TODO',
-      priority: 'LOW',
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      topicId: topic1.id,
-      title: 'Database optimization',
-      note: 'Analyze and optimize database queries for better performance',
-      assigneeId: member2.id,
-      status: 'DONE',
-      priority: 'NORMAL',
-      completedAt: new Date(),
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      topicId: topic3.id,
-      title: 'Deploy to staging',
-      note: 'Deploy the latest version to staging environment',
-      status: 'TODO',
-      priority: 'HIGH',
-      dueDate: tomorrow,
-    },
-  });
-
-  console.log('✓ Created 7 sample tasks');
-
+  // Summary
   console.log('\n✅ Seeding completed successfully!');
-  console.log('\n📝 Login credentials:');
-  console.log('   Admin:  admin/admin123');
-  console.log('   Member: alice/member123 or bob/member123');
-  console.log('   Guest:  guest/guest123');
+  console.log('\n📊 Summary:');
+  console.log('   Organizations: 3');
+  console.log('   Total Users: 10');
+  console.log('   Total Tasks: 8');
+  console.log('   Total Topics: 5');
+
+  console.log('\n📝 Login Credentials:');
+  console.log('\n   🏢 Acme Corporation:');
+  console.log('      Team Manager: john@acme.com / manager123');
+  console.log('      Member:       alice@acme.com / member123');
+  console.log('      Member:       bob@acme.com / member123');
+  console.log('      Guest:        charlie@acme.com / guest123');
+
+  console.log('\n   🚀 Tech Startup Inc:');
+  console.log('      Team Manager: sarah@techstartup.com / manager123');
+  console.log('      Member:       david@techstartup.com / member123');
+  console.log('      Member:       emma@techstartup.com / member123');
+  console.log('      Guest:        frank@consultant.com / guest123');
+
+  console.log('\n   🎨 Design Agency:');
+  console.log('      Team Manager: lisa@designagency.com / manager123');
+  console.log('      Member:       mark@designagency.com / member123');
 }
 
 main()

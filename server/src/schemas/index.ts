@@ -8,6 +8,17 @@ export const loginSchema = z.object({
   }),
 });
 
+// Registration schema
+export const registerTeamSchema = z.object({
+  body: z.object({
+    companyName: z.string().min(2, 'Company name must be at least 2 characters').max(100, 'Company name must not exceed 100 characters'),
+    teamName: z.string().min(2, 'Team name must be at least 2 characters').max(100, 'Team name must not exceed 100 characters'),
+    managerName: z.string().min(2, 'Manager name must be at least 2 characters').max(100, 'Manager name must not exceed 100 characters'),
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters').max(100, 'Password must not exceed 100 characters'),
+  }),
+});
+
 // User schemas
 export const createUserSchema = z.object({
   body: z.object({
@@ -15,7 +26,7 @@ export const createUserSchema = z.object({
     username: z.string().min(3, 'Username must be at least 3 characters'),
     email: z.string().email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
-    role: z.enum(['ADMIN', 'MEMBER', 'GUEST']),
+    role: z.enum(['ADMIN', 'TEAM_MANAGER', 'MEMBER', 'GUEST']),
     active: z.boolean().optional(),
     visibleTopicIds: z.array(z.string().uuid()).optional(),
   }),
@@ -27,7 +38,7 @@ export const updateUserSchema = z.object({
   }),
   body: z.object({
     name: z.string().min(1).optional(),
-    role: z.enum(['ADMIN', 'MEMBER', 'GUEST']).optional(),
+    role: z.enum(['ADMIN', 'TEAM_MANAGER', 'MEMBER', 'GUEST']).optional(),
     active: z.boolean().optional(),
     password: z.string().min(6).optional(),
     visibleTopicIds: z.array(z.string().uuid()).optional(),

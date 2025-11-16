@@ -1,5 +1,6 @@
 import prisma from '../db/connection';
 import { NotFoundError } from '../utils/errors';
+import { Role } from '@prisma/client';
 
 export interface CreateTopicInput {
   title: string;
@@ -13,9 +14,10 @@ export interface UpdateTopicInput {
   isActive?: boolean;
 }
 
-export const createTopic = async (input: CreateTopicInput) => {
+export const createTopic = async (organizationId: string, input: CreateTopicInput) => {
   const topic = await prisma.topic.create({
     data: {
+      organizationId,
       title: input.title,
       description: input.description,
       isActive: input.isActive ?? true,
@@ -25,9 +27,12 @@ export const createTopic = async (input: CreateTopicInput) => {
   return topic;
 };
 
-export const updateTopic = async (topicId: string, input: UpdateTopicInput) => {
-  const existingTopic = await prisma.topic.findUnique({
-    where: { id: topicId },
+export const updateTopic = async (topicId: string, organizationId: string, input: UpdateTopicInput) => {
+  const existingTopic = await prisma.topic.findFirst({
+    where: {
+      id: topicId,
+      organizationId,
+    },
   });
 
   if (!existingTopic) {
@@ -46,9 +51,12 @@ export const updateTopic = async (topicId: string, input: UpdateTopicInput) => {
   return topic;
 };
 
-export const deleteTopic = async (topicId: string) => {
-  const existingTopic = await prisma.topic.findUnique({
-    where: { id: topicId },
+export const deleteTopic = async (topicId: string, organizationId: string) => {
+  const existingTopic = await prisma.topic.findFirst({
+    where: {
+      id: topicId,
+      organizationId,
+    },
   });
 
   if (!existingTopic) {
@@ -62,11 +70,15 @@ export const deleteTopic = async (topicId: string) => {
   return { success: true, message: 'Topic deleted successfully' };
 };
 
-export const getTopic = async (topicId: string) => {
-  const topic = await prisma.topic.findUnique({
-    where: { id: topicId },
+export const getTopic = async (topicId: string, organizationId: string) => {
+  const topic = await prisma.topic.findFirst({
+    where: {
+      id: topicId,
+      organizationId,
+    },
     include: {
       tasks: {
+        where: { organizationId },
         include: {
           assignee: {
             select: {
@@ -87,8 +99,9 @@ export const getTopic = async (topicId: string) => {
   return topic;
 };
 
-export const getTopics = async () => {
+export const getTopics = async (organizationId: string) => {
   return prisma.topic.findMany({
+    where: { organizationId },
     orderBy: { createdAt: 'desc' },
     include: {
       _count: {
@@ -98,12 +111,19 @@ export const getTopics = async () => {
   });
 };
 
-export const getActiveTopics = async (userId?: string, userRole?: string) => {
+export const getActiveTopics = async (
+  organizationId: string,
+  userId?: string,
+  userRole?: Role
+) => {
   // Build where clause based on user role
-  const whereClause: any = { isActive: true };
+  const whereClause: any = {
+    organizationId,
+    isActive: true,
+  };
 
   // If guest user, filter by accessible topics
-  if (userRole === 'GUEST' && userId) {
+  if (userRole === Role.GUEST && userId) {
     whereClause.guestAccess = {
       some: {
         userId,
@@ -116,6 +136,7 @@ export const getActiveTopics = async (userId?: string, userRole?: string) => {
     orderBy: { createdAt: 'desc' },
     include: {
       tasks: {
+        where: { organizationId },
         include: {
           assignee: {
             select: {

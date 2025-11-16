@@ -1,5 +1,7 @@
 import prisma from '../db/connection';
 import { NotFoundError, ForbiddenError, ValidationError } from '../utils/errors';
+import { Role } from '@prisma/client';
+
 // Enum types as string literals
 type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 type Priority = 'LOW' | 'NORMAL' | 'HIGH';
@@ -33,6 +35,7 @@ export interface UpdateTaskInput {
 
 const fullTaskSelect = {
   id: true,
+  organizationId: true,
   topicId: true,
   title: true,
   note: true,
@@ -59,9 +62,10 @@ const fullTaskSelect = {
 };
 
 
-export const getMyActiveTasks = async (userId: string) => {
+export const getMyActiveTasks = async (userId: string, organizationId: string) => {
   return prisma.task.findMany({
     where: {
+      organizationId,
       assigneeId: userId,
       status: { in: ['TODO', 'IN_PROGRESS'] },
     },
@@ -70,9 +74,10 @@ export const getMyActiveTasks = async (userId: string) => {
   });
 };
 
-export const getTeamActiveTasks = async (userRole: string) => {
+export const getTeamActiveTasks = async (organizationId: string, userRole: Role) => {
   const tasks = await prisma.task.findMany({
     where: {
+      organizationId,
       status: { in: ['TODO', 'IN_PROGRESS'] },
     },
     select: fullTaskSelect,
@@ -80,7 +85,7 @@ export const getTeamActiveTasks = async (userRole: string) => {
   });
 
   // Filter sensitive fields for guest users
-  if (userRole === 'GUEST') {
+  if (userRole === Role.GUEST) {
     return tasks.map((task) => ({
       id: task.id,
       title: task.title,
@@ -99,9 +104,10 @@ export const getTeamActiveTasks = async (userRole: string) => {
   return tasks;
 };
 
-export const getMyCompletedTasks = async (userId: string) => {
+export const getMyCompletedTasks = async (userId: string, organizationId: string) => {
   return prisma.task.findMany({
     where: {
+      organizationId,
       assigneeId: userId,
       status: 'DONE',
     },
@@ -114,18 +120,22 @@ export const updateTaskStatus = async (
   taskId: string,
   newStatus: TaskStatus,
   userId: string,
-  userRole: string
+  organizationId: string,
+  userRole: Role
 ) => {
-  const task = await prisma.task.findUnique({
-    where: { id: taskId },
+  const task = await prisma.task.findFirst({
+    where: {
+      id: taskId,
+      organizationId,
+    },
   });
 
   if (!task) {
     throw new NotFoundError('Task not found');
   }
 
-  // Only admin or assignee can update task status
-  if (userRole !== 'ADMIN' && task.assigneeId !== userId) {
+  // Only admin/team manager or assignee can update task status
+  if (userRole !== Role.ADMIN && userRole !== Role.TEAM_MANAGER && task.assigneeId !== userId) {
     throw new ForbiddenError('You can only update your own tasks');
   }
 
@@ -148,11 +158,14 @@ export const updateTaskStatus = async (
   });
 };
 
-export const createTask = async (input: CreateTaskInput) => {
-  // Validate topic exists and is active if provided
+export const createTask = async (organizationId: string, input: CreateTaskInput) => {
+  // Validate topic exists, is active, and belongs to same organization if provided
   if (input.topicId) {
-    const topic = await prisma.topic.findUnique({
-      where: { id: input.topicId },
+    const topic = await prisma.topic.findFirst({
+      where: {
+        id: input.topicId,
+        organizationId,
+      },
     });
 
     if (!topic) {
@@ -164,8 +177,23 @@ export const createTask = async (input: CreateTaskInput) => {
     }
   }
 
+  // Validate assignee belongs to same organization if provided
+  if (input.assigneeId) {
+    const assignee = await prisma.user.findFirst({
+      where: {
+        id: input.assigneeId,
+        organizationId,
+      },
+    });
+
+    if (!assignee) {
+      throw new ValidationError('Assignee not found in your organization');
+    }
+  }
+
   return prisma.task.create({
     data: {
+      organizationId,
       topicId: input.topicId,
       title: input.title,
       note: input.note,
@@ -178,10 +206,13 @@ export const createTask = async (input: CreateTaskInput) => {
   });
 };
 
-export const createMemberTask = async (input: CreateMemberTaskInput) => {
-  // Validate topic exists and is active
-  const topic = await prisma.topic.findUnique({
-    where: { id: input.topicId },
+export const createMemberTask = async (organizationId: string, input: CreateMemberTaskInput) => {
+  // Validate topic exists, is active, and belongs to same organization
+  const topic = await prisma.topic.findFirst({
+    where: {
+      id: input.topicId,
+      organizationId,
+    },
   });
 
   if (!topic) {
@@ -194,6 +225,7 @@ export const createMemberTask = async (input: CreateMemberTaskInput) => {
 
   return prisma.task.create({
     data: {
+      organizationId,
       topicId: input.topicId,
       title: input.title,
       note: input.note,
@@ -206,9 +238,12 @@ export const createMemberTask = async (input: CreateMemberTaskInput) => {
   });
 };
 
-export const updateTask = async (taskId: string, input: UpdateTaskInput) => {
-  const task = await prisma.task.findUnique({
-    where: { id: taskId },
+export const updateTask = async (taskId: string, organizationId: string, input: UpdateTaskInput) => {
+  const task = await prisma.task.findFirst({
+    where: {
+      id: taskId,
+      organizationId,
+    },
   });
 
   if (!task) {
@@ -241,11 +276,15 @@ export const updateTask = async (taskId: string, input: UpdateTaskInput) => {
 
 export const updateMemberTask = async (
   taskId: string,
+  organizationId: string,
   input: UpdateTaskInput,
   userId: string
 ) => {
-  const task = await prisma.task.findUnique({
-    where: { id: taskId },
+  const task = await prisma.task.findFirst({
+    where: {
+      id: taskId,
+      organizationId,
+    },
   });
 
   if (!task) {
@@ -257,12 +296,15 @@ export const updateMemberTask = async (
     throw new ForbiddenError('You can only update your own tasks');
   }
 
-  return updateTask(taskId, input);
+  return updateTask(taskId, organizationId, input);
 };
 
-export const deleteTask = async (taskId: string) => {
-  const task = await prisma.task.findUnique({
-    where: { id: taskId },
+export const deleteTask = async (taskId: string, organizationId: string) => {
+  const task = await prisma.task.findFirst({
+    where: {
+      id: taskId,
+      organizationId,
+    },
   });
 
   if (!task) {
@@ -276,16 +318,20 @@ export const deleteTask = async (taskId: string) => {
   return { success: true };
 };
 
-export const getAllTasks = async () => {
+export const getAllTasks = async (organizationId: string) => {
   return prisma.task.findMany({
+    where: { organizationId },
     select: fullTaskSelect,
     orderBy: [{ status: 'asc' }, { priority: 'desc' }, { createdAt: 'desc' }],
   });
 };
 
-export const getTask = async (taskId: string) => {
-  const task = await prisma.task.findUnique({
-    where: { id: taskId },
+export const getTask = async (taskId: string, organizationId: string) => {
+  const task = await prisma.task.findFirst({
+    where: {
+      id: taskId,
+      organizationId,
+    },
     select: fullTaskSelect,
   });
 

@@ -6,6 +6,8 @@ import { config } from './config/index';
 import { errorHandler } from './middleware/errorHandler';
 import { requestLogger } from './middleware/requestLogger';
 import authRoutes from './routes/auth';
+import registrationRoutes from './routes/registration';
+import organizationRoutes from './routes/organization';
 import taskRoutes from './routes/tasks';
 import userRoutes from './routes/users';
 import adminTaskRoutes from './routes/adminTasks';
@@ -14,6 +16,7 @@ import topicRoutes from './routes/topics';
 import memberTaskRoutes from './routes/memberTasks';
 import logger from './utils/logger';
 import { checkDatabaseHealth } from './db/connection';
+import { prisma } from './db/prisma';
 
 export function createApp() {
   const app = express();
@@ -55,12 +58,27 @@ export function createApp() {
   // Enhanced health check endpoint
   app.get('/health', async (req, res) => {
     const requestLogger = req.logger || logger;
-    
+
     try {
       const dbHealthy = await checkDatabaseHealth();
       const status = dbHealthy ? 'healthy' : 'unhealthy';
       const statusCode = dbHealthy ? 200 : 503;
-      
+
+      // Get organization statistics
+      let orgStats = {};
+      try {
+        const [organizationCount, activeOrganizationCount] = await Promise.all([
+          prisma.organization.count(),
+          prisma.organization.count({ where: { isActive: true } }),
+        ]);
+        orgStats = {
+          organizations: organizationCount,
+          activeOrganizations: activeOrganizationCount,
+        };
+      } catch (err) {
+        requestLogger.warn('Could not fetch organization stats', err);
+      }
+
       const healthData = {
         status,
         timestamp: new Date().toISOString(),
@@ -71,12 +89,13 @@ export function createApp() {
           used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
           total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
         },
+        ...orgStats,
       };
-      
+
       if (!dbHealthy) {
         requestLogger.warn('❌ Health check failed: database unhealthy');
       }
-      
+
       res.status(statusCode).json(healthData);
     } catch (error) {
       requestLogger.error('❌ Health check error:', error);
@@ -89,7 +108,9 @@ export function createApp() {
   });
 
   // API routes
-  app.use('/auth', authRoutes);
+  app.use('/auth', authRoutes); // Login
+  app.use('/auth', registrationRoutes); // Team registration
+  app.use('/organization', organizationRoutes); // Organization management
   app.use('/tasks/view', taskRoutes); // View tasks (my_active, team_active, my_done)
   app.use('/tasks', memberTaskRoutes); // Member task CRUD (create/update/delete own tasks)
   app.use('/topics', topicRoutes); // Active topics
