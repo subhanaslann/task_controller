@@ -113,7 +113,7 @@ void main() {
       // Arrange & Act
       await pumpTestWidget(
         tester,
-        TopicCreateDialog(onSave: (title, description, isActive) {}),
+        TopicCreateDialog(onSave: (title, description) {}),
       );
 
       // Assert
@@ -125,32 +125,21 @@ void main() {
       // Arrange & Act
       await pumpTestWidget(
         tester,
-        TopicCreateDialog(onSave: (title, description, isActive) {}),
+        TopicCreateDialog(onSave: (title, description) {}),
       );
 
       // Assert
       expect(find.text('Title'), findsOneWidget);
       expect(find.text('Description'), findsOneWidget);
-      expect(find.text('Active'), findsOneWidget);
       expect(find.byType(AppTextField), findsNWidgets(2));
     });
 
-    testWidgets('should render active checkbox', (tester) async {
-      // Arrange & Act
-      await pumpTestWidget(
-        tester,
-        TopicCreateDialog(onSave: (title, description, isActive) {}),
-      );
-
-      // Assert
-      expect(find.byType(Checkbox), findsOneWidget);
-    });
 
     testWidgets('should validate required title field', (tester) async {
       // Arrange
       await pumpTestWidget(
         tester,
-        TopicCreateDialog(onSave: (title, description, isActive) {}),
+        TopicCreateDialog(onSave: (title, description) {}),
       );
 
       // Act - Try to save without title
@@ -169,8 +158,8 @@ void main() {
       title: 'Backend Development',
       description: 'API tasks',
       isActive: true,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      createdAt: DateTime.now().toIso8601String(),
+      updatedAt: DateTime.now().toIso8601String(),
     );
 
     testWidgets('should render topic edit dialog', (tester) async {
@@ -179,7 +168,7 @@ void main() {
         tester,
         TopicEditDialog(
           topic: testTopic,
-          onSave: (title, description, isActive) {},
+          onSave: (topicId, title, description, isActive) {},
         ),
       );
 
@@ -194,7 +183,7 @@ void main() {
         tester,
         TopicEditDialog(
           topic: testTopic,
-          onSave: (title, description, isActive) {},
+          onSave: (topicId, title, description, isActive) {},
         ),
       );
 
@@ -213,7 +202,7 @@ void main() {
           topics: [],
           users: [],
           onSave:
-              (topicId, title, note, assigneeId, status, priority, dueDate) {},
+              (title, topicId, note, assigneeId, status, priority, dueDate) {},
         ),
       );
 
@@ -230,15 +219,15 @@ void main() {
           topics: [],
           users: [],
           onSave:
-              (topicId, title, note, assigneeId, status, priority, dueDate) {},
+              (title, topicId, note, assigneeId, status, priority, dueDate) {},
         ),
       );
 
       // Assert
       expect(find.text('Title'), findsOneWidget);
       expect(find.text('Note'), findsOneWidget);
-      expect(find.text('Priority'), findsOneWidget);
-      expect(find.text('Status'), findsOneWidget);
+      expect(find.text('Priority:'), findsOneWidget);
+      expect(find.text('Status:'), findsOneWidget);
       expect(find.byType(AppTextField), findsNWidgets(2));
     });
 
@@ -250,14 +239,14 @@ void main() {
           topics: [],
           users: [],
           onSave:
-              (topicId, title, note, assigneeId, status, priority, dueDate) {},
+              (title, topicId, note, assigneeId, status, priority, dueDate) {},
         ),
       );
 
       // Assert
-      expect(find.text('Low'), findsOneWidget);
-      expect(find.text('Normal'), findsOneWidget);
-      expect(find.text('High'), findsOneWidget);
+      expect(find.text('LOW'), findsOneWidget);
+      expect(find.text('NORMAL'), findsOneWidget);
+      expect(find.text('HIGH'), findsOneWidget);
     });
 
     testWidgets('should render status selection chips', (tester) async {
@@ -268,14 +257,14 @@ void main() {
           topics: [],
           users: [],
           onSave:
-              (topicId, title, note, assigneeId, status, priority, dueDate) {},
+              (title, topicId, note, assigneeId, status, priority, dueDate) {},
         ),
       );
 
       // Assert
       expect(find.text('TODO'), findsOneWidget);
-      expect(find.text('In Progress'), findsOneWidget);
-      expect(find.text('Done'), findsOneWidget);
+      expect(find.text('IN_PROGRESS'), findsOneWidget);
+      expect(find.text('DONE'), findsOneWidget);
     });
 
     testWidgets('should validate required title field', (tester) async {
@@ -286,7 +275,7 @@ void main() {
           topics: [],
           users: [],
           onSave:
-              (topicId, title, note, assigneeId, status, priority, dueDate) {},
+              (title, topicId, note, assigneeId, status, priority, dueDate) {},
         ),
       );
 

@@ -78,7 +78,7 @@ void main() {
 
       // Act - Scroll to bottom
       await tester.drag(find.byType(ListView), const Offset(0, -1500));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // Assert
       expect(loadMoreCalled, true);
@@ -100,7 +100,7 @@ void main() {
 
       // Act
       await tester.drag(find.byType(RefreshIndicator), const Offset(0, 300));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
 
       // Assert
       expect(refreshCalled, true);

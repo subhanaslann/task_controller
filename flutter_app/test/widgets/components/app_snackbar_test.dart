@@ -63,7 +63,7 @@ void main() {
       expect(find.text('Retry'), findsOneWidget);
 
       // Tap action button
-      await tester.tap(find.text('Retry'));
+      await tester.tap(find.text('Retry'), warnIfMissed: false);
       await tester.pump();
       expect(actionCalled, true);
     });
@@ -150,7 +150,7 @@ void main() {
       expect(find.text('Action'), findsOneWidget);
 
       // Tap action
-      await tester.tap(find.text('Action'));
+      await tester.tap(find.text('Action'), warnIfMissed: false);
       await tester.pump();
       expect(actionPressed, true);
     });

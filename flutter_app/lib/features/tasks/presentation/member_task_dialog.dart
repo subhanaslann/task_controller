@@ -158,14 +158,21 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: const Text('İptal'),
         ),
         AppButton(
-          text: 'Kaydet',
-          onPressed: _selectedDueDate == null
-              ? null
-              : () async {
-                  if (_formKey.currentState!.validate() && currentUser != null) {
+          text: 'Ekle',
+          onPressed: () async {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+                  if (_selectedDueDate == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Lütfen bir bitiş tarihi seçin')),
+                    );
+                    return;
+                  }
+                  if (currentUser != null) {
                     try {
                       // Member kendi adına görev ekliyor (self-assign)
                       print('DEBUG: Görev oluşturuluyor...');

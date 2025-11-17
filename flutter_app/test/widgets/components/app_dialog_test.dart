@@ -119,8 +119,8 @@ void main() {
       await tester.tap(find.text('Show'));
       await tester.pumpAndSettle();
 
-      // Act - Tap confirm
-      await tester.tap(find.text('Confirm'));
+      // Act - Tap confirm button (find by ElevatedButton with Confirm text)
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Confirm'));
       await tester.pumpAndSettle();
 
       // Assert - Returns true
