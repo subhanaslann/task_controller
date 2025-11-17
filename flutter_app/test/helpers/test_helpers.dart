@@ -1,91 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-/// TekTech Test Helpers
-/// 
-/// Utilities for widget testing with Riverpod
-/// - ProviderScope wrapper
-/// - Material app wrapper
-/// - Common test utilities
-
-/// Create a testable widget wrapped with ProviderScope and MaterialApp
-Widget createTestWidget(
-  Widget child, {
+/// Pump a widget wrapped in MaterialApp and ProviderScope for testing
+Future<void> pumpTestWidget(
+  WidgetTester tester,
+  Widget widget, {
   List<Override> overrides = const [],
-  ThemeData? theme,
-  Locale? locale,
-}) {
-  return ProviderScope(
-    overrides: overrides,
-    child: MaterialApp(
-      theme: theme,
-      locale: locale,
-      home: Scaffold(body: child),
+}) async {
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: overrides,
+      child: MaterialApp(home: widget),
     ),
   );
 }
 
-/// Create a ProviderContainer for testing providers without widgets
-ProviderContainer createContainer({
+/// Pump a widget with navigation support
+Future<void> pumpTestWidgetWithNavigation(
+  WidgetTester tester,
+  Widget widget, {
   List<Override> overrides = const [],
-  ProviderContainer? parent,
-}) {
-  return ProviderContainer(
-    overrides: overrides,
-    parent: parent,
+  RouteSettings? settings,
+}) async {
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: overrides,
+      child: MaterialApp(
+        home: Scaffold(body: widget),
+        routes: {
+          '/home': (context) => const Scaffold(body: Text('Home')),
+          '/login': (context) => const Scaffold(body: Text('Login')),
+          '/admin': (context) => const Scaffold(body: Text('Admin')),
+        },
+      ),
+    ),
   );
 }
 
-/// Pump and settle with standard duration
-Future<void> pumpAndSettle(WidgetTester tester, [Duration? duration]) {
-  return tester.pumpAndSettle(duration ?? const Duration(milliseconds: 300));
+/// Wait for all animations and frames to complete
+Future<void> pumpAndSettleWithTimeout(
+  WidgetTester tester, {
+  Duration timeout = const Duration(seconds: 10),
+}) async {
+  await tester.pumpAndSettle(timeout);
 }
 
-/// Find widget by type
-Finder findWidgetByType<T>() => find.byType(T);
+/// Enter text into a TextField
+Future<void> enterText(WidgetTester tester, Finder finder, String text) async {
+  await tester.enterText(finder, text);
+  await tester.pump();
+}
 
-/// Find widget by key
-Finder findWidgetByKey(Key key) => find.byKey(key);
-
-/// Find text widget
-Finder findText(String text) => find.text(text);
-
-/// Find icon
-Finder findIcon(IconData icon) => find.byIcon(icon);
-
-/// Tap a widget and settle
+/// Tap a widget and wait for animations
 Future<void> tapAndSettle(WidgetTester tester, Finder finder) async {
   await tester.tap(finder);
   await tester.pumpAndSettle();
 }
 
-/// Enter text and settle
-Future<void> enterTextAndSettle(
-  WidgetTester tester,
-  Finder finder,
-  String text,
-) async {
-  await tester.enterText(finder, text);
-  await tester.pumpAndSettle();
-}
+/// Find a widget by key
+Finder findByKey(String key) => find.byKey(Key(key));
+
+/// Find a widget by type
+Finder findByType<T>() => find.byType(T);
+
+/// Find text
+Finder findText(String text) => find.text(text);
 
 /// Verify widget exists
-void verifyWidgetExists(Finder finder, {int count = 1}) {
-  expect(finder, findsNWidgets(count));
+void expectWidgetExists(Finder finder) {
+  expect(finder, findsOneWidget);
 }
 
-/// Verify widget does not exist
-void verifyWidgetNotExists(Finder finder) {
+/// Verify widget doesn't exist
+void expectWidgetNotExists(Finder finder) {
   expect(finder, findsNothing);
 }
 
-/// Verify text exists
-void verifyTextExists(String text, {int count = 1}) {
-  expect(find.text(text), findsNWidgets(count));
+/// Verify widget count
+void expectWidgetCount(Finder finder, int count) {
+  expect(finder, findsNWidgets(count));
 }
 
-/// Verify text does not exist
-void verifyTextNotExists(String text) {
-  expect(find.text(text), findsNothing);
+/// Mock delay for async operations
+Future<void> mockDelay([
+  Duration duration = const Duration(milliseconds: 100),
+]) {
+  return Future.delayed(duration);
 }

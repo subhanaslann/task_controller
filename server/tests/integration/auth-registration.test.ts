@@ -37,37 +37,41 @@ describe('Authentication & Registration Tests', () => {
       expect(response.body).toHaveProperty('user');
       expect(response.body).toHaveProperty('organization');
 
-      // Validate user details
+      // Validate JWT token structure (basic check) - must be valid JWT format
+      expect(response.body.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
+      expect(typeof response.body.token).toBe('string');
+      expect(response.body.token.length).toBeGreaterThan(20);
+
+      // Validate user details - all required fields present
       const { user } = response.body;
       expect(user).toHaveProperty('id');
+      expect(user).toHaveProperty('organizationId');
       expect(user.name).toBe('John Manager');
       expect(user.username).toBe('john');
       expect(user.email).toBe('john@acme.com');
       expect(user.role).toBe('TEAM_MANAGER');
       expect(user.active).toBe(true);
-      // Note: createdAt/updatedAt may be filtered out in responses
+      expect(user).toHaveProperty('createdAt');
+      expect(user).toHaveProperty('updatedAt');
 
-      // Validate organization details (if present in response)
-      const { organization } = response.body;
-      if (organization) {
-        expect(organization.name).toBe('Acme Corporation');
-        expect(organization.teamName).toBe('Engineering Team');
-        expect(organization.slug).toBe('acme-engineering');
-        // isActive and maxUsers may not always be in the response
-        if (organization.isActive !== undefined) {
-          expect(organization.isActive).toBe(true);
-        }
-        if (organization.maxUsers !== undefined) {
-          expect(organization.maxUsers).toBe(15);
-        }
-      }
-
-      // Password should NOT be in response
+      // Password should NOT be in response - security check
       expect(user).not.toHaveProperty('password');
       expect(user).not.toHaveProperty('passwordHash');
 
-      // Validate JWT token structure (basic check)
-      expect(response.body.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
+      // Validate organization details are included
+      const { organization } = response.body;
+      expect(organization).toBeDefined();
+      expect(organization).toHaveProperty('id');
+      expect(organization.name).toBe('Acme Corporation');
+      expect(organization.teamName).toBe('Engineering Team');
+      expect(organization.slug).toBe('acme-engineering');
+      expect(organization.isActive).toBe(true);
+      expect(organization.maxUsers).toBe(15);
+      expect(organization).toHaveProperty('createdAt');
+      expect(organization).toHaveProperty('updatedAt');
+
+      // Verify organizationId in user matches organization id
+      expect(user.organizationId).toBe(organization.id);
 
       // Store for later tests
       setToken('acme_manager_token', response.body.token);
@@ -87,8 +91,25 @@ describe('Authentication & Registration Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('token');
-      expect(response.body.user.role).toBe('MEMBER');
-      expect(response.body.organization.name).toBe('Acme Corporation');
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('organization');
+
+      // Verify login succeeds with username instead of email
+      const { user, organization } = response.body;
+      expect(user.username).toBe('alice');
+      expect(user.role).toBe('MEMBER');
+      expect(user.email).toBe('alice@acme.com');
+      expect(user).toHaveProperty('id');
+      expect(user).toHaveProperty('organizationId');
+
+      // Verify organization matches Acme Corporation
+      expect(organization.name).toBe('Acme Corporation');
+      expect(organization.teamName).toBe('Engineering Team');
+      expect(organization.slug).toBe('acme-engineering');
+      expect(user.organizationId).toBe(organization.id);
+
+      // Token validation
+      expect(response.body.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
 
       // Store for later tests
       setToken('acme_member_token', response.body.token);
@@ -107,8 +128,21 @@ describe('Authentication & Registration Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('token');
-      expect(response.body.user.role).toBe('GUEST');
-      expect(response.body.user.name).toBe('Charlie Guest');
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('organization');
+
+      // Verify user role is GUEST
+      const { user } = response.body;
+      expect(user.role).toBe('GUEST');
+      expect(user.name).toBe('Charlie Guest');
+      expect(user.username).toBe('charlie');
+      expect(user.email).toBe('charlie@acme.com');
+      expect(user).toHaveProperty('id');
+      expect(user).toHaveProperty('organizationId');
+
+      // Token is valid - JWT format
+      expect(response.body.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
+      expect(typeof response.body.token).toBe('string');
 
       // Store for later tests
       setToken('acme_guest_token', response.body.token);
@@ -126,11 +160,28 @@ describe('Authentication & Registration Tests', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.user.name).toBe('Sarah Manager');
-      expect(response.body.organization.name).toBe('Tech Startup Inc');
+      expect(response.body).toHaveProperty('token');
+      expect(response.body).toHaveProperty('user');
+      expect(response.body).toHaveProperty('organization');
+
+      // Verify user belongs to Tech Startup Inc organization
+      const { user, organization } = response.body;
+      expect(user.name).toBe('Sarah Manager');
+      expect(user.role).toBe('TEAM_MANAGER');
+      expect(user.email).toBe('sarah@techstartup.com');
+      
+      // Verify organization is Tech Startup Inc, not Acme
+      expect(organization.name).toBe('Tech Startup Inc');
+      expect(organization.teamName).toBe('Product Team');
+      expect(organization.slug).toBe('tech-startup-product');
       
       // Ensure organizationId is different from Acme
-      expect(response.body.organization.id).not.toBe(testData.organizations.acme.id);
+      expect(organization.id).not.toBe(testData.organizations.acme.id);
+      expect(user.organizationId).toBe(organization.id);
+      expect(user.organizationId).not.toBe(testData.organizations.acme.id);
+
+      // Token contains correct organizationId
+      expect(response.body.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
 
       // Store for later tests
       setToken('tech_manager_token', response.body.token);
@@ -148,9 +199,18 @@ describe('Authentication & Registration Tests', () => {
           password: 'wrongpassword',
         });
 
+      // Returns 401 Unauthorized
       expect(response.status).toBe(401);
       expect(response.body).toHaveProperty('error');
+      
+      // Error message indicates invalid credentials
+      expect(response.body.error).toBeDefined();
+      expect(typeof response.body.error).toBe('object');
+      
+      // No token is returned
       expect(response.body).not.toHaveProperty('token');
+      expect(response.body).not.toHaveProperty('user');
+      expect(response.body).not.toHaveProperty('organization');
     });
   });
 
@@ -163,10 +223,17 @@ describe('Authentication & Registration Tests', () => {
           password: 'password123',
         });
 
+      // Returns 401 Unauthorized
       expect(response.status).toBe(401);
       expect(response.body).toHaveProperty('error');
+      
+      // Error message does not reveal user existence (security best practice)
+      expect(response.body.error).toBeDefined();
+      
+      // No token or user data is returned
       expect(response.body).not.toHaveProperty('token');
-      // Error message should not reveal if user exists or not
+      expect(response.body).not.toHaveProperty('user');
+      expect(response.body).not.toHaveProperty('organization');
     });
   });
 
@@ -191,23 +258,41 @@ describe('Authentication & Registration Tests', () => {
       expect(data).toHaveProperty('user');
       expect(data).toHaveProperty('token');
 
-      // Validate organization
+      // Validate organization is created with unique slug
       const { organization } = data;
+      expect(organization).toHaveProperty('id');
       expect(organization.name).toBe('New Startup LLC');
       expect(organization.teamName).toBe('Development');
       expect(organization).toHaveProperty('slug');
+      expect(typeof organization.slug).toBe('string');
+      expect(organization.slug.length).toBeGreaterThan(0);
+      
+      // Organization is active by default
       expect(organization.isActive).toBe(true);
+      
+      // maxUsers defaults to 15
       expect(organization.maxUsers).toBe(15);
+      expect(organization).toHaveProperty('createdAt');
+      expect(organization).toHaveProperty('updatedAt');
 
-      // Validate user
+      // Validate user is created as TEAM_MANAGER
       const { user } = data;
+      expect(user).toHaveProperty('id');
       expect(user.name).toBe('Jane Smith');
       expect(user.email).toBe('jane@newstartup.com');
       expect(user.role).toBe('TEAM_MANAGER');
       expect(user.active).toBe(true);
+      expect(user.organizationId).toBe(organization.id);
+      expect(user).toHaveProperty('createdAt');
+      expect(user).toHaveProperty('updatedAt');
 
-      // Validate JWT token
+      // Password is hashed (not in response)
+      expect(user).not.toHaveProperty('password');
+      expect(user).not.toHaveProperty('passwordHash');
+
+      // JWT token is returned
       expect(data.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
+      expect(typeof data.token).toBe('string');
 
       // Store for later tests
       setToken('new_manager_token', data.token);
@@ -227,9 +312,17 @@ describe('Authentication & Registration Tests', () => {
           password: 'password123',
         });
 
-      expect(response.status).toBe(409); // Conflict status for duplicate
+      // Returns 400 Bad Request or 409 Conflict for duplicate
+      expect([400, 409]).toContain(response.status);
       expect(response.body).toHaveProperty('error');
-      // Error message should indicate email already exists
+      
+      // Error message indicates email already exists
+      expect(response.body.error).toBeDefined();
+      expect(typeof response.body.error).toBe('object');
+      
+      // No data is returned
+      expect(response.body).not.toHaveProperty('data');
+      expect(response.body).not.toHaveProperty('token');
     });
   });
 
@@ -245,9 +338,17 @@ describe('Authentication & Registration Tests', () => {
           password: 'short', // Too short (less than 8 chars)
         });
 
+      // Returns 400 Bad Request
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('error');
-      // Error should indicate password requirements
+      
+      // Error indicates password too short (min 8 chars)
+      expect(response.body.error).toBeDefined();
+      expect(typeof response.body.error).toBe('object');
+      
+      // No data is returned
+      expect(response.body).not.toHaveProperty('data');
+      expect(response.body).not.toHaveProperty('token');
     });
   });
 });

@@ -51,15 +51,25 @@ describe('Organization Management Tests', () => {
       expect(response.body).toHaveProperty('message');
       expect(response.body).toHaveProperty('data');
 
+      // Returns authenticated user's organization
       const { data } = response.body;
+      expect(data).toBeDefined();
+      
+      // All organization fields are present
       expect(data).toHaveProperty('id');
+      expect(typeof data.id).toBe('string');
+      expect(data.id.length).toBeGreaterThan(0);
+      
       expect(data.name).toBe('Acme Corporation');
       expect(data.teamName).toBe('Engineering Team');
       expect(data.slug).toBe('acme-engineering');
       expect(data.isActive).toBe(true);
       expect(data.maxUsers).toBe(15);
+      
       expect(data).toHaveProperty('createdAt');
       expect(data).toHaveProperty('updatedAt');
+      expect(() => new Date(data.createdAt)).not.toThrow();
+      expect(() => new Date(data.updatedAt)).not.toThrow();
     });
   });
 
@@ -77,10 +87,22 @@ describe('Organization Management Tests', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('data');
 
+      // Organization name is updated
       const { data } = response.body;
       expect(data.name).toBe('Acme Corporation Updated');
+      
+      // Team name is updated
       expect(data.teamName).toBe('Engineering Team v2');
+      
+      // maxUsers is updated to 20
       expect(data.maxUsers).toBe(20);
+      
+      // Response contains updated organization with all fields
+      expect(data).toHaveProperty('id');
+      expect(data).toHaveProperty('slug');
+      expect(data).toHaveProperty('isActive');
+      expect(data).toHaveProperty('createdAt');
+      expect(data).toHaveProperty('updatedAt');
     });
   });
 
@@ -93,8 +115,16 @@ describe('Organization Management Tests', () => {
           name: 'Unauthorized Update',
         });
 
+      // Returns 403 Forbidden
       expect(response.status).toBe(403);
       expect(response.body).toHaveProperty('error');
+      
+      // Member cannot update organization
+      expect(response.body.error).toBeDefined();
+      expect(typeof response.body.error).toBe('object');
+      
+      // No data is returned
+      expect(response.body).not.toHaveProperty('data');
     });
   });
 
@@ -109,6 +139,8 @@ describe('Organization Management Tests', () => {
       expect(response.body).toHaveProperty('data');
 
       const { data } = response.body;
+      
+      // All count fields are present
       expect(data).toHaveProperty('userCount');
       expect(data).toHaveProperty('activeUserCount');
       expect(data).toHaveProperty('taskCount');
@@ -117,7 +149,15 @@ describe('Organization Management Tests', () => {
       expect(data).toHaveProperty('topicCount');
       expect(data).toHaveProperty('activeTopicCount');
 
-      // Validate counts are non-negative
+      // All counts are non-negative numbers
+      expect(typeof data.userCount).toBe('number');
+      expect(typeof data.activeUserCount).toBe('number');
+      expect(typeof data.taskCount).toBe('number');
+      expect(typeof data.activeTaskCount).toBe('number');
+      expect(typeof data.completedTaskCount).toBe('number');
+      expect(typeof data.topicCount).toBe('number');
+      expect(typeof data.activeTopicCount).toBe('number');
+      
       expect(data.userCount).toBeGreaterThanOrEqual(0);
       expect(data.activeUserCount).toBeGreaterThanOrEqual(0);
       expect(data.taskCount).toBeGreaterThanOrEqual(0);
@@ -126,9 +166,13 @@ describe('Organization Management Tests', () => {
       expect(data.topicCount).toBeGreaterThanOrEqual(0);
       expect(data.activeTopicCount).toBeGreaterThanOrEqual(0);
 
-      // Validate logical relationships
+      // userCount >= activeUserCount
       expect(data.userCount).toBeGreaterThanOrEqual(data.activeUserCount);
+      
+      // taskCount >= activeTaskCount + completedTaskCount
       expect(data.taskCount).toBeGreaterThanOrEqual(data.activeTaskCount + data.completedTaskCount);
+      
+      // topicCount >= activeTopicCount
       expect(data.topicCount).toBeGreaterThanOrEqual(data.activeTopicCount);
 
       // Acme Corporation should have 4 users, 2 topics, and 3 tasks
@@ -147,6 +191,11 @@ describe('Organization Management Tests', () => {
       expect(response.status).toBe(200);
       const { data } = response.body;
 
+      // Returns statistics for Tech Startup Inc only
+      expect(data).toHaveProperty('userCount');
+      expect(data).toHaveProperty('taskCount');
+      expect(data).toHaveProperty('topicCount');
+
       // Tech Startup should have 4 users, 2 topics, and 4 tasks
       expect(data.userCount).toBe(4);
       expect(data.topicCount).toBe(2);
@@ -157,9 +206,19 @@ describe('Organization Management Tests', () => {
         .get('/organization/stats')
         .set('Authorization', `Bearer ${acmeManagerToken}`);
 
-      // Stats should be different
-      expect(data.userCount).not.toBe(acmeResponse.body.data.userCount + data.userCount);
-      expect(data.taskCount).not.toBe(acmeResponse.body.data.taskCount + data.taskCount);
+      expect(acmeResponse.status).toBe(200);
+      const acmeData = acmeResponse.body.data;
+
+      // Statistics differ from Acme Corporation
+      expect(acmeData.taskCount).toBe(3); // Acme has 3 tasks
+      expect(data.taskCount).toBe(4); // Tech Startup has 4 tasks
+      expect(data.taskCount).not.toBe(acmeData.taskCount);
+      
+      // No data leakage between organizations - counts are independent
+      expect(data.userCount).toBe(4);
+      expect(acmeData.userCount).toBe(4);
+      // The fact that both have 4 users is coincidence, not data leakage
+      // The important test is that each org sees only their own data
     });
   });
 });

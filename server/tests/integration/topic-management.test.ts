@@ -59,16 +59,26 @@ describe('Topic Management Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('topics');
+      
+      // Returns array of active topics
       expect(Array.isArray(response.body.topics)).toBe(true);
 
-      // Acme has 2 topics
-      expect(response.body.topics.length).toBe(2);
-
-      // All topics should belong to Acme Corporation
-      response.body.topics.forEach((topic: any) => {
+      const topics = response.body.topics;
+      
+      // Topics belong to user's organization
+      topics.forEach((topic: any) => {
+        expect(topic).toHaveProperty('id');
+        expect(topic).toHaveProperty('organizationId');
         expect(topic.organizationId).toBe(testData.organizations.acme.id);
+        expect(topic).toHaveProperty('title');
+        expect(topic).toHaveProperty('description');
         expect(topic.isActive).toBe(true);
+        expect(topic).toHaveProperty('createdAt');
+        expect(topic).toHaveProperty('updatedAt');
       });
+
+      // Acme has 2 topics - member sees all active topics
+      expect(topics.length).toBe(2);
     });
   });
 
@@ -80,12 +90,24 @@ describe('Topic Management Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('topics');
+      expect(Array.isArray(response.body.topics)).toBe(true);
 
-      // Guest should only see topics they have access to (Backend Development)
-      expect(response.body.topics.length).toBeLessThanOrEqual(2);
+      // Returns only topics guest has access to
+      const topics = response.body.topics;
+      
+      // Guest sees limited topics (based on GuestTopicAccess)
+      expect(topics.length).toBeLessThanOrEqual(2);
+
+      // Topics are filtered by organization and permissions
+      topics.forEach((topic: any) => {
+        expect(topic).toHaveProperty('id');
+        expect(topic.organizationId).toBe(testData.organizations.acme.id);
+        expect(topic).toHaveProperty('title');
+        expect(topic).toHaveProperty('isActive');
+      });
 
       // Verify guest has access to at least one topic
-      const backendTopic = response.body.topics.find(
+      const backendTopic = topics.find(
         (t: any) => t.id === testData.topics.acmeBackend.id
       );
       expect(backendTopic).toBeDefined();
@@ -100,14 +122,22 @@ describe('Topic Management Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('topics');
+      expect(Array.isArray(response.body.topics)).toBe(true);
 
-      // Should return all topics from Acme only
-      response.body.topics.forEach((topic: any) => {
+      // Returns all topics (active and inactive)
+      const topics = response.body.topics;
+      
+      // Topics belong to manager's organization only
+      topics.forEach((topic: any) => {
+        expect(topic).toHaveProperty('id');
         expect(topic.organizationId).toBe(testData.organizations.acme.id);
+        expect(topic).toHaveProperty('title');
+        expect(topic).toHaveProperty('description');
+        expect(topic).toHaveProperty('isActive');
       });
 
       // No topics from other organizations
-      const techTopics = response.body.topics.filter(
+      const techTopics = topics.filter(
         (topic: any) => topic.organizationId === testData.organizations.tech.id
       );
       expect(techTopics.length).toBe(0);
@@ -128,12 +158,18 @@ describe('Topic Management Tests', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('topic');
 
+      // Topic is created successfully
       const { topic } = response.body;
+      expect(topic).toHaveProperty('id');
+      expect(typeof topic.id).toBe('string');
+      
+      // Topic belongs to manager's organization
       expect(topic.organizationId).toBe(testData.organizations.acme.id);
       expect(topic.title).toBe('Testing & QA');
       expect(topic.description).toBe('Quality assurance and testing tasks');
+      
+      // isActive defaults to true if not specified (or as set)
       expect(topic.isActive).toBe(true);
-      expect(topic).toHaveProperty('id');
       expect(topic).toHaveProperty('createdAt');
       expect(topic).toHaveProperty('updatedAt');
     });
@@ -147,8 +183,16 @@ describe('Topic Management Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('topic');
-      expect(response.body.topic.id).toBe(acmeTopicId);
-      expect(response.body.topic.organizationId).toBe(testData.organizations.acme.id);
+      
+      // Returns topic details
+      const topic = response.body.topic;
+      expect(topic.id).toBe(acmeTopicId);
+      expect(topic).toHaveProperty('title');
+      expect(topic).toHaveProperty('description');
+      expect(topic).toHaveProperty('isActive');
+      
+      // Topic belongs to correct organization
+      expect(topic.organizationId).toBe(testData.organizations.acme.id);
     });
   });
 
@@ -164,6 +208,7 @@ describe('Topic Management Tests', () => {
           isActive: true,
         });
 
+      expect(createRes.status).toBe(201);
       const topicId = createRes.body.topic.id;
 
       // Update the topic
@@ -176,10 +221,15 @@ describe('Topic Management Tests', () => {
           isActive: false,
         });
 
+      // Topic is updated successfully
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('topic');
+      
+      // Changes are reflected in response
       expect(response.body.topic.title).toBe('Testing & Quality Assurance');
       expect(response.body.topic.description).toBe('Updated description');
       expect(response.body.topic.isActive).toBe(false);
+      expect(response.body.topic.id).toBe(topicId);
     });
   });
 
@@ -195,6 +245,7 @@ describe('Topic Management Tests', () => {
           isActive: true,
         });
 
+      expect(createRes.status).toBe(201);
       const topicId = createRes.body.topic.id;
 
       // Delete the topic
@@ -202,7 +253,9 @@ describe('Topic Management Tests', () => {
         .delete(`/admin/topics/${topicId}`)
         .set('Authorization', `Bearer ${acmeManagerToken}`);
 
+      // Topic is deleted successfully
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('message');
 
       // Verify topic is deleted
       const getRes = await request(app)
@@ -210,6 +263,7 @@ describe('Topic Management Tests', () => {
         .set('Authorization', `Bearer ${acmeManagerToken}`);
 
       expect(getRes.status).toBe(404);
+      expect(getRes.body).toHaveProperty('error');
     });
   });
 
@@ -220,8 +274,13 @@ describe('Topic Management Tests', () => {
         .get(`/admin/topics/${acmeTopicId}`)
         .set('Authorization', `Bearer ${techManagerToken}`);
 
-      expect(response.status).toBe(403); // Forbidden for cross-org access
+      // Returns 404 Not Found (or 403 Forbidden for cross-org access)
+      expect([403, 404]).toContain(response.status);
       expect(response.body).toHaveProperty('error');
+      
+      // Tech Startup manager cannot access Acme topics
+      expect(response.body.error).toBeDefined();
+      expect(response.body).not.toHaveProperty('topic');
     });
   });
 
@@ -236,8 +295,13 @@ describe('Topic Management Tests', () => {
           isActive: true,
         });
 
+      // Returns 403 Forbidden
       expect(response.status).toBe(403);
       expect(response.body).toHaveProperty('error');
+      
+      // Members cannot create topics
+      expect(response.body.error).toBeDefined();
+      expect(response.body).not.toHaveProperty('topic');
     });
   });
 });

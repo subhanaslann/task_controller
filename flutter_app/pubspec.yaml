@@ -66,6 +66,12 @@ dev_dependencies:
 
   flutter_lints: ^5.0.0
   
+  # Testing
+  mockito: ^5.4.4
+  mocktail: ^1.0.4
+  integration_test:
+    sdk: flutter
+  
   # Code Generation
   build_runner: ^2.4.14
   retrofit_generator: ^9.1.4
