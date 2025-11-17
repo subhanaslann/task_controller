@@ -20,8 +20,6 @@ void main() {
       email: 'test@example.com',
       role: UserRole.member,
       active: true,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
     );
 
     final testOrganization = Organization(
@@ -31,8 +29,8 @@ void main() {
       slug: 'test-org',
       isActive: true,
       maxUsers: 15,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      createdAt: DateTime.now().toIso8601String(),
+      updatedAt: DateTime.now().toIso8601String(),
     );
 
     testWidgets('should render settings screen with app bar', (tester) async {
@@ -59,7 +57,7 @@ void main() {
         const SettingsScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
-          themeProvider.overrideWith((ref) => ThemeMode.system),
+          themeProvider.overrideWith((ref) => ThemeNotifier()),
         ],
       );
       await tester.pumpAndSettle();
@@ -76,7 +74,7 @@ void main() {
         const SettingsScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
-          localeProvider.overrideWith((ref) => const Locale('en')),
+          localeProvider.overrideWith((ref) => LocaleNotifier()),
         ],
       );
       await tester.pumpAndSettle();

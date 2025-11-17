@@ -34,8 +34,11 @@ void main() {
         final options = RequestOptions(path: '/test');
         final handler = RequestInterceptorHandler();
 
-        // Act
-        await authInterceptor.onRequest(options, handler);
+        // Act - Call onRequest (non-awaitable)
+        authInterceptor.onRequest(options, handler);
+
+        // Wait a bit for async operation to complete
+        await Future.delayed(const Duration(milliseconds: 100));
 
         // Assert - Token should be in authorization header
         expect(
@@ -51,8 +54,11 @@ void main() {
       final options = RequestOptions(path: '/test');
       final handler = RequestInterceptorHandler();
 
-      // Act
-      await authInterceptor.onRequest(options, handler);
+      // Act - Call onRequest (non-awaitable)
+      authInterceptor.onRequest(options, handler);
+
+      // Wait a bit for async operation to complete
+      await Future.delayed(const Duration(milliseconds: 100));
 
       // Assert - No authorization header should be added
       // (behavior depends on implementation)

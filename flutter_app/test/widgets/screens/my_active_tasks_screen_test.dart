@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 import 'package:flutter_app/data/repositories/task_repository.dart';
 import 'package:flutter_app/features/tasks/presentation/my_active_tasks_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,12 +21,16 @@ void main() {
   group('MyActiveTasksScreen - Task List Rendering', () {
     testWidgets('should display task list when tasks exist', (tester) async {
       // Arrange
-      when(
-        () => mockTaskRepo.getMyActiveTasks(),
-      ).thenAnswer((_) async => [TestData.todoTask, TestData.inProgressTask]);
+      final tasks = [TestData.todoTask, TestData.inProgressTask];
 
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          myActiveTasksProvider.overrideWith((ref) async => tasks),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert - Task cards rendered
@@ -34,11 +39,14 @@ void main() {
     });
 
     testWidgets('should show empty state when no tasks exist', (tester) async {
-      // Arrange
-      when(() => mockTaskRepo.getMyActiveTasks()).thenAnswer((_) async => []);
-
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          myActiveTasksProvider.overrideWith((ref) async => []),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert - Empty state shown
@@ -48,14 +56,17 @@ void main() {
     testWidgets('should show loading indicator while fetching tasks', (
       tester,
     ) async {
-      // Arrange
-      when(() => mockTaskRepo.getMyActiveTasks()).thenAnswer((_) async {
-        await Future.delayed(const Duration(milliseconds: 500));
-        return [TestData.todoTask];
-      });
-
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          myActiveTasksProvider.overrideWith((ref) async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            return [TestData.todoTask];
+          }),
+        ],
+      );
       await tester.pump();
 
       // Assert - Loading indicator shown
@@ -63,13 +74,16 @@ void main() {
     });
 
     testWidgets('should show error state on API failure', (tester) async {
-      // Arrange
-      when(
-        () => mockTaskRepo.getMyActiveTasks(),
-      ).thenThrow(Exception('Network error'));
-
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          myActiveTasksProvider.overrideWith((ref) async {
+            throw Exception('Network error');
+          }),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert - Error message shown

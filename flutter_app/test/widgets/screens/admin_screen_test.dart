@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/providers/providers.dart';
+import 'package:flutter_app/data/repositories/admin_repository.dart';
+import 'package:flutter_app/data/models/user.dart';
+import 'package:flutter_app/data/models/topic.dart';
 import 'package:flutter_app/features/admin/presentation/admin_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_data.dart';
 import '../../helpers/test_helpers.dart';
+
+// Mock AdminRepository
+class MockAdminRepository implements AdminRepository {
+  @override
+  Future<List<User>> getUsers() async => [];
+
+  @override
+  Future<List<Topic>> getTopics() async => [];
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
 
 void main() {
   group('AdminScreen - Tab Bar Rendering', () {
@@ -17,6 +32,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -35,6 +51,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.adminUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -53,6 +70,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -67,6 +85,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -86,6 +105,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -103,6 +123,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
       await tester.pumpAndSettle();
@@ -118,6 +139,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -136,6 +158,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -156,6 +179,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -176,6 +200,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.adminUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 
@@ -190,6 +215,7 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
+          adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
         ],
       );
 

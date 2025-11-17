@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 
 /// Integration tests for admin user management workflows
 /// 

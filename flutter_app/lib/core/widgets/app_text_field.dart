@@ -110,7 +110,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 : widget.obscureText
                 ? IconButton(
                     icon: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
                       color: colorScheme.onSurfaceVariant,
                     ),
                     onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/core/storage/secure_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -23,7 +24,8 @@ void main() {
     setUpAll(() async {
       FlutterSecureStorage.setMockInitialValues({});
       secureStorage = SecureStorage();
-      apiService = ApiService();
+      final dio = Dio(BaseOptions(baseUrl: 'http://localhost:8080'));
+      apiService = ApiService(dio, baseUrl: 'http://localhost:8080');
     });
 
     group('1. Health & Infrastructure', () {

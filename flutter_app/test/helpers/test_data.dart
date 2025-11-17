@@ -3,6 +3,7 @@ import 'package:flutter_app/data/models/organization_stats.dart';
 import 'package:flutter_app/data/models/task.dart';
 import 'package:flutter_app/data/models/topic.dart';
 import 'package:flutter_app/data/models/user.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 
 /// Test data generators for consistent test data across all tests
 
@@ -26,8 +27,6 @@ class TestData {
       email: email ?? 'testuser@test.com',
       role: role ?? UserRole.member,
       active: active ?? true,
-      createdAt: DateTime.now().toIso8601String(),
-      updatedAt: DateTime.now().toIso8601String(),
       visibleTopicIds: visibleTopicIds ?? [],
     );
   }
@@ -121,8 +120,8 @@ class TestData {
     Priority? priority,
     String? dueDate,
     String? completedAt,
-    Topic? topic,
-    TaskAssignee? assignee,
+    TopicRef? topic,
+    Assignee? assignee,
   }) {
     return Task(
       id: id ?? 'test-task-id-1',
@@ -138,7 +137,7 @@ class TestData {
       updatedAt: DateTime.now().toIso8601String(),
       completedAt: completedAt,
       topic: topic,
-      assignee: assignee ?? TaskAssignee(
+      assignee: assignee ?? Assignee(
         id: 'test-user-id-1',
         name: 'Test User',
         username: 'testuser',

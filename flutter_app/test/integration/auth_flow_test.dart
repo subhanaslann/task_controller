@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 
 /// Integration tests for complete authentication flows
 /// These tests verify end-to-end authentication workflows

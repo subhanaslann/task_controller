@@ -1,3 +1,4 @@
+import 'package:flutter_app/core/utils/constants.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/data/models/task.dart';
 import 'package:flutter_app/data/repositories/task_repository.dart';
@@ -180,7 +181,7 @@ void main() {
         title: 'New Member Task',
         status: TaskStatus.todo,
       );
-      final mockResponse = CreateTaskResponse(task: newTask);
+      final mockResponse = TaskResponse(task: newTask);
       
       when(() => mockApiService.createMemberTask(any()))
           .thenAnswer((_) async => mockResponse);
@@ -221,7 +222,7 @@ void main() {
         title: 'Updated Task',
         priority: Priority.high,
       );
-      final mockResponse = UpdateTaskResponse(task: updatedTask);
+      final mockResponse = TaskResponse(task: updatedTask);
       
       when(() => mockApiService.updateMemberTask(taskId, any()))
           .thenAnswer((_) async => mockResponse);
@@ -258,8 +259,10 @@ void main() {
     test('deleteMemberTask should delete own task', () async {
       // Arrange
       const taskId = 'my-task-to-delete';
+      final mockResponse = DeleteResponse(success: true);
+
       when(() => mockApiService.deleteMemberTask(taskId))
-          .thenAnswer((_) async => {});
+          .thenAnswer((_) async => mockResponse);
 
       // Act
       await repository.deleteMemberTask(taskId);

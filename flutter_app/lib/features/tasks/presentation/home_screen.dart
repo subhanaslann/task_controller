@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/providers.dart';
-import '../../../core/providers/locale_provider.dart';
 import '../../../core/utils/constants.dart';
 import 'my_active_tasks_screen.dart';
 import 'team_active_tasks_screen.dart';
@@ -45,12 +44,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildMainContent(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
-    final isAdmin = currentUser?.role == UserRole.admin || 
+    final isAdmin = currentUser?.role == UserRole.admin ||
                      currentUser?.role == UserRole.teamManager;
     final isGuest = currentUser?.role == UserRole.guest;
     final screens = _getScreensForRole(currentUser?.role);
-    final l10n = AppLocalizations.of(context)!;
-    final localeNotifier = ref.read(localeProvider.notifier);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -61,14 +59,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
         actions: [
-          // Language switcher
-          IconButton(
-            onPressed: () async {
-              await localeNotifier.toggleLocale();
-            },
-            icon: const Icon(Icons.language),
-            tooltip: 'Dil Değiştir / Change Language',
-          ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
             onSelected: (value) {
@@ -105,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       const Icon(Icons.admin_panel_settings, size: 20),
                       const SizedBox(width: 12),
-                      Text(l10n.admin),
+                      Text(l10n?.admin ?? 'Admin Mode'),
                     ],
                   ),
                 ),
@@ -115,7 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     const Icon(Icons.person, size: 20),
                     const SizedBox(width: 12),
-                    Text(l10n.profile),
+                    Text(l10n?.profile ?? 'Profile'),
                   ],
                 ),
               ),
@@ -136,7 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       const Icon(Icons.info, size: 20),
                       const SizedBox(width: 12),
-                      Text(l10n.settings),
+                      Text(l10n?.settings ?? 'About'),
                     ],
                   ),
                 ),
@@ -147,7 +137,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     const Icon(Icons.logout, size: 20),
                     const SizedBox(width: 12),
-                    Text(l10n.logout),
+                    Text(l10n?.logout ?? 'Logout'),
                   ],
                 ),
               ),
@@ -158,30 +148,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: screens[isGuest ? 0 : _selectedIndex],
       bottomNavigationBar: isGuest
           ? null // Guest kullanıcılar sadece topic görür, navigation bar yok
-          : NavigationBar(
-              selectedIndex: _selectedIndex,
-              onDestinationSelected: (index) {
+          : BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: (index) {
                 setState(() {
                   _selectedIndex = index;
                 });
               },
-              destinations: [
-                NavigationDestination(
+              items: [
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.task_outlined),
-                  selectedIcon: const Icon(Icons.task),
-                  label: l10n.myTasks,
+                  activeIcon: const Icon(Icons.task),
+                  label: 'My Active',
                 ),
-                NavigationDestination(
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.people_outline),
-                  selectedIcon: const Icon(Icons.people),
-                  label: l10n.teamTasks,
+                  activeIcon: const Icon(Icons.people),
+                  label: 'Team Active',
                 ),
-                NavigationDestination(
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.check_circle_outline),
-                  selectedIcon: const Icon(Icons.check_circle),
-                  label: l10n.completedTasks,
+                  activeIcon: const Icon(Icons.check_circle),
+                  label: 'My Completed',
                 ),
               ],
+            ),
+      floatingActionButton: isGuest
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                // Navigate to create task screen
+                _showCreateTaskDialog(context);
+              },
+              child: const Icon(Icons.add),
             ),
     );
   }
@@ -298,5 +297,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Navigator.of(context).pushReplacementNamed('/login');
       }
     }
+  }
+
+  void _showCreateTaskDialog(BuildContext context) {
+    // TODO: Implement create task dialog
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Create task functionality coming soon')),
+    );
   }
 }

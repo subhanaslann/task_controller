@@ -1,4 +1,5 @@
 import 'package:flutter_app/core/storage/secure_storage.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/data/models/organization.dart';
 import 'package:flutter_app/data/models/user.dart';
@@ -38,7 +39,7 @@ void main() {
       // Arrange
       final testUser = TestData.memberUser;
       final testOrg = TestData.testOrganization;
-      final mockResponse = LoginResponse(
+      final mockResponse = AuthResponse(
         token: 'test-jwt-token',
         user: testUser,
         organization: testOrg,
@@ -93,7 +94,7 @@ void main() {
       // Arrange
       final testUser = TestData.memberUser;
       final testOrg = TestData.testOrganization;
-      final mockResponse = LoginResponse(
+      final mockResponse = AuthResponse(
         token: 'test-token',
         user: testUser,
         organization: testOrg,

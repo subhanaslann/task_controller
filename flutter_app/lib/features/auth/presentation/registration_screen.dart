@@ -20,7 +20,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final _managerNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
   double _passwordStrength = 0.0;
@@ -32,7 +31,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     _managerNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -91,16 +89,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     }
     if (value.length < 8) {
       return 'Password must be at least 8 characters';
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
-    }
-    if (value != _passwordController.text) {
-      return 'Passwords do not match';
     }
     return null;
   }
@@ -185,25 +173,18 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   // Logo/Branding
                   Icon(
                     Icons.business_center,
-                    size: 80,
+                    size: 48,
                     color: Colors.white,
                   ),
-                  const Gap(16),
+                  const Gap(8),
                   Text(
                     'Create Your Team',
-                    style: theme.textTheme.headlineMedium?.copyWith(
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Gap(8),
-                  Text(
-                    'Start managing tasks with your team',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                  ),
-                  const Gap(32),
+                  const Gap(16),
 
                   // Form Card
                   Card(
@@ -212,7 +193,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(16),
                       child: Form(
                         key: _formKey,
                         child: Column(
@@ -265,7 +246,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 return null;
                               },
                             ),
-                            const Gap(16),
+                            const Gap(12),
 
                             // Team Name
                             AppTextField(
@@ -283,7 +264,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 return null;
                               },
                             ),
-                            const Gap(16),
+                            const Gap(12),
 
                             // Manager Name
                             AppTextField(
@@ -301,7 +282,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 return null;
                               },
                             ),
-                            const Gap(16),
+                            const Gap(12),
 
                             // Email
                             AppTextField(
@@ -312,7 +293,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                               isRequired: true,
                               validator: _validateEmail,
                             ),
-                            const Gap(16),
+                            const Gap(12),
 
                             // Password
                             AppTextField(
@@ -328,42 +309,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 });
                               },
                             ),
-                            if (_passwordController.text.isNotEmpty) ...[
-                              const Gap(8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  LinearProgressIndicator(
-                                    value: _passwordStrength,
-                                    backgroundColor: Colors.grey[300],
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      _getPasswordStrengthColor(),
-                                    ),
-                                    minHeight: 4,
-                                  ),
-                                  const Gap(4),
-                                  Text(
-                                    'Password strength: ${_getPasswordStrengthText()}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: _getPasswordStrengthColor(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
                             const Gap(16),
-
-                            // Confirm Password
-                            AppTextField(
-                              label: 'Confirm Password',
-                              controller: _confirmPasswordController,
-                              prefixIcon: Icons.lock_outline,
-                              obscureText: true,
-                              isRequired: true,
-                              validator: _validateConfirmPassword,
-                            ),
-                            const Gap(24),
 
                             // Register Button
                             AppButton(
@@ -377,7 +323,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       ),
                     ),
                   ),
-                  const Gap(24),
+                  const Gap(16),
 
                   // Login Link
                   Row(
@@ -394,7 +340,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           Navigator.of(context).pop();
                         },
                         child: const Text(
-                          'Sign In',
+                          'Login',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

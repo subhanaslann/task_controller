@@ -38,10 +38,7 @@ class ErrorTrackingService {
         // PII scrubbing - remove sensitive data
         options.beforeSend = _scrubPII;
         options.beforeBreadcrumb = _scrubBreadcrumbPII;
-        
-        // Customize tags
-        options.setTag('platform', defaultTargetPlatform.name);
-        
+
         // Performance monitoring
         options.enableAutoPerformanceTracing = true;
       },
@@ -52,7 +49,7 @@ class ErrorTrackingService {
   }
 
   /// Scrub PII from error events before sending
-  static SentryEvent? _scrubPII(SentryEvent event, {Hint? hint}) {
+  static SentryEvent? _scrubPII(SentryEvent event, Hint hint) {
     // Remove sensitive fields from contexts
     final scrubbedContexts = _scrubContexts(event.contexts);
     
@@ -70,7 +67,7 @@ class ErrorTrackingService {
   }
 
   /// Scrub PII from breadcrumbs
-  static Breadcrumb? _scrubBreadcrumbPII(Breadcrumb? breadcrumb, {Hint? hint}) {
+  static Breadcrumb? _scrubBreadcrumbPII(Breadcrumb? breadcrumb, Hint hint) {
     if (breadcrumb == null) return null;
     
     // Remove sensitive data from breadcrumb data

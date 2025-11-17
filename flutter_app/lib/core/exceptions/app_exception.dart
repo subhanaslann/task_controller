@@ -70,6 +70,14 @@ class NotFoundException extends AppException {
   }) : super(message: message, details: details, statusCode: statusCode);
 }
 
+class ConflictException extends AppException {
+  ConflictException({
+    String message = 'Kaynak zaten mevcut',
+    String? details,
+    int statusCode = 409,
+  }) : super(message: message, details: details, statusCode: statusCode);
+}
+
 class ValidationException extends AppException {
   final Map<String, List<String>>? fieldErrors;
 
@@ -87,6 +95,14 @@ class ServerException extends AppException {
     String message = 'Sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin',
     String? details,
     int? statusCode = 500,
+  }) : super(message: message, details: details, statusCode: statusCode);
+}
+
+class ServiceUnavailableException extends AppException {
+  ServiceUnavailableException({
+    String message = 'Servis şu anda kullanılamıyor',
+    String? details,
+    int statusCode = 503,
   }) : super(message: message, details: details, statusCode: statusCode);
 }
 

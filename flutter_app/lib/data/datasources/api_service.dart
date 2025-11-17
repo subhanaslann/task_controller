@@ -5,6 +5,7 @@ import '../models/task.dart';
 import '../models/topic.dart';
 import '../models/organization.dart';
 import '../models/organization_stats.dart';
+import '../../core/utils/constants.dart';
 
 part 'api_service.g.dart';
 
@@ -218,12 +219,14 @@ class TopicResponse {
 class CreateTopicRequest {
   final String title;
   final String? description;
+  final bool? isActive;
 
-  CreateTopicRequest({required this.title, this.description});
+  CreateTopicRequest({required this.title, this.description, this.isActive});
 
   Map<String, dynamic> toJson() => {
         'title': title,
         if (description != null) 'description': description,
+        if (isActive != null) 'isActive': isActive,
       };
 }
 
@@ -259,6 +262,7 @@ class CreateUserRequest {
   final String email;
   final String password;
   final String role;
+  final bool? active;
   final List<String>? visibleTopicIds;
 
   CreateUserRequest({
@@ -267,6 +271,7 @@ class CreateUserRequest {
     required this.email,
     required this.password,
     required this.role,
+    this.active,
     this.visibleTopicIds,
   });
 
@@ -276,6 +281,7 @@ class CreateUserRequest {
         'email': email,
         'password': password,
         'role': role,
+        if (active != null) 'active': active,
         if (visibleTopicIds != null) 'visibleTopicIds': visibleTopicIds,
       };
 }

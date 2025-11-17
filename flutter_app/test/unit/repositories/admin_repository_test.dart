@@ -1,3 +1,4 @@
+import 'package:flutter_app/core/utils/constants.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/data/models/topic.dart';
 import 'package:flutter_app/data/models/user.dart';
@@ -90,7 +91,6 @@ void main() {
         email: 'newuser@test.com',
         password: 'password123',
         role: UserRole.member.value,
-        active: true,
       );
 
       // Act
@@ -156,8 +156,14 @@ void main() {
     test('updateUser should update user details', () async {
       // Arrange
       const userId = 'user-123';
+      final updatedUser = TestData.createTestUser(
+        id: userId,
+        name: 'Updated Name',
+        active: false,
+      );
+
       when(() => mockApiService.updateUser(userId, any()))
-          .thenAnswer((_) async => {});
+          .thenAnswer((_) async => updatedUser);
 
       final request = UpdateUserRequest(
         name: 'Updated Name',
@@ -165,7 +171,7 @@ void main() {
       );
 
       // Act
-      await repository.updateUser(userId, request);
+      final result = await repository.updateUser(userId, request);
 
       // Assert
       verify(() => mockApiService.updateUser(userId, any())).called(1);
@@ -231,7 +237,6 @@ void main() {
       final request = CreateTopicRequest(
         title: 'New Topic',
         description: 'New topic description',
-        isActive: true,
       );
 
       // Act

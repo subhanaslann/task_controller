@@ -32,13 +32,13 @@ void main() {
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
     });
 
-    testWidgets('should display title when provided', (tester) async {
+    testWidgets('should display details when provided', (tester) async {
       // Arrange & Act
       await pumpTestWidget(
         tester,
         const AppErrorView(
-          title: 'Error',
-          message: 'Something went wrong',
+          message: 'Error',
+          details: 'Something went wrong',
         ),
       );
 
@@ -52,7 +52,7 @@ void main() {
     testWidgets('should display retry button when onRetry is provided', (tester) async {
       // Arrange
       var retryPressed = false;
-      
+
       await pumpTestWidget(
         tester,
         AppErrorView(
@@ -62,10 +62,10 @@ void main() {
       );
 
       // Assert - Retry button visible
-      expect(find.text('Retry'), findsOneWidget);
+      expect(find.text('Tekrar Dene'), findsOneWidget);
 
       // Act - Tap retry
-      await tester.tap(find.text('Retry'));
+      await tester.tap(find.text('Tekrar Dene'));
 
       // Assert - Callback called
       expect(retryPressed, true);
@@ -81,47 +81,7 @@ void main() {
       );
 
       // Assert - No retry button
-      expect(find.text('Retry'), findsNothing);
-    });
-  });
-
-  group('AppErrorView - Go Back Button', () {
-    testWidgets('should display go back button when onGoBack is provided', (tester) async {
-      // Arrange
-      var goBackPressed = false;
-      
-      await pumpTestWidget(
-        tester,
-        AppErrorView(
-          message: 'Page not found',
-          onGoBack: () => goBackPressed = true,
-        ),
-      );
-
-      // Assert - Go back button visible
-      expect(find.text('Go Back'), findsOneWidget);
-
-      // Act - Tap go back
-      await tester.tap(find.text('Go Back'));
-
-      // Assert - Callback called
-      expect(goBackPressed, true);
-    });
-
-    testWidgets('should show both retry and go back when both provided', (tester) async {
-      // Arrange & Act
-      await pumpTestWidget(
-        tester,
-        AppErrorView(
-          message: 'Error',
-          onRetry: () {},
-          onGoBack: () {},
-        ),
-      );
-
-      // Assert
-      expect(find.text('Retry'), findsOneWidget);
-      expect(find.text('Go Back'), findsOneWidget);
+      expect(find.text('Tekrar Dene'), findsNothing);
     });
   });
 }

@@ -8,6 +8,7 @@ part of 'task.dart';
 
 Task _$TaskFromJson(Map<String, dynamic> json) => Task(
   id: json['id'] as String,
+  organizationId: json['organizationId'] as String?,
   topicId: json['topicId'] as String?,
   title: json['title'] as String,
   note: json['note'] as String?,
@@ -28,6 +29,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
 
 Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
   'id': instance.id,
+  'organizationId': instance.organizationId,
   'topicId': instance.topicId,
   'title': instance.title,
   'note': instance.note,

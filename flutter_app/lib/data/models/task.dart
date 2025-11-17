@@ -6,6 +6,7 @@ part 'task.g.dart';
 @JsonSerializable()
 class Task {
   final String id;
+  final String? organizationId;
   final String? topicId;
   final String title;
   final String? note;
@@ -23,6 +24,7 @@ class Task {
 
   Task({
     required this.id,
+    this.organizationId,
     this.topicId,
     required this.title,
     this.note,
@@ -48,6 +50,7 @@ class Task {
   }) {
     return Task(
       id: id,
+      organizationId: organizationId,
       topicId: topicId,
       title: title,
       note: note ?? this.note,

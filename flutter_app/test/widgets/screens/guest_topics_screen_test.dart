@@ -35,7 +35,7 @@ void main() {
         tester,
         const GuestTopicsScreen(),
         overrides: [
-          guestTopicsProvider.overrideWith((ref) => const AsyncValue.data([])),
+          guestTopicsProvider.overrideWith((ref) async => []),
         ],
       );
 
@@ -56,8 +56,8 @@ void main() {
           title: 'Backend Development',
           description: 'API tasks',
           isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
           tasks: [],
         ),
         Topic(
@@ -66,8 +66,8 @@ void main() {
           title: 'Frontend Development',
           description: 'UI tasks',
           isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
           tasks: [],
         ),
       ];
@@ -76,7 +76,7 @@ void main() {
         tester,
         const GuestTopicsScreen(),
         overrides: [
-          guestTopicsProvider.overrideWith((ref) => AsyncValue.data(topics)),
+          guestTopicsProvider.overrideWith((ref) async => topics),
         ],
       );
 
@@ -93,9 +93,9 @@ void main() {
         topicId: 'topic1',
         title: 'Implement feature',
         status: TaskStatus.todo,
-        priority: TaskPriority.high,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        priority: Priority.high,
+        createdAt: DateTime.now().toIso8601String(),
+        updatedAt: DateTime.now().toIso8601String(),
       );
 
       final topics = [
@@ -105,8 +105,8 @@ void main() {
           title: 'Backend Development',
           description: 'API tasks',
           isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
           tasks: [task],
         ),
       ];
@@ -115,7 +115,7 @@ void main() {
         tester,
         const GuestTopicsScreen(),
         overrides: [
-          guestTopicsProvider.overrideWith((ref) => AsyncValue.data(topics)),
+          guestTopicsProvider.overrideWith((ref) async => topics),
         ],
       );
 
@@ -131,7 +131,7 @@ void main() {
         const GuestTopicsScreen(),
         overrides: [
           guestTopicsProvider.overrideWith(
-            (ref) => AsyncValue.error('Network error', StackTrace.current),
+            (ref) async => throw Exception('Network error'),
           ),
         ],
       );
@@ -151,8 +151,8 @@ void main() {
           title: 'Backend Development',
           description: 'API tasks',
           isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
           tasks: [],
         ),
       ];
@@ -161,7 +161,7 @@ void main() {
         tester,
         const GuestTopicsScreen(),
         overrides: [
-          guestTopicsProvider.overrideWith((ref) => AsyncValue.data(topics)),
+          guestTopicsProvider.overrideWith((ref) async => topics),
         ],
       );
 
@@ -179,9 +179,9 @@ void main() {
         topicId: 'topic1',
         title: 'Read-only task',
         status: TaskStatus.inProgress,
-        priority: TaskPriority.normal,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        priority: Priority.normal,
+        createdAt: DateTime.now().toIso8601String(),
+        updatedAt: DateTime.now().toIso8601String(),
       );
 
       final topics = [
@@ -191,8 +191,8 @@ void main() {
           title: 'Test Topic',
           description: 'Description',
           isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
           tasks: [task],
         ),
       ];
@@ -201,7 +201,7 @@ void main() {
         tester,
         const GuestTopicsScreen(),
         overrides: [
-          guestTopicsProvider.overrideWith((ref) => AsyncValue.data(topics)),
+          guestTopicsProvider.overrideWith((ref) async => topics),
         ],
       );
 

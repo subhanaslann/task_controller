@@ -13,7 +13,7 @@ void main() {
         const AppEmptyState(
           icon: Icons.task_alt,
           title: 'No Tasks',
-          message: 'You don\'t have any tasks yet',
+          subtitle: 'You don\'t have any tasks yet',
         ),
       );
 
@@ -49,9 +49,9 @@ void main() {
         AppEmptyState(
           icon: Icons.add,
           title: 'No Items',
-          message: 'Create your first item',
+          subtitle: 'Create your first item',
           actionLabel: 'Create Item',
-          onAction: () => buttonPressed = true,
+          onActionPressed: () => buttonPressed = true,
         ),
       );
 
@@ -88,7 +88,7 @@ void main() {
         const AppEmptyState(
           icon: Icons.task_alt,
           title: 'No Active Tasks',
-          message: 'Tap + to create one',
+          subtitle: 'Tap + to create one',
         ),
       );
 
@@ -103,7 +103,7 @@ void main() {
         const AppEmptyState(
           icon: Icons.people,
           title: 'No Users',
-          message: 'Create your first user',
+          subtitle: 'Create your first user',
         ),
       );
 
@@ -118,7 +118,7 @@ void main() {
         const AppEmptyState(
           icon: Icons.search_off,
           title: 'No Results',
-          message: 'Try a different search term',
+          subtitle: 'Try a different search term',
         ),
       );
 

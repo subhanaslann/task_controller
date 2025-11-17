@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 import 'package:flutter_app/data/repositories/task_repository.dart';
 import 'package:flutter_app/features/tasks/presentation/my_completed_tasks_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,12 +20,16 @@ void main() {
   group('MyCompletedTasksScreen - Completed Tasks Display', () {
     testWidgets('should display completed tasks', (tester) async {
       // Arrange
-      when(
-        () => mockTaskRepo.getMyCompletedTasks(),
-      ).thenAnswer((_) async => [TestData.completedTask]);
+      final tasks = [TestData.completedTask];
 
       // Act
-      await pumpTestWidget(tester, const MyCompletedTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyCompletedTasksScreen(),
+        overrides: [
+          myCompletedTasksProvider.overrideWith((ref) async => tasks),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert
@@ -35,13 +40,14 @@ void main() {
     testWidgets('should show empty state when no completed tasks', (
       tester,
     ) async {
-      // Arrange
-      when(
-        () => mockTaskRepo.getMyCompletedTasks(),
-      ).thenAnswer((_) async => []);
-
       // Act
-      await pumpTestWidget(tester, const MyCompletedTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyCompletedTasksScreen(),
+        overrides: [
+          myCompletedTasksProvider.overrideWith((ref) async => []),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert
@@ -49,14 +55,17 @@ void main() {
     });
 
     testWidgets('should show loading state while fetching', (tester) async {
-      // Arrange
-      when(() => mockTaskRepo.getMyCompletedTasks()).thenAnswer((_) async {
-        await Future.delayed(const Duration(milliseconds: 500));
-        return [TestData.completedTask];
-      });
-
       // Act
-      await pumpTestWidget(tester, const MyCompletedTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyCompletedTasksScreen(),
+        overrides: [
+          myCompletedTasksProvider.overrideWith((ref) async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            return [TestData.completedTask];
+          }),
+        ],
+      );
       await tester.pump();
 
       // Assert
@@ -64,13 +73,16 @@ void main() {
     });
 
     testWidgets('should show error state on failure', (tester) async {
-      // Arrange
-      when(
-        () => mockTaskRepo.getMyCompletedTasks(),
-      ).thenThrow(Exception('Network error'));
-
       // Act
-      await pumpTestWidget(tester, const MyCompletedTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyCompletedTasksScreen(),
+        overrides: [
+          myCompletedTasksProvider.overrideWith((ref) async {
+            throw Exception('Network error');
+          }),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert

@@ -20,12 +20,16 @@ void main() {
   group('TeamActiveTasksScreen - Read-Only Display', () {
     testWidgets('should display team tasks as read-only', (tester) async {
       // Arrange
-      when(
-        () => mockTaskRepo.getTeamActiveTasks(),
-      ).thenAnswer((_) async => [TestData.todoTask, TestData.inProgressTask]);
+      final topics = [TestData.createTestTopic(tasks: [TestData.todoTask, TestData.inProgressTask])];
 
       // Act
-      await pumpTestWidget(tester, const TeamActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const TeamActiveTasksScreen(),
+        overrides: [
+          teamActiveTopicsProvider.overrideWith((ref) async => topics),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert - Tasks displayed
@@ -36,11 +40,14 @@ void main() {
     testWidgets('should show empty state when no team tasks exist', (
       tester,
     ) async {
-      // Arrange
-      when(() => mockTaskRepo.getTeamActiveTasks()).thenAnswer((_) async => []);
-
       // Act
-      await pumpTestWidget(tester, const TeamActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const TeamActiveTasksScreen(),
+        overrides: [
+          teamActiveTopicsProvider.overrideWith((ref) async => []),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert
@@ -48,14 +55,17 @@ void main() {
     });
 
     testWidgets('should show loading state while fetching', (tester) async {
-      // Arrange
-      when(() => mockTaskRepo.getTeamActiveTasks()).thenAnswer((_) async {
-        await Future.delayed(const Duration(milliseconds: 500));
-        return [TestData.todoTask];
-      });
-
       // Act
-      await pumpTestWidget(tester, const TeamActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const TeamActiveTasksScreen(),
+        overrides: [
+          teamActiveTopicsProvider.overrideWith((ref) async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            return [];
+          }),
+        ],
+      );
       await tester.pump();
 
       // Assert
@@ -63,13 +73,16 @@ void main() {
     });
 
     testWidgets('should show error state on failure', (tester) async {
-      // Arrange
-      when(
-        () => mockTaskRepo.getTeamActiveTasks(),
-      ).thenThrow(Exception('Network error'));
-
       // Act
-      await pumpTestWidget(tester, const TeamActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const TeamActiveTasksScreen(),
+        overrides: [
+          teamActiveTopicsProvider.overrideWith((ref) async {
+            throw Exception('Network error');
+          }),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert

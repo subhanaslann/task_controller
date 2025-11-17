@@ -8,6 +8,7 @@ part of 'topic.dart';
 
 Topic _$TopicFromJson(Map<String, dynamic> json) => Topic(
   id: json['id'] as String,
+  organizationId: json['organizationId'] as String,
   title: json['title'] as String,
   description: json['description'] as String?,
   isActive: json['isActive'] as bool,
@@ -26,6 +27,7 @@ Topic _$TopicFromJson(Map<String, dynamic> json) => Topic(
 
 Map<String, dynamic> _$TopicToJson(Topic instance) => <String, dynamic>{
   'id': instance.id,
+  'organizationId': instance.organizationId,
   'title': instance.title,
   'description': instance.description,
   'isActive': instance.isActive,

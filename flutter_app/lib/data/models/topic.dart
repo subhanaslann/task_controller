@@ -6,6 +6,7 @@ part 'topic.g.dart';
 @JsonSerializable()
 class Topic {
   final String id;
+  final String organizationId;
   final String title;
   final String? description;
   final bool isActive;
@@ -18,6 +19,7 @@ class Topic {
 
   Topic({
     required this.id,
+    required this.organizationId,
     required this.title,
     this.description,
     required this.isActive,

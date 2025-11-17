@@ -6,7 +6,6 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/providers/providers.dart';
-import '../../../core/providers/locale_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -74,7 +73,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         Navigator.of(context).pushReplacementNamed('/home');
       }
     } catch (e) {
-      final l10n = AppLocalizations.of(context)!;
       final errorString = e.toString().toLowerCase();
       setState(() {
         if (errorString.contains('deactivated') && errorString.contains('organization')) {
@@ -82,7 +80,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         } else if (errorString.contains('deactivated') && errorString.contains('account')) {
           _errorMessage = 'Your account has been deactivated. Contact your team manager.';
         } else {
-          _errorMessage = l10n.loginErrorMessage;
+          _errorMessage = 'Invalid username or password';
         }
       });
     } finally {
@@ -98,8 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final l10n = AppLocalizations.of(context)!;
-    final localeNotifier = ref.read(localeProvider.notifier);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: Container(
@@ -113,22 +110,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         child: SafeArea(
           child: Column(
             children: [
-              // Language switcher button
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      onPressed: () async {
-                        await localeNotifier.toggleLocale();
-                      },
-                      icon: Icon(Icons.language, color: colorScheme.onSurface),
-                      tooltip: 'Dil Değiştir / Change Language',
-                    ),
-                  ],
-                ),
-              ),
               Expanded(
                 child: Center(
                   child: SingleChildScrollView(
@@ -189,12 +170,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                     children: [
                                       // Username field
                                       AppTextField(
-                                        label: l10n.usernameOrEmail,
+                                        label: l10n?.usernameOrEmail ?? 'Username or Email',
                                         controller: _usernameController,
                                         prefixIcon: Icons.person,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return l10n.validation_required;
+                                            return l10n?.validation_required ?? 'This field is required';
                                           }
                                           return null;
                                         },
@@ -202,13 +183,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                       const Gap(16),
                                       // Password field
                                       AppTextField(
-                                        label: l10n.password,
+                                        label: l10n?.password ?? 'Password',
                                         controller: _passwordController,
                                         obscureText: true,
                                         prefixIcon: Icons.lock,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return l10n.validation_required;
+                                            return l10n?.validation_required ?? 'This field is required';
                                           }
                                           return null;
                                         },
@@ -253,7 +234,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                       if (_errorMessage != null) const Gap(16),
                                       // Login button
                                       AppButton(
-                                        text: l10n.login,
+                                        text: l10n?.login ?? 'Sign In',
                                         onPressed: _isLoading
                                             ? null
                                             : _handleLogin,

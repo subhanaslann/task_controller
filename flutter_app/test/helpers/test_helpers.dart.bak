@@ -11,9 +11,7 @@ Future<void> pumpTestWidget(
   await tester.pumpWidget(
     ProviderScope(
       overrides: overrides,
-      child: MaterialApp(
-        home: Scaffold(body: widget),
-      ),
+      child: MaterialApp(home: widget),
     ),
   );
 }
