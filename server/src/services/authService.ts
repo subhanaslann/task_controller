@@ -21,6 +21,10 @@ export interface LoginResult {
     name: string;
     teamName: string;
     slug: string;
+    isActive: boolean;
+    maxUsers: number;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 
@@ -88,6 +92,10 @@ export const login = async (
       name: user.organization.name,
       teamName: user.organization.teamName,
       slug: user.organization.slug,
+      isActive: user.organization.isActive,
+      maxUsers: user.organization.maxUsers,
+      createdAt: user.organization.createdAt.toISOString(),
+      updatedAt: user.organization.updatedAt.toISOString(),
     },
   };
 };

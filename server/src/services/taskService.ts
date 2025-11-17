@@ -207,20 +207,22 @@ export const createTask = async (organizationId: string, input: CreateTaskInput)
 };
 
 export const createMemberTask = async (organizationId: string, input: CreateMemberTaskInput) => {
-  // Validate topic exists, is active, and belongs to same organization
-  const topic = await prisma.topic.findFirst({
-    where: {
-      id: input.topicId,
-      organizationId,
-    },
-  });
+  // Validate topic exists, is active, and belongs to same organization (if topicId is provided)
+  if (input.topicId) {
+    const topic = await prisma.topic.findFirst({
+      where: {
+        id: input.topicId,
+        organizationId,
+      },
+    });
 
-  if (!topic) {
-    throw new ValidationError('Topic not found');
-  }
+    if (!topic) {
+      throw new ValidationError('Topic not found');
+    }
 
-  if (!topic.isActive) {
-    throw new ValidationError('Cannot create task for inactive topic');
+    if (!topic.isActive) {
+      throw new ValidationError('Cannot create task for inactive topic');
+    }
   }
 
   return prisma.task.create({
