@@ -15,6 +15,8 @@ export interface LoginResult {
     role: Role;
     active: boolean;
     visibleTopicIds: string[];
+    createdAt: string;
+    updatedAt: string;
   };
   organization: {
     id: string;
@@ -86,6 +88,8 @@ export const login = async (
       role: user.role as Role,
       active: user.active,
       visibleTopicIds: user.accessibleTopics.map((a) => a.topicId),
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
     },
     organization: {
       id: user.organization.id,
