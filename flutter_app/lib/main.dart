@@ -5,8 +5,11 @@ import 'l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'core/providers/providers.dart';
 import 'core/providers/locale_provider.dart';
+import 'core/providers/theme_provider.dart';
 import 'features/auth/presentation/login_screen.dart';
+import 'features/auth/presentation/registration_screen.dart';
 import 'features/tasks/presentation/home_screen.dart';
+import 'features/settings/presentation/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,12 +70,13 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeProvider);
 
     return MaterialApp(
       title: 'TekTech',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
+      themeMode: themeMode,
       debugShowCheckedModeBanner: false,
       locale: locale,
       localizationsDelegates: const [
@@ -88,7 +92,9 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       home: const LoginScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegistrationScreen(),
         '/home': (context) => const HomeScreen(),
+        '/settings': (context) => const SettingsScreen(),
       },
       builder: (context, child) {
         // Wrap with connectivity status banner

@@ -11,6 +11,7 @@ import '../../../core/utils/constants.dart';
 import '../../../core/widgets/task_card.dart';
 import '../../../core/widgets/empty_state.dart';
 import 'admin_dialogs.dart';
+import 'organization_tab.dart';
 
 class AdminScreen extends ConsumerStatefulWidget {
   const AdminScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _AdminScreenState extends ConsumerState<AdminScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -45,6 +46,7 @@ class _AdminScreenState extends ConsumerState<AdminScreen> with SingleTickerProv
             Tab(icon: Icon(Icons.people), text: 'Users'),
             Tab(icon: Icon(Icons.task), text: 'Tasks'),
             Tab(icon: Icon(Icons.topic), text: 'Topics'),
+            Tab(icon: Icon(Icons.business), text: 'Organization'),
           ],
         ),
       ),
@@ -54,6 +56,7 @@ class _AdminScreenState extends ConsumerState<AdminScreen> with SingleTickerProv
           _UserManagementTab(),
           _TaskManagementTab(),
           _TopicManagementTab(),
+          OrganizationTab(),
         ],
       ),
     );

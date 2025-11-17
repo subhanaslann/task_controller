@@ -3,6 +3,8 @@ import 'package:retrofit/retrofit.dart';
 import '../models/user.dart';
 import '../models/task.dart';
 import '../models/topic.dart';
+import '../models/organization.dart';
+import '../models/organization_stats.dart';
 
 part 'api_service.g.dart';
 
@@ -13,6 +15,9 @@ abstract class ApiService {
   // Auth
   @POST('/auth/login')
   Future<AuthResponse> login(@Body() LoginRequest request);
+
+  @POST('/auth/register')
+  Future<RegisterResponse> register(@Body() RegisterRequest request);
 
   // Tasks - View
   @GET('/tasks/view')
@@ -95,6 +100,20 @@ abstract class ApiService {
     @Path('topicId') String topicId,
     @Path('userId') String userId,
   );
+
+  // Organization
+  // NOTE: Backend uses JWT token to get organization ID (more secure)
+  // No need to pass organization ID in URL
+  @GET('/organization')
+  Future<OrganizationResponse> getOrganization();
+
+  @PATCH('/organization')
+  Future<OrganizationResponse> updateOrganization(
+    @Body() UpdateOrganizationRequest request,
+  );
+
+  @GET('/organization/stats')
+  Future<OrganizationStatsResponse> getOrganizationStats();
 }
 
 // Request/Response DTOs
@@ -113,13 +132,19 @@ class LoginRequest {
 class AuthResponse {
   final String token;
   final User user;
+  final Organization organization;
 
-  AuthResponse({required this.token, required this.user});
+  AuthResponse({
+    required this.token,
+    required this.user,
+    required this.organization,
+  });
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
     return AuthResponse(
       token: json['token'],
       user: User.fromJson(json['user']),
+      organization: Organization.fromJson(json['organization']),
     );
   }
 }
@@ -343,14 +368,14 @@ class GuestAccessRequest {
 
 // Member Task DTOs
 class CreateMemberTaskRequest {
-  final String topicId;
+  final String? topicId;
   final String title;
   final String? note;
   final String? priority;
   final String? dueDate;
 
   CreateMemberTaskRequest({
-    required this.topicId,
+    this.topicId,
     required this.title,
     this.note,
     this.priority,
@@ -358,7 +383,7 @@ class CreateMemberTaskRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'topicId': topicId,
+        if (topicId != null) 'topicId': topicId,
         'title': title,
         if (note != null) 'note': note,
         if (priority != null) 'priority': priority,
@@ -409,6 +434,110 @@ class DeleteResponse {
     return DeleteResponse(
       success: json['success'],
       message: json['message'],
+    );
+  }
+}
+
+// Registration DTOs
+class RegisterRequest {
+  final String companyName;
+  final String teamName;
+  final String managerName;
+  final String email;
+  final String password;
+
+  RegisterRequest({
+    required this.companyName,
+    required this.teamName,
+    required this.managerName,
+    required this.email,
+    required this.password,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'companyName': companyName,
+        'teamName': teamName,
+        'managerName': managerName,
+        'email': email,
+        'password': password,
+      };
+}
+
+class RegisterResponse {
+  final String message;
+  final RegisterData data;
+
+  RegisterResponse({required this.message, required this.data});
+
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterResponse(
+      message: json['message'],
+      data: RegisterData.fromJson(json['data']),
+    );
+  }
+}
+
+class RegisterData {
+  final Organization organization;
+  final User user;
+  final String token;
+
+  RegisterData({
+    required this.organization,
+    required this.user,
+    required this.token,
+  });
+
+  factory RegisterData.fromJson(Map<String, dynamic> json) {
+    return RegisterData(
+      organization: Organization.fromJson(json['organization']),
+      user: User.fromJson(json['user']),
+      token: json['token'],
+    );
+  }
+}
+
+// Organization DTOs
+class OrganizationResponse {
+  final String? message;
+  final Organization organization;
+
+  OrganizationResponse({this.message, required this.organization});
+
+  factory OrganizationResponse.fromJson(Map<String, dynamic> json) {
+    // Backend returns: { "message": "...", "data": {...} }
+    return OrganizationResponse(
+      message: json['message'] as String?,
+      organization: Organization.fromJson(json['data']),
+    );
+  }
+}
+
+class UpdateOrganizationRequest {
+  final String? name;
+  final String? teamName;
+  final int? maxUsers;
+
+  UpdateOrganizationRequest({this.name, this.teamName, this.maxUsers});
+
+  Map<String, dynamic> toJson() => {
+        if (name != null) 'name': name,
+        if (teamName != null) 'teamName': teamName,
+        if (maxUsers != null) 'maxUsers': maxUsers,
+      };
+}
+
+class OrganizationStatsResponse {
+  final String? message;
+  final OrganizationStats stats;
+
+  OrganizationStatsResponse({this.message, required this.stats});
+
+  factory OrganizationStatsResponse.fromJson(Map<String, dynamic> json) {
+    // Backend returns: { "message": "...", "data": {...} }
+    return OrganizationStatsResponse(
+      message: json['message'] as String?,
+      stats: OrganizationStats.fromJson(json['data']),
     );
   }
 }

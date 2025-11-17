@@ -45,7 +45,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildMainContent(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
-    final isAdmin = currentUser?.role == UserRole.admin;
+    final isAdmin = currentUser?.role == UserRole.admin || 
+                     currentUser?.role == UserRole.teamManager;
     final isGuest = currentUser?.role == UserRole.guest;
     final screens = _getScreensForRole(currentUser?.role);
     final l10n = AppLocalizations.of(context)!;
@@ -83,6 +84,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 case 'profile':
                   _showUserInfo(context, currentUser);
                   break;
+                case 'settings':
+                  Navigator.of(context).pushNamed('/settings');
+                  break;
                 case 'about':
                   setState(() {
                     _showAboutDialog = true;
@@ -112,6 +116,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const Icon(Icons.person, size: 20),
                     const SizedBox(width: 12),
                     Text(l10n.profile),
+                  ],
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'settings',
+                child: Row(
+                  children: [
+                    Icon(Icons.settings, size: 20),
+                    SizedBox(width: 12),
+                    Text('Settings'),
                   ],
                 ),
               ),

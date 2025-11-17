@@ -8,6 +8,7 @@ part of 'user.dart';
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
   id: json['id'] as String,
+  organizationId: json['organizationId'] as String,
   name: json['name'] as String,
   username: json['username'] as String,
   email: json['email'] as String,
@@ -22,6 +23,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
   'id': instance.id,
+  'organizationId': instance.organizationId,
   'name': instance.name,
   'username': instance.username,
   'email': instance.email,
@@ -32,6 +34,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
 
 const _$UserRoleEnumMap = {
   UserRole.admin: 'ADMIN',
+  UserRole.teamManager: 'TEAM_MANAGER',
   UserRole.member: 'MEMBER',
   UserRole.guest: 'GUEST',
 };

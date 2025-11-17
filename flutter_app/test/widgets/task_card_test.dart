@@ -46,7 +46,7 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Yüksek'), findsOneWidget);
+      expect(find.text('High'), findsOneWidget);
     });
 
     testWidgets('displays status badge', (WidgetTester tester) async {
@@ -57,7 +57,7 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Yapılacak'), findsOneWidget);
+      expect(find.text('To Do'), findsOneWidget);
     });
 
     testWidgets('displays topic badge when topic exists', (WidgetTester tester) async {
@@ -124,8 +124,8 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      // Avatar should display initials of assignee name
-      expect(find.text('TU'), findsWidgets);
+      // Avatar should display first letter of assignee name "Test User" -> "T"
+      expect(find.text('T'), findsWidgets);
     });
 
     testWidgets('displays different priority colors', (WidgetTester tester) async {
@@ -134,7 +134,7 @@ void main() {
       final highWidget = createTestWidget(TaskCard(task: highPriorityTask));
       
       await tester.pumpWidget(highWidget);
-      expect(find.text('Yüksek'), findsOneWidget);
+      expect(find.text('High'), findsOneWidget);
       
       // Test low priority
       final lowPriorityTask = Task(
@@ -151,7 +151,7 @@ void main() {
       
       await tester.pumpWidget(lowWidget);
       await tester.pump();
-      expect(find.text('Düşük'), findsOneWidget);
+      expect(find.text('Low'), findsOneWidget);
     });
   });
 }

@@ -157,6 +157,7 @@ class TaskCache {
 
 class UserCache {
   final String id;
+  final String organizationId;
   final String name;
   final String username;
   final String email;
@@ -167,6 +168,7 @@ class UserCache {
 
   UserCache({
     required this.id,
+    required this.organizationId,
     required this.name,
     required this.username,
     required this.email,
@@ -180,6 +182,7 @@ class UserCache {
   factory UserCache.fromUser(User user) {
     return UserCache(
       id: user.id,
+      organizationId: user.organizationId,
       name: user.name,
       username: user.username,
       email: user.email,
@@ -194,6 +197,7 @@ class UserCache {
   User toUser() {
     return User(
       id: id,
+      organizationId: organizationId,
       name: name,
       username: username,
       email: email,
@@ -206,6 +210,7 @@ class UserCache {
   /// Convert to JSON
   Map<String, dynamic> toJson() => {
     'id': id,
+    'organizationId': organizationId,
     'name': name,
     'username': username,
     'email': email,
@@ -218,6 +223,7 @@ class UserCache {
   /// Convert from JSON
   factory UserCache.fromJson(Map<String, dynamic> json) => UserCache(
     id: json['id'] as String,
+    organizationId: json['organizationId'] as String? ?? '',
     name: json['name'] as String,
     username: json['username'] as String,
     email: json['email'] as String,

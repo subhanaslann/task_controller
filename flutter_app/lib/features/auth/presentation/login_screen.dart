@@ -61,12 +61,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
     try {
       final authRepo = ref.read(authRepositoryProvider);
-      final user = await authRepo.login(
+      final authResult = await authRepo.login(
         _usernameController.text.trim(),
         _passwordController.text,
       );
 
-      ref.read(currentUserProvider.notifier).state = user;
+      ref.read(currentUserProvider.notifier).state = authResult.user;
+      ref.read(currentOrganizationProvider.notifier).state = authResult.organization;
 
       if (mounted) {
         // Navigate to home screen
@@ -74,8 +75,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       }
     } catch (e) {
       final l10n = AppLocalizations.of(context)!;
+      final errorString = e.toString().toLowerCase();
       setState(() {
-        _errorMessage = l10n.loginErrorMessage;
+        if (errorString.contains('deactivated') && errorString.contains('organization')) {
+          _errorMessage = 'Your organization has been deactivated. Please contact support.';
+        } else if (errorString.contains('deactivated') && errorString.contains('account')) {
+          _errorMessage = 'Your account has been deactivated. Contact your team manager.';
+        } else {
+          _errorMessage = l10n.loginErrorMessage;
+        }
       });
     } finally {
       if (mounted) {
@@ -251,6 +259,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                             : _handleLogin,
                                         isLoading: _isLoading,
                                         isFullWidth: true,
+                                      ),
+                                      const Gap(16),
+                                      // Registration link
+                                      Center(
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pushNamed('/register');
+                                          },
+                                          child: Text(
+                                            'Don\'t have a team? Register here',
+                                            style: TextStyle(
+                                              color: colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),

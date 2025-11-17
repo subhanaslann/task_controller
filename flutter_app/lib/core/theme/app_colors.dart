@@ -168,15 +168,39 @@ class AppColors {
   static const Color darkOutline = gray600;
   static const Color darkOutlineVariant = gray700;
 
-  // Priority Colors (Semantic)
-  static const Color priorityLow = green500;
-  static const Color priorityNormal = cyan500;
-  static const Color priorityHigh = red500;
+  // Blue Scale for Priority Normal
+  static const Color blue900 = Color(0xFF1E3A8A);
+  static const Color blue800 = Color(0xFF1E40AF);
+  static const Color blue700 = Color(0xFF1D4ED8);
+  static const Color blue600 = Color(0xFF2563EB);
+  static const Color blue500 = Color(0xFF3B82F6); // Priority Normal
+  static const Color blue400 = Color(0xFF60A5FA);
+  static const Color blue300 = Color(0xFF93C5FD);
+  static const Color blue200 = Color(0xFFBFDBFE);
+  static const Color blue100 = Color(0xFFDBEAFE);
+  static const Color blue50 = Color(0xFFEFF6FF);
 
-  // Status Colors (Semantic)
-  static const Color statusTodo = gray500;
-  static const Color statusInProgress = cyan500;
-  static const Color statusDone = green500;
+  // Emerald Scale for Status Done
+  static const Color emerald900 = Color(0xFF064E3B);
+  static const Color emerald800 = Color(0xFF065F46);
+  static const Color emerald700 = Color(0xFF047857);
+  static const Color emerald600 = Color(0xFF059669);
+  static const Color emerald500 = Color(0xFF10B981); // Status Done
+  static const Color emerald400 = Color(0xFF34D399);
+  static const Color emerald300 = Color(0xFF6EE7B7);
+  static const Color emerald200 = Color(0xFFA7F3D0);
+  static const Color emerald100 = Color(0xFFD1FAE5);
+  static const Color emerald50 = Color(0xFFECFDF5);
+
+  // Priority Colors (Semantic) - Spec Compliant
+  static const Color priorityHigh = red500; // #EF4444
+  static const Color priorityNormal = blue500; // #3B82F6
+  static const Color priorityLow = gray500; // #6B7280
+
+  // Status Colors (Semantic) - Spec Compliant
+  static const Color statusTodo = gray500; // #6B7280
+  static const Color statusInProgress = amber500; // #F59E0B
+  static const Color statusDone = emerald500; // #10B981
 
   // Success, Warning, Info (Aliases for consistency)
   static const Color success = green500;
