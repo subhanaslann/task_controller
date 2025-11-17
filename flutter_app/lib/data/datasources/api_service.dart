@@ -55,10 +55,10 @@ abstract class ApiService {
   Future<UsersResponse> getUsers();
 
   @POST('/users')
-  Future<User> createUser(@Body() CreateUserRequest request);
+  Future<UserResponse> createUser(@Body() CreateUserRequest request);
 
   @PATCH('/users/{id}')
-  Future<User> updateUser(
+  Future<UserResponse> updateUser(
     @Path('id') String id,
     @Body() UpdateUserRequest request,
   );
@@ -252,6 +252,18 @@ class UsersResponse {
   factory UsersResponse.fromJson(Map<String, dynamic> json) {
     return UsersResponse(
       users: (json['users'] as List).map((e) => User.fromJson(e)).toList(),
+    );
+  }
+}
+
+class UserResponse {
+  final User user;
+
+  UserResponse({required this.user});
+
+  factory UserResponse.fromJson(Map<String, dynamic> json) {
+    return UserResponse(
+      user: User.fromJson(json['user']),
     );
   }
 }

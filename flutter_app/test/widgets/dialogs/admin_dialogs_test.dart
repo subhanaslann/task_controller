@@ -67,8 +67,8 @@ void main() {
           title: 'Backend Development',
           description: null,
           isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
         ),
       ];
 

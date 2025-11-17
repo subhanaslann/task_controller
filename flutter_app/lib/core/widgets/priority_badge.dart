@@ -66,21 +66,21 @@ class PriorityBadge extends StatelessWidget {
     switch (priority) {
       case Priority.low:
         return _PriorityConfig(
-          color: const Color(0xFF10B981), // Green
+          color: const Color(0xFF6B7280), // Gray
           icon: Icons.arrow_downward,
-          label: 'Düşük',
+          label: 'LOW',
         );
       case Priority.normal:
         return _PriorityConfig(
           color: const Color(0xFF3B82F6), // Blue
           icon: Icons.remove,
-          label: 'Normal',
+          label: 'NORMAL',
         );
       case Priority.high:
         return _PriorityConfig(
           color: const Color(0xFFEF4444), // Red
           icon: Icons.arrow_upward,
-          label: 'Yüksek',
+          label: 'HIGH',
         );
     }
   }

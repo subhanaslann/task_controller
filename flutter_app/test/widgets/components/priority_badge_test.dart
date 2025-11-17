@@ -49,16 +49,9 @@ void main() {
         const PriorityBadge(priority: Priority.high),
       );
 
-      // Assert - Find Container with red color
-      final container = tester.widget<Container>(
-        find.ancestor(
-          of: find.text('HIGH'),
-          matching: find.byType(Container),
-        ).first,
-      );
-      
-      final decoration = container.decoration as BoxDecoration?;
-      expect(decoration?.color?.value, 0xFFEF4444); // Red
+      // Assert - Find Icon with red color
+      final icon = tester.widget<Icon>(find.byType(Icon));
+      expect(icon.color?.value, 0xFFEF4444); // Red
     });
 
     testWidgets('NORMAL priority should use blue color', (tester) async {
@@ -68,16 +61,9 @@ void main() {
         const PriorityBadge(priority: Priority.normal),
       );
 
-      // Assert - Find Container with blue color
-      final container = tester.widget<Container>(
-        find.ancestor(
-          of: find.text('NORMAL'),
-          matching: find.byType(Container),
-        ).first,
-      );
-      
-      final decoration = container.decoration as BoxDecoration?;
-      expect(decoration?.color?.value, 0xFF3B82F6); // Blue
+      // Assert - Find Icon with blue color
+      final icon = tester.widget<Icon>(find.byType(Icon));
+      expect(icon.color?.value, 0xFF3B82F6); // Blue
     });
 
     testWidgets('LOW priority should use gray color', (tester) async {
@@ -87,16 +73,9 @@ void main() {
         const PriorityBadge(priority: Priority.low),
       );
 
-      // Assert - Find Container with gray color
-      final container = tester.widget<Container>(
-        find.ancestor(
-          of: find.text('LOW'),
-          matching: find.byType(Container),
-        ).first,
-      );
-      
-      final decoration = container.decoration as BoxDecoration?;
-      expect(decoration?.color?.value, 0xFF6B7280); // Gray
+      // Assert - Find Icon with gray color
+      final icon = tester.widget<Icon>(find.byType(Icon));
+      expect(icon.color?.value, 0xFF6B7280); // Gray
     });
   });
 }

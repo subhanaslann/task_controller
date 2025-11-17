@@ -14,21 +14,13 @@ class AdminRepository {
   }
 
   Future<User> createUser(CreateUserRequest request) async {
-    return await _apiService.createUser(request);
+    final response = await _apiService.createUser(request);
+    return response.user;
   }
 
-  Future<void> updateUser(String userId, UpdateUserRequest request) async {
-    try {
-      await _apiService.updateUser(userId, request);
-    } catch (e) {
-      // Response parse hatası olabilir ama istek başarılıysa (200 OK) sorun yok
-      // Hata gerçekten bir network hatası ise rethrow et
-      if (e.toString().contains('type') && e.toString().contains('Null')) {
-        // Parse hatası, ignore et çünkü backend'den eksik alan geliyor
-        return;
-      }
-      rethrow;
-    }
+  Future<User> updateUser(String userId, UpdateUserRequest request) async {
+    final response = await _apiService.updateUser(userId, request);
+    return response.user;
   }
 
   // Topics

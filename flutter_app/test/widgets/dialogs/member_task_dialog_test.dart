@@ -19,8 +19,7 @@ void main() {
       email: 'test@example.com',
       role: UserRole.member,
       active: true,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      visibleTopicIds: const [],
     );
 
     testWidgets('should render create task dialog', (tester) async {

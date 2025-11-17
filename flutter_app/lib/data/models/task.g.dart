@@ -16,8 +16,8 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
   status: $enumDecode(_$TaskStatusEnumMap, json['status']),
   priority: $enumDecode(_$PriorityEnumMap, json['priority']),
   dueDate: json['dueDate'] as String?,
-  createdAt: json['createdAt'] as String,
-  updatedAt: json['updatedAt'] as String,
+  createdAt: json['createdAt'] as String?,
+  updatedAt: json['updatedAt'] as String?,
   completedAt: json['completedAt'] as String?,
   topic: json['topic'] == null
       ? null

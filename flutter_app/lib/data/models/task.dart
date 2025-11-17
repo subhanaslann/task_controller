@@ -16,8 +16,8 @@ class Task {
   @JsonKey(name: 'priority')
   final Priority priority;
   final String? dueDate;
-  final String createdAt;
-  final String updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final String? completedAt;
   final TopicRef? topic;
   final Assignee? assignee;
@@ -32,8 +32,8 @@ class Task {
     required this.status,
     required this.priority,
     this.dueDate,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
     this.completedAt,
     this.topic,
     this.assignee,

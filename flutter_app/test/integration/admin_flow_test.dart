@@ -86,11 +86,11 @@ void main() {
         final response = await apiService.createUser(request);
 
         // Assert
-        expect(response.name, 'Test User $timestamp');
-        expect(response.role, UserRole.member);
-        expect(response.active, true);
+        expect(response.user.name, 'Test User $timestamp');
+        expect(response.user.role, UserRole.member);
+        expect(response.user.active, true);
 
-        print('✅ User created: ${response.name}');
+        print('✅ User created: ${response.user.name}');
       } catch (e) {
         if (e is DioException && e.response?.statusCode == 403) {
           print('⚠️  User limit reached or permission denied');

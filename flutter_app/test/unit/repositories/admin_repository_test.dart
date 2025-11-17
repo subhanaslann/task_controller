@@ -83,7 +83,7 @@ void main() {
       );
       
       when(() => mockApiService.createUser(any()))
-          .thenAnswer((_) async => newUser);
+          .thenAnswer((_) async => UserResponse(user: newUser));
 
       final request = CreateUserRequest(
         name: 'New User',
@@ -163,7 +163,7 @@ void main() {
       );
 
       when(() => mockApiService.updateUser(userId, any()))
-          .thenAnswer((_) async => updatedUser);
+          .thenAnswer((_) async => UserResponse(user: updatedUser));
 
       final request = UpdateUserRequest(
         name: 'Updated Name',
@@ -174,21 +174,23 @@ void main() {
       final result = await repository.updateUser(userId, request);
 
       // Assert
+      expect(result.name, 'Updated Name');
+      expect(result.active, false);
       verify(() => mockApiService.updateUser(userId, any())).called(1);
     });
 
-    test('updateUser should handle null parse error gracefully', () async {
+    test('updateUser should propagate exceptions', () async {
       // Arrange
       const userId = 'user-123';
       when(() => mockApiService.updateUser(userId, any()))
-          .thenThrow(Exception('type Null is not a subtype'));
+          .thenThrow(Exception('Network error'));
 
       final request = UpdateUserRequest(active: false);
 
-      // Act & Assert - Should not throw
+      // Act & Assert - Should throw
       expect(
         () => repository.updateUser(userId, request),
-        returnsNormally,
+        throwsException,
       );
     });
   });
