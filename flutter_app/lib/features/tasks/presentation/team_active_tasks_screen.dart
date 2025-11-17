@@ -14,7 +14,7 @@ import 'member_task_dialog.dart';
 // Topic'leri tasks ile birlikte yükle
 final teamActiveTopicsProvider = FutureProvider.autoDispose<List<Topic>>((ref) async {
   final apiService = ref.watch(apiServiceProvider);
-  
+
   // Tüm roller için /topics/active kullan (tasks dahil)
   final response = await apiService.getTopicsForUser();
   return response.topics;

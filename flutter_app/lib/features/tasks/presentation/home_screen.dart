@@ -60,8 +60,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert),
-            onSelected: (value) {
+              key: const Key('user_menu_button'),
+              icon: const Icon(Icons.account_circle),
+              onSelected: (String value) {
               switch (value) {
                 case 'admin':
                   Navigator.push(
@@ -87,7 +88,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   break;
               }
             },
-            itemBuilder: (context) => [
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               if (isAdmin)
                 PopupMenuItem(
                   value: 'admin',

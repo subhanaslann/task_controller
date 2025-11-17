@@ -31,8 +31,12 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
   }
 
   void _loadData() {
-    // Organization ID is automatically retrieved from JWT token
-    ref.read(organizationNotifierProvider.notifier).refresh();
+    // Only fetch if we don't already have organization data
+    final currentOrg = ref.read(currentOrganizationProvider);
+    if (currentOrg == null) {
+      // Organization ID is automatically retrieved from JWT token
+      ref.read(organizationNotifierProvider.notifier).refresh();
+    }
   }
 
   @override
