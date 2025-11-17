@@ -55,7 +55,7 @@ void main() {
           actionCalled = true;
         },
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('Error occurred'), findsOneWidget);
@@ -63,8 +63,8 @@ void main() {
       expect(find.text('Retry'), findsOneWidget);
 
       // Tap action button
-      await tester.tap(find.text('Retry'), warnIfMissed: false);
-      await tester.pump();
+      await tester.tap(find.text('Retry'));
+      await tester.pumpAndSettle();
       expect(actionCalled, true);
     });
 
@@ -143,15 +143,15 @@ void main() {
           actionPressed = true;
         },
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('Custom message'), findsOneWidget);
       expect(find.text('Action'), findsOneWidget);
 
       // Tap action
-      await tester.tap(find.text('Action'), warnIfMissed: false);
-      await tester.pump();
+      await tester.tap(find.text('Action'));
+      await tester.pumpAndSettle();
       expect(actionPressed, true);
     });
   });

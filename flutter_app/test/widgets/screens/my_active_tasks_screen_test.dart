@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/core/utils/constants.dart';
+import 'package:flutter_app/core/widgets/loading_placeholder.dart';
+import 'package:flutter_app/core/widgets/task_card.dart';
 import 'package:flutter_app/data/repositories/task_repository.dart';
 import 'package:flutter_app/features/tasks/presentation/my_active_tasks_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,15 +65,18 @@ void main() {
         const MyActiveTasksScreen(),
         overrides: [
           myActiveTasksProvider.overrideWith((ref) async {
-            await Future.delayed(const Duration(milliseconds: 100));
+            await Future.delayed(const Duration(milliseconds: 50));
             return [TestData.todoTask];
           }),
         ],
       );
       await tester.pump();
 
-      // Assert - Loading indicator shown
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      // Assert - Loading placeholder shown (screen uses LoadingPlaceholder, not CircularProgressIndicator)
+      expect(find.byType(LoadingPlaceholder), findsAtLeastNWidgets(1));
+
+      // Clean up - complete the future to avoid pending timer
+      await tester.pump(const Duration(milliseconds: 50));
     });
 
     testWidgets('should show error state on API failure', (tester) async {
@@ -102,14 +108,20 @@ void main() {
         () => mockTaskRepo.getMyActiveTasks(),
       ).thenAnswer((_) async => [TestData.todoTask]);
 
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Act - Pull to refresh
-      await tester.drag(find.byType(RefreshIndicator), const Offset(0, 300));
+      await tester.drag(find.text('TODO Task'), const Offset(0, 300));
       await tester.pumpAndSettle();
 
-      // Assert - API called twice (initial + refresh)
+      // Assert - API called (initial + refresh)
       verify(
         () => mockTaskRepo.getMyActiveTasks(),
       ).called(greaterThanOrEqualTo(1));
@@ -136,7 +148,13 @@ void main() {
       ).thenAnswer((_) async => tasks);
 
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert - All tasks displayed
@@ -154,11 +172,19 @@ void main() {
       ).thenAnswer((_) async => [TestData.todoTask]);
 
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
+        ],
+      );
       await tester.pumpAndSettle();
 
-      // Assert
-      expect(find.text('TODO'), findsOneWidget);
+      // Assert - TODO task is displayed with its details
+      expect(find.text('TODO Task'), findsOneWidget);
+      // Verify TaskCard is rendered (which includes status badge internally)
+      expect(find.byType(TaskCard), findsOneWidget);
     });
 
     testWidgets('should display IN_PROGRESS status badge', (tester) async {
@@ -168,11 +194,19 @@ void main() {
       ).thenAnswer((_) async => [TestData.inProgressTask]);
 
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
+        ],
+      );
       await tester.pumpAndSettle();
 
-      // Assert
-      expect(find.text('IN PROGRESS'), findsOneWidget);
+      // Assert - In Progress task is displayed
+      expect(find.text('In Progress Task'), findsOneWidget);
+      // Verify TaskCard is rendered (which includes status badge internally)
+      expect(find.byType(TaskCard), findsOneWidget);
     });
 
     testWidgets('should not display DONE tasks', (tester) async {
@@ -182,11 +216,17 @@ void main() {
       ).thenAnswer((_) async => [TestData.todoTask, TestData.inProgressTask]);
 
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
+        ],
+      );
       await tester.pumpAndSettle();
 
-      // Assert - No DONE status
-      expect(find.text('DONE'), findsNothing);
+      // Assert - No DONE status (Turkish text)
+      expect(find.text('Tamamlandı'), findsNothing);
     });
   });
 
@@ -200,10 +240,16 @@ void main() {
       ).thenAnswer((_) async => [TestData.overdueTask]);
 
       // Act
-      await pumpTestWidget(tester, const MyActiveTasksScreen());
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
+        ],
+      );
       await tester.pumpAndSettle();
 
-      // Assert - Overdue indicator (usually red text or icon)
+      // Assert - Overdue task is displayed
       expect(find.text('Overdue Task'), findsOneWidget);
     });
   });

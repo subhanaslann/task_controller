@@ -110,6 +110,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     title: const Text('Role'),
                     subtitle: Text(_getRoleName(currentUser.role.name)),
                   ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                    onTap: () => _handleLogout(),
+                  ),
                 ],
               ),
             ),
@@ -199,6 +205,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return 'Guest';
       default:
         return role;
+    }
+  }
+
+  Future<void> _handleLogout() async {
+    final authRepo = ref.read(authRepositoryProvider);
+    await authRepo.logout();
+    if (mounted) {
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
     }
   }
 

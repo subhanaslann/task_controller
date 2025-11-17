@@ -74,13 +74,14 @@ void main() {
         const SettingsScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
+          currentOrganizationProvider.overrideWith((ref) => testOrganization),
           localeProvider.overrideWith((ref) => LocaleNotifier()),
         ],
       );
       await tester.pumpAndSettle();
 
-      // Assert
-      expect(find.text('Language'), findsOneWidget);
+      // Assert - Language option displayed (appears in section header + list tile)
+      expect(find.text('Language'), findsAtLeastNWidgets(1));
       expect(find.byIcon(Icons.language), findsOneWidget);
     });
 
