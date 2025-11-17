@@ -39,7 +39,7 @@ export class ValidationError extends AppError {
 
 export class ConflictError extends AppError {
   constructor(message: string = 'Resource conflict') {
-    super('CONFLICT', message, 409);
+    super('CONFLICT', message, 400);
     this.name = 'ConflictError';
   }
 }
@@ -67,7 +67,7 @@ export class OrganizationUserLimitReachedError extends AppError {
     super(
       'ORGANIZATION_USER_LIMIT_REACHED',
       `Your organization has reached the maximum of ${maxUsers} users`,
-      403
+      400
     );
     this.name = 'OrganizationUserLimitReachedError';
   }
@@ -75,7 +75,7 @@ export class OrganizationUserLimitReachedError extends AppError {
 
 export class CrossOrganizationAccessError extends AppError {
   constructor(message: string = 'You do not have access to resources from another organization') {
-    super('CROSS_ORGANIZATION_ACCESS', message, 403);
+    super('CROSS_ORGANIZATION_ACCESS', message, 404);
     this.name = 'CrossOrganizationAccessError';
   }
 }

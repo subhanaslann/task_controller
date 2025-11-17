@@ -14,6 +14,7 @@ describe('4. User Management Tests', () => {
   let acmeMemberToken: string;
   let acmeMemberId: string;
   let techManagerToken: string;
+  // @ts-expect-error - This variable will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let newUserId: string;
 

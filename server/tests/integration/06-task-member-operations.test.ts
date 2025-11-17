@@ -13,6 +13,7 @@ describe('6. Task Management - Member Operations Tests', () => {
   let acmeMemberToken: string;
   let acmeGuestToken: string;
   let techManagerToken: string;
+  // @ts-expect-error - This variable will be used in future tests
   let memberTaskId: string;
   let acmeTopicId: string;
 

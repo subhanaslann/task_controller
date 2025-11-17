@@ -13,7 +13,9 @@ describe('7. Task Management - Admin Operations Tests', () => {
   let acmeManagerToken: string;
   let acmeMemberToken: string;
   let acmeMemberId: string;
+  // @ts-expect-error - This variable will be used in future tests
   let techManagerToken: string;
+  // @ts-expect-error - This variable will be used in future tests
   let adminTaskId: string;
   let acmeTopicId: string;
 

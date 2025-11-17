@@ -15,6 +15,7 @@ describe('5. Topic Management Tests', () => {
   let acmeGuestToken: string;
   let techManagerToken: string;
   let acmeTopicId: string;
+  // @ts-expect-error - This variable will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let newTopicId: string;
 

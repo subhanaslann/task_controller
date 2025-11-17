@@ -10,25 +10,35 @@ const app = createApp();
 
 describe('2. Authentication & Registration Tests', () => {
   // Variables for storing test data between tests
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let acmeManagerToken: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let acmeManagerId: string;
   let acmeOrgId: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let acmeMemberToken: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let acmeMemberId: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let acmeGuestToken: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let acmeGuestId: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let techManagerToken: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let techOrgId: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let newOrgId: string;
+  // @ts-expect-error - These variables will be used in future tests
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let newManagerToken: string;
 

@@ -28,7 +28,7 @@ export const requireTeamManagerOrAdmin = (
   next: NextFunction
 ): void => {
   if (!req.user || (req.user.role !== Role.TEAM_MANAGER && req.user.role !== Role.ADMIN)) {
-    return next(new ForbiddenError('Team Manager or Admin access required'));
+    return next(new ForbiddenError('Access forbidden: Team Manager or Admin role required'));
   }
   next();
 };

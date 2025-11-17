@@ -91,6 +91,12 @@ export const deleteTaskSchema = z.object({
   }),
 });
 
+export const getTaskByIdSchema = z.object({
+  params: z.object({
+    id: z.string().uuid('Invalid task ID'),
+  }),
+});
+
 // Topic schemas
 export const createTopicSchema = z.object({
   body: z.object({
@@ -123,7 +129,8 @@ export const createMemberTaskSchema = z.object({
     topicId: z.string().uuid('Invalid topic ID').optional(),
     title: z.string().min(1, 'Title is required'),
     note: z.string().optional(),
+    status: z.enum(['TODO', 'IN_PROGRESS', 'DONE']).optional(),
     priority: z.enum(['LOW', 'NORMAL', 'HIGH']).optional(),
     dueDate: z.string().datetime().optional(),
-  }),
+  }).strict(),
 });

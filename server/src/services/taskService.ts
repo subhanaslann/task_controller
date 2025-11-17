@@ -20,6 +20,7 @@ export interface CreateMemberTaskInput {
   topicId: string;
   title: string;
   note?: string;
+  status?: TaskStatus;
   priority?: Priority;
   dueDate?: Date;
   assigneeId: string; // Set by the system
@@ -232,7 +233,7 @@ export const createMemberTask = async (organizationId: string, input: CreateMemb
       title: input.title,
       note: input.note,
       assigneeId: input.assigneeId, // Always set to current user
-      status: 'TODO',
+      status: input.status ?? 'TODO',
       priority: input.priority ?? 'NORMAL',
       dueDate: input.dueDate,
     },
@@ -317,7 +318,7 @@ export const deleteTask = async (taskId: string, organizationId: string) => {
     where: { id: taskId },
   });
 
-  return { success: true };
+  return { message: 'Task deleted successfully' };
 };
 
 export const getAllTasks = async (organizationId: string) => {

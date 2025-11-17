@@ -11,7 +11,7 @@ export const errorHandler = (
 ): void => {
   // Use request logger if available, otherwise use default logger
   const requestLogger = req.logger || logger;
-  
+
   requestLogger.error('❌ Error handled:', {
     error: err.message,
     stack: err.stack,
@@ -24,12 +24,13 @@ export const errorHandler = (
 
   // Handle Zod validation errors
   if (err instanceof ZodError) {
+    // Extract first error with field path
+    const firstError = err.errors[0];
+    const field = firstError?.path?.join('.') || '';
+    const message = firstError?.message || 'Validation failed';
+    const errorMessage = field ? `${field}: ${message}` : message;
     res.status(400).json({
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Validation failed',
-        details: err.errors,
-      },
+      error: errorMessage,
     });
     return;
   }
@@ -37,10 +38,7 @@ export const errorHandler = (
   // Handle custom app errors
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
-      error: {
-        code: err.code,
-        message: err.message,
-      },
+      error: err.message,
     });
     return;
   }
@@ -49,11 +47,8 @@ export const errorHandler = (
   if (err.name === 'PrismaClientKnownRequestError') {
     const prismaError = err as any;
     if (prismaError.code === 'P2002') {
-      res.status(409).json({
-        error: {
-          code: 'CONFLICT',
-          message: 'A record with this value already exists',
-        },
+      res.status(400).json({
+        error: 'A record with this value already exists',
       });
       return;
     }
@@ -61,9 +56,6 @@ export const errorHandler = (
 
   // Default server error
   res.status(500).json({
-    error: {
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'An unexpected error occurred',
-    },
+    error: 'An unexpected error occurred',
   });
 };

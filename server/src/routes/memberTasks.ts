@@ -1,7 +1,7 @@
 import { Router, Response, NextFunction } from 'express';
 import { authenticate, AuthRequest, ensureOrganizationAccess } from '../middleware/auth';
 import { validate } from '../middleware/validate';
-import { createMemberTaskSchema, updateTaskSchema, updateTaskStatusSchema } from '../schemas';
+import { createMemberTaskSchema, updateTaskSchema, updateTaskStatusSchema, getTaskByIdSchema } from '../schemas';
 import {
   createMemberTask,
   updateMemberTask,
@@ -18,6 +18,73 @@ const router = Router();
 
 // All member task routes require authentication
 router.use(authenticate);
+
+// GET /tasks/:id - Get task by ID (members can view their own tasks)
+router.get(
+  '/:id',
+  validate(getTaskByIdSchema),
+  ensureOrganizationAccess('task'),
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const userId = req.user!.id;
+      const organizationId = req.user!.organizationId;
+      const userRole = req.user!.role;
+
+      // Get task from the same organization
+      const task = await prisma.task.findFirst({
+        where: {
+          id,
+          organizationId,
+        },
+        include: {
+          topic: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+          assignee: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+            },
+          },
+        },
+      });
+
+      if (!task) {
+        throw new NotFoundError('Task not found');
+      }
+
+      // Members can only view their own tasks
+      if (userRole === Role.MEMBER && task.assigneeId !== userId) {
+        throw new NotFoundError('Task not found');
+      }
+
+      // Guest users have limited field access
+      if (userRole === Role.GUEST) {
+        const limitedTask = {
+          id: task.id,
+          title: task.title,
+          status: task.status,
+          priority: task.priority,
+          dueDate: task.dueDate,
+          assignee: task.assignee ? {
+            id: task.assignee.id,
+            name: task.assignee.name,
+          } : null,
+        };
+        res.json({ task: limitedTask });
+      } else {
+        res.json({ task });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 // POST /tasks - Create task for self (member only)
 router.post(
@@ -38,6 +105,7 @@ router.post(
         topicId: req.body.topicId,
         title: req.body.title,
         note: req.body.note,
+        status: req.body.status,
         priority: req.body.priority,
         dueDate: req.body.dueDate ? new Date(req.body.dueDate) : undefined,
         assigneeId: userId, // Always assign to self
