@@ -1,0 +1,796 @@
+{
+  "task_title": "Flutter App: Run All Tests and Fix Production Code to Make Tests Pass",
+  "task_type": "test_driven_development_implementation",
+  "priority": "CRITICAL",
+  "estimated_duration": "4-6 hours",
+
+  "critical_rules": {
+    "file_modification_policy": {
+      "NEVER_TOUCH": [
+        "test/",
+        "test/**/*",
+        "test/unit/**/*",
+        "test/widgets/**/*",
+        "test/integration/**/*",
+        "test/helpers/**/*",
+        "test/mocks/**/*",
+        "**/*_test.dart"
+      ],
+      "ONLY_MODIFY": [
+        "lib/",
+        "lib/core/**/*",
+        "lib/data/**/*",
+        "lib/features/**/*",
+        "lib/l10n/**/*"
+      ],
+      "your_only_job": "FIX PRODUCTION CODE TO MAKE TESTS PASS"
+    },
+
+    "absolutely_forbidden_actions": [
+      "❌ NO commenting out test code with // to make tests pass",
+      "❌ NO skipping tests with skip: true unless absolutely justified",
+      "❌ NO modifying test expectations to match broken code",
+      "❌ NO removing assertions to avoid failures",
+      "❌ NO changing test files in test/ folder (unless explicitly asked)",
+      "❌ NO modifying test/helpers/ files",
+      "❌ NO editing *_test.dart files to 'fix' failures"
+    ],
+
+    "required_approach": [
+      "✅ READ the failing test file COMPLETELY",
+      "✅ UNDERSTAND what the test expects",
+      "✅ FIND the production file being tested (in lib/ folder)",
+      "✅ FIX PRODUCTION CODE in lib/ to match test requirements",
+      "✅ ADD MISSING IMPLEMENTATIONS when tests expect functionality",
+      "✅ UPDATE PRODUCTION CODE when tests reveal bugs",
+      "✅ MAINTAIN BACKEND COMPATIBILITY at all times",
+      "✅ PRESERVE ALL TEST LOGIC and assertions"
+    ],
+
+    "core_principle": {
+      "tests_are": "REQUIREMENTS that production code must satisfy",
+      "tests_represent": "THE SPECIFICATION",
+      "production_code_is": "THE IMPLEMENTATION",
+      "when_test_fails": "It means production code is wrong, NOT the test"
+    }
+  },
+
+  "project_context": {
+    "project_name": "Mini Task Tracker - Flutter Mobile App",
+    "architecture": "Clean Architecture with Feature-based organization",
+    "state_management": "Riverpod 2.6.1",
+    "backend_api": "Node.js REST API at http://localhost:8080 (dev) or https://api.diplomam.net (prod)",
+    "database": "Backend uses Prisma + SQLite (multi-tenant)",
+
+    "tech_stack": {
+      "flutter_version": "3.9.2+",
+      "dart_version": "3.9.2+",
+      "key_packages": [
+        "flutter_riverpod: ^2.6.1",
+        "dio: ^5.7.0",
+        "retrofit: ^4.4.1",
+        "go_router: ^14.6.2",
+        "flutter_secure_storage: ^9.2.2",
+        "hive: ^2.2.3",
+        "connectivity_plus: ^6.1.2",
+        "sentry_flutter: ^8.11.0",
+        "firebase_analytics: ^11.3.5"
+      ],
+      "test_packages": [
+        "flutter_test (sdk)",
+        "mockito: ^5.4.4",
+        "mocktail: ^1.0.4",
+        "integration_test (sdk)"
+      ]
+    },
+
+    "directory_structure": {
+      "production_code": {
+        "lib/core/": "Core infrastructure (network, storage, theme, widgets, utils, services)",
+        "lib/data/": "Data layer (models, repositories, datasources, cache, sync)",
+        "lib/features/": "Feature modules (auth, tasks, admin, settings)",
+        "lib/l10n/": "Localization (EN, TR)"
+      },
+      "test_code": {
+        "test/unit/": "220+ unit tests (repositories, models, utilities, services, network)",
+        "test/widgets/": "140+ widget tests (screens, components, dialogs)",
+        "test/integration/": "90+ integration tests (flows, API endpoints, compliance)",
+        "test/helpers/": "Test utilities and test data generators",
+        "test/mocks/": "Mock objects for testing"
+      }
+    },
+
+    "test_statistics": {
+      "total_test_files": 60,
+      "total_tests": "450+",
+      "unit_tests": "220+",
+      "widget_tests": "140+",
+      "integration_tests": "90+",
+      "target_coverage": "70%",
+      "expected_coverage": "~80%"
+    }
+  },
+
+  "workflow_for_each_failing_test": {
+    "step_1_identify_problem": {
+      "action": "Run the test",
+      "command": "flutter test test/path/to/failing_test.dart",
+      "observe": [
+        "Read the error message carefully",
+        "Identify which assertion failed",
+        "Note the expected vs actual values",
+        "Understand the stack trace"
+      ]
+    },
+
+    "step_2_understand_requirement": {
+      "action": "Open the test file (READ ONLY, DON'T EDIT!)",
+      "analyze": [
+        "Find the failing test case",
+        "Understand what the test expects:",
+        "  - Which widget/class/function should exist?",
+        "  - What text should be displayed?",
+        "  - What should happen on interaction?",
+        "  - What data structure is expected?",
+        "  - What business logic should be implemented?"
+      ]
+    },
+
+    "step_3_locate_production_code": {
+      "action": "Identify the file being tested",
+      "patterns": {
+        "test_file": "test/widgets/components/priority_badge_test.dart",
+        "production_file": "lib/core/widgets/priority_badge.dart",
+        "rule": "Usually found in import statements at top of test file"
+      },
+      "common_mappings": {
+        "test/unit/repositories/*_test.dart": "lib/data/repositories/*.dart",
+        "test/unit/models/*_test.dart": "lib/data/models/*.dart",
+        "test/unit/utils/*_test.dart": "lib/core/utils/*.dart",
+        "test/unit/services/*_test.dart": "lib/core/services/*.dart",
+        "test/unit/network/*_test.dart": "lib/core/network/*.dart",
+        "test/widgets/screens/*_test.dart": "lib/features/*/presentation/*.dart",
+        "test/widgets/components/*_test.dart": "lib/core/widgets/*.dart"
+      }
+    },
+
+    "step_4_fix_production_code": {
+      "action": "Open the production file in lib/",
+      "tasks": [
+        "Implement the missing feature",
+        "Fix the bug",
+        "Match the expected behavior",
+        "Ensure types match expectations",
+        "Add missing methods/functions",
+        "Correct logic errors",
+        "Update constants/enums if needed"
+      ],
+      "important_notes": [
+        "DO NOT modify the test file",
+        "DO NOT change test expectations",
+        "DO NOT comment out failing assertions",
+        "ONLY fix production code in lib/ folder"
+      ]
+    },
+
+    "step_5_verify": {
+      "action": "Re-run the specific test",
+      "commands": [
+        "flutter test test/path/to/specific_test.dart",
+        "If still failing, repeat from Step 2",
+        "Once passing, run full test suite to check for regressions",
+        "flutter test"
+      ],
+      "validation": [
+        "Test should pass without any modifications to test files",
+        "No commented out code in tests",
+        "All assertions should run and pass",
+        "No skip: true flags added"
+      ]
+    }
+  },
+
+  "task_execution_plan": {
+    "phase_1_setup_and_assessment": {
+      "order": 1,
+      "tasks": [
+        {
+          "task": "Navigate to flutter_app directory",
+          "command": "cd flutter_app"
+        },
+        {
+          "task": "Ensure dependencies are installed",
+          "command": "flutter pub get"
+        },
+        {
+          "task": "Generate any missing generated files",
+          "command": "flutter pub run build_runner build --delete-conflicting-outputs"
+        },
+        {
+          "task": "Run ALL tests to get baseline",
+          "command": "flutter test --reporter expanded > test_results_baseline.txt 2>&1 || true",
+          "note": "This will show which tests are currently failing"
+        },
+        {
+          "task": "Analyze baseline results",
+          "action": "Read test_results_baseline.txt and create a list of all failing tests"
+        }
+      ]
+    },
+
+    "phase_2_fix_unit_tests": {
+      "order": 2,
+      "priority": "HIGH",
+      "category": "Unit Tests (220+ tests)",
+      "subdirectories": [
+        "test/unit/repositories/",
+        "test/unit/models/",
+        "test/unit/utils/",
+        "test/unit/services/",
+        "test/unit/network/",
+        "test/unit/storage/"
+      ],
+      "approach": {
+        "1_repositories": {
+          "tests": [
+            "test/unit/repositories/auth_repository_test.dart (12 tests)",
+            "test/unit/repositories/task_repository_test.dart (15 tests)",
+            "test/unit/repositories/organization_repository_test.dart (13 tests)",
+            "test/unit/repositories/admin_repository_test.dart (15 tests)"
+          ],
+          "production_files": [
+            "lib/data/repositories/auth_repository.dart",
+            "lib/data/repositories/task_repository.dart",
+            "lib/data/repositories/organization_repository.dart",
+            "lib/data/repositories/admin_repository.dart"
+          ],
+          "common_issues": [
+            "Missing methods",
+            "Incorrect return types",
+            "Missing error handling",
+            "Incorrect API endpoint calls"
+          ]
+        },
+        "2_models": {
+          "tests": [
+            "test/unit/models/user_model_test.dart (12 tests)",
+            "test/unit/models/task_model_test.dart (8 tests)",
+            "test/unit/models/organization_model_test.dart (10 tests)",
+            "test/unit/models/topic_model_test.dart (13 tests)"
+          ],
+          "production_files": [
+            "lib/data/models/user.dart",
+            "lib/data/models/task.dart",
+            "lib/data/models/organization.dart",
+            "lib/data/models/topic.dart"
+          ],
+          "common_issues": [
+            "JSON serialization errors",
+            "Missing fields",
+            "Incorrect field types",
+            "Enum parsing issues",
+            "Missing copyWith methods"
+          ]
+        },
+        "3_utils": {
+          "tests": [
+            "test/unit/utils/datetime_helper_test.dart (22 tests)",
+            "test/unit/utils/error_handler_test.dart (10 tests)",
+            "test/unit/utils/validation_test.dart (16 tests)",
+            "test/unit/utils/debounce_test.dart (5 tests)",
+            "test/unit/utils/result_test.dart (18 tests)",
+            "test/unit/utils/paginated_list_state_test.dart (11 tests)",
+            "test/unit/utils/constants_test.dart (6 tests)"
+          ],
+          "production_files": [
+            "lib/core/utils/datetime_helper.dart",
+            "lib/core/utils/error_handler.dart",
+            "lib/core/utils/validation.dart (CREATE IF MISSING)",
+            "lib/core/utils/debounce.dart",
+            "lib/core/utils/result.dart",
+            "lib/core/utils/paginated_list_state.dart",
+            "lib/core/utils/constants.dart"
+          ],
+          "critical_note": "validation_test.dart has validation functions INSIDE the test file. These must be moved to lib/core/utils/validation.dart"
+        },
+        "4_services": {
+          "tests": [
+            "test/unit/services/analytics_service_test.dart (9 tests)",
+            "test/unit/services/error_tracking_service_test.dart (7 tests)"
+          ],
+          "production_files": [
+            "lib/core/services/analytics_service.dart",
+            "lib/core/services/error_tracking_service.dart"
+          ]
+        },
+        "5_network": {
+          "tests": [
+            "test/unit/network/dio_client_test.dart (4 tests)",
+            "test/unit/network/dio_error_handler_test.dart (7 tests)",
+            "test/unit/network/auth_interceptor_test.dart (3 tests)",
+            "test/unit/network/retry_interceptor_test.dart (4 tests)"
+          ],
+          "production_files": [
+            "lib/core/network/dio_client.dart",
+            "lib/core/network/dio_error_handler.dart",
+            "lib/core/network/interceptors/auth_interceptor.dart",
+            "lib/core/network/interceptors/retry_interceptor.dart"
+          ]
+        },
+        "6_storage": {
+          "tests": [
+            "test/unit/storage/secure_storage_test.dart (8 tests)"
+          ],
+          "production_files": [
+            "lib/core/storage/secure_storage.dart"
+          ]
+        }
+      },
+      "execution_for_each_test_file": [
+        "1. Run the test file: flutter test test/unit/path/to/test.dart",
+        "2. Read the test file to understand requirements",
+        "3. Identify the production file being tested",
+        "4. Fix production code to match test expectations",
+        "5. Re-run test until it passes",
+        "6. Move to next test file"
+      ]
+    },
+
+    "phase_3_fix_widget_tests": {
+      "order": 3,
+      "priority": "HIGH",
+      "category": "Widget Tests (140+ tests)",
+      "subdirectories": [
+        "test/widgets/screens/",
+        "test/widgets/components/",
+        "test/widgets/dialogs/"
+      ],
+      "approach": {
+        "1_screens": {
+          "tests": [
+            "test/widgets/screens/login_screen_test.dart (10 tests)",
+            "test/widgets/screens/registration_screen_test.dart (8 tests)",
+            "test/widgets/screens/home_screen_test.dart (9 tests)",
+            "test/widgets/screens/my_active_tasks_screen_test.dart (8 tests)",
+            "test/widgets/screens/team_active_tasks_screen_test.dart (6 tests)",
+            "test/widgets/screens/my_completed_tasks_screen_test.dart (4 tests)",
+            "test/widgets/screens/admin_screen_test.dart (7 tests)",
+            "test/widgets/screens/settings_screen_test.dart (5 tests)",
+            "test/widgets/screens/guest_topics_screen_test.dart (7 tests)"
+          ],
+          "production_files": [
+            "lib/features/auth/presentation/login_screen.dart",
+            "lib/features/auth/presentation/registration_screen.dart",
+            "lib/features/tasks/presentation/home_screen.dart",
+            "lib/features/tasks/presentation/my_active_tasks_screen.dart",
+            "lib/features/tasks/presentation/team_active_tasks_screen.dart",
+            "lib/features/tasks/presentation/my_completed_tasks_screen.dart",
+            "lib/features/admin/presentation/admin_screen.dart",
+            "lib/features/settings/presentation/settings_screen.dart",
+            "lib/features/tasks/presentation/guest_topics_screen.dart"
+          ],
+          "common_issues": [
+            "Missing widgets",
+            "Incorrect text content",
+            "Missing form fields",
+            "Incorrect widget tree structure",
+            "Missing user interaction handlers",
+            "State management issues"
+          ]
+        },
+        "2_components": {
+          "tests": [
+            "test/widgets/components/app_button_test.dart (14 tests)",
+            "test/widgets/components/app_text_field_test.dart (12 tests)",
+            "test/widgets/components/priority_badge_test.dart (3 tests)",
+            "test/widgets/components/user_avatar_test.dart (4 tests)",
+            "test/widgets/components/app_empty_state_test.dart (3 tests)",
+            "test/widgets/components/app_error_view_test.dart (4 tests)",
+            "test/widgets/components/app_loading_indicator_test.dart (2 tests)",
+            "test/widgets/components/app_dialog_test.dart (5 tests)",
+            "test/widgets/components/app_skeleton_loader_test.dart (4 tests)",
+            "test/widgets/components/app_snackbar_test.dart (5 tests)",
+            "test/widgets/components/filter_bar_test.dart (6 tests)",
+            "test/widgets/components/form_controls_test.dart (8 tests)",
+            "test/widgets/components/infinite_scroll_view_test.dart (5 tests)",
+            "test/widgets/components/loading_placeholder_test.dart (7 tests)",
+            "test/widgets/components/empty_state_test.dart (4 tests)",
+            "test/widgets/components/organization_tab_test.dart (6 tests)"
+          ],
+          "production_files": [
+            "lib/core/widgets/app_button.dart",
+            "lib/core/widgets/app_text_field.dart",
+            "lib/core/widgets/priority_badge.dart",
+            "lib/core/widgets/user_avatar.dart",
+            "lib/core/widgets/app_empty_state.dart",
+            "lib/core/widgets/app_error_view.dart",
+            "lib/core/widgets/app_loading_indicator.dart",
+            "lib/core/widgets/app_dialog.dart",
+            "lib/core/widgets/app_skeleton_loader.dart",
+            "lib/core/widgets/app_snackbar.dart",
+            "lib/core/widgets/filter_bar.dart",
+            "lib/core/widgets/form_controls.dart",
+            "lib/core/widgets/infinite_scroll_view.dart",
+            "lib/core/widgets/loading_placeholder.dart",
+            "lib/core/widgets/empty_state.dart",
+            "lib/features/admin/presentation/widgets/organization_tab.dart"
+          ]
+        },
+        "3_dialogs": {
+          "tests": [
+            "test/widgets/dialogs/member_task_dialog_test.dart (8 tests)",
+            "test/widgets/dialogs/admin_dialogs_test.dart (10 tests)"
+          ],
+          "production_files": [
+            "lib/features/tasks/presentation/dialogs/member_task_dialog.dart",
+            "lib/features/admin/presentation/dialogs/*.dart"
+          ]
+        }
+      }
+    },
+
+    "phase_4_fix_integration_tests": {
+      "order": 4,
+      "priority": "MEDIUM",
+      "category": "Integration Tests (90+ tests)",
+      "prerequisites": [
+        "Backend server must be running on http://localhost:8080",
+        "Database must be seeded with test data",
+        "Test accounts must exist (admin@acme.com, john@acme.com, alice@acme.com, charlie@acme.com)"
+      ],
+      "tests": [
+        {
+          "file": "test/integration/api_integration_test.dart",
+          "tests": 23,
+          "description": "API endpoint tests",
+          "requires_backend": true
+        },
+        {
+          "file": "test/integration/auth_flow_test.dart",
+          "tests": 8,
+          "description": "Complete authentication workflows",
+          "requires_backend": true
+        },
+        {
+          "file": "test/integration/task_flow_test.dart",
+          "tests": 9,
+          "description": "Task CRUD workflows",
+          "requires_backend": true
+        },
+        {
+          "file": "test/integration/admin_flow_test.dart",
+          "tests": 8,
+          "description": "Admin operations workflows",
+          "requires_backend": true
+        },
+        {
+          "file": "test/integration/guest_flow_test.dart",
+          "tests": 9,
+          "description": "Guest user restriction workflows",
+          "requires_backend": true
+        },
+        {
+          "file": "test/integration/backend_api_compliance_test.dart",
+          "tests": "33+",
+          "description": "Backend API compliance validation",
+          "requires_backend": true
+        }
+      ],
+      "note": "Integration tests validate end-to-end workflows. If they fail, the issue is likely in repository implementations or API service configuration."
+    },
+
+    "phase_5_final_validation": {
+      "order": 5,
+      "priority": "CRITICAL",
+      "tasks": [
+        {
+          "task": "Run complete test suite",
+          "command": "flutter test --reporter expanded",
+          "expected_result": "All 450+ tests should pass"
+        },
+        {
+          "task": "Generate coverage report",
+          "command": "flutter test --coverage",
+          "expected_result": "Coverage should be ~80% or higher"
+        },
+        {
+          "task": "Verify no test files were modified",
+          "command": "git diff test/",
+          "expected_result": "No changes in test directory"
+        },
+        {
+          "task": "Run flutter analyze",
+          "command": "flutter analyze",
+          "expected_result": "No errors, minimal warnings"
+        },
+        {
+          "task": "Verify app builds successfully",
+          "command": "flutter build apk --debug || flutter build ios --debug",
+          "expected_result": "Build succeeds without errors"
+        }
+      ]
+    },
+
+    "phase_6_documentation_and_commit": {
+      "order": 6,
+      "priority": "MEDIUM",
+      "tasks": [
+        {
+          "task": "Document all fixes made",
+          "action": "Create a summary of which production files were modified and why"
+        },
+        {
+          "task": "Verify backend compatibility",
+          "action": "Ensure all API calls match backend specification"
+        },
+        {
+          "task": "Create git commit",
+          "command": "git add lib/ && git commit -m \"Fix production code to pass all 450+ tests\n\n- Fixed unit tests (220+ tests)\n- Fixed widget tests (140+ tests)\n- Fixed integration tests (90+ tests)\n- Achieved ~80% code coverage\n- No test files modified\n- All assertions passing\"",
+          "note": "Only commit when ALL tests pass"
+        },
+        {
+          "task": "Push to remote branch",
+          "command": "git push -u origin claude/fix-tests-production-01E7VopJYBpx5F8gDXefUAHk",
+          "note": "Push to the designated branch"
+        }
+      ]
+    }
+  },
+
+  "communication_template": {
+    "when_fixing_test": {
+      "format": "✅ Fixed: {test_file_path}\n\nProblem: {description_of_what_test_expected}\nProduction file: {production_file_path}\n\nChange made in PRODUCTION CODE:\n- Line {line_number}: {description_of_change}\n\nTest now passes ✅",
+      "example": "✅ Fixed: test/widgets/components/priority_badge_test.dart\n\nProblem: Test expected Color(0xFFEF4444) for HIGH priority\nProduction file: lib/core/widgets/priority_badge.dart\n\nChange made in PRODUCTION CODE:\n- Line 80: Changed Colors.red to Color(0xFFEF4444)\n\nTest now passes ✅"
+    },
+
+    "when_creating_missing_file": {
+      "format": "🆕 Created: {production_file_path}\n\nReason: Test {test_file_path} expects this file to exist\nImplemented: {list_of_functions_or_classes}\n\nTest now passes ✅"
+    },
+
+    "when_test_requires_clarification": {
+      "format": "⚠️  Need clarification for: {test_file_path}\n\nIssue: {description_of_ambiguity}\nOptions:\n1. {option_1}\n2. {option_2}\n\nPlease advise which approach to take."
+    },
+
+    "progress_update": {
+      "format": "📊 Progress Update:\n\nPhase: {current_phase}\nTests Fixed: {number_fixed}/{total_tests}\nCurrent: {current_test_file}\nStatus: {status_description}"
+    }
+  },
+
+  "backend_compatibility": {
+    "api_base_url_dev": "http://localhost:8080",
+    "api_base_url_prod": "https://api.diplomam.net",
+
+    "critical_endpoints": {
+      "auth": {
+        "login": "POST /auth/login",
+        "register": "POST /auth/register"
+      },
+      "tasks": {
+        "view": "GET /tasks/view?scope={my_active|team_active|my_done}",
+        "create_member": "POST /tasks",
+        "update": "PATCH /tasks/:id",
+        "update_status": "PATCH /tasks/:id/status",
+        "delete": "DELETE /tasks/:id"
+      },
+      "admin": {
+        "users_list": "GET /users",
+        "users_create": "POST /users",
+        "users_update": "PATCH /users/:id",
+        "users_delete": "DELETE /users/:id",
+        "topics_list": "GET /admin/topics",
+        "topics_create": "POST /admin/topics",
+        "topics_update": "PATCH /admin/topics/:id",
+        "topics_delete": "DELETE /admin/topics/:id",
+        "tasks_list": "GET /admin/tasks",
+        "tasks_create": "POST /admin/tasks",
+        "tasks_update": "PATCH /admin/tasks/:id",
+        "tasks_delete": "DELETE /admin/tasks/:id"
+      },
+      "organization": {
+        "get": "GET /organization",
+        "update": "PATCH /organization",
+        "stats": "GET /organization/stats"
+      },
+      "topics": {
+        "active": "GET /topics/active"
+      },
+      "health": {
+        "check": "GET /health"
+      }
+    },
+
+    "business_rules_to_maintain": [
+      "JWT authentication (token in Authorization: Bearer {token})",
+      "Role-based access control (ADMIN > TEAM_MANAGER > MEMBER > GUEST)",
+      "Organization isolation (organizationId in all queries)",
+      "Guest field filtering (server filters fields for GUEST users)",
+      "User limit (max 15 active users per organization)",
+      "Auto-assignment (member tasks auto-assigned to creator)",
+      "Status transitions (TODO → IN_PROGRESS → DONE)",
+      "completedAt auto-set when status becomes DONE",
+      "Team manager cannot create ADMIN/TEAM_MANAGER users"
+    ],
+
+    "error_codes_to_handle": {
+      "401": "Unauthorized (missing/invalid/expired token)",
+      "403": "Forbidden (insufficient permissions)",
+      "404": "Not Found (resource doesn't exist)",
+      "409": "Conflict (duplicate email/username)",
+      "400": "Validation Error (invalid input)",
+      "503": "Service Unavailable (server down)"
+    }
+  },
+
+  "common_failure_patterns_and_solutions": {
+    "pattern_1_missing_production_file": {
+      "symptom": "Test imports a file that doesn't exist",
+      "error_example": "Error: Could not resolve lib/core/utils/validation.dart",
+      "solution": [
+        "1. Read the test file to understand required functions",
+        "2. Create the missing production file in lib/",
+        "3. Implement all functions/classes the test expects",
+        "4. Ensure exports are correct"
+      ]
+    },
+
+    "pattern_2_missing_method": {
+      "symptom": "NoSuchMethodError in test",
+      "error_example": "NoSuchMethodError: The method 'validateEmail' was called on null",
+      "solution": [
+        "1. Identify which class should have the method",
+        "2. Add the method to the production class",
+        "3. Implement according to test expectations"
+      ]
+    },
+
+    "pattern_3_incorrect_return_type": {
+      "symptom": "Type mismatch error",
+      "error_example": "Expected type 'Future<Result<User>>' but got 'Future<User>'",
+      "solution": [
+        "1. Check test to see expected return type",
+        "2. Update production method signature",
+        "3. Wrap return value in expected type (e.g., Result.success(user))"
+      ]
+    },
+
+    "pattern_4_json_serialization_error": {
+      "symptom": "JSON parsing fails in model tests",
+      "error_example": "type 'Null' is not a subtype of type 'String'",
+      "solution": [
+        "1. Add null safety to model fields",
+        "2. Provide default values where appropriate",
+        "3. Re-run build_runner to regenerate .g.dart files",
+        "4. Command: flutter pub run build_runner build --delete-conflicting-outputs"
+      ]
+    },
+
+    "pattern_5_widget_not_found": {
+      "symptom": "Widget test can't find expected widget",
+      "error_example": "Expected to find at least one widget matching type 'AppButton', but found none",
+      "solution": [
+        "1. Check screen/widget implementation",
+        "2. Add missing widget to widget tree",
+        "3. Ensure correct widget type is used",
+        "4. Verify widget is not conditionally hidden"
+      ]
+    },
+
+    "pattern_6_enum_parsing": {
+      "symptom": "Enum parse error in model",
+      "error_example": "Invalid value for enum Priority: 'HIGH'",
+      "solution": [
+        "1. Check enum definition in production code",
+        "2. Ensure enum values match backend values (usually lowercase)",
+        "3. Add proper JSON serialization annotations",
+        "4. Example: @JsonValue('high') for Priority.high"
+      ]
+    },
+
+    "pattern_7_dio_interceptor_issues": {
+      "symptom": "HTTP requests fail in integration tests",
+      "error_example": "DioException: Connection timeout",
+      "solution": [
+        "1. Check DioClient configuration",
+        "2. Ensure auth interceptor adds token correctly",
+        "3. Verify retry interceptor logic",
+        "4. Check base URL configuration"
+      ]
+    },
+
+    "pattern_8_state_management": {
+      "symptom": "Widget doesn't update when state changes",
+      "error_example": "Expected to find text 'Loading...' but found 'Error'",
+      "solution": [
+        "1. Check Riverpod provider implementation",
+        "2. Ensure StateNotifier updates state correctly",
+        "3. Verify widget is watching the provider",
+        "4. Use ref.watch() or ref.listen() appropriately"
+      ]
+    }
+  },
+
+  "special_cases": {
+    "validation_utils": {
+      "issue": "test/unit/utils/validation_test.dart has validation functions inside test file",
+      "solution": [
+        "1. Create lib/core/utils/validation.dart",
+        "2. Move all validation functions (_isValidEmail, _isValidPassword, _isValidUsername, _isRequired) to production file",
+        "3. Export them as public functions (remove underscore prefix)",
+        "4. DO NOT modify the test file",
+        "5. Test will automatically import from production file"
+      ]
+    },
+
+    "generated_files": {
+      "issue": "Some tests may fail due to outdated .g.dart files",
+      "solution": [
+        "Run: flutter pub run build_runner build --delete-conflicting-outputs",
+        "This regenerates all JSON serialization and other generated code"
+      ]
+    },
+
+    "localization": {
+      "issue": "Tests expect specific text that may be localized",
+      "note": "App uses Turkish (TR) and English (EN) localization",
+      "solution": [
+        "Check test to see which locale it uses",
+        "Update lib/l10n/app_*.arb files if needed",
+        "Run: flutter gen-l10n to regenerate localization"
+      ]
+    },
+
+    "test_helpers": {
+      "issue": "Tests use helper functions from test/helpers/",
+      "note": "DO NOT modify test helpers",
+      "available_helpers": [
+        "pumpTestWidget() - Wraps widget in MaterialApp + ProviderScope",
+        "pumpTestWidgetWithNavigation() - Adds navigation support",
+        "TestData.createTest*() - Generate test data",
+        "MockProviders.* - Provider overrides for testing"
+      ]
+    }
+  },
+
+  "success_criteria": {
+    "all_tests_passing": "All 450+ tests must pass without any skip or commenting",
+    "no_test_modifications": "Zero changes to any files in test/ directory",
+    "coverage_target": "Achieve ~80% code coverage (target is 70%)",
+    "no_commented_code": "No commented-out assertions or test code",
+    "backend_compatible": "All API calls must match backend specification",
+    "builds_successfully": "flutter build apk --debug must succeed",
+    "no_analyze_errors": "flutter analyze should show no errors",
+    "all_assertions_run": "Every assertion in every test must execute and pass"
+  },
+
+  "final_deliverable": {
+    "what_to_deliver": [
+      "1. All production code in lib/ fixed to make tests pass",
+      "2. Test results showing 450+ tests passing",
+      "3. Coverage report showing ~80% coverage",
+      "4. Summary of changes made (which files were modified and why)",
+      "5. Git commit with all changes",
+      "6. Confirmation that backend compatibility is maintained"
+    ],
+
+    "files_to_create": [
+      "test_results_final.txt (output of flutter test --reporter expanded)",
+      "coverage_summary.txt (summary of coverage report)",
+      "FIXES_SUMMARY.md (detailed list of all fixes made)"
+    ],
+
+    "commit_message_template": "Fix production code to pass all 450+ Flutter tests\n\nThis commit fixes all production code in lib/ to make all tests pass.\nNo test files were modified. All fixes maintain backend compatibility.\n\n✅ Unit tests: 220+ passing\n✅ Widget tests: 140+ passing  \n✅ Integration tests: 90+ passing\n✅ Total: 450+ tests passing\n✅ Coverage: ~80%\n\nProduction files modified:\n{list of files with brief description of changes}\n\nAll changes maintain compatibility with Node.js backend API."
+  },
+
+  "remember": [
+    "🎯 Your ONLY job is to fix PRODUCTION CODE in lib/",
+    "⛔ NEVER modify test files in test/",
+    "⛔ NEVER comment out test code or assertions",
+    "⛔ NEVER skip tests with skip: true",
+    "✅ ALWAYS read test files to understand requirements",
+    "✅ ALWAYS fix production code to match test expectations",
+    "✅ ALWAYS maintain backend API compatibility",
+    "✅ ALWAYS run tests after each fix to verify",
+    "🔄 Tests are the SPECIFICATION, production code is the IMPLEMENTATION",
+    "🎓 When a test fails, production code is wrong, NOT the test"
+  ]
+}
