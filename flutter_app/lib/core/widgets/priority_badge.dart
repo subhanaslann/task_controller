@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+import '../theme/app_colors.dart';
 import '../utils/constants.dart';
 
-/// TekTech PriorityBadge Component
+/// TekTech PriorityBadge Component - WhatsApp Inspired
 ///
 /// Displays task priority as a colored badge with icon
 /// - Color-coded based on priority (low/normal/high)
+/// - Localized labels (TR/EN)
 /// - Consistent sizing and styling
 /// - Optional icon display
+/// - Uses AppColors for theme consistency
 class PriorityBadge extends StatelessWidget {
   final Priority priority;
   final bool showIcon;
@@ -22,7 +26,8 @@ class PriorityBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final config = _getPriorityConfig(priority);
+    final l10n = AppLocalizations.of(context)!;
+    final config = _getPriorityConfig(priority, l10n);
 
     return Semantics(
       label: 'Öncelik: ${config.label}',
@@ -58,25 +63,25 @@ class PriorityBadge extends StatelessWidget {
     );
   }
 
-  _PriorityConfig _getPriorityConfig(Priority priority) {
+  _PriorityConfig _getPriorityConfig(Priority priority, AppLocalizations l10n) {
     switch (priority) {
       case Priority.low:
         return _PriorityConfig(
-          color: const Color(0xFF6B7280), // Gray
+          color: AppColors.priorityLow,  // Blue
           icon: Icons.arrow_downward,
-          label: 'Düşük',
+          label: l10n.priorityLow,
         );
       case Priority.normal:
         return _PriorityConfig(
-          color: const Color(0xFF3B82F6), // Blue
+          color: AppColors.priorityNormal,  // Amber
           icon: Icons.remove,
-          label: 'Normal',
+          label: l10n.priorityNormal,
         );
       case Priority.high:
         return _PriorityConfig(
-          color: const Color(0xFFEF4444), // Red
+          color: AppColors.priorityHigh,  // Red
           icon: Icons.arrow_upward,
-          label: 'Yüksek',
+          label: l10n.priorityHigh,
         );
     }
   }

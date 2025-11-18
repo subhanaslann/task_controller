@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+import '../theme/app_colors.dart';
 import '../utils/constants.dart';
 
-/// TekTech StatusBadge Component
+/// TekTech StatusBadge Component - WhatsApp Inspired
 ///
 /// Displays task status as a colored badge with icon
 /// - Color-coded based on status (todo/in_progress/done)
+/// - Localized labels (TR/EN)
+/// - WhatsApp teal for in_progress, green for done
 /// - Consistent sizing and styling
 /// - Optional icon display
 class StatusBadge extends StatelessWidget {
@@ -22,7 +26,8 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final config = _getStatusConfig(status);
+    final l10n = AppLocalizations.of(context)!;
+    final config = _getStatusConfig(status, l10n);
 
     return Semantics(
       label: 'Görev durumu: ${config.label}',
@@ -58,25 +63,25 @@ class StatusBadge extends StatelessWidget {
     );
   }
 
-  _StatusConfig _getStatusConfig(TaskStatus status) {
+  _StatusConfig _getStatusConfig(TaskStatus status, AppLocalizations l10n) {
     switch (status) {
       case TaskStatus.todo:
         return _StatusConfig(
-          color: const Color(0xFF6B7280), // Gray
+          color: AppColors.statusTodo,  // Gray
           icon: Icons.radio_button_unchecked,
-          label: 'Yapılacak',
+          label: l10n.statusTodo,
         );
       case TaskStatus.inProgress:
         return _StatusConfig(
-          color: const Color(0xFF3B82F6), // Blue
+          color: AppColors.statusInProgress,  // WhatsApp Teal
           icon: Icons.autorenew,
-          label: 'Devam Ediyor',
+          label: l10n.statusInProgress,
         );
       case TaskStatus.done:
         return _StatusConfig(
-          color: const Color(0xFF10B981), // Green
-          icon: Icons.check_circle_outline,
-          label: 'Tamamlandı',
+          color: AppColors.statusDone,  // WhatsApp Green
+          icon: Icons.check_circle,
+          label: l10n.statusDone,
         );
     }
   }

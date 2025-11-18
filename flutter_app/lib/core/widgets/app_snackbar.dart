@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
+import '../theme/design_tokens.dart';
+import '../theme/app_colors.dart';
 
 /// TekTech Snackbar Types
 enum SnackbarType { success, error, warning, info }
 
-/// TekTech AppSnackbar
+/// TekTech AppSnackbar - WhatsApp-Inspired Toast
 ///
-/// Consistent notification/toast component
-/// - Success (green)
+/// Consistent notification/toast component with WhatsApp styling
+/// - Success (WhatsApp green)
 /// - Error (red)
 /// - Warning (amber)
-/// - Info (cyan)
+/// - Info (teal)
 class AppSnackbar {
   /// Show a custom snackbar
   static void show({
@@ -44,8 +45,9 @@ class AppSnackbar {
         backgroundColor: containerColor,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppTheme.radius12),
+          borderRadius: AppRadius.borderRadiusSM,
         ),
+        elevation: 2,
         action: actionLabel != null && onActionPressed != null
             ? SnackBarAction(
                 label: actionLabel,
@@ -54,7 +56,7 @@ class AppSnackbar {
               )
             : null,
         duration: duration,
-        margin: const EdgeInsets.all(16),
+        margin: EdgeInsets.all(AppSpacing.md),
       ),
     );
   }
@@ -85,7 +87,7 @@ class AppSnackbar {
       context: context,
       message: message,
       type: SnackbarType.error,
-      actionLabel: actionLabel ?? 'Tekrar Dene',
+      actionLabel: actionLabel,
       onActionPressed: onActionPressed,
       duration: duration,
     );
@@ -119,21 +121,21 @@ class AppSnackbar {
     );
   }
 
-  /// Get colors for snackbar type
+  /// Get colors for snackbar type (WhatsApp-inspired)
   static (IconData, Color, Color) _getColors(SnackbarType type) {
     switch (type) {
       case SnackbarType.success:
-        return (Icons.check_circle, AppTheme.secondaryColor, Colors.white);
+        return (Icons.check_circle, AppColors.success, AppColors.white);
       case SnackbarType.error:
-        return (Icons.error, AppTheme.errorColor, Colors.white);
+        return (Icons.error, AppColors.error, AppColors.white);
       case SnackbarType.warning:
         return (
           Icons.warning_amber_rounded,
-          AppTheme.warningColor,
-          Colors.white,
+          AppColors.warning,
+          AppColors.black,
         );
       case SnackbarType.info:
-        return (Icons.info, AppTheme.infoColor, Colors.white);
+        return (Icons.info, AppColors.info, AppColors.white);
     }
   }
 }

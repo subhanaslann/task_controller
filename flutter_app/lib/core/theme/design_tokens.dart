@@ -32,6 +32,7 @@ class AppSpacing {
   static const double sectionSpacing = lg;
   static const double listItemSpacing = sm;
   static const double iconTextGap = sm;
+  static const double bubblePadding = md;  // WhatsApp bubble padding
   
   // EdgeInsets shortcuts
   static const EdgeInsets paddingXS = EdgeInsets.all(xs);
@@ -77,12 +78,28 @@ class AppRadius {
 
   // Semantic radius
   static const BorderRadius card = borderRadiusMD;
-  static const BorderRadius button = borderRadiusSM;
-  static const BorderRadius input = borderRadiusSM;
+  static const BorderRadius button = borderRadiusMD;  // Updated to 12 for modern look
+  static const BorderRadius input = borderRadiusMD;  // Updated to 12
   static const BorderRadius dialog = borderRadiusLG;
+  static const BorderRadius bubble = borderRadiusSM;  // WhatsApp message bubbles (8px)
   static const BorderRadius bottomSheet = BorderRadius.only(
     topLeft: Radius.circular(lg),
     topRight: Radius.circular(lg),
+  );
+
+  // WhatsApp-specific bubble shapes
+  static const BorderRadius bubbleOutgoing = BorderRadius.only(
+    topLeft: Radius.circular(sm),
+    topRight: Radius.circular(sm),
+    bottomLeft: Radius.circular(sm),
+    bottomRight: Radius.circular(xs),  // Small tail
+  );
+
+  static const BorderRadius bubbleIncoming = BorderRadius.only(
+    topLeft: Radius.circular(sm),
+    topRight: Radius.circular(sm),
+    bottomLeft: Radius.circular(xs),  // Small tail
+    bottomRight: Radius.circular(sm),
   );
 }
 
@@ -142,33 +159,33 @@ class AppShadows {
     offset: Offset(0, 12),
   );
 
-  // Dark theme shadows (lighter)
+  // Dark theme shadows (subtle - 30% less than light theme for WhatsApp feel)
   static const BoxShadow shadowXSDark = BoxShadow(
-    color: Color(0x14000000),
+    color: Color(0x07000000),  // Very subtle
     blurRadius: 2,
     offset: Offset(0, 1),
   );
 
   static const BoxShadow shadowSMDark = BoxShadow(
-    color: Color(0x1F000000),
+    color: Color(0x0A000000),  // Reduced opacity
     blurRadius: 4,
     offset: Offset(0, 2),
   );
 
   static const BoxShadow shadowMDDark = BoxShadow(
-    color: Color(0x29000000),
+    color: Color(0x0D000000),  // Subtle elevation
     blurRadius: 8,
     offset: Offset(0, 4),
   );
 
   static const BoxShadow shadowLGDark = BoxShadow(
-    color: Color(0x33000000),
+    color: Color(0x12000000),  // Moderate depth
     blurRadius: 16,
     offset: Offset(0, 8),
   );
 
   static const BoxShadow shadowXLDark = BoxShadow(
-    color: Color(0x3D000000),
+    color: Color(0x16000000),  // Reduced for flat dark theme
     blurRadius: 24,
     offset: Offset(0, 12),
   );
@@ -200,8 +217,13 @@ class AppDuration {
   static const Duration buttonTap = fast;
   static const Duration pageTransition = normal;
   static const Duration dialogOpen = normal;
-  static const Duration bottomSheetOpen = normal;
-  static const Duration snackbar = Duration(milliseconds: 4000);
+  static const Duration bottomSheetOpen = Duration(milliseconds: 350);  // Slightly slower for sheet
+  static const Duration snackbar = Duration(milliseconds: 3000);  // Reduced to 3s
+
+  // WhatsApp-specific durations
+  static const Duration bubblePop = Duration(milliseconds: 200);  // Bubble appearance
+  static const Duration fadeIn = normal;
+  static const Duration slideIn = Duration(milliseconds: 250);  // Tab/list transitions
 }
 
 /// Animation curve tokens

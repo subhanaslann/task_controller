@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../data/models/task.dart';
-import '../theme/app_theme.dart';
+import '../theme/design_tokens.dart';
 import '../theme/app_colors.dart';
+import '../theme/theme_extensions.dart';
 import '../utils/constants.dart';
 
 class TaskCard extends StatelessWidget {
@@ -25,6 +26,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final bubbleTheme = theme.extension<ChatBubbleTheme>() ?? ChatBubbleTheme.dark;
 
     return Semantics(
       label: _buildSemanticLabel(),
@@ -32,9 +34,10 @@ class TaskCard extends StatelessWidget {
       enabled: canEdit,
       child: Card(
         elevation: 0,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        margin: EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+        color: bubbleTheme.incomingBubbleColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppTheme.radius12),
+          borderRadius: AppRadius.bubble,
           side: BorderSide(
             color: colorScheme.outline.withValues(alpha: 0.12),
             width: 1,
@@ -42,10 +45,10 @@ class TaskCard extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(AppTheme.radius12),
+          borderRadius: AppRadius.bubble,
           child: Container(
             constraints: const BoxConstraints(minHeight: 80),
-            padding: const EdgeInsets.all(AppTheme.spacing16),
+            padding: EdgeInsets.all(AppSpacing.md),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -63,7 +66,7 @@ class TaskCard extends StatelessWidget {
                           color: colorScheme.primaryContainer.withValues(
                             alpha: 0.3,
                           ),
-                          borderRadius: BorderRadius.circular(AppTheme.radius8),
+                          borderRadius: AppRadius.borderRadiusSM,
                         ),
                         child: Text(
                           task.topic!.title,
@@ -163,7 +166,7 @@ class TaskCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: _getStatusColor(task.status).withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(AppTheme.radius8),
+        borderRadius: AppRadius.borderRadiusSM,
         border: Border.all(
           color: _getStatusColor(task.status).withValues(alpha: 0.3),
           width: 1,
@@ -201,7 +204,7 @@ class TaskCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: _getStatusColor(task.status).withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(AppTheme.radius8),
+        borderRadius: AppRadius.borderRadiusSM,
         border: Border.all(
           color: _getStatusColor(task.status).withValues(alpha: 0.3),
           width: 1,

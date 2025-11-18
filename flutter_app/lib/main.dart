@@ -6,10 +6,7 @@ import 'core/theme/app_theme.dart';
 import 'core/providers/providers.dart';
 import 'core/providers/locale_provider.dart';
 import 'core/providers/theme_provider.dart';
-import 'features/auth/presentation/login_screen.dart';
-import 'features/auth/presentation/registration_screen.dart';
-import 'features/tasks/presentation/home_screen.dart';
-import 'features/settings/presentation/settings_screen.dart';
+import 'core/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,13 +68,19 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeProvider);
+    final router = ref.watch(goRouterProvider);
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'TekTech',
+
+      // Theme Configuration - WhatsApp Dark Theme Default
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
+      themeMode: themeMode,  // Respects user preference, but defaults to dark
+
       debugShowCheckedModeBanner: false,
+
+      // Localization
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -89,13 +92,11 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
         Locale('tr'), // Turkish
         Locale('en'), // English
       ],
-      home: const LoginScreen(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/register': (context) => const RegistrationScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/settings': (context) => const SettingsScreen(),
-      },
+
+      // GoRouter Configuration
+      routerConfig: router,
+
+      // Builder for global widgets (connectivity banner, etc.)
       builder: (context, child) {
         // Wrap with connectivity status banner
         return Column(
@@ -110,6 +111,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 }
 
 /// Connectivity status banner widget
+/// Shows when device is offline and app is running in cache mode
 class ConnectivityStatusBanner extends ConsumerWidget {
   const ConnectivityStatusBanner({super.key});
 

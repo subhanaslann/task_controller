@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ThemeNotifier extends StateNotifier<ThemeMode> {
   static const String _key = 'theme_mode';
 
-  ThemeNotifier() : super(ThemeMode.system) {
+  // Default to dark theme (WhatsApp inspired)
+  ThemeNotifier() : super(ThemeMode.dark) {
     _loadThemeMode();
   }
 

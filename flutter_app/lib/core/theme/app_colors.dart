@@ -1,50 +1,71 @@
 import 'package:flutter/material.dart';
 
-/// TekTech Color System - Material 3 Compliant
+/// TekTech Color System - WhatsApp Inspired Dark Theme
 ///
-/// Based on Material 3 color roles with custom brand colors
-/// Primary: Indigo 600 (#4F46E5)
-/// Secondary: Green 500 (#22C55E)
-/// Error: Red 500 (#EF4444)
+/// Based on Material 3 color roles with WhatsApp-inspired dark theme
+/// Primary: Teal (#00A884) - WhatsApp brand color
+/// Secondary: Green (#25D366) - WhatsApp success/active color
+/// Background: Dark (#0B141A, #202C33) - WhatsApp dark mode
 
 class AppColors {
-  // Primary - Indigo Scale (Material 3 Compliant)
-  static const Color indigo900 = Color(0xFF312E81);
-  static const Color indigo800 = Color(0xFF3730A3);
-  static const Color indigo700 = Color(0xFF4338CA);
-  static const Color indigo600 = Color(0xFF4F46E5); // Brand primary
-  static const Color indigo500 = Color(0xFF6366F1);
-  static const Color indigo400 = Color(0xFF818CF8);
-  static const Color indigo300 = Color(0xFFA5B4FC);
-  static const Color indigo200 = Color(0xFFC7D2FE);
-  static const Color indigo100 = Color(0xFFE0E7FF);
-  static const Color indigo50 = Color(0xFFEEF2FF);
+  // ========== WHATSAPP THEME COLORS ==========
 
-  // Secondary - Green Scale (Material 3 Compliant)
-  static const Color green900 = Color(0xFF14532D);
-  static const Color green800 = Color(0xFF166534);
-  static const Color green700 = Color(0xFF15803D);
-  static const Color green600 = Color(0xFF16A34A);
-  static const Color green500 = Color(0xFF22C55E); // Brand secondary & Success
-  static const Color green400 = Color(0xFF4ADE80);
-  static const Color green300 = Color(0xFF86EFAC);
-  static const Color green200 = Color(0xFFBBF7D0);
-  static const Color green100 = Color(0xFFDCFCE7);
-  static const Color green50 = Color(0xFFF0FDF4);
+  // Teal Scale (WhatsApp Primary)
+  static const Color teal900 = Color(0xFF004D40);
+  static const Color teal800 = Color(0xFF00695C);
+  static const Color teal700 = Color(0xFF00796B);
+  static const Color teal600 = Color(0xFF00897B);
+  static const Color teal500 = Color(0xFF00A884); // WhatsApp teal (main brand)
+  static const Color teal400 = Color(0xFF008F6E); // Darker variant
+  static const Color teal300 = Color(0xFF26D9A3); // Lighter variant
+  static const Color teal200 = Color(0xFF80E5C8);
+  static const Color teal100 = Color(0xFFB2F2DE);
+  static const Color teal50 = Color(0xFFE0F8F1);
 
-  // Error - Red Scale (Material 3 Compliant)
+  // WhatsApp Green Scale (Success/Active)
+  static const Color whatsappGreen900 = Color(0xFF0A5C2E);
+  static const Color whatsappGreen800 = Color(0xFF0C7A3C);
+  static const Color whatsappGreen700 = Color(0xFF0F9748);
+  static const Color whatsappGreen600 = Color(0xFF12B454);
+  static const Color whatsappGreen500 = Color(0xFF25D366); // WhatsApp signature green
+  static const Color whatsappGreen400 = Color(0xFF51DC81);
+  static const Color whatsappGreen300 = Color(0xFF7DE59C);
+  static const Color whatsappGreen200 = Color(0xFFA8EEB7);
+  static const Color whatsappGreen100 = Color(0xFFD4F7DB);
+  static const Color whatsappGreen50 = Color(0xFFEAFBED);
+
+  // Dark Theme Background Colors (WhatsApp Dark Mode)
+  static const Color darkBackground = Color(0xFF0B141A); // Main dark background
+  static const Color darkSurface = Color(0xFF202C33); // Cards, message bubbles
+  static const Color darkContainer = Color(0xFF2A3942); // Elevated containers
+  static const Color darkDivider = Color(0xFF2A3942); // Dividers, borders
+  static const Color darkElevated = Color(0xFF1A2329); // Even darker for depth
+
+  // Text Colors (Dark Theme Optimized)
+  static const Color textPrimaryDark = Color(0xFFE9EDEF); // Main text
+  static const Color textSecondaryDark = Color(0xFF8696A0); // Secondary text
+  static const Color textTertiaryDark = Color(0xFF667781); // Tertiary text/hints
+  static const Color textDisabledDark = Color(0xFF4A5B66); // Disabled state
+
+  // Bubble Colors (WhatsApp Message Bubbles)
+  static const Color bubbleOutgoing = Color(0xFF005C4B); // Sent messages (darker teal)
+  static const Color bubbleIncoming = Color(0xFF202C33); // Received messages (same as surface)
+  static const Color bubbleOutgoingLight = Color(0xFFDCF8C6); // Light theme outgoing
+  static const Color bubbleIncomingLight = Color(0xFFFFFFFF); // Light theme incoming
+
+  // Error - Red Scale (Softer for dark theme)
   static const Color red900 = Color(0xFF7F1D1D);
   static const Color red800 = Color(0xFF991B1B);
   static const Color red700 = Color(0xFFB91C1C);
   static const Color red600 = Color(0xFFDC2626);
-  static const Color red500 = Color(0xFFEF4444); // Error color
-  static const Color red400 = Color(0xFFF87171);
-  static const Color red300 = Color(0xFFFCA5A5);
-  static const Color red200 = Color(0xFFFECACA);
-  static const Color red100 = Color(0xFFFEE2E2);
-  static const Color red50 = Color(0xFFFEF2F2);
+  static const Color red500 = Color(0xFFE94242); // Softer red for dark theme
+  static const Color red400 = Color(0xFFED6868);
+  static const Color red300 = Color(0xFFF28E8E);
+  static const Color red200 = Color(0xFFF6B4B4);
+  static const Color red100 = Color(0xFFFBDADA);
+  static const Color red50 = Color(0xFFFDEDED);
 
-  // Warning - Amber Scale (Material 3 Compliant)
+  // Warning - Amber Scale
   static const Color amber900 = Color(0xFF78350F);
   static const Color amber800 = Color(0xFF92400E);
   static const Color amber700 = Color(0xFFB45309);
@@ -56,19 +77,19 @@ class AppColors {
   static const Color amber100 = Color(0xFFFEF3C7);
   static const Color amber50 = Color(0xFFFFFBEB);
 
-  // Info - Cyan Scale (Material 3 Compliant)
-  static const Color cyan900 = Color(0xFF164E63);
-  static const Color cyan800 = Color(0xFF155E75);
-  static const Color cyan700 = Color(0xFF0E7490);
-  static const Color cyan600 = Color(0xFF0891B2);
-  static const Color cyan500 = Color(0xFF06B6D4); // Info color
-  static const Color cyan400 = Color(0xFF22D3EE);
-  static const Color cyan300 = Color(0xFF67E8F9);
-  static const Color cyan200 = Color(0xFFA5F3FC);
-  static const Color cyan100 = Color(0xFFCFFAFE);
-  static const Color cyan50 = Color(0xFFECFEFF);
+  // Info - Blue Scale
+  static const Color blue900 = Color(0xFF1E3A8A);
+  static const Color blue800 = Color(0xFF1E40AF);
+  static const Color blue700 = Color(0xFF1D4ED8);
+  static const Color blue600 = Color(0xFF2563EB);
+  static const Color blue500 = Color(0xFF3B82F6); // Info color
+  static const Color blue400 = Color(0xFF60A5FA);
+  static const Color blue300 = Color(0xFF93C5FD);
+  static const Color blue200 = Color(0xFFBFDBFE);
+  static const Color blue100 = Color(0xFFDBEAFE);
+  static const Color blue50 = Color(0xFFEFF6FF);
 
-  // Neutral - Gray Scale (Material 3 Compliant)
+  // Neutral - Gray Scale
   static const Color gray950 = Color(0xFF030712);
   static const Color gray900 = Color(0xFF111827);
   static const Color gray800 = Color(0xFF1F2937);
@@ -85,123 +106,114 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
 
-  // Material 3 Semantic Colors
-  static const Color primary = indigo600;
+  // ========== MATERIAL 3 SEMANTIC COLORS (DARK THEME) ==========
+
+  // Primary (Teal - WhatsApp theme)
+  static const Color primary = teal500;
   static const Color onPrimary = white;
-  static const Color primaryContainer = indigo100;
-  static const Color onPrimaryContainer = indigo900;
+  static const Color primaryContainer = teal700;
+  static const Color onPrimaryContainer = teal100;
 
-  static const Color secondary = green500;
+  // Secondary (WhatsApp Green)
+  static const Color secondary = whatsappGreen500;
   static const Color onSecondary = white;
-  static const Color secondaryContainer = green100;
-  static const Color onSecondaryContainer = green900;
+  static const Color secondaryContainer = whatsappGreen700;
+  static const Color onSecondaryContainer = whatsappGreen100;
 
-  static const Color tertiary = cyan500;
+  // Tertiary (Blue for info)
+  static const Color tertiary = blue500;
   static const Color onTertiary = white;
-  static const Color tertiaryContainer = cyan100;
-  static const Color onTertiaryContainer = cyan900;
+  static const Color tertiaryContainer = blue700;
+  static const Color onTertiaryContainer = blue100;
 
+  // Error
   static const Color error = red500;
   static const Color onError = white;
-  static const Color errorContainer = red100;
-  static const Color onErrorContainer = red900;
+  static const Color errorContainer = red700;
+  static const Color onErrorContainer = red100;
 
+  // Warning
   static const Color warning = amber500;
   static const Color onWarning = black;
-  static const Color warningContainer = amber100;
-  static const Color onWarningContainer = amber900;
+  static const Color warningContainer = amber700;
+  static const Color onWarningContainer = amber100;
 
-  static const Color info = cyan500;
+  // Info
+  static const Color info = blue500;
   static const Color onInfo = white;
-  static const Color infoContainer = cyan100;
-  static const Color onInfoContainer = cyan900;
+  static const Color infoContainer = blue700;
+  static const Color onInfoContainer = blue100;
 
-  // Surface Colors (Light Theme)
-  static const Color surface = Color(0xFFFFFBFE);
-  static const Color onSurface = gray900;
-  static const Color surfaceVariant = Color(0xFFE7E0EC);
-  static const Color onSurfaceVariant = gray700;
-  static const Color surfaceContainerHighest = gray200;
-  static const Color surfaceContainerHigh = gray100;
-  static const Color surfaceContainer = white;
-  static const Color surfaceContainerLow = gray50;
-  static const Color surfaceContainerLowest = white;
+  // Surface Colors (Dark Theme - WhatsApp)
+  static const Color surface = darkSurface;
+  static const Color onSurface = textPrimaryDark;
+  static const Color surfaceVariant = darkContainer;
+  static const Color onSurfaceVariant = textSecondaryDark;
+  static const Color surfaceContainerHighest = darkContainer;
+  static const Color surfaceContainerHigh = darkSurface;
+  static const Color surfaceContainer = darkBackground;
+  static const Color surfaceContainerLow = darkElevated;
+  static const Color surfaceContainerLowest = darkBackground;
 
-  static const Color background = Color(0xFFFFFBFE);
-  static const Color onBackground = gray900;
-  static const Color outline = gray400;
-  static const Color outlineVariant = gray200;
+  // Background
+  static const Color background = darkBackground;
+  static const Color onBackground = textPrimaryDark;
+  static const Color outline = darkDivider;
+  static const Color outlineVariant = Color(0xFF3A4A54);
 
-  // Dark Theme Colors
-  static const Color darkPrimary = indigo300;
-  static const Color darkOnPrimary = indigo900;
-  static const Color darkPrimaryContainer = indigo700;
-  static const Color darkOnPrimaryContainer = indigo100;
+  // ========== LIGHT THEME COLORS (FOR OPTIONAL TOGGLE) ==========
 
-  static const Color darkSecondary = green300;
-  static const Color darkOnSecondary = green900;
-  static const Color darkSecondaryContainer = green700;
-  static const Color darkOnSecondaryContainer = green100;
+  // Light Primary (Teal)
+  static const Color lightPrimary = teal500;
+  static const Color lightOnPrimary = white;
+  static const Color lightPrimaryContainer = teal100;
+  static const Color lightOnPrimaryContainer = teal900;
 
-  static const Color darkTertiary = cyan300;
-  static const Color darkOnTertiary = cyan900;
-  static const Color darkTertiaryContainer = cyan700;
-  static const Color darkOnTertiaryContainer = cyan100;
+  // Light Secondary (WhatsApp Green)
+  static const Color lightSecondary = whatsappGreen500;
+  static const Color lightOnSecondary = white;
+  static const Color lightSecondaryContainer = whatsappGreen100;
+  static const Color lightOnSecondaryContainer = whatsappGreen900;
 
-  static const Color darkError = red300;
-  static const Color darkOnError = red900;
-  static const Color darkErrorContainer = red700;
-  static const Color darkOnErrorContainer = red100;
+  // Light Surface
+  static const Color lightSurface = Color(0xFFFFFBFE);
+  static const Color lightOnSurface = gray900;
+  static const Color lightBackground = Color(0xFFFFFBFE);
+  static const Color lightOnBackground = gray900;
+  static const Color lightOutline = gray400;
+  static const Color lightOutlineVariant = gray200;
 
-  static const Color darkSurface = Color(0xFF101014);
-  static const Color darkOnSurface = gray100;
-  static const Color darkSurfaceVariant = Color(0xFF49454F);
-  static const Color darkOnSurfaceVariant = gray300;
-  static const Color darkSurfaceContainerHighest = Color(0xFF2B2930);
-  static const Color darkSurfaceContainerHigh = Color(0xFF211F26);
-  static const Color darkSurfaceContainer = Color(0xFF1D1B20);
-  static const Color darkSurfaceContainerLow = Color(0xFF1A181D);
-  static const Color darkSurfaceContainerLowest = Color(0xFF0F0D13);
+  // ========== APPLICATION-SPECIFIC COLORS ==========
 
-  static const Color darkBackground = Color(0xFF101014);
-  static const Color darkOnBackground = gray100;
-  static const Color darkOutline = gray600;
-  static const Color darkOutlineVariant = gray700;
+  // Priority Colors (Semantic)
+  static const Color priorityHigh = red500; // #E94242
+  static const Color priorityNormal = amber500; // #F59E0B
+  static const Color priorityLow = blue500; // #3B82F6
 
-  // Blue Scale for Priority Normal
-  static const Color blue900 = Color(0xFF1E3A8A);
-  static const Color blue800 = Color(0xFF1E40AF);
-  static const Color blue700 = Color(0xFF1D4ED8);
-  static const Color blue600 = Color(0xFF2563EB);
-  static const Color blue500 = Color(0xFF3B82F6); // Priority Normal
-  static const Color blue400 = Color(0xFF60A5FA);
-  static const Color blue300 = Color(0xFF93C5FD);
-  static const Color blue200 = Color(0xFFBFDBFE);
-  static const Color blue100 = Color(0xFFDBEAFE);
-  static const Color blue50 = Color(0xFFEFF6FF);
-
-  // Emerald Scale for Status Done
-  static const Color emerald900 = Color(0xFF064E3B);
-  static const Color emerald800 = Color(0xFF065F46);
-  static const Color emerald700 = Color(0xFF047857);
-  static const Color emerald600 = Color(0xFF059669);
-  static const Color emerald500 = Color(0xFF10B981); // Status Done
-  static const Color emerald400 = Color(0xFF34D399);
-  static const Color emerald300 = Color(0xFF6EE7B7);
-  static const Color emerald200 = Color(0xFFA7F3D0);
-  static const Color emerald100 = Color(0xFFD1FAE5);
-  static const Color emerald50 = Color(0xFFECFDF5);
-
-  // Priority Colors (Semantic) - Spec Compliant
-  static const Color priorityHigh = red500; // #EF4444
-  static const Color priorityNormal = blue500; // #3B82F6
-  static const Color priorityLow = gray500; // #6B7280
-
-  // Status Colors (Semantic) - Spec Compliant
+  // Status Colors (Semantic)
   static const Color statusTodo = gray500; // #6B7280
-  static const Color statusInProgress = amber500; // #F59E0B
-  static const Color statusDone = emerald500; // #10B981
+  static const Color statusInProgress = teal500; // #00A884 (WhatsApp teal)
+  static const Color statusDone = whatsappGreen500; // #25D366 (WhatsApp green)
 
-  // Success, Warning, Info (Aliases for consistency)
-  static const Color success = green500;
+  // Online/Active Indicator
+  static const Color online = whatsappGreen500;
+  static const Color offline = gray500;
+  static const Color away = amber500;
+
+  // Success (Alias)
+  static const Color success = whatsappGreen500;
+
+  // ========== OPACITY VARIANTS ==========
+
+  static Color withOpacity(Color color, double opacity) {
+    return color.withOpacity(opacity);
+  }
+
+  // Common opacity levels
+  static const double opacityTransparent = 0.0;
+  static const double opacitySubtle = 0.1;
+  static const double opacityLight = 0.3;
+  static const double opacityMedium = 0.5;
+  static const double opacityStrong = 0.7;
+  static const double opacityOpaque = 1.0;
 }

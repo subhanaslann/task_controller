@@ -32,26 +32,26 @@ class CustomColorsExtension extends ThemeExtension<CustomColorsExtension> {
 
   /// Light theme colors
   static const CustomColorsExtension light = CustomColorsExtension(
-    priorityLow: AppColors.green500,
-    priorityNormal: AppColors.cyan500,
-    priorityHigh: AppColors.red500,
-    statusTodo: AppColors.gray500,
-    statusInProgress: AppColors.cyan500,
-    statusDone: AppColors.green500,
+    priorityLow: AppColors.priorityLow,
+    priorityNormal: AppColors.priorityNormal,
+    priorityHigh: AppColors.priorityHigh,
+    statusTodo: AppColors.statusTodo,
+    statusInProgress: AppColors.statusInProgress,
+    statusDone: AppColors.statusDone,
     cardHover: AppColors.gray50,
-    divider: AppColors.gray200,
+    divider: AppColors.lightOutlineVariant,
   );
 
-  /// Dark theme colors
+  /// Dark theme colors (WhatsApp)
   static const CustomColorsExtension dark = CustomColorsExtension(
-    priorityLow: AppColors.green400,
-    priorityNormal: AppColors.cyan400,
-    priorityHigh: AppColors.red400,
-    statusTodo: AppColors.gray400,
-    statusInProgress: AppColors.cyan400,
-    statusDone: AppColors.green400,
-    cardHover: AppColors.gray800,
-    divider: AppColors.gray700,
+    priorityLow: AppColors.priorityLow,
+    priorityNormal: AppColors.priorityNormal,
+    priorityHigh: AppColors.priorityHigh,
+    statusTodo: AppColors.statusTodo,
+    statusInProgress: AppColors.statusInProgress,
+    statusDone: AppColors.statusDone,
+    cardHover: AppColors.darkContainer,
+    divider: AppColors.darkDivider,
   );
 
   @override
@@ -253,6 +253,120 @@ class ButtonStylesExtension extends ThemeExtension<ButtonStylesExtension> {
   }
 }
 
+/// Chat Bubble styles extension (WhatsApp-inspired)
+@immutable
+class ChatBubbleTheme extends ThemeExtension<ChatBubbleTheme> {
+  final Color outgoingBubbleColor;
+  final Color incomingBubbleColor;
+  final Color outgoingTextColor;
+  final Color incomingTextColor;
+  final BorderRadius outgoingBubbleRadius;
+  final BorderRadius incomingBubbleRadius;
+  final EdgeInsets bubblePadding;
+  final List<BoxShadow> bubbleShadow;
+
+  const ChatBubbleTheme({
+    required this.outgoingBubbleColor,
+    required this.incomingBubbleColor,
+    required this.outgoingTextColor,
+    required this.incomingTextColor,
+    required this.outgoingBubbleRadius,
+    required this.incomingBubbleRadius,
+    required this.bubblePadding,
+    required this.bubbleShadow,
+  });
+
+  /// Light theme bubble styles
+  static const ChatBubbleTheme light = ChatBubbleTheme(
+    outgoingBubbleColor: AppColors.bubbleOutgoingLight,
+    incomingBubbleColor: AppColors.bubbleIncomingLight,
+    outgoingTextColor: AppColors.black,
+    incomingTextColor: AppColors.black,
+    outgoingBubbleRadius: AppRadius.bubbleOutgoing,
+    incomingBubbleRadius: AppRadius.bubbleIncoming,
+    bubblePadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    bubbleShadow: AppShadows.cardShadow,
+  );
+
+  /// Dark theme bubble styles (WhatsApp)
+  static const ChatBubbleTheme dark = ChatBubbleTheme(
+    outgoingBubbleColor: AppColors.bubbleOutgoing,
+    incomingBubbleColor: AppColors.bubbleIncoming,
+    outgoingTextColor: AppColors.textPrimaryDark,
+    incomingTextColor: AppColors.textPrimaryDark,
+    outgoingBubbleRadius: AppRadius.bubbleOutgoing,
+    incomingBubbleRadius: AppRadius.bubbleIncoming,
+    bubblePadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    bubbleShadow: AppShadows.cardShadowDark,
+  );
+
+  @override
+  ThemeExtension<ChatBubbleTheme> copyWith({
+    Color? outgoingBubbleColor,
+    Color? incomingBubbleColor,
+    Color? outgoingTextColor,
+    Color? incomingTextColor,
+    BorderRadius? outgoingBubbleRadius,
+    BorderRadius? incomingBubbleRadius,
+    EdgeInsets? bubblePadding,
+    List<BoxShadow>? bubbleShadow,
+  }) {
+    return ChatBubbleTheme(
+      outgoingBubbleColor: outgoingBubbleColor ?? this.outgoingBubbleColor,
+      incomingBubbleColor: incomingBubbleColor ?? this.incomingBubbleColor,
+      outgoingTextColor: outgoingTextColor ?? this.outgoingTextColor,
+      incomingTextColor: incomingTextColor ?? this.incomingTextColor,
+      outgoingBubbleRadius: outgoingBubbleRadius ?? this.outgoingBubbleRadius,
+      incomingBubbleRadius: incomingBubbleRadius ?? this.incomingBubbleRadius,
+      bubblePadding: bubblePadding ?? this.bubblePadding,
+      bubbleShadow: bubbleShadow ?? this.bubbleShadow,
+    );
+  }
+
+  @override
+  ThemeExtension<ChatBubbleTheme> lerp(
+    ThemeExtension<ChatBubbleTheme>? other,
+    double t,
+  ) {
+    if (other is! ChatBubbleTheme) return this;
+
+    return ChatBubbleTheme(
+      outgoingBubbleColor: Color.lerp(
+        outgoingBubbleColor,
+        other.outgoingBubbleColor,
+        t,
+      )!,
+      incomingBubbleColor: Color.lerp(
+        incomingBubbleColor,
+        other.incomingBubbleColor,
+        t,
+      )!,
+      outgoingTextColor: Color.lerp(
+        outgoingTextColor,
+        other.outgoingTextColor,
+        t,
+      )!,
+      incomingTextColor: Color.lerp(
+        incomingTextColor,
+        other.incomingTextColor,
+        t,
+      )!,
+      outgoingBubbleRadius: BorderRadius.lerp(
+        outgoingBubbleRadius,
+        other.outgoingBubbleRadius,
+        t,
+      )!,
+      incomingBubbleRadius: BorderRadius.lerp(
+        incomingBubbleRadius,
+        other.incomingBubbleRadius,
+        t,
+      )!,
+      bubblePadding: EdgeInsets.lerp(bubblePadding, other.bubblePadding, t)!,
+      bubbleShadow: t < 0.5 ? bubbleShadow : other.bubbleShadow,
+    );
+  }
+}
+
 /// Extension helper to access custom theme extensions
 extension CustomThemeExtensions on ThemeData {
   /// Get custom colors extension
@@ -268,5 +382,10 @@ extension CustomThemeExtensions on ThemeData {
   /// Get button styles extension
   ButtonStylesExtension get buttonStyles {
     return extension<ButtonStylesExtension>() ?? ButtonStylesExtension.light;
+  }
+
+  /// Get chat bubble theme extension
+  ChatBubbleTheme get chatBubble {
+    return extension<ChatBubbleTheme>() ?? ChatBubbleTheme.light;
   }
 }

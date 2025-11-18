@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
+import '../theme/design_tokens.dart';
 
 class AppTextField extends StatefulWidget {
   final String? label;
@@ -124,36 +124,36 @@ class _AppTextFieldState extends State<AppTextField> {
             fillColor: widget.enabled
                 ? colorScheme.surfaceContainer
                 : colorScheme.surfaceContainer.withValues(alpha: 0.5),
-            // Better border colors
+            // WhatsApp-style borders
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: AppRadius.input,
               borderSide: BorderSide(color: colorScheme.outline),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: AppRadius.input,
               borderSide: BorderSide(color: colorScheme.outline),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: AppRadius.input,
               borderSide: BorderSide(color: colorScheme.primary, width: 2),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: AppRadius.input,
               borderSide: BorderSide(color: colorScheme.error),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: AppRadius.input,
               borderSide: BorderSide(color: colorScheme.error, width: 2),
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: AppRadius.input,
               borderSide: BorderSide(
                 color: colorScheme.outline.withValues(alpha: 0.5),
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.md,
             ),
           ),
         ),

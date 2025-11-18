@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
+import '../theme/design_tokens.dart';
 
 enum ButtonVariant { primary, secondary, tertiary, destructive, ghost }
 
@@ -165,8 +165,9 @@ class _AppButtonState extends State<AppButton> {
             alpha: 0.38,
           ),
           padding: _getButtonPadding(),
+          elevation: 0, // WhatsApp flat design
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTheme.radius8),
+            borderRadius: AppRadius.button,
           ),
         );
       case ButtonVariant.secondary:
@@ -180,8 +181,9 @@ class _AppButtonState extends State<AppButton> {
             alpha: 0.38,
           ),
           padding: _getButtonPadding(),
+          elevation: 0, // WhatsApp flat design
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTheme.radius8),
+            borderRadius: AppRadius.button,
           ),
         );
       case ButtonVariant.tertiary:
@@ -198,10 +200,11 @@ class _AppButtonState extends State<AppButton> {
             width: 1.0,
           ),
           padding: _getButtonPadding(),
+          elevation: 0, // WhatsApp flat design
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTheme.radius8),
+            borderRadius: AppRadius.button,
           ),
-        ).copyWith(elevation: WidgetStateProperty.all(0));
+        );
       case ButtonVariant.destructive:
         return ElevatedButton.styleFrom(
           backgroundColor: colorScheme.error,
@@ -209,8 +212,9 @@ class _AppButtonState extends State<AppButton> {
           disabledBackgroundColor: colorScheme.error.withValues(alpha: 0.38),
           disabledForegroundColor: colorScheme.onError.withValues(alpha: 0.38),
           padding: _getButtonPadding(),
+          elevation: 0, // WhatsApp flat design
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTheme.radius8),
+            borderRadius: AppRadius.button,
           ),
         );
       case ButtonVariant.ghost:
@@ -222,7 +226,7 @@ class _AppButtonState extends State<AppButton> {
           ),
           padding: _getButtonPadding(),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTheme.radius8),
+            borderRadius: AppRadius.button,
           ),
         );
     }

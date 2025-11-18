@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/providers/providers.dart';
+import '../../../core/router/app_router.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -14,37 +17,15 @@ class LoginScreen extends ConsumerStatefulWidget {
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen>
-    with SingleTickerProviderStateMixin {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
-    );
-    _slideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
-          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
-        );
-    _animationController.forward();
-  }
 
   @override
   void dispose() {
-    _animationController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -70,8 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           authResult.organization;
 
       if (mounted) {
-        // Navigate to home screen
-        Navigator.of(context).pushReplacementNamed('/home');
+        context.go(AppRoutes.home);
       }
     } catch (e) {
       final errorString = e.toString().toLowerCase();
@@ -104,172 +84,126 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [colorScheme.surface, colorScheme.surfaceContainerLow],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(AppTheme.spacing24),
-                    child: Form(
-                      key: _formKey,
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(AppSpacing.lg),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Logo with animation
+                  Text(
+                    'TekTech',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      color: colorScheme.primary,
+                    ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 400.ms)
+                      .scale(begin: const Offset(0.8, 0.8)),
+
+                  const Gap(48),
+
+                  // Login form card with animation
+                  Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: AppRadius.card,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(AppSpacing.lg),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Logo/Icon with animation
-                          FadeTransition(
-                            opacity: _fadeAnimation,
-                            child: SlideTransition(
-                              position: _slideAnimation,
-                              child: Text(
-                                'TekTech',
-                                textAlign: TextAlign.center,
-                                style: theme.textTheme.displaySmall?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
-                                  color: colorScheme.onSurface,
+                          // Username field
+                          AppTextField(
+                            label: l10n?.usernameOrEmail ?? 'Username or Email',
+                            controller: _usernameController,
+                            prefixIcon: Icons.person,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return l10n?.validation_required ??
+                                    'This field is required';
+                              }
+                              return null;
+                            },
+                          ),
+                          const Gap(16),
+
+                          // Password field
+                          AppTextField(
+                            label: l10n?.password ?? 'Password',
+                            controller: _passwordController,
+                            obscureText: true,
+                            prefixIcon: Icons.lock,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return l10n?.validation_required ??
+                                    'This field is required';
+                              }
+                              return null;
+                            },
+                          ),
+                          const Gap(24),
+
+                          // Error message
+                          if (_errorMessage != null) ...[
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: colorScheme.errorContainer,
+                                borderRadius: AppRadius.borderRadiusSM,
+                                border: Border.all(
+                                  color: colorScheme.error.withValues(alpha: 0.3),
+                                  width: 1,
                                 ),
                               ),
-                            ),
-                          ),
-                          const Gap(48),
-                          // Login form with animation
-                          FadeTransition(
-                            opacity: _fadeAnimation,
-                            child: SlideTransition(
-                              position:
-                                  Tween<Offset>(
-                                    begin: const Offset(0, 0.15),
-                                    end: Offset.zero,
-                                  ).animate(
-                                    CurvedAnimation(
-                                      parent: _animationController,
-                                      curve: const Interval(
-                                        0.3,
-                                        1.0,
-                                        curve: Curves.easeOut,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: colorScheme.error,
+                                    size: 20,
+                                  ),
+                                  const Gap(8),
+                                  Expanded(
+                                    child: Text(
+                                      _errorMessage!,
+                                      style: TextStyle(
+                                        color: colorScheme.onErrorContainer,
                                       ),
                                     ),
                                   ),
-                              child: Card(
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.radius24,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(
-                                    AppTheme.spacing24,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      // Username field
-                                      AppTextField(
-                                        label:
-                                            l10n?.usernameOrEmail ??
-                                            'Username or Email',
-                                        controller: _usernameController,
-                                        prefixIcon: Icons.person,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return l10n?.validation_required ??
-                                                'This field is required';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      const Gap(16),
-                                      // Password field
-                                      AppTextField(
-                                        label: l10n?.password ?? 'Password',
-                                        controller: _passwordController,
-                                        obscureText: true,
-                                        prefixIcon: Icons.lock,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return l10n?.validation_required ??
-                                                'This field is required';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      const Gap(24),
-                                      // Error message
-                                      if (_errorMessage != null)
-                                        Container(
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: colorScheme.errorContainer,
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                            border: Border.all(
-                                              color: colorScheme.error
-                                                  .withValues(alpha: 0.3),
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.error_outline,
-                                                color: colorScheme.error,
-                                                size: 20,
-                                              ),
-                                              const Gap(8),
-                                              Expanded(
-                                                child: Text(
-                                                  _errorMessage!,
-                                                  style: TextStyle(
-                                                    color: colorScheme
-                                                        .onErrorContainer,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      if (_errorMessage != null) const Gap(16),
-                                      // Login button
-                                      AppButton(
-                                        text: l10n?.login ?? 'Sign In',
-                                        onPressed: _isLoading
-                                            ? null
-                                            : _handleLogin,
-                                        isLoading: _isLoading,
-                                        isFullWidth: true,
-                                      ),
-                                      const Gap(16),
-                                      // Registration link
-                                      Center(
-                                        child: TextButton(
-                                          onPressed: () {
-                                            Navigator.of(
-                                              context,
-                                            ).pushNamed('/register');
-                                          },
-                                          child: Text(
-                                            'Don\'t have a team? Register here',
-                                            style: TextStyle(
-                                              color: colorScheme.primary,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                ],
+                              ),
+                            ),
+                            const Gap(16),
+                          ],
+
+                          // Login button
+                          AppButton(
+                            text: l10n?.login ?? 'Sign In',
+                            onPressed: _isLoading ? null : _handleLogin,
+                            isLoading: _isLoading,
+                            isFullWidth: true,
+                          ),
+                          const Gap(16),
+
+                          // Registration link
+                          Center(
+                            child: TextButton(
+                              onPressed: () => context.go(AppRoutes.register),
+                              child: Text(
+                                'Don\'t have a team? Register here',
+                                style: TextStyle(
+                                  color: colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
@@ -277,10 +211,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                         ],
                       ),
                     ),
-                  ),
-                ),
+                  )
+                      .animate()
+                      .fadeIn(delay: 200.ms, duration: 400.ms)
+                      .slideY(begin: 0.1, end: 0),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
