@@ -16,6 +16,7 @@ void main() {
           subtitle: 'You don\'t have any tasks yet',
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byIcon(Icons.task_alt), findsOneWidget);
@@ -32,6 +33,7 @@ void main() {
           title: 'Empty',
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byIcon(Icons.inbox), findsOneWidget);
@@ -54,6 +56,7 @@ void main() {
           onActionPressed: () => buttonPressed = true,
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert - Button visible
       expect(find.text('Create Item'), findsOneWidget);
@@ -74,6 +77,7 @@ void main() {
           title: 'No Items',
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert - No action button
       expect(find.byType(ElevatedButton), findsNothing);
@@ -91,6 +95,7 @@ void main() {
           subtitle: 'Tap + to create one',
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('No Active Tasks'), findsOneWidget);
@@ -106,6 +111,7 @@ void main() {
           subtitle: 'Create your first user',
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('No Users'), findsOneWidget);
@@ -121,10 +127,10 @@ void main() {
           subtitle: 'Try a different search term',
         ),
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('No Results'), findsOneWidget);
     });
   });
 }
-

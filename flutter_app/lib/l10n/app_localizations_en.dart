@@ -306,4 +306,221 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginErrorMessage => 'Invalid username or password';
+
+  @override
+  String get companyName => 'Company Name';
+
+  @override
+  String get teamName => 'Team Name';
+
+  @override
+  String get yourName => 'Your Name';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get createYourTeam => 'Create Your Team';
+
+  @override
+  String get createTeam => 'Create Team';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get dontHaveTeam => 'Don\'t have a team? Register here';
+
+  @override
+  String get teamCreatedSuccess => 'Team created successfully! Welcome aboard!';
+
+  @override
+  String get emailAlreadyRegistered =>
+      'This email is already registered. Please login instead.';
+
+  @override
+  String get registrationFailed => 'Registration failed. Please try again.';
+
+  @override
+  String get weak => 'Weak';
+
+  @override
+  String get fair => 'Fair';
+
+  @override
+  String get good => 'Good';
+
+  @override
+  String get strong => 'Strong';
+
+  @override
+  String get allTasks => 'All';
+
+  @override
+  String get highPriority => 'High Priority';
+
+  @override
+  String get overdue => 'Overdue';
+
+  @override
+  String get tryChangingFilters => 'Try changing filters';
+
+  @override
+  String get taskDeleted => 'Task deleted';
+
+  @override
+  String get failedToUpdateTask => 'Failed to update task';
+
+  @override
+  String get failedToDeleteTask => 'Failed to delete task';
+
+  @override
+  String get taskMovedToActive => 'Task moved back to Active';
+
+  @override
+  String get failedToUndo => 'Failed to undo';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get systemDefault => 'System Default';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get turkish => 'Türkçe';
+
+  @override
+  String get appVersion => 'App Version';
+
+  @override
+  String get license => 'License';
+
+  @override
+  String get mitLicense => 'MIT License';
+
+  @override
+  String get signOutOfYourAccount => 'Sign out of your account';
+
+  @override
+  String get avatarUpdateComingSoon => 'Avatar update coming soon!';
+
+  @override
+  String get chooseTheme => 'Choose Theme';
+
+  @override
+  String get chooseLanguage => 'Choose Language';
+
+  @override
+  String get adminPanel => 'Admin Panel';
+
+  @override
+  String get exitAdminMode => 'Exit Admin Mode';
+
+  @override
+  String get userManagementTab => 'Users';
+
+  @override
+  String get taskManagementTab => 'Tasks';
+
+  @override
+  String get topicsManagementTab => 'Topics';
+
+  @override
+  String get organizationTab => 'Org';
+
+  @override
+  String get userUpdated => 'User updated';
+
+  @override
+  String get userCreated => 'User created';
+
+  @override
+  String get topicUpdated => 'Topic updated';
+
+  @override
+  String get topicCreated => 'Topic created';
+
+  @override
+  String get allTopics => 'All Topics';
+
+  @override
+  String get allStatuses => 'All Statuses';
+
+  @override
+  String get noProjects => 'No Projects';
+
+  @override
+  String get noVisibleProjects => 'No visible projects assigned.';
+
+  @override
+  String get noActiveProjects => 'No active projects found.';
+
+  @override
+  String get addTaskToMyself => 'Add Task to Myself';
+
+  @override
+  String get noTasksInProject => 'No tasks in this project';
+
+  @override
+  String get noAccess => 'No Access';
+
+  @override
+  String get noAccessMessage =>
+      'You don\'t have access to any task groups yet.\\nContact your admin.';
+
+  @override
+  String get assignedTo => 'Assigned';
+
+  @override
+  String get unassigned => 'Unassigned';
+
+  @override
+  String get confirmTitle => 'Confirm';
+
+  @override
+  String get confirmMessage => 'Are you sure?';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String deleteConfirmation(Object item) {
+    return 'Are you sure you want to delete $item? This action cannot be undone.';
+  }
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get pleasSelectDueDate => 'Please select a due date';
+
+  @override
+  String get taskAddedSuccess => 'Task added successfully';
+
+  @override
+  String get loadingFailed => 'Failed to load data';
+
+  @override
+  String get dataLoadedSuccess => 'Data loaded successfully';
 }

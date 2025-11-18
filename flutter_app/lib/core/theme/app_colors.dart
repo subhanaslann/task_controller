@@ -27,7 +27,9 @@ class AppColors {
   static const Color whatsappGreen800 = Color(0xFF0C7A3C);
   static const Color whatsappGreen700 = Color(0xFF0F9748);
   static const Color whatsappGreen600 = Color(0xFF12B454);
-  static const Color whatsappGreen500 = Color(0xFF25D366); // WhatsApp signature green
+  static const Color whatsappGreen500 = Color(
+    0xFF25D366,
+  ); // WhatsApp signature green
   static const Color whatsappGreen400 = Color(0xFF51DC81);
   static const Color whatsappGreen300 = Color(0xFF7DE59C);
   static const Color whatsappGreen200 = Color(0xFFA8EEB7);
@@ -44,14 +46,24 @@ class AppColors {
   // Text Colors (Dark Theme Optimized)
   static const Color textPrimaryDark = Color(0xFFE9EDEF); // Main text
   static const Color textSecondaryDark = Color(0xFF8696A0); // Secondary text
-  static const Color textTertiaryDark = Color(0xFF667781); // Tertiary text/hints
+  static const Color textTertiaryDark = Color(
+    0xFF667781,
+  ); // Tertiary text/hints
   static const Color textDisabledDark = Color(0xFF4A5B66); // Disabled state
 
   // Bubble Colors (WhatsApp Message Bubbles)
-  static const Color bubbleOutgoing = Color(0xFF005C4B); // Sent messages (darker teal)
-  static const Color bubbleIncoming = Color(0xFF202C33); // Received messages (same as surface)
-  static const Color bubbleOutgoingLight = Color(0xFFDCF8C6); // Light theme outgoing
-  static const Color bubbleIncomingLight = Color(0xFFFFFFFF); // Light theme incoming
+  static const Color bubbleOutgoing = Color(
+    0xFF005C4B,
+  ); // Sent messages (darker teal)
+  static const Color bubbleIncoming = Color(
+    0xFF202C33,
+  ); // Received messages (same as surface)
+  static const Color bubbleOutgoingLight = Color(
+    0xFFDCF8C6,
+  ); // Light theme outgoing
+  static const Color bubbleIncomingLight = Color(
+    0xFFFFFFFF,
+  ); // Light theme incoming
 
   // Error - Red Scale (Softer for dark theme)
   static const Color red900 = Color(0xFF7F1D1D);
@@ -206,7 +218,7 @@ class AppColors {
   // ========== OPACITY VARIANTS ==========
 
   static Color withOpacity(Color color, double opacity) {
-    return color.withOpacity(opacity);
+    return color.withValues(alpha: opacity);
   }
 
   // Common opacity levels

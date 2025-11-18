@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_app/core/widgets/empty_state.dart';
+import 'package:flutter_app/core/widgets/app_empty_state.dart';
 import 'package:flutter_app/core/widgets/loading_placeholder.dart';
 import 'package:flutter_app/features/tasks/presentation/guest_topics_screen.dart';
 import 'package:flutter_app/data/models/topic.dart';
@@ -38,7 +38,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert - Empty state shown
-      expect(find.byType(EmptyState), findsOneWidget);
+      expect(find.byType(AppEmptyState), findsOneWidget);
     });
 
     testWidgets('should render topic list when topics are available', (

@@ -679,6 +679,432 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kullanıcı adı veya şifre hatalı'**
   String get loginErrorMessage;
+
+  /// No description provided for @companyName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şirket Adı'**
+  String get companyName;
+
+  /// No description provided for @teamName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekip Adı'**
+  String get teamName;
+
+  /// No description provided for @yourName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adınız'**
+  String get yourName;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta Adresi'**
+  String get emailAddress;
+
+  /// No description provided for @createYourTeam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekibinizi Oluşturun'**
+  String get createYourTeam;
+
+  /// No description provided for @createTeam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekip Oluştur'**
+  String get createTeam;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaten hesabınız var mı?'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @dontHaveTeam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekibiniz yok mu? Buradan kayıt olun'**
+  String get dontHaveTeam;
+
+  /// No description provided for @teamCreatedSuccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekip başarıyla oluşturuldu! Hoş geldiniz!'**
+  String get teamCreatedSuccess;
+
+  /// No description provided for @emailAlreadyRegistered.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-posta zaten kayıtlı. Lütfen giriş yapın.'**
+  String get emailAlreadyRegistered;
+
+  /// No description provided for @registrationFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt başarısız oldu. Lütfen tekrar deneyin.'**
+  String get registrationFailed;
+
+  /// No description provided for @weak.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get weak;
+
+  /// No description provided for @fair.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta'**
+  String get fair;
+
+  /// No description provided for @good.
+  ///
+  /// In tr, this message translates to:
+  /// **'İyi'**
+  String get good;
+
+  /// No description provided for @strong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü'**
+  String get strong;
+
+  /// No description provided for @allTasks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get allTasks;
+
+  /// No description provided for @highPriority.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek Öncelik'**
+  String get highPriority;
+
+  /// No description provided for @overdue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gecikmiş'**
+  String get overdue;
+
+  /// No description provided for @tryChangingFilters.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtreleri değiştirmeyi deneyin'**
+  String get tryChangingFilters;
+
+  /// No description provided for @taskDeleted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev silindi'**
+  String get taskDeleted;
+
+  /// No description provided for @failedToUpdateTask.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev güncellenemedi'**
+  String get failedToUpdateTask;
+
+  /// No description provided for @failedToDeleteTask.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev silinemedi'**
+  String get failedToDeleteTask;
+
+  /// No description provided for @taskMovedToActive.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev aktif görevlere taşındı'**
+  String get taskMovedToActive;
+
+  /// No description provided for @failedToUndo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri alma başarısız'**
+  String get failedToUndo;
+
+  /// No description provided for @appearance.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünüm'**
+  String get appearance;
+
+  /// No description provided for @language.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil'**
+  String get language;
+
+  /// No description provided for @account.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap'**
+  String get account;
+
+  /// No description provided for @about.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hakkında'**
+  String get about;
+
+  /// No description provided for @theme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tema'**
+  String get theme;
+
+  /// No description provided for @light.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koyu'**
+  String get dark;
+
+  /// No description provided for @systemDefault.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem Varsayılanı'**
+  String get systemDefault;
+
+  /// No description provided for @english.
+  ///
+  /// In tr, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @turkish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türkçe'**
+  String get turkish;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama Sürümü'**
+  String get appVersion;
+
+  /// No description provided for @license.
+  ///
+  /// In tr, this message translates to:
+  /// **'Lisans'**
+  String get license;
+
+  /// No description provided for @mitLicense.
+  ///
+  /// In tr, this message translates to:
+  /// **'MIT Lisansı'**
+  String get mitLicense;
+
+  /// No description provided for @signOutOfYourAccount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızdan çıkış yapın'**
+  String get signOutOfYourAccount;
+
+  /// No description provided for @avatarUpdateComingSoon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Avatar güncelleme yakında geliyor!'**
+  String get avatarUpdateComingSoon;
+
+  /// No description provided for @chooseTheme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tema Seçin'**
+  String get chooseTheme;
+
+  /// No description provided for @chooseLanguage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil Seçin'**
+  String get chooseLanguage;
+
+  /// No description provided for @adminPanel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetici Paneli'**
+  String get adminPanel;
+
+  /// No description provided for @exitAdminMode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetici Modundan Çık'**
+  String get exitAdminMode;
+
+  /// No description provided for @userManagementTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcılar'**
+  String get userManagementTab;
+
+  /// No description provided for @taskManagementTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görevler'**
+  String get taskManagementTab;
+
+  /// No description provided for @topicsManagementTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konular'**
+  String get topicsManagementTab;
+
+  /// No description provided for @organizationTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Organizasyon'**
+  String get organizationTab;
+
+  /// No description provided for @userUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı güncellendi'**
+  String get userUpdated;
+
+  /// No description provided for @userCreated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı oluşturuldu'**
+  String get userCreated;
+
+  /// No description provided for @topicUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konu güncellendi'**
+  String get topicUpdated;
+
+  /// No description provided for @topicCreated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konu oluşturuldu'**
+  String get topicCreated;
+
+  /// No description provided for @allTopics.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm Konular'**
+  String get allTopics;
+
+  /// No description provided for @allStatuses.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm Durumlar'**
+  String get allStatuses;
+
+  /// No description provided for @noProjects.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje Yok'**
+  String get noProjects;
+
+  /// No description provided for @noVisibleProjects.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünür proje atanmamış.'**
+  String get noVisibleProjects;
+
+  /// No description provided for @noActiveProjects.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif proje bulunamadı.'**
+  String get noActiveProjects;
+
+  /// No description provided for @addTaskToMyself.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kendime Görev Ekle'**
+  String get addTaskToMyself;
+
+  /// No description provided for @noTasksInProject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu projede görev yok'**
+  String get noTasksInProject;
+
+  /// No description provided for @noAccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erişim Yok'**
+  String get noAccess;
+
+  /// No description provided for @noAccessMessage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz hiçbir görev grubuna erişiminiz yok.\\nYöneticinizle iletişime geçin.'**
+  String get noAccessMessage;
+
+  /// No description provided for @assignedTo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atanan'**
+  String get assignedTo;
+
+  /// No description provided for @unassigned.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atanmamış'**
+  String get unassigned;
+
+  /// No description provided for @confirmTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
+  String get confirmTitle;
+
+  /// No description provided for @confirmMessage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Emin misiniz?'**
+  String get confirmMessage;
+
+  /// No description provided for @confirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
+  String get confirm;
+
+  /// No description provided for @deleteConfirmation.
+  ///
+  /// In tr, this message translates to:
+  /// **'{item} silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.'**
+  String deleteConfirmation(Object item);
+
+  /// No description provided for @logoutConfirmation.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıkış yapmak istediğinizden emin misiniz?'**
+  String get logoutConfirmation;
+
+  /// No description provided for @pleasSelectDueDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Lütfen bir bitiş tarihi seçin'**
+  String get pleasSelectDueDate;
+
+  /// No description provided for @taskAddedSuccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev başarıyla eklendi'**
+  String get taskAddedSuccess;
+
+  /// No description provided for @loadingFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri yüklenemedi'**
+  String get loadingFailed;
+
+  /// No description provided for @dataLoadedSuccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri başarıyla yüklendi'**
+  String get dataLoadedSuccess;
 }
 
 class _AppLocalizationsDelegate

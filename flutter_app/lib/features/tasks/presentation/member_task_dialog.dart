@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:logger/logger.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/app_snackbar.dart';
+import '../../../core/theme/design_tokens.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/providers/providers.dart';
 import '../../../data/datasources/api_service.dart';
@@ -25,7 +27,6 @@ class MemberTaskDialog extends ConsumerStatefulWidget {
 }
 
 class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
-  final Logger _logger = Logger();
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _noteController = TextEditingController();
@@ -44,6 +45,7 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
     final currentUser = ref.watch(currentUserProvider);
 
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.dialog),
       title: Text('Görev Ekle: ${widget.topicTitle}'),
       content: SingleChildScrollView(
         child: Form(
@@ -126,7 +128,7 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Colors.red,
+                      color: AppColors.error,
                     ),
                   ),
                   const Gap(8),
@@ -146,6 +148,9 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
                     },
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: AppRadius.button,
+                      ),
                     ),
                     child: Text(
                       _selectedDueDate == null
@@ -174,8 +179,9 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
               return;
             }
             if (_selectedDueDate == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Lütfen bir bitiş tarihi seçin')),
+              AppSnackbar.showWarning(
+                context: context,
+                message: 'Lütfen bir bitiş tarihi seçin',
               );
               return;
             }
@@ -201,16 +207,9 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
                   Navigator.of(context).pop();
                   widget.onTaskCreated?.call();
                 }
-              } catch (e, stackTrace) {
-                _logger.e('Görev oluşturma HATASI: $e');
-                _logger.e('Stack trace: $stackTrace');
+              } catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Hata: $e'),
-                      duration: const Duration(seconds: 5),
-                    ),
-                  );
+                  AppSnackbar.showError(context: context, message: 'Hata: $e');
                 }
               }
             }

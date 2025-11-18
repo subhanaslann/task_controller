@@ -309,4 +309,222 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loginErrorMessage => 'Kullanıcı adı veya şifre hatalı';
+
+  @override
+  String get companyName => 'Şirket Adı';
+
+  @override
+  String get teamName => 'Ekip Adı';
+
+  @override
+  String get yourName => 'Adınız';
+
+  @override
+  String get emailAddress => 'E-posta Adresi';
+
+  @override
+  String get createYourTeam => 'Ekibinizi Oluşturun';
+
+  @override
+  String get createTeam => 'Ekip Oluştur';
+
+  @override
+  String get alreadyHaveAccount => 'Zaten hesabınız var mı?';
+
+  @override
+  String get dontHaveTeam => 'Ekibiniz yok mu? Buradan kayıt olun';
+
+  @override
+  String get teamCreatedSuccess => 'Ekip başarıyla oluşturuldu! Hoş geldiniz!';
+
+  @override
+  String get emailAlreadyRegistered =>
+      'Bu e-posta zaten kayıtlı. Lütfen giriş yapın.';
+
+  @override
+  String get registrationFailed =>
+      'Kayıt başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get weak => 'Zayıf';
+
+  @override
+  String get fair => 'Orta';
+
+  @override
+  String get good => 'İyi';
+
+  @override
+  String get strong => 'Güçlü';
+
+  @override
+  String get allTasks => 'Tümü';
+
+  @override
+  String get highPriority => 'Yüksek Öncelik';
+
+  @override
+  String get overdue => 'Gecikmiş';
+
+  @override
+  String get tryChangingFilters => 'Filtreleri değiştirmeyi deneyin';
+
+  @override
+  String get taskDeleted => 'Görev silindi';
+
+  @override
+  String get failedToUpdateTask => 'Görev güncellenemedi';
+
+  @override
+  String get failedToDeleteTask => 'Görev silinemedi';
+
+  @override
+  String get taskMovedToActive => 'Görev aktif görevlere taşındı';
+
+  @override
+  String get failedToUndo => 'Geri alma başarısız';
+
+  @override
+  String get appearance => 'Görünüm';
+
+  @override
+  String get language => 'Dil';
+
+  @override
+  String get account => 'Hesap';
+
+  @override
+  String get about => 'Hakkında';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get light => 'Açık';
+
+  @override
+  String get dark => 'Koyu';
+
+  @override
+  String get systemDefault => 'Sistem Varsayılanı';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get turkish => 'Türkçe';
+
+  @override
+  String get appVersion => 'Uygulama Sürümü';
+
+  @override
+  String get license => 'Lisans';
+
+  @override
+  String get mitLicense => 'MIT Lisansı';
+
+  @override
+  String get signOutOfYourAccount => 'Hesabınızdan çıkış yapın';
+
+  @override
+  String get avatarUpdateComingSoon => 'Avatar güncelleme yakında geliyor!';
+
+  @override
+  String get chooseTheme => 'Tema Seçin';
+
+  @override
+  String get chooseLanguage => 'Dil Seçin';
+
+  @override
+  String get adminPanel => 'Yönetici Paneli';
+
+  @override
+  String get exitAdminMode => 'Yönetici Modundan Çık';
+
+  @override
+  String get userManagementTab => 'Kullanıcılar';
+
+  @override
+  String get taskManagementTab => 'Görevler';
+
+  @override
+  String get topicsManagementTab => 'Konular';
+
+  @override
+  String get organizationTab => 'Organizasyon';
+
+  @override
+  String get userUpdated => 'Kullanıcı güncellendi';
+
+  @override
+  String get userCreated => 'Kullanıcı oluşturuldu';
+
+  @override
+  String get topicUpdated => 'Konu güncellendi';
+
+  @override
+  String get topicCreated => 'Konu oluşturuldu';
+
+  @override
+  String get allTopics => 'Tüm Konular';
+
+  @override
+  String get allStatuses => 'Tüm Durumlar';
+
+  @override
+  String get noProjects => 'Proje Yok';
+
+  @override
+  String get noVisibleProjects => 'Görünür proje atanmamış.';
+
+  @override
+  String get noActiveProjects => 'Aktif proje bulunamadı.';
+
+  @override
+  String get addTaskToMyself => 'Kendime Görev Ekle';
+
+  @override
+  String get noTasksInProject => 'Bu projede görev yok';
+
+  @override
+  String get noAccess => 'Erişim Yok';
+
+  @override
+  String get noAccessMessage =>
+      'Henüz hiçbir görev grubuna erişiminiz yok.\\nYöneticinizle iletişime geçin.';
+
+  @override
+  String get assignedTo => 'Atanan';
+
+  @override
+  String get unassigned => 'Atanmamış';
+
+  @override
+  String get confirmTitle => 'Onayla';
+
+  @override
+  String get confirmMessage => 'Emin misiniz?';
+
+  @override
+  String get confirm => 'Onayla';
+
+  @override
+  String deleteConfirmation(Object item) {
+    return '$item silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+  }
+
+  @override
+  String get logoutConfirmation => 'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get pleasSelectDueDate => 'Lütfen bir bitiş tarihi seçin';
+
+  @override
+  String get taskAddedSuccess => 'Görev başarıyla eklendi';
+
+  @override
+  String get loadingFailed => 'Veri yüklenemedi';
+
+  @override
+  String get dataLoadedSuccess => 'Veri başarıyla yüklendi';
 }

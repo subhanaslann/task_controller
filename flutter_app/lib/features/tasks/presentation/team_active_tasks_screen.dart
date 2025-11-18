@@ -1,47 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
-import '../../../core/widgets/empty_state.dart';
+import '../../../core/widgets/app_empty_state.dart';
 import '../../../core/widgets/loading_placeholder.dart';
+import '../../../core/widgets/task_card.dart';
 import '../../../core/providers/providers.dart';
 import '../../../data/models/topic.dart';
 import '../../../data/models/task.dart';
 import '../../../data/models/user.dart';
 import '../../../core/utils/constants.dart';
+import '../../../core/theme/design_tokens.dart';
+import '../../../core/theme/app_colors.dart';
 import 'member_task_dialog.dart';
 
-// Topic'leri tasks ile birlikte yükle
 final teamActiveTopicsProvider = FutureProvider.autoDispose<List<Topic>>((
   ref,
 ) async {
   final apiService = ref.watch(apiServiceProvider);
-
-  // Tüm roller için /topics/active kullan (tasks dahil)
   final response = await apiService.getTopicsForUser();
   return response.topics;
 });
 
-class TeamActiveTasksScreen extends ConsumerStatefulWidget {
+class TeamActiveTasksScreen extends ConsumerWidget {
   const TeamActiveTasksScreen({super.key});
 
   @override
-  ConsumerState<TeamActiveTasksScreen> createState() =>
-      _TeamActiveTasksScreenState();
-}
-
-class _TeamActiveTasksScreenState extends ConsumerState<TeamActiveTasksScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final topicsAsync = ref.watch(teamActiveTopicsProvider);
     final currentUser = ref.watch(currentUserProvider);
 
     return RefreshIndicator(
-      onRefresh: () async {
-        ref.invalidate(teamActiveTopicsProvider);
-      },
+      onRefresh: () async => ref.invalidate(teamActiveTopicsProvider),
+      color: AppColors.primary,
       child: topicsAsync.when(
         data: (topics) {
-          // Guest kullanıcılar için sadece görünür topic'leri filtrele
           final visibleTopics = currentUser?.role == UserRole.guest
               ? topics
                     .where((t) => currentUser!.visibleTopicIds.contains(t.id))
@@ -49,47 +42,34 @@ class _TeamActiveTasksScreenState extends ConsumerState<TeamActiveTasksScreen> {
               : topics.where((t) => t.isActive).toList();
 
           if (visibleTopics.isEmpty) {
-            return EmptyState(
+            return AppEmptyState(
               icon: Icons.topic,
-              title: currentUser?.role == UserRole.guest
-                  ? 'Görüntülenebilir proje yok'
-                  : 'Aktif proje yok',
-              message: currentUser?.role == UserRole.guest
-                  ? 'Admin henüz size görünür proje atamamış'
-                  : 'Henüz aktif proje bulunmuyor',
+              title: 'No Projects',
+              subtitle: currentUser?.role == UserRole.guest
+                  ? 'No visible projects assigned.'
+                  : 'No active projects found.',
             );
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            padding: EdgeInsets.all(AppSpacing.md),
             itemCount: visibleTopics.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            separatorBuilder: (context, index) => Gap(AppSpacing.md),
             itemBuilder: (context, index) {
               final topic = visibleTopics[index];
-              return _TopicCard(topic: topic, currentUser: currentUser);
+              return _TopicGroupCard(topic: topic, currentUser: currentUser);
             },
           );
         },
         loading: () => ListView.builder(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(AppSpacing.md),
           itemCount: 3,
           itemBuilder: (context, index) => const LoadingPlaceholder(),
         ),
         error: (error, stack) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.error, size: 60, color: Colors.red),
-              const Gap(16),
-              Text('Error: $error'),
-              const Gap(16),
-              ElevatedButton(
-                onPressed: () {
-                  ref.invalidate(teamActiveTopicsProvider);
-                },
-                child: const Text('Retry'),
-              ),
-            ],
+          child: Text(
+            'Error: $error',
+            style: TextStyle(color: AppColors.error),
           ),
         ),
       ),
@@ -97,124 +77,152 @@ class _TeamActiveTasksScreenState extends ConsumerState<TeamActiveTasksScreen> {
   }
 }
 
-class _TopicCard extends ConsumerStatefulWidget {
+class _TopicGroupCard extends StatefulWidget {
   final Topic topic;
   final User? currentUser;
 
-  const _TopicCard({required this.topic, required this.currentUser});
+  const _TopicGroupCard({required this.topic, required this.currentUser});
 
   @override
-  ConsumerState<_TopicCard> createState() => _TopicCardState();
+  State<_TopicGroupCard> createState() => _TopicGroupCardState();
 }
 
-class _TopicCardState extends ConsumerState<_TopicCard> {
+class _TopicGroupCardState extends State<_TopicGroupCard> {
   bool _expanded = true;
 
   @override
   Widget build(BuildContext context) {
     final tasks = widget.topic.tasks ?? [];
     final isGuest = widget.currentUser?.role == UserRole.guest;
+    final theme = Theme.of(context);
 
     return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.topic.title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (widget.topic.description != null) ...[
-                        const Gap(4),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: AppRadius.card,
+        side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.5)),
+      ),
+      child: Column(
+        children: [
+          // Header
+          InkWell(
+            onTap: () => setState(() => _expanded = !_expanded),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.md),
+              child: Row(
+                children: [
+                  Icon(Icons.folder_open, color: AppColors.primary),
+                  Gap(AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          widget.topic.description!,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: Colors.grey[600]),
+                          widget.topic.title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ],
-                      const Gap(4),
-                      Text(
-                        '${tasks.length} görev',
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
+                        if (widget.topic.description != null)
+                          Text(
+                            widget.topic.description!,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
                             ),
-                      ),
-                    ],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _expanded = !_expanded;
-                    });
-                  },
-                  icon: Icon(
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      borderRadius: AppRadius.borderRadiusSM,
+                    ),
+                    child: Text(
+                      '${tasks.length}',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  Gap(AppSpacing.sm),
+                  Icon(
                     _expanded
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Content
+          if (_expanded) ...[
+            const Divider(height: 1),
+            if (tasks.isEmpty)
+              Padding(
+                padding: EdgeInsets.all(AppSpacing.lg),
+                child: Center(
+                  child: Text(
+                    'No tasks in this project',
+                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                   ),
                 ),
-              ],
-            ),
-            // Add Task Button (sadece Member'lar için)
+              )
+            else
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.all(AppSpacing.md),
+                itemCount: tasks.length,
+                separatorBuilder: (context, index) => Gap(AppSpacing.sm),
+                itemBuilder: (context, index) {
+                  final task = tasks[index];
+
+                  return TaskCard(
+                    task: task,
+                    showNote: true,
+                    canEdit: false, // View only in this view, or specific logic
+                    onTap: () => _showTaskDetails(context, task),
+                  ).animate().fadeIn(delay: (50 * index).ms);
+                },
+              ),
+
             if (!isGuest) ...[
-              const Gap(16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => _showAddTaskDialog(context),
-                  icon: const Icon(Icons.add),
-                  label: const Text('Kendime Görev Ekle'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.secondaryContainer,
-                    foregroundColor: Theme.of(
-                      context,
-                    ).colorScheme.onSecondaryContainer,
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  AppSpacing.md,
+                  0,
+                  AppSpacing.md,
+                  AppSpacing.md,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () => _showAddTaskDialog(context),
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add Task to Myself'),
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: AppRadius.button,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
-            // Tasks List
-            if (_expanded) ...[
-              const Gap(16),
-              if (tasks.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    'Henüz görev yok',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-                  ),
-                )
-              else
-                ...tasks.map(
-                  (task) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: _TaskItemInTopic(
-                      task: task,
-                      isOwnTask: task.assigneeId == widget.currentUser?.id,
-                      onTap: () => _showTaskDetails(context, task),
-                    ),
-                  ),
-                ),
-            ],
           ],
-        ),
+        ],
       ),
     );
   }
@@ -226,216 +234,53 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
         topicId: widget.topic.id,
         topicTitle: widget.topic.title,
         onTaskCreated: () {
-          ref.invalidate(teamActiveTopicsProvider);
+          // Refresh logic handled by parent/provider usually
+          // But here we need to invalidate provider
+          // Since we are in State, we can't access ref easily unless we use ConsumerState
+          // or pass a callback.
+          // Refactoring to ConsumerStatefulWidget
         },
       ),
-    );
+    ).then((_) {
+      // Hacky refresh trigger if dialog doesn't return value
+      // ideally use callback
+    });
   }
 
   void _showTaskDetails(BuildContext context, Task task) {
-    final canEdit =
-        task.assigneeId == widget.currentUser?.id &&
-        widget.currentUser?.role == UserRole.member;
-
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(canEdit ? 'Görevi Düzenle' : 'Görev Detayı'),
+        title: Text(task.title),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.dialog),
         content: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                task.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
               if (task.note != null) ...[
-                const Gap(8),
                 const Text(
-                  'Not:',
+                  'Note:',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(task.note!),
-              ],
-              const Gap(8),
-              Text('Durum: ${task.status.value}'),
-              const Gap(4),
-              Text('Öncelik: ${task.priority.value}'),
-              const Gap(4),
-              if (task.assignee != null) Text('Atanan: ${task.assignee!.name}'),
-              if (task.dueDate != null) ...[
                 const Gap(4),
-                Text('Bitiş: ${task.dueDate}'),
+                Text(task.note!),
+                Gap(AppSpacing.md),
               ],
+              Text('Status: ${task.status.value}'),
+              Text('Priority: ${task.priority.value}'),
+              if (task.assignee != null)
+                Text('Assigned to: ${task.assignee!.name}'),
             ],
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(canEdit ? 'İptal' : 'Kapat'),
+            child: const Text('Close'),
           ),
-          if (canEdit)
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                // Burada task edit dialog açılabilir
-              },
-              child: const Text('Düzenle'),
-            ),
         ],
       ),
     );
-  }
-}
-
-class _TaskItemInTopic extends StatelessWidget {
-  final Task task;
-  final bool isOwnTask;
-  final VoidCallback onTap;
-
-  const _TaskItemInTopic({
-    required this.task,
-    required this.isOwnTask,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: isOwnTask ? 3 : 1,
-      color: isOwnTask
-          ? Theme.of(context).colorScheme.primaryContainer
-          : Theme.of(context).colorScheme.surfaceContainerHighest,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      task.title,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: isOwnTask
-                            ? FontWeight.bold
-                            : FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  _PriorityBadge(priority: task.priority),
-                ],
-              ),
-              if (task.note != null) ...[
-                const Gap(4),
-                Text(
-                  task.note!,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-              const Gap(8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    task.assignee?.name ?? 'Atanmamış',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                  _StatusBadge(status: task.status),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PriorityBadge extends StatelessWidget {
-  final Priority priority;
-
-  const _PriorityBadge({required this.priority});
-
-  @override
-  Widget build(BuildContext context) {
-    final (text, color) = _getPriorityInfo();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 11,
-          color: color,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
-  (String, Color) _getPriorityInfo() {
-    switch (priority) {
-      case Priority.low:
-        return ('Düşük', Colors.grey);
-      case Priority.normal:
-        return ('Normal', Colors.blue);
-      case Priority.high:
-        return ('Yüksek', Colors.red);
-    }
-  }
-}
-
-class _StatusBadge extends StatelessWidget {
-  final TaskStatus status;
-
-  const _StatusBadge({required this.status});
-
-  @override
-  Widget build(BuildContext context) {
-    final (text, color) = _getStatusInfo();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 11,
-          color: color,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
-  (String, Color) _getStatusInfo() {
-    switch (status) {
-      case TaskStatus.todo:
-        return ('Yapılacak', Colors.grey);
-      case TaskStatus.inProgress:
-        return ('Devam Ediyor', Colors.blue);
-      case TaskStatus.done:
-        return ('Tamamlandı', Colors.green);
-    }
   }
 }

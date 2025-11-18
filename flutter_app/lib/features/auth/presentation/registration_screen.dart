@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import '../../../core/theme/design_tokens.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/app_snackbar.dart';
 import '../../../core/providers/providers.dart';
+import '../../../core/router/app_router.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -58,10 +64,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }
 
   Color _getPasswordStrengthColor() {
-    if (_passwordStrength < 0.3) return Colors.red;
-    if (_passwordStrength < 0.6) return Colors.orange;
-    if (_passwordStrength < 0.8) return Colors.yellow;
-    return Colors.green;
+    if (_passwordStrength < 0.3) return AppColors.error;
+    if (_passwordStrength < 0.6) return AppColors.warning;
+    if (_passwordStrength < 0.8) return AppColors.info;
+    return AppColors.success;
   }
 
   String _getPasswordStrengthText() {
@@ -115,16 +121,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           authResult.organization;
 
       if (mounted) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Team created successfully! Welcome aboard!'),
-            backgroundColor: Colors.green,
-          ),
+        // Show success message with WhatsApp-style snackbar
+        AppSnackbar.showSuccess(
+          context: context,
+          message: 'Team created successfully! Welcome aboard!',
         );
 
-        // Navigate to home screen
-        Navigator.of(context).pushReplacementNamed('/home');
+        // Navigate to home screen with GoRouter
+        context.go(AppRoutes.home);
       }
     } catch (e) {
       setState(() {
@@ -154,226 +158,245 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              colorScheme.primary,
-              colorScheme.primary.withValues(alpha: 0.8),
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(AppSpacing.lg),
+            child: Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Logo/Branding
-                  Icon(Icons.business_center, size: 48, color: Colors.white),
-                  const Gap(8),
-                  Text(
-                    'Create Your Team',
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  // Logo/Branding with animation
+                  Icon(
+                        Icons.business_center,
+                        size: 64,
+                        color: colorScheme.primary,
+                      )
+                      .animate()
+                      .fadeIn(duration: 400.ms)
+                      .scale(begin: const Offset(0.8, 0.8)),
+
                   const Gap(16),
 
-                  // Form Card
+                  Text(
+                        'Create Your Team',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.primary,
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(delay: 100.ms, duration: 400.ms)
+                      .slideY(begin: 0.1, end: 0),
+
+                  const Gap(32),
+
+                  // Form Card with animation
                   Card(
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Error Message
-                            if (_errorMessage != null) ...[
-                              Container(
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: colorScheme.errorContainer,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.error_outline,
-                                      color: colorScheme.error,
-                                      size: 20,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: AppRadius.card,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(AppSpacing.lg),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              // Error Message
+                              if (_errorMessage != null) ...[
+                                Container(
+                                  padding: EdgeInsets.all(AppSpacing.sm),
+                                  decoration: BoxDecoration(
+                                    color: colorScheme.errorContainer,
+                                    borderRadius: AppRadius.borderRadiusSM,
+                                    border: Border.all(
+                                      color: colorScheme.error.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      width: 1,
                                     ),
-                                    const Gap(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.error_outline,
+                                        color: colorScheme.error,
+                                        size: 20,
+                                      ),
+                                      const Gap(8),
+                                      Expanded(
+                                        child: Text(
+                                          _errorMessage!,
+                                          style: TextStyle(
+                                            color: colorScheme.onErrorContainer,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Gap(16),
+                              ],
+
+                              // Company Name
+                              AppTextField(
+                                label: 'Company Name',
+                                controller: _companyNameController,
+                                prefixIcon: Icons.business,
+                                isRequired: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Company name is required';
+                                  }
+                                  if (value.length < 2) {
+                                    return 'Company name must be at least 2 characters';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const Gap(16),
+
+                              // Team Name
+                              AppTextField(
+                                label: 'Team Name',
+                                controller: _teamNameController,
+                                prefixIcon: Icons.group,
+                                isRequired: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Team name is required';
+                                  }
+                                  if (value.length < 2) {
+                                    return 'Team name must be at least 2 characters';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const Gap(16),
+
+                              // Manager Name
+                              AppTextField(
+                                label: 'Your Name',
+                                controller: _managerNameController,
+                                prefixIcon: Icons.person,
+                                isRequired: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Your name is required';
+                                  }
+                                  if (value.length < 2) {
+                                    return 'Name must be at least 2 characters';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const Gap(16),
+
+                              // Email
+                              AppTextField(
+                                label: 'Email Address',
+                                controller: _emailController,
+                                prefixIcon: Icons.email,
+                                keyboardType: TextInputType.emailAddress,
+                                isRequired: true,
+                                validator: _validateEmail,
+                              ),
+                              const Gap(16),
+
+                              // Password
+                              AppTextField(
+                                label: 'Password',
+                                controller: _passwordController,
+                                prefixIcon: Icons.lock,
+                                obscureText: true,
+                                isRequired: true,
+                                validator: _validatePassword,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _passwordStrength =
+                                        _calculatePasswordStrength(value);
+                                  });
+                                },
+                              ),
+
+                              // Password Strength Indicator
+                              if (_passwordController.text.isNotEmpty) ...[
+                                const Gap(12),
+                                Row(
+                                  children: [
                                     Expanded(
-                                      child: Text(
-                                        _errorMessage!,
-                                        style: TextStyle(
-                                          color: colorScheme.error,
-                                          fontSize: 14,
+                                      child: ClipRRect(
+                                        borderRadius: AppRadius.borderRadiusSM,
+                                        child: LinearProgressIndicator(
+                                          value: _passwordStrength,
+                                          backgroundColor: colorScheme.outline
+                                              .withValues(alpha: 0.2),
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                _getPasswordStrengthColor(),
+                                              ),
+                                          minHeight: 6,
                                         ),
                                       ),
                                     ),
+                                    const Gap(12),
+                                    Text(
+                                      _getPasswordStrengthText(),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: _getPasswordStrengthColor(),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                              const Gap(16),
-                            ],
+                              ],
+                              const Gap(24),
 
-                            // Company Name
-                            AppTextField(
-                              label: 'Company Name',
-                              controller: _companyNameController,
-                              prefixIcon: Icons.business,
-                              isRequired: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Company name is required';
-                                }
-                                if (value.length < 2) {
-                                  return 'Company name must be at least 2 characters';
-                                }
-                                return null;
-                              },
-                            ),
-                            const Gap(12),
-
-                            // Team Name
-                            AppTextField(
-                              label: 'Team Name',
-                              controller: _teamNameController,
-                              prefixIcon: Icons.group,
-                              isRequired: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Team name is required';
-                                }
-                                if (value.length < 2) {
-                                  return 'Team name must be at least 2 characters';
-                                }
-                                return null;
-                              },
-                            ),
-                            const Gap(12),
-
-                            // Manager Name
-                            AppTextField(
-                              label: 'Your Name',
-                              controller: _managerNameController,
-                              prefixIcon: Icons.person,
-                              isRequired: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Your name is required';
-                                }
-                                if (value.length < 2) {
-                                  return 'Name must be at least 2 characters';
-                                }
-                                return null;
-                              },
-                            ),
-                            const Gap(12),
-
-                            // Email
-                            AppTextField(
-                              label: 'Email Address',
-                              controller: _emailController,
-                              prefixIcon: Icons.email,
-                              keyboardType: TextInputType.emailAddress,
-                              isRequired: true,
-                              validator: _validateEmail,
-                            ),
-                            const Gap(12),
-
-                            // Password
-                            AppTextField(
-                              label: 'Password',
-                              controller: _passwordController,
-                              prefixIcon: Icons.lock,
-                              obscureText: true,
-                              isRequired: true,
-                              validator: _validatePassword,
-                              onChanged: (value) {
-                                setState(() {
-                                  _passwordStrength =
-                                      _calculatePasswordStrength(value);
-                                });
-                              },
-                            ),
-                            if (_passwordController.text.isNotEmpty) ...[
-                              const Gap(8),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: LinearProgressIndicator(
-                                      value: _passwordStrength,
-                                      backgroundColor: Colors.grey[300],
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        _getPasswordStrengthColor(),
-                                      ),
-                                    ),
-                                  ),
-                                  const Gap(8),
-                                  Text(
-                                    _getPasswordStrengthText(),
-                                    style: TextStyle(
-                                      color: _getPasswordStrengthColor(),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                              // Register Button
+                              AppButton(
+                                text: 'Create Team',
+                                onPressed: _isLoading ? null : _handleRegister,
+                                isLoading: _isLoading,
+                                isFullWidth: true,
                               ),
                             ],
-                            const Gap(16),
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(delay: 200.ms, duration: 400.ms)
+                      .slideY(begin: 0.1, end: 0),
 
-                            // Register Button
-                            AppButton(
-                              text: 'Create Team',
-                              onPressed: _isLoading ? null : _handleRegister,
-                              isLoading: _isLoading,
-                              isFullWidth: true,
+                  const Gap(24),
+
+                  // Login Link
+                  Center(
+                    child: TextButton(
+                      onPressed: () => context.pop(),
+                      child: RichText(
+                        text: TextSpan(
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          ),
+                          children: [
+                            const TextSpan(text: 'Already have an account? '),
+                            TextSpan(
+                              text: 'Login',
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  const Gap(16),
-
-                  // Login Link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Already have an account? ',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.9),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                 ],
               ),
             ),
