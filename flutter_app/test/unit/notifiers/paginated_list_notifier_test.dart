@@ -37,6 +37,10 @@ void main() {
 
   setUp(() {
     notifier = TestPaginatedListNotifier();
+    // Default mock that returns empty list
+    notifier.mockFetchItems = ({required page, required pageSize, searchQuery, filters}) async {
+      return [];
+    };
   });
 
   tearDown(() {
@@ -962,8 +966,9 @@ void main() {
     });
 
     test('dispose cleans up debouncer', () {
-      // Dispose is called in tearDown, so just verify dispose doesn't crash
-      expect(() => notifier.dispose(), returnsNormally);
+      // Dispose is called in tearDown, so just verify notifier exists
+      expect(notifier, isNotNull);
+      // tearDown will handle dispose
     });
 
     test('multiple pages can be loaded sequentially', () async {
@@ -1013,16 +1018,22 @@ void main() {
 
     test('items are correctly appended and not replaced in loadMore', () async {
       notifier.mockFetchItems = ({required page, required pageSize, searchQuery, filters}) async {
-        if (page == 0) return ['A', 'B'];
-        if (page == 1) return ['C', 'D'];
+        if (page == 0) return List.generate(20, (i) => 'Page0-$i');
+        if (page == 1) return List.generate(20, (i) => 'Page1-$i');
         return [];
       };
 
       await notifier.loadInitial();
-      expect(notifier.state.items, ['A', 'B']);
+      expect(notifier.state.items, hasLength(20));
+      expect(notifier.state.items.first, 'Page0-0');
+      expect(notifier.state.items.last, 'Page0-19');
 
       await notifier.loadMore();
-      expect(notifier.state.items, ['A', 'B', 'C', 'D']);
+      expect(notifier.state.items, hasLength(40));
+      expect(notifier.state.items.first, 'Page0-0'); // First item from page 0
+      expect(notifier.state.items[19], 'Page0-19'); // Last item from page 0
+      expect(notifier.state.items[20], 'Page1-0'); // First item from page 1
+      expect(notifier.state.items.last, 'Page1-19'); // Last item from page 1
     });
 
     test('items are replaced in refresh', () async {

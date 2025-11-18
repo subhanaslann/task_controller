@@ -3,6 +3,9 @@ import '../../../data/models/organization.dart';
 import '../../../data/models/organization_stats.dart';
 import '../../../data/repositories/organization_repository.dart';
 
+// Sentinel value to distinguish "not provided" from "explicitly null"
+const _undefined = Object();
+
 class OrganizationState {
   final Organization? organization;
   final OrganizationStats? stats;
@@ -20,13 +23,13 @@ class OrganizationState {
     Organization? organization,
     OrganizationStats? stats,
     bool? isLoading,
-    String? error,
+    Object? error = _undefined,
   }) {
     return OrganizationState(
       organization: organization ?? this.organization,
       stats: stats ?? this.stats,
       isLoading: isLoading ?? this.isLoading,
-      error: error,
+      error: identical(error, _undefined) ? this.error : error as String?,
     );
   }
 }

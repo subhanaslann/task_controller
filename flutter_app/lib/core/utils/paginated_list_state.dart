@@ -18,8 +18,8 @@ class PaginatedListState<T> {
   final String searchQuery;
   final Map<String, dynamic>? filters;
 
-  const PaginatedListState({
-    this.items = const [],
+  PaginatedListState({
+    List<T>? items,
     this.isLoadingInitial = false,
     this.isLoadingMore = false,
     this.isRefreshing = false,
@@ -28,7 +28,7 @@ class PaginatedListState<T> {
     this.error,
     this.searchQuery = '',
     this.filters,
-  });
+  }) : items = items ?? [];
 
   PaginatedListState<T> copyWith({
     List<T>? items,

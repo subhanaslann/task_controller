@@ -5,7 +5,7 @@ void main() {
   group('PaginatedListState Tests', () {
     test('should create initial state with default values', () {
       // Arrange & Act
-      const state = PaginatedListState<int>();
+      final state = PaginatedListState<int>();
 
       // Assert
       expect(state.items, isEmpty);
@@ -21,7 +21,7 @@ void main() {
 
     test('should create state with custom values', () {
       // Arrange & Act
-      const state = PaginatedListState<int>(
+      final state = PaginatedListState<int>(
         items: [1, 2, 3],
         isLoadingInitial: true,
         currentPage: 1,
@@ -37,7 +37,7 @@ void main() {
 
     test('should copy state with updated values', () {
       // Arrange
-      const state = PaginatedListState<int>(items: [1, 2, 3]);
+      final state = PaginatedListState<int>(items: [1, 2, 3]);
 
       // Act
       final newState = state.copyWith(
@@ -53,55 +53,55 @@ void main() {
 
     test('should report isLoading correctly', () {
       // Arrange & Act & Assert
-      expect(const PaginatedListState<int>().isLoading, false);
+      expect(PaginatedListState<int>().isLoading, false);
       expect(
-        const PaginatedListState<int>(isLoadingInitial: true).isLoading,
+        PaginatedListState<int>(isLoadingInitial: true).isLoading,
         true,
       );
       expect(
-        const PaginatedListState<int>(isLoadingMore: true).isLoading,
+        PaginatedListState<int>(isLoadingMore: true).isLoading,
         true,
       );
       expect(
-        const PaginatedListState<int>(isRefreshing: true).isLoading,
+        PaginatedListState<int>(isRefreshing: true).isLoading,
         true,
       );
     });
 
     test('should report isEmpty correctly', () {
       // Arrange & Act & Assert
-      expect(const PaginatedListState<int>().isEmpty, true);
+      expect(PaginatedListState<int>().isEmpty, true);
       expect(
-        const PaginatedListState<int>(items: [1, 2, 3]).isEmpty,
+        PaginatedListState<int>(items: [1, 2, 3]).isEmpty,
         false,
       );
       expect(
-        const PaginatedListState<int>(isLoadingInitial: true).isEmpty,
+        PaginatedListState<int>(isLoadingInitial: true).isEmpty,
         false,
       );
     });
 
     test('should report hasError correctly', () {
       // Arrange & Act & Assert
-      expect(const PaginatedListState<int>().hasError, false);
+      expect(PaginatedListState<int>().hasError, false);
       expect(
-        const PaginatedListState<int>(error: 'Error').hasError,
+        PaginatedListState<int>(error: 'Error').hasError,
         true,
       );
     });
 
     test('should report hasData correctly', () {
       // Arrange & Act & Assert
-      expect(const PaginatedListState<int>().hasData, false);
+      expect(PaginatedListState<int>().hasData, false);
       expect(
-        const PaginatedListState<int>(items: [1, 2, 3]).hasData,
+        PaginatedListState<int>(items: [1, 2, 3]).hasData,
         true,
       );
     });
 
     test('should copy state and clear error', () {
       // Arrange
-      const state = PaginatedListState<int>(error: 'Error occurred');
+      final state = PaginatedListState<int>(error: 'Error occurred');
 
       // Act
       final newState = state.copyWith(error: null);

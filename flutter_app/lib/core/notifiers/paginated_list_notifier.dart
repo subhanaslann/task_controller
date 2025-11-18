@@ -10,7 +10,7 @@ import '../utils/debounce.dart';
 /// - Pull-to-refresh
 /// - Error handling
 abstract class PaginatedListNotifier<T> extends StateNotifier<PaginatedListState<T>> {
-  PaginatedListNotifier() : super(const PaginatedListState());
+  PaginatedListNotifier() : super(PaginatedListState());
 
   final _searchDebouncer = Debouncer(duration: const Duration(milliseconds: 300));
 

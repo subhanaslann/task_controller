@@ -17,11 +17,15 @@ void main() {
     mockConnectivity = MockConnectivity();
 
     // Create instance with mocked dependencies
-    connectivitySyncManager = ConnectivityAwareSyncManager(mockSyncManager);
+    connectivitySyncManager = ConnectivityAwareSyncManager(
+      mockSyncManager,
+      connectivity: mockConnectivity,
+    );
   });
 
   tearDown(() {
     connectivitySyncManager.dispose();
+    mockConnectivity.closeStream();
   });
 
   group('ConnectivityAwareSyncManager - Initialization', () {

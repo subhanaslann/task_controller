@@ -15,7 +15,11 @@ class MockOrganizationRepository extends Mock implements OrganizationRepository 
   }
 
   void mockUpdateOrganization(Organization organization) {
-    when(() => updateOrganization(any())).thenAnswer((_) async => organization);
+    when(() => updateOrganization(
+      name: any(named: 'name'),
+      teamName: any(named: 'teamName'),
+      maxUsers: any(named: 'maxUsers'),
+    )).thenAnswer((_) async => organization);
   }
 
   void mockGetOrganizationStats(OrganizationStats stats) {

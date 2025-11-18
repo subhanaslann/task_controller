@@ -12,14 +12,15 @@ import 'sync_manager.dart';
 /// - Smart retry on reconnection
 class ConnectivityAwareSyncManager {
   final SyncManager _syncManager;
-  final Connectivity _connectivity = Connectivity();
+  final Connectivity _connectivity;
   final Logger _logger = Logger();
 
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
   bool _isOnline = true;
   bool _hasInitialSync = false;
 
-  ConnectivityAwareSyncManager(this._syncManager);
+  ConnectivityAwareSyncManager(this._syncManager, {Connectivity? connectivity})
+      : _connectivity = connectivity ?? Connectivity();
 
   /// Initialize and start connectivity monitoring
   Future<void> init() async {
