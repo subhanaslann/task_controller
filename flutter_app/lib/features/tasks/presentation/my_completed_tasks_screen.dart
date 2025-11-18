@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/task_card.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/loading_placeholder.dart';
 import '../../../core/providers/providers.dart';
 import '../../../data/models/task.dart';
 
-final myCompletedTasksProvider = FutureProvider.autoDispose<List<Task>>((ref) async {
+final myCompletedTasksProvider = FutureProvider.autoDispose<List<Task>>((
+  ref,
+) async {
   final taskRepo = ref.watch(taskRepositoryProvider);
   return await taskRepo.getMyCompletedTasks();
 });
 
 class MyCompletedTasksScreen extends ConsumerWidget {
-  const MyCompletedTasksScreen({Key? key}) : super(key: key);
+  const MyCompletedTasksScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -86,12 +87,17 @@ class MyCompletedTasksScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (task.topic != null) ...[
-                Text('Topic: ${task.topic!.title}',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  'Topic: ${task.topic!.title}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const Gap(8),
               ],
               if (task.note != null) ...[
-                const Text('Note:', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  'Note:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 Text(task.note!),
                 const Gap(8),
               ],

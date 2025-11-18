@@ -2,10 +2,9 @@ import 'dart:async';
 import 'package:logger/logger.dart';
 import '../cache/cache_repository.dart';
 import '../repositories/task_repository.dart';
-import '../repositories/admin_repository.dart';
 
 /// TekTech SyncManager
-/// 
+///
 /// Manages offline/online synchronization
 /// - Cache-first strategy
 /// - Automatic sync on connectivity
@@ -14,7 +13,6 @@ import '../repositories/admin_repository.dart';
 class SyncManager {
   final CacheRepository _cacheRepo;
   final TaskRepository _taskRepo;
-  final AdminRepository _adminRepo;
   final Logger _logger = Logger();
 
   // Sync configuration
@@ -27,10 +25,8 @@ class SyncManager {
   SyncManager({
     required CacheRepository cacheRepo,
     required TaskRepository taskRepo,
-    required AdminRepository adminRepo,
-  })  : _cacheRepo = cacheRepo,
-        _taskRepo = taskRepo,
-        _adminRepo = adminRepo;
+  }) : _cacheRepo = cacheRepo,
+       _taskRepo = taskRepo;
 
   /// Start automatic sync
   void startAutoSync() {
@@ -55,7 +51,7 @@ class SyncManager {
 
     _isSyncing = true;
     final startTime = DateTime.now();
-    
+
     try {
       _logger.i('Starting full sync...');
 
@@ -86,7 +82,7 @@ class SyncManager {
   /// Sync dirty (unsynced) tasks
   Future<_DirtySyncResult> _syncDirtyTasks() async {
     final dirtyTasks = await _cacheRepo.getDirtyTasks();
-    
+
     if (dirtyTasks.isEmpty) {
       _logger.d('No dirty tasks to sync');
       return _DirtySyncResult(count: 0);
@@ -100,11 +96,11 @@ class SyncManager {
         // Push local changes to server
         final task = cachedTask.toTask();
         await _taskRepo.updateTaskStatus(task.id, task.status);
-        
+
         // Clear dirty flag
         await _cacheRepo.clearDirtyFlag(task.id);
         synced++;
-        
+
         _logger.d('Synced dirty task: ${task.id}');
       } catch (e) {
         _logger.w('Failed to sync dirty task ${cachedTask.id}: $e');
@@ -121,7 +117,8 @@ class SyncManager {
     int usersFetched = 0;
 
     // Check if cache is stale
-    final tasksStale = force || await _cacheRepo.isCacheStale('tasks', _cacheStaleThreshold);
+    final tasksStale =
+        force || await _cacheRepo.isCacheStale('tasks', _cacheStaleThreshold);
 
     // Fetch tasks if stale
     if (tasksStale) {
@@ -142,10 +139,7 @@ class SyncManager {
     // Guest and member don't have access to /users endpoint
     _logger.d('Skipping users sync (not needed for cache)');
 
-    return _FetchResult(
-      tasksFetched: tasksFetched,
-      usersFetched: usersFetched,
-    );
+    return _FetchResult(tasksFetched: tasksFetched, usersFetched: usersFetched);
   }
 
   /// Get cache statistics

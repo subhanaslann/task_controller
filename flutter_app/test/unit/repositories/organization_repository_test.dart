@@ -9,7 +9,8 @@ import '../../helpers/test_data.dart';
 
 class MockApiService extends Mock implements ApiService {}
 
-class FakeUpdateOrganizationRequest extends Fake implements UpdateOrganizationRequest {}
+class FakeUpdateOrganizationRequest extends Fake
+    implements UpdateOrganizationRequest {}
 
 void main() {
   late OrganizationRepository repository;
@@ -29,14 +30,16 @@ void main() {
       // Arrange
       final testOrg = TestData.testOrganization;
       final mockResponse = OrganizationResponse(organization: testOrg);
-      
-      when(() => mockApiService.getOrganization())
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getOrganization(),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getOrganization();
 
       // Assert
+      expect(result, isA<Organization>());
       expect(result.id, testOrg.id);
       expect(result.name, testOrg.name);
       expect(result.teamName, testOrg.teamName);
@@ -48,8 +51,9 @@ void main() {
 
     test('getOrganization should throw on unauthorized', () async {
       // Arrange
-      when(() => mockApiService.getOrganization())
-          .thenThrow(Exception('Unauthorized'));
+      when(
+        () => mockApiService.getOrganization(),
+      ).thenThrow(Exception('Unauthorized'));
 
       // Act & Assert
       expect(() => repository.getOrganization(), throwsException);
@@ -57,8 +61,9 @@ void main() {
 
     test('getOrganization should throw on inactive organization', () async {
       // Arrange
-      when(() => mockApiService.getOrganization())
-          .thenThrow(Exception('Organization is inactive'));
+      when(
+        () => mockApiService.getOrganization(),
+      ).thenThrow(Exception('Organization is inactive'));
 
       // Act & Assert
       expect(() => repository.getOrganization(), throwsException);
@@ -66,8 +71,9 @@ void main() {
 
     test('getOrganization should throw on network error', () async {
       // Arrange
-      when(() => mockApiService.getOrganization())
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockApiService.getOrganization(),
+      ).thenThrow(Exception('Network error'));
 
       // Act & Assert
       expect(() => repository.getOrganization(), throwsException);
@@ -81,9 +87,10 @@ void main() {
         name: 'Updated Company Name',
       );
       final mockResponse = OrganizationResponse(organization: updatedOrg);
-      
-      when(() => mockApiService.updateOrganization(any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.updateOrganization(any()),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.updateOrganization(
@@ -91,6 +98,7 @@ void main() {
       );
 
       // Assert
+      expect(result, isA<Organization>());
       expect(result.name, 'Updated Company Name');
       verify(() => mockApiService.updateOrganization(any())).called(1);
     });
@@ -101,9 +109,10 @@ void main() {
         teamName: 'Updated Team Name',
       );
       final mockResponse = OrganizationResponse(organization: updatedOrg);
-      
-      when(() => mockApiService.updateOrganization(any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.updateOrganization(any()),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.updateOrganization(
@@ -117,18 +126,15 @@ void main() {
 
     test('updateOrganization should update maxUsers (admin only)', () async {
       // Arrange
-      final updatedOrg = TestData.createTestOrganization(
-        maxUsers: 20,
-      );
+      final updatedOrg = TestData.createTestOrganization(maxUsers: 20);
       final mockResponse = OrganizationResponse(organization: updatedOrg);
-      
-      when(() => mockApiService.updateOrganization(any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.updateOrganization(any()),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
-      final result = await repository.updateOrganization(
-        maxUsers: 20,
-      );
+      final result = await repository.updateOrganization(maxUsers: 20);
 
       // Assert
       expect(result.maxUsers, 20);
@@ -143,9 +149,10 @@ void main() {
         maxUsers: 25,
       );
       final mockResponse = OrganizationResponse(organization: updatedOrg);
-      
-      when(() => mockApiService.updateOrganization(any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.updateOrganization(any()),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.updateOrganization(
@@ -160,22 +167,27 @@ void main() {
       expect(result.maxUsers, 25);
     });
 
-    test('updateOrganization should throw on forbidden (member trying to update)', () async {
-      // Arrange
-      when(() => mockApiService.updateOrganization(any()))
-          .thenThrow(Exception('Forbidden'));
+    test(
+      'updateOrganization should throw on forbidden (member trying to update)',
+      () async {
+        // Arrange
+        when(
+          () => mockApiService.updateOrganization(any()),
+        ).thenThrow(Exception('Forbidden'));
 
-      // Act & Assert
-      expect(
-        () => repository.updateOrganization(name: 'New Name'),
-        throwsException,
-      );
-    });
+        // Act & Assert
+        expect(
+          () => repository.updateOrganization(name: 'New Name'),
+          throwsException,
+        );
+      },
+    );
 
     test('updateOrganization should throw on validation error', () async {
       // Arrange
-      when(() => mockApiService.updateOrganization(any()))
-          .thenThrow(Exception('Validation error'));
+      when(
+        () => mockApiService.updateOrganization(any()),
+      ).thenThrow(Exception('Validation error'));
 
       // Act & Assert
       expect(
@@ -198,14 +210,16 @@ void main() {
         activeTopicCount: 4,
       );
       final mockResponse = OrganizationStatsResponse(stats: testStats);
-      
-      when(() => mockApiService.getOrganizationStats())
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getOrganizationStats(),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getOrganizationStats();
 
       // Assert
+      expect(result, isA<OrganizationStats>());
       expect(result.userCount, 10);
       expect(result.activeUserCount, 8);
       expect(result.taskCount, 50);
@@ -216,32 +230,38 @@ void main() {
       verify(() => mockApiService.getOrganizationStats()).called(1);
     });
 
-    test('getOrganizationStats should validate logical relationships', () async {
-      // Arrange
-      final testStats = TestData.createTestOrgStats(
-        userCount: 15,
-        activeUserCount: 12,
-        taskCount: 100,
-        activeTaskCount: 60,
-        completedTaskCount: 40,
-      );
-      final mockResponse = OrganizationStatsResponse(stats: testStats);
-      
-      when(() => mockApiService.getOrganizationStats())
-          .thenAnswer((_) async => mockResponse);
+    test(
+      'getOrganizationStats should validate logical relationships',
+      () async {
+        // Arrange
+        final testStats = TestData.createTestOrgStats(
+          userCount: 15,
+          activeUserCount: 12,
+          taskCount: 100,
+          activeTaskCount: 60,
+          completedTaskCount: 40,
+        );
+        final mockResponse = OrganizationStatsResponse(stats: testStats);
 
-      // Act
-      final result = await repository.getOrganizationStats();
+        when(
+          () => mockApiService.getOrganizationStats(),
+        ).thenAnswer((_) async => mockResponse);
 
-      // Assert - Logical relationships
-      expect(result.userCount >= result.activeUserCount, true);
-      expect(result.taskCount >= result.activeTaskCount, true);
-      expect(result.taskCount >= result.completedTaskCount, true);
-      expect(
-        result.taskCount >= result.activeTaskCount + result.completedTaskCount,
-        true,
-      );
-    });
+        // Act
+        final result = await repository.getOrganizationStats();
+
+        // Assert - Logical relationships
+        expect(result, isA<OrganizationStats>());
+        expect(result.userCount >= result.activeUserCount, true);
+        expect(result.taskCount >= result.activeTaskCount, true);
+        expect(result.taskCount >= result.completedTaskCount, true);
+        expect(
+          result.taskCount >=
+              result.activeTaskCount + result.completedTaskCount,
+          true,
+        );
+      },
+    );
 
     test('getOrganizationStats should handle zero counts', () async {
       // Arrange
@@ -255,9 +275,10 @@ void main() {
         activeTopicCount: 0,
       );
       final mockResponse = OrganizationStatsResponse(stats: testStats);
-      
-      when(() => mockApiService.getOrganizationStats())
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getOrganizationStats(),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getOrganizationStats();
@@ -270,8 +291,9 @@ void main() {
 
     test('getOrganizationStats should throw on unauthorized', () async {
       // Arrange
-      when(() => mockApiService.getOrganizationStats())
-          .thenThrow(Exception('Unauthorized'));
+      when(
+        () => mockApiService.getOrganizationStats(),
+      ).thenThrow(Exception('Unauthorized'));
 
       // Act & Assert
       expect(() => repository.getOrganizationStats(), throwsException);
@@ -279,12 +301,12 @@ void main() {
 
     test('getOrganizationStats should throw on network error', () async {
       // Arrange
-      when(() => mockApiService.getOrganizationStats())
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockApiService.getOrganizationStats(),
+      ).thenThrow(Exception('Network error'));
 
       // Act & Assert
       expect(() => repository.getOrganizationStats(), throwsException);
     });
   });
 }
-

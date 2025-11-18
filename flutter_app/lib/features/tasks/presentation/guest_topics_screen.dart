@@ -23,7 +23,7 @@ final guestTopicsProvider = FutureProvider.autoDispose<List<Topic>>((ref) {
 });
 
 class GuestTopicsScreen extends ConsumerWidget {
-  const GuestTopicsScreen({Key? key}) : super(key: key);
+  const GuestTopicsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +39,8 @@ class GuestTopicsScreen extends ConsumerWidget {
             return const EmptyState(
               icon: Icons.topic,
               title: 'No Topics',
-              message: 'You don\'t have access to any topics yet.\nContact your admin for access.',
+              message:
+                  'You don\'t have access to any topics yet.\nContact your admin for access.',
             );
           }
 
@@ -52,6 +53,7 @@ class GuestTopicsScreen extends ConsumerWidget {
               return _TopicCard(
                 topic: topic,
                 tasks: tasks,
+                onTopicTap: () => _showTopicDetails(context, topic),
               );
             },
           );
@@ -129,11 +131,9 @@ class GuestTopicsScreen extends ConsumerWidget {
 class _TopicCard extends StatefulWidget {
   final Topic topic;
   final List<Task> tasks;
+  final VoidCallback? onTopicTap;
 
-  const _TopicCard({
-    required this.topic,
-    required this.tasks,
-  });
+  const _TopicCard({required this.topic, required this.tasks, this.onTopicTap});
 
   @override
   State<_TopicCard> createState() => _TopicCardState();
@@ -159,25 +159,32 @@ class _TopicCardState extends State<_TopicCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.topic.title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                      InkWell(
+                        onTap: widget.onTopicTap,
+                        child: Text(
+                          widget.topic.title,
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: widget.onTopicTap != null
+                                    ? Theme.of(context).colorScheme.primary
+                                    : null,
+                              ),
+                        ),
                       ),
                       if (widget.topic.description != null) ...[
                         const Gap(4),
                         Text(
                           widget.topic.description!,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Colors.grey[600],
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey[600]),
                         ),
                       ],
                       const Gap(4),
                       Text(
                         '${widget.tasks.length} görev',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                             ),
                       ),
@@ -191,7 +198,9 @@ class _TopicCardState extends State<_TopicCard> {
                     });
                   },
                   icon: Icon(
-                    _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _expanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                   ),
                 ),
               ],
@@ -204,16 +213,18 @@ class _TopicCardState extends State<_TopicCard> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     'Henüz görev yok',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
                   ),
                 )
               else
-                ...widget.tasks.map((task) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: _TaskItem(task: task),
-                    )),
+                ...widget.tasks.map(
+                  (task) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _TaskItem(task: task),
+                  ),
+                ),
             ],
           ],
         ),
@@ -231,7 +242,7 @@ class _TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 1,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -243,8 +254,8 @@ class _TaskItem extends StatelessWidget {
                   child: Text(
                     task.title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 _PriorityBadge(priority: task.priority),
@@ -254,9 +265,9 @@ class _TaskItem extends StatelessWidget {
               const Gap(4),
               Text(
                 task.note!,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[700],
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -302,7 +313,7 @@ class _PriorityBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
@@ -340,7 +351,7 @@ class _StatusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

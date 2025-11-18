@@ -6,14 +6,12 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/test_data.dart';
 import '../../mocks/mock_cache_repository.dart';
-import '../../mocks/mock_admin_repository.dart';
 import '../../mocks/mock_task_repository.dart';
 
 void main() {
   late SyncManager syncManager;
   late MockCacheRepository mockCacheRepo;
   late MockTaskRepository mockTaskRepo;
-  late MockAdminRepository mockAdminRepo;
 
   setUpAll(() {
     // Register fallback values for mocktail
@@ -24,13 +22,8 @@ void main() {
   setUp(() {
     mockCacheRepo = MockCacheRepository();
     mockTaskRepo = MockTaskRepository();
-    mockAdminRepo = MockAdminRepository();
 
-    syncManager = SyncManager(
-      cacheRepo: mockCacheRepo,
-      taskRepo: mockTaskRepo,
-      adminRepo: mockAdminRepo,
-    );
+    syncManager = SyncManager(cacheRepo: mockCacheRepo, taskRepo: mockTaskRepo);
   });
 
   tearDown(() {
@@ -125,12 +118,12 @@ void main() {
 
     test('syncAll should upload dirty tasks', () async {
       // Arrange - Create dirty tasks
-      final dirtyTask1 = TaskCache.fromTask(TestData.todoTask).copyWithDirty(
-        status: TaskStatus.inProgress.value,
-      );
-      final dirtyTask2 = TaskCache.fromTask(TestData.inProgressTask).copyWithDirty(
-        status: TaskStatus.done.value,
-      );
+      final dirtyTask1 = TaskCache.fromTask(
+        TestData.todoTask,
+      ).copyWithDirty(status: TaskStatus.inProgress.value);
+      final dirtyTask2 = TaskCache.fromTask(
+        TestData.inProgressTask,
+      ).copyWithDirty(status: TaskStatus.done.value);
 
       mockCacheRepo.mockGetDirtyTasks([dirtyTask1, dirtyTask2]);
 
@@ -151,23 +144,28 @@ void main() {
       expect(result.dirtyTasksSynced, 2);
 
       verify(() => mockCacheRepo.getDirtyTasks()).called(1);
-      verify(() => mockTaskRepo.updateTaskStatus(dirtyTask1.id, any())).called(1);
-      verify(() => mockTaskRepo.updateTaskStatus(dirtyTask2.id, any())).called(1);
+      verify(
+        () => mockTaskRepo.updateTaskStatus(dirtyTask1.id, any()),
+      ).called(1);
+      verify(
+        () => mockTaskRepo.updateTaskStatus(dirtyTask2.id, any()),
+      ).called(1);
       verify(() => mockCacheRepo.clearDirtyFlag(dirtyTask1.id)).called(1);
       verify(() => mockCacheRepo.clearDirtyFlag(dirtyTask2.id)).called(1);
     });
 
     test('syncAll should keep dirty flag on sync failure', () async {
       // Arrange - Create dirty task
-      final dirtyTask = TaskCache.fromTask(TestData.todoTask).copyWithDirty(
-        status: TaskStatus.inProgress.value,
-      );
+      final dirtyTask = TaskCache.fromTask(
+        TestData.todoTask,
+      ).copyWithDirty(status: TaskStatus.inProgress.value);
 
       mockCacheRepo.mockGetDirtyTasks([dirtyTask]);
 
       // Mock failed status update
-      when(() => mockTaskRepo.updateTaskStatus(any(), any()))
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockTaskRepo.updateTaskStatus(any(), any()),
+      ).thenThrow(Exception('Network error'));
 
       // Cache is fresh, skip fetch
       mockCacheRepo.mockIsCacheStale(false);
@@ -176,7 +174,10 @@ void main() {
       final result = await syncManager.syncAll();
 
       // Assert
-      expect(result.success, true); // Overall sync succeeds even if dirty sync fails
+      expect(
+        result.success,
+        true,
+      ); // Overall sync succeeds even if dirty sync fails
       expect(result.dirtyTasksSynced, 0); // No tasks synced
 
       // Dirty flag should NOT be cleared
@@ -228,8 +229,9 @@ void main() {
       mockCacheRepo.mockIsCacheStale(true);
 
       // Mock network error
-      when(() => mockTaskRepo.getMyActiveTasks())
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockTaskRepo.getMyActiveTasks(),
+      ).thenThrow(Exception('Network error'));
 
       // Act
       final result = await syncManager.syncAll();
@@ -295,25 +297,28 @@ void main() {
   group('SyncManager - Edge Cases', () {
     test('should handle partial dirty sync success', () async {
       // Arrange - 3 dirty tasks, 2 succeed, 1 fails
-      final dirtyTask1 = TaskCache.fromTask(TestData.todoTask).copyWithDirty(
-        status: TaskStatus.inProgress.value,
-      );
-      final dirtyTask2 = TaskCache.fromTask(TestData.inProgressTask).copyWithDirty(
-        status: TaskStatus.done.value,
-      );
-      final dirtyTask3 = TaskCache.fromTask(TestData.completedTask).copyWithDirty(
-        status: TaskStatus.todo.value,
-      );
+      final dirtyTask1 = TaskCache.fromTask(
+        TestData.todoTask,
+      ).copyWithDirty(status: TaskStatus.inProgress.value);
+      final dirtyTask2 = TaskCache.fromTask(
+        TestData.inProgressTask,
+      ).copyWithDirty(status: TaskStatus.done.value);
+      final dirtyTask3 = TaskCache.fromTask(
+        TestData.completedTask,
+      ).copyWithDirty(status: TaskStatus.todo.value);
 
       mockCacheRepo.mockGetDirtyTasks([dirtyTask1, dirtyTask2, dirtyTask3]);
 
       // First two succeed, third fails
-      when(() => mockTaskRepo.updateTaskStatus(dirtyTask1.id, any()))
-          .thenAnswer((_) async => {});
-      when(() => mockTaskRepo.updateTaskStatus(dirtyTask2.id, any()))
-          .thenAnswer((_) async => {});
-      when(() => mockTaskRepo.updateTaskStatus(dirtyTask3.id, any()))
-          .thenThrow(Exception('Network timeout'));
+      when(
+        () => mockTaskRepo.updateTaskStatus(dirtyTask1.id, any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockTaskRepo.updateTaskStatus(dirtyTask2.id, any()),
+      ).thenAnswer((_) async => {});
+      when(
+        () => mockTaskRepo.updateTaskStatus(dirtyTask3.id, any()),
+      ).thenThrow(Exception('Network timeout'));
 
       mockCacheRepo.mockClearDirtyFlag();
       mockCacheRepo.mockIsCacheStale(false);
@@ -338,8 +343,9 @@ void main() {
       mockCacheRepo.mockGetDirtyTasks([]);
 
       // Staleness check throws
-      when(() => mockCacheRepo.isCacheStale(any(), any()))
-          .thenThrow(Exception('Hive error'));
+      when(
+        () => mockCacheRepo.isCacheStale(any(), any()),
+      ).thenThrow(Exception('Hive error'));
 
       // Act
       final result = await syncManager.syncAll();

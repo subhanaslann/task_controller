@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/features/settings/presentation/settings_screen.dart';
 import 'package:flutter_app/core/providers/theme_provider.dart';

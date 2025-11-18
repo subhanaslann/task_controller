@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/utils/constants.dart';
@@ -11,9 +10,21 @@ import '../../../data/models/task.dart';
 // User Create Dialog
 class UserCreateDialog extends StatefulWidget {
   final List<Topic> topics;
-  final Function(String name, String username, String email, String password, String role, List<String>? visibleTopicIds) onSave;
+  final Function(
+    String name,
+    String username,
+    String email,
+    String password,
+    String role,
+    List<String>? visibleTopicIds,
+  )
+  onSave;
 
-  const UserCreateDialog({Key? key, required this.topics, required this.onSave}) : super(key: key);
+  const UserCreateDialog({
+    super.key,
+    required this.topics,
+    required this.onSave,
+  });
 
   @override
   State<UserCreateDialog> createState() => _UserCreateDialogState();
@@ -26,7 +37,7 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   String _selectedRole = 'MEMBER';
-  Set<String> _selectedTopicIds = {};
+  final Set<String> _selectedTopicIds = {};
 
   @override
   void dispose() {
@@ -51,14 +62,16 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
                 label: 'Name',
                 controller: _nameController,
                 isRequired: true,
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Required' : null,
               ),
               const Gap(16),
               AppTextField(
                 label: 'Username',
                 controller: _usernameController,
                 isRequired: true,
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Required' : null,
               ),
               const Gap(16),
               AppTextField(
@@ -91,10 +104,7 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
                 children: [
                   const Text(
                     'Role:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                   const Gap(8),
                   Wrap(
@@ -141,19 +151,21 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
                       spacing: 8,
                       children: widget.topics
                           .where((t) => t.isActive)
-                          .map((topic) => FilterChip(
-                                label: Text(topic.title),
-                                selected: _selectedTopicIds.contains(topic.id),
-                                onSelected: (selected) {
-                                  setState(() {
-                                    if (selected) {
-                                      _selectedTopicIds.add(topic.id);
-                                    } else {
-                                      _selectedTopicIds.remove(topic.id);
-                                    }
-                                  });
-                                },
-                              ))
+                          .map(
+                            (topic) => FilterChip(
+                              label: Text(topic.title),
+                              selected: _selectedTopicIds.contains(topic.id),
+                              onSelected: (selected) {
+                                setState(() {
+                                  if (selected) {
+                                    _selectedTopicIds.add(topic.id);
+                                  } else {
+                                    _selectedTopicIds.remove(topic.id);
+                                  }
+                                });
+                              },
+                            ),
+                          )
                           .toList(),
                     ),
                   ],
@@ -171,7 +183,8 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
           text: 'Create',
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final topicIds = _selectedRole == 'GUEST' && _selectedTopicIds.isNotEmpty
+              final topicIds =
+                  _selectedRole == 'GUEST' && _selectedTopicIds.isNotEmpty
                   ? _selectedTopicIds.toList()
                   : null;
               widget.onSave(
@@ -195,7 +208,7 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
 class TopicCreateDialog extends StatefulWidget {
   final Function(String title, String? description) onSave;
 
-  const TopicCreateDialog({Key? key, required this.onSave}) : super(key: key);
+  const TopicCreateDialog({super.key, required this.onSave});
 
   @override
   State<TopicCreateDialog> createState() => _TopicCreateDialogState();
@@ -226,7 +239,8 @@ class _TopicCreateDialogState extends State<TopicCreateDialog> {
               label: 'Title',
               controller: _titleController,
               isRequired: true,
-              validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+              validator: (val) =>
+                  val == null || val.isEmpty ? 'Required' : null,
             ),
             const Gap(16),
             AppTextField(
@@ -248,7 +262,9 @@ class _TopicCreateDialogState extends State<TopicCreateDialog> {
             if (_formKey.currentState!.validate()) {
               widget.onSave(
                 _titleController.text,
-                _descriptionController.text.isEmpty ? null : _descriptionController.text,
+                _descriptionController.text.isEmpty
+                    ? null
+                    : _descriptionController.text,
               );
               Navigator.pop(context);
             }
@@ -263,9 +279,22 @@ class _TopicCreateDialogState extends State<TopicCreateDialog> {
 class UserEditDialog extends StatefulWidget {
   final User user;
   final List<Topic> topics;
-  final Function(String userId, String? name, String? role, bool? active, String? password, List<String>? visibleTopicIds) onSave;
+  final Function(
+    String userId,
+    String? name,
+    String? role,
+    bool? active,
+    String? password,
+    List<String>? visibleTopicIds,
+  )
+  onSave;
 
-  const UserEditDialog({Key? key, required this.user, required this.topics, required this.onSave}) : super(key: key);
+  const UserEditDialog({
+    super.key,
+    required this.user,
+    required this.topics,
+    required this.onSave,
+  });
 
   @override
   State<UserEditDialog> createState() => _UserEditDialogState();
@@ -310,7 +339,8 @@ class _UserEditDialogState extends State<UserEditDialog> {
                 label: 'Name',
                 controller: _nameController,
                 isRequired: true,
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Required' : null,
               ),
               const Gap(16),
               // Role selector with FilterChips
@@ -319,10 +349,7 @@ class _UserEditDialogState extends State<UserEditDialog> {
                 children: [
                   const Text(
                     'Role:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                   const Gap(8),
                   Wrap(
@@ -386,19 +413,21 @@ class _UserEditDialogState extends State<UserEditDialog> {
                       spacing: 8,
                       children: widget.topics
                           .where((t) => t.isActive)
-                          .map((topic) => FilterChip(
-                                label: Text(topic.title),
-                                selected: _selectedTopicIds.contains(topic.id),
-                                onSelected: (selected) {
-                                  setState(() {
-                                    if (selected) {
-                                      _selectedTopicIds.add(topic.id);
-                                    } else {
-                                      _selectedTopicIds.remove(topic.id);
-                                    }
-                                  });
-                                },
-                              ))
+                          .map(
+                            (topic) => FilterChip(
+                              label: Text(topic.title),
+                              selected: _selectedTopicIds.contains(topic.id),
+                              onSelected: (selected) {
+                                setState(() {
+                                  if (selected) {
+                                    _selectedTopicIds.add(topic.id);
+                                  } else {
+                                    _selectedTopicIds.remove(topic.id);
+                                  }
+                                });
+                              },
+                            ),
+                          )
                           .toList(),
                     ),
                   ],
@@ -417,13 +446,19 @@ class _UserEditDialogState extends State<UserEditDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               // Android kodundaki gibi: sadece değişen alanları gönder
-              final topicIds = _selectedRole == 'GUEST' ? _selectedTopicIds.toList() : null;
+              final topicIds = _selectedRole == 'GUEST'
+                  ? _selectedTopicIds.toList()
+                  : null;
               widget.onSave(
                 widget.user.id,
-                _nameController.text != widget.user.name ? _nameController.text : null,
+                _nameController.text != widget.user.name
+                    ? _nameController.text
+                    : null,
                 _selectedRole != widget.user.role.value ? _selectedRole : null,
                 _active != widget.user.active ? _active : null,
-                _passwordController.text.isEmpty ? null : _passwordController.text,
+                _passwordController.text.isEmpty
+                    ? null
+                    : _passwordController.text,
                 topicIds,
               );
               Navigator.pop(context);
@@ -438,9 +473,15 @@ class _UserEditDialogState extends State<UserEditDialog> {
 // Topic Edit Dialog
 class TopicEditDialog extends StatefulWidget {
   final Topic topic;
-  final Function(String topicId, String title, String? description, bool isActive) onSave;
+  final Function(
+    String topicId,
+    String title,
+    String? description,
+    bool isActive,
+  )
+  onSave;
 
-  const TopicEditDialog({Key? key, required this.topic, required this.onSave}) : super(key: key);
+  const TopicEditDialog({super.key, required this.topic, required this.onSave});
 
   @override
   State<TopicEditDialog> createState() => _TopicEditDialogState();
@@ -456,7 +497,9 @@ class _TopicEditDialogState extends State<TopicEditDialog> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.topic.title);
-    _descriptionController = TextEditingController(text: widget.topic.description ?? '');
+    _descriptionController = TextEditingController(
+      text: widget.topic.description ?? '',
+    );
     _isActive = widget.topic.isActive;
   }
 
@@ -480,7 +523,8 @@ class _TopicEditDialogState extends State<TopicEditDialog> {
               label: 'Title',
               controller: _titleController,
               isRequired: true,
-              validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+              validator: (val) =>
+                  val == null || val.isEmpty ? 'Required' : null,
             ),
             const Gap(16),
             AppTextField(
@@ -513,7 +557,9 @@ class _TopicEditDialogState extends State<TopicEditDialog> {
               widget.onSave(
                 widget.topic.id,
                 _titleController.text,
-                _descriptionController.text.isEmpty ? null : _descriptionController.text,
+                _descriptionController.text.isEmpty
+                    ? null
+                    : _descriptionController.text,
                 _isActive,
               );
               Navigator.pop(context);
@@ -537,14 +583,15 @@ class TaskCreateDialog extends StatefulWidget {
     String status,
     String priority,
     String? dueDate,
-  ) onSave;
+  )
+  onSave;
 
   const TaskCreateDialog({
-    Key? key,
+    super.key,
     required this.topics,
     required this.users,
     required this.onSave,
-  }) : super(key: key);
+  });
 
   @override
   State<TaskCreateDialog> createState() => _TaskCreateDialogState();
@@ -582,27 +629,28 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
                 label: 'Title',
                 controller: _titleController,
                 isRequired: true,
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Required' : null,
               ),
               const Gap(16),
               // Topic dropdown
               DropdownButtonFormField<String>(
-                value: _selectedTopicId,
+                key: ValueKey(_selectedTopicId),
+                initialValue: _selectedTopicId,
                 decoration: const InputDecoration(
                   labelText: 'Topic',
                   border: OutlineInputBorder(),
                 ),
                 items: [
-                  const DropdownMenuItem(
-                    value: null,
-                    child: Text('No Topic'),
-                  ),
+                  const DropdownMenuItem(value: null, child: Text('No Topic')),
                   ...widget.topics
                       .where((t) => t.isActive)
-                      .map((topic) => DropdownMenuItem(
-                            value: topic.id,
-                            child: Text(topic.title),
-                          )),
+                      .map(
+                        (topic) => DropdownMenuItem(
+                          value: topic.id,
+                          child: Text(topic.title),
+                        ),
+                      ),
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -619,7 +667,8 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
               const Gap(16),
               // Assignee dropdown
               DropdownButtonFormField<String>(
-                value: _selectedAssigneeId,
+                key: ValueKey(_selectedAssigneeId),
+                initialValue: _selectedAssigneeId,
                 decoration: const InputDecoration(
                   labelText: 'Assignee',
                   border: OutlineInputBorder(),
@@ -631,10 +680,12 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
                   ),
                   ...widget.users
                       .where((u) => u.active)
-                      .map((user) => DropdownMenuItem(
-                            value: user.id,
-                            child: Text('${user.name} (${user.username})'),
-                          )),
+                      .map(
+                        (user) => DropdownMenuItem(
+                          value: user.id,
+                          child: Text('${user.name} (${user.username})'),
+                        ),
+                      ),
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -727,7 +778,9 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
                           context: context,
                           initialDate: _selectedDueDate ?? DateTime.now(),
                           firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 365),
+                          ),
                         );
                         if (date != null) {
                           setState(() {
@@ -786,15 +839,16 @@ class TaskEditDialog extends StatefulWidget {
     String? status,
     String? priority,
     String? dueDate,
-  ) onSave;
+  )
+  onSave;
 
   const TaskEditDialog({
-    Key? key,
+    super.key,
     required this.task,
     required this.topics,
     required this.users,
     required this.onSave,
-  }) : super(key: key);
+  });
 
   @override
   State<TaskEditDialog> createState() => _TaskEditDialogState();
@@ -846,27 +900,28 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
                 label: 'Title',
                 controller: _titleController,
                 isRequired: true,
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Required' : null,
               ),
               const Gap(16),
               // Topic dropdown
               DropdownButtonFormField<String>(
-                value: _selectedTopicId,
+                key: ValueKey(_selectedTopicId),
+                initialValue: _selectedTopicId,
                 decoration: const InputDecoration(
                   labelText: 'Topic',
                   border: OutlineInputBorder(),
                 ),
                 items: [
-                  const DropdownMenuItem(
-                    value: null,
-                    child: Text('No Topic'),
-                  ),
+                  const DropdownMenuItem(value: null, child: Text('No Topic')),
                   ...widget.topics
                       .where((t) => t.isActive)
-                      .map((topic) => DropdownMenuItem(
-                            value: topic.id,
-                            child: Text(topic.title),
-                          )),
+                      .map(
+                        (topic) => DropdownMenuItem(
+                          value: topic.id,
+                          child: Text(topic.title),
+                        ),
+                      ),
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -883,7 +938,8 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
               const Gap(16),
               // Assignee dropdown
               DropdownButtonFormField<String>(
-                value: _selectedAssigneeId,
+                key: ValueKey(_selectedAssigneeId),
+                initialValue: _selectedAssigneeId,
                 decoration: const InputDecoration(
                   labelText: 'Assignee',
                   border: OutlineInputBorder(),
@@ -895,10 +951,12 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
                   ),
                   ...widget.users
                       .where((u) => u.active)
-                      .map((user) => DropdownMenuItem(
-                            value: user.id,
-                            child: Text('${user.name} (${user.username})'),
-                          )),
+                      .map(
+                        (user) => DropdownMenuItem(
+                          value: user.id,
+                          child: Text('${user.name} (${user.username})'),
+                        ),
+                      ),
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -991,7 +1049,9 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
                           context: context,
                           initialDate: _selectedDueDate ?? DateTime.now(),
                           firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 365),
+                          ),
                         );
                         if (date != null) {
                           setState(() {
@@ -1045,12 +1105,12 @@ class GuestAccessDialog extends StatefulWidget {
   final Function(String userId) onRemoveGuest;
 
   const GuestAccessDialog({
-    Key? key,
+    super.key,
     required this.topic,
     required this.users,
     required this.onAddGuest,
     required this.onRemoveGuest,
-  }) : super(key: key);
+  });
 
   @override
   State<GuestAccessDialog> createState() => _GuestAccessDialogState();
@@ -1060,13 +1120,9 @@ class _GuestAccessDialogState extends State<GuestAccessDialog> {
   @override
   Widget build(BuildContext context) {
     // Guest kullanıcıları filtrele
-    final guestUsers = widget.users.where((u) => u.role == UserRole.guest).toList();
-    final guestUserIds = widget.topic.guestUserIds ?? [];
-    
-    // DEBUG: Backend'den gelen veriyi kontrol et
-    print('DEBUG: Topic: ${widget.topic.title}');
-    print('DEBUG: guestUserIds from backend: $guestUserIds');
-    print('DEBUG: Guest users count: ${guestUsers.length}');
+    final guestUsers = widget.users
+        .where((u) => u.role == UserRole.guest)
+        .toList();
 
     if (guestUsers.isEmpty) {
       return AlertDialog(
@@ -1101,7 +1157,9 @@ class _GuestAccessDialogState extends State<GuestAccessDialog> {
                   final user = guestUsers[index];
                   // user.visibleTopicIds'den topic erişimini kontrol et
                   // (Backend guestUserIds desteklemediği için)
-                  final hasAccess = user.visibleTopicIds.contains(widget.topic.id);
+                  final hasAccess = user.visibleTopicIds.contains(
+                    widget.topic.id,
+                  );
 
                   return CheckboxListTile(
                     title: Text(user.name),

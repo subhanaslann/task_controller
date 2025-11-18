@@ -3,7 +3,7 @@ import '../theme/app_theme.dart';
 import 'app_button.dart';
 
 class LoadingPlaceholder extends StatefulWidget {
-  const LoadingPlaceholder({Key? key}) : super(key: key);
+  const LoadingPlaceholder({super.key});
 
   @override
   State<LoadingPlaceholder> createState() => _LoadingPlaceholderState();
@@ -21,9 +21,10 @@ class _LoadingPlaceholderState extends State<LoadingPlaceholder>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat();
-    _animation = Tween<double>(begin: -1, end: 2).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: -1,
+      end: 2,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -47,23 +48,48 @@ class _LoadingPlaceholderState extends State<LoadingPlaceholder>
                 // Top row
                 Row(
                   children: [
-                    _ShimmerBox(width: 80, height: 20, shimmerPosition: _animation.value),
+                    _ShimmerBox(
+                      width: 80,
+                      height: 20,
+                      shimmerPosition: _animation.value,
+                    ),
                     const Spacer(),
-                    _ShimmerBox(width: 60, height: 20, shimmerPosition: _animation.value),
+                    _ShimmerBox(
+                      width: 60,
+                      height: 20,
+                      shimmerPosition: _animation.value,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
                 // Title
-                _ShimmerBox(width: double.infinity, height: 20, shimmerPosition: _animation.value),
+                _ShimmerBox(
+                  width: double.infinity,
+                  height: 20,
+                  shimmerPosition: _animation.value,
+                ),
                 const SizedBox(height: 8),
-                _ShimmerBox(width: 200, height: 16, shimmerPosition: _animation.value),
+                _ShimmerBox(
+                  width: 200,
+                  height: 16,
+                  shimmerPosition: _animation.value,
+                ),
                 const SizedBox(height: 16),
                 // Bottom row
                 Row(
                   children: [
-                    _ShimmerBox(width: 60, height: 20, shimmerPosition: _animation.value),
+                    _ShimmerBox(
+                      width: 60,
+                      height: 20,
+                      shimmerPosition: _animation.value,
+                    ),
                     const Spacer(),
-                    _ShimmerBox(width: 28, height: 28, shimmerPosition: _animation.value, isCircle: true),
+                    _ShimmerBox(
+                      width: 28,
+                      height: 28,
+                      shimmerPosition: _animation.value,
+                      isCircle: true,
+                    ),
                   ],
                 ),
               ],
@@ -94,15 +120,13 @@ class _ShimmerBox extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        borderRadius: isCircle ? BorderRadius.circular(height / 2) : BorderRadius.circular(4),
+        borderRadius: isCircle
+            ? BorderRadius.circular(height / 2)
+            : BorderRadius.circular(4),
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            Colors.grey[300]!,
-            Colors.grey[200]!,
-            Colors.grey[300]!,
-          ],
+          colors: [Colors.grey[300]!, Colors.grey[200]!, Colors.grey[300]!],
           stops: [
             (shimmerPosition - 1).clamp(0.0, 1.0),
             shimmerPosition.clamp(0.0, 1.0),
@@ -116,13 +140,11 @@ class _ShimmerBox extends StatelessWidget {
 
 /// Loading State - Full screen loading indicator
 class LoadingState extends StatelessWidget {
-  const LoadingState({Key? key}) : super(key: key);
+  const LoadingState({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
 }
 
@@ -131,11 +153,7 @@ class ErrorState extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
 
-  const ErrorState({
-    Key? key,
-    required this.message,
-    required this.onRetry,
-  }) : super(key: key);
+  const ErrorState({super.key, required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -145,17 +163,13 @@ class ErrorState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppTheme.errorColor),
             const SizedBox(height: 16),
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppTheme.errorColor,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: AppTheme.errorColor),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),

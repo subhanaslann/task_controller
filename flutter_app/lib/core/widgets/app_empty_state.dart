@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// TekTech AppEmptyState Component
-/// 
+///
 /// Generic empty state widget for lists and screens
 /// - Icon display
 /// - Title and subtitle
@@ -17,14 +17,14 @@ class AppEmptyState extends StatelessWidget {
   final double iconSize;
 
   const AppEmptyState({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     this.subtitle,
     this.actionLabel,
     this.onActionPressed,
     this.iconSize = 64,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class AppEmptyState extends StatelessWidget {
             Icon(
               icon,
               size: iconSize,
-              color: theme.colorScheme.outline.withOpacity(0.5),
+              color: theme.colorScheme.outline.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppTheme.spacing16),
             Text(

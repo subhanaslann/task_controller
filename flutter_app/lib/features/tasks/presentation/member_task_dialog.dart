@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import '../../../core/theme/app_theme.dart';
+import 'package:logger/logger.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/providers/providers.dart';
-import '../../../data/models/topic.dart';
 import '../../../data/datasources/api_service.dart';
 
 class MemberTaskDialog extends ConsumerStatefulWidget {
@@ -15,17 +14,18 @@ class MemberTaskDialog extends ConsumerStatefulWidget {
   final VoidCallback? onTaskCreated;
 
   const MemberTaskDialog({
-    Key? key,
+    super.key,
     required this.topicId,
     required this.topicTitle,
     this.onTaskCreated,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<MemberTaskDialog> createState() => _MemberTaskDialogState();
 }
 
 class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
+  final Logger _logger = Logger();
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _noteController = TextEditingController();
@@ -56,7 +56,8 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
                 label: 'Görev Başlığı',
                 controller: _titleController,
                 isRequired: true,
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Required' : null,
                 maxLines: 3,
               ),
               const Gap(16),
@@ -122,7 +123,11 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
                 children: [
                   const Text(
                     'Bitiş Tarihi *',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.red),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.red,
+                    ),
                   ),
                   const Gap(8),
                   OutlinedButton(
@@ -145,7 +150,9 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
                     child: Text(
                       _selectedDueDate == null
                           ? 'Tarih Seç'
-                          : _selectedDueDate!.toLocal().toString().split(' ')[0],
+                          : _selectedDueDate!.toLocal().toString().split(
+                              ' ',
+                            )[0],
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
@@ -163,52 +170,51 @@ class _MemberTaskDialogState extends ConsumerState<MemberTaskDialog> {
         AppButton(
           text: 'Ekle',
           onPressed: () async {
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                  if (_selectedDueDate == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Lütfen bir bitiş tarihi seçin')),
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
+            if (_selectedDueDate == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Lütfen bir bitiş tarihi seçin')),
+              );
+              return;
+            }
+            if (currentUser != null) {
+              try {
+                await ref
+                    .read(taskRepositoryProvider)
+                    .createMemberTask(
+                      CreateMemberTaskRequest(
+                        topicId: widget.topicId,
+                        title: _titleController.text.trim(),
+                        note: _noteController.text.trim().isNotEmpty
+                            ? _noteController.text.trim()
+                            : null,
+                        priority: _selectedPriority.value,
+                        dueDate: _selectedDueDate != null
+                            ? '${_selectedDueDate!.toIso8601String().split('T')[0]}T00:00:00Z'
+                            : null,
+                      ),
                     );
-                    return;
-                  }
-                  if (currentUser != null) {
-                    try {
-                      // Member kendi adına görev ekliyor (self-assign)
-                      print('DEBUG: Görev oluşturuluyor...');
-                      await ref.read(taskRepositoryProvider).createMemberTask(
-                        CreateMemberTaskRequest(
-                          title: _titleController.text,
-                          topicId: widget.topicId,
-                          note: _noteController.text.isEmpty ? null : _noteController.text,
-                          priority: _selectedPriority.value,
-                          dueDate: _selectedDueDate != null 
-                              ? '${_selectedDueDate!.toIso8601String().split('T')[0]}T00:00:00Z'
-                              : null,
-                        ),
-                      );
-                      print('DEBUG: Görev başarıyla oluşturuldu');
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        widget.onTaskCreated?.call();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Görev oluşturuldu')),
-                        );
-                      }
-                    } catch (e, stackTrace) {
-                      print('DEBUG: Görev oluşturma HATASI: $e');
-                      print('DEBUG: Stack trace: $stackTrace');
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Hata: $e'),
-                            duration: const Duration(seconds: 5),
-                          ),
-                        );
-                      }
-                    }
-                  }
-                },
+
+                if (mounted && context.mounted) {
+                  Navigator.of(context).pop();
+                  widget.onTaskCreated?.call();
+                }
+              } catch (e, stackTrace) {
+                _logger.e('Görev oluşturma HATASI: $e');
+                _logger.e('Stack trace: $stackTrace');
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Hata: $e'),
+                      duration: const Duration(seconds: 5),
+                    ),
+                  );
+                }
+              }
+            }
+          },
         ),
       ],
     );

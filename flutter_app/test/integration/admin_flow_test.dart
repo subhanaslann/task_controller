@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
@@ -70,7 +71,7 @@ void main() {
         expect(response.users.every((u) => u.organizationId == orgId), true);
       }
 
-      print('✅ User list retrieved: ${response.users.length} users');
+      debugPrint('✅ User list retrieved: ${response.users.length} users');
     });
 
     test('should create new user successfully', () async {
@@ -94,10 +95,10 @@ void main() {
         expect(response.user.role, UserRole.member);
         expect(response.user.active, true);
 
-        print('✅ User created: ${response.user.name}');
+        debugPrint('✅ User created: ${response.user.name}');
       } catch (e) {
         if (e is DioException && e.response?.statusCode == 403) {
-          print('⚠️  User limit reached or permission denied');
+          debugPrint('⚠️  User limit reached or permission denied');
         } else {
           rethrow;
         }
@@ -106,7 +107,9 @@ void main() {
 
     test('should enforce user limit (15 max)', () async {
       // Note: This test requires organization to be at/near user limit
-      print('⚠️  User limit test requires specific setup (14+ existing users)');
+      debugPrint(
+        '⚠️  User limit test requires specific setup (14+ existing users)',
+      );
       expect(true, true); // Placeholder
     });
   });
@@ -118,7 +121,7 @@ void main() {
 
       // Assert
       expect(response.topics, isA<List>());
-      print('✅ Topics retrieved: ${response.topics.length} topics');
+      debugPrint('✅ Topics retrieved: ${response.topics.length} topics');
     });
 
     test('should create new topic successfully', () async {
@@ -136,7 +139,7 @@ void main() {
       // Assert
       expect(response.topic.title, 'Test Topic $timestamp');
       expect(response.topic.isActive, true);
-      print('✅ Topic created: ${response.topic.id}');
+      debugPrint('✅ Topic created: ${response.topic.id}');
     });
 
     test('should update topic details', () async {
@@ -155,7 +158,7 @@ void main() {
       // Assert
       expect(updateResponse.topic.title, 'Updated Topic');
       expect(updateResponse.topic.isActive, false);
-      print('✅ Topic updated successfully');
+      debugPrint('✅ Topic updated successfully');
     });
 
     test('should delete topic', () async {
@@ -172,7 +175,7 @@ void main() {
       // Note: validateStatus allows < 500, so we check status directly instead of catching exception
       final response = await dio.get('/admin/topics/$topicId');
       expect(response.statusCode, 404);
-      print('✅ Topic deleted successfully - verified with 404 response');
+      debugPrint('✅ Topic deleted successfully - verified with 404 response');
     });
   });
 
@@ -198,7 +201,7 @@ void main() {
       // Assert
       expect(taskResponse.statusCode, 201);
       expect(taskResponse.data['task']['assigneeId'], assigneeId);
-      print('✅ Task assigned to specific user');
+      debugPrint('✅ Task assigned to specific user');
     });
   });
 
@@ -218,7 +221,7 @@ void main() {
       expect(stats['userCount'] >= stats['activeUserCount'], true);
       expect(stats['taskCount'] >= stats['activeTaskCount'], true);
 
-      print('✅ Organization stats retrieved successfully');
+      debugPrint('✅ Organization stats retrieved successfully');
     });
   });
 
@@ -245,7 +248,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 403);
         }
-        print('✅ Team manager cannot create admin - correctly restricted');
+        debugPrint('✅ Team manager cannot create admin - correctly restricted');
       }
     });
 
@@ -277,7 +280,7 @@ void main() {
           if (e is DioException) {
             expect(e.response?.statusCode, 403);
           }
-          print(
+          debugPrint(
             '✅ Team manager cannot create another manager - correctly restricted',
           );
         }

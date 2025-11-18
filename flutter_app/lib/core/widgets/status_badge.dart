@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 /// TekTech StatusBadge Component
-/// 
+///
 /// Displays task status as a colored badge with icon
 /// - Color-coded based on status (todo/in_progress/done)
 /// - Consistent sizing and styling
@@ -13,11 +13,11 @@ class StatusBadge extends StatelessWidget {
   final double? fontSize;
 
   const StatusBadge({
-    Key? key,
+    super.key,
     required this.status,
     this.showIcon = true,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,36 +28,32 @@ class StatusBadge extends StatelessWidget {
       label: 'Görev durumu: ${config.label}',
       readOnly: true,
       child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: config.color.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: config.color.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (showIcon) ...[
-            Icon(
-              config.icon,
-              size: fontSize ?? 14,
-              color: config.color,
-            ),
-            const SizedBox(width: 4),
-          ],
-          Text(
-            config.label,
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: config.color,
-              fontWeight: FontWeight.w600,
-              fontSize: fontSize,
-            ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: config.color.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: config.color.withValues(alpha: 0.3),
+            width: 1,
           ),
-        ],
-      ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showIcon) ...[
+              Icon(config.icon, size: fontSize ?? 14, color: config.color),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              config.label,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: config.color,
+                fontWeight: FontWeight.w600,
+                fontSize: fontSize,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -91,9 +87,5 @@ class _StatusConfig {
   final IconData icon;
   final String label;
 
-  _StatusConfig({
-    required this.color,
-    required this.icon,
-    required this.label,
-  });
+  _StatusConfig({required this.color, required this.icon, required this.label});
 }

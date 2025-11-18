@@ -23,27 +23,27 @@ class AppTextField extends StatefulWidget {
   final bool expands;
 
   const AppTextField({
-    Key? key,
-    this.label,
-    this.hintText,
+    super.key,
+    required this.label,
     this.controller,
     this.initialValue,
+    this.hintText,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.maxLines = 1,
     this.validator,
     this.onChanged,
     this.onSubmitted,
+    this.prefixIcon,
+    this.suffixIcon,
     this.isRequired = false,
     this.helperText,
     this.errorText,
-    this.prefixIcon,
-    this.suffixIcon,
     this.minLines,
-    this.maxLines = 1,
     this.maxLength,
     this.enabled = true,
     this.expands = false,
-  }) : super(key: key);
+  });
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -123,7 +123,7 @@ class _AppTextFieldState extends State<AppTextField> {
             filled: true,
             fillColor: widget.enabled
                 ? colorScheme.surfaceContainer
-                : colorScheme.surfaceContainer.withOpacity(0.5),
+                : colorScheme.surfaceContainer.withValues(alpha: 0.5),
             // Better border colors
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppTheme.radius12),
@@ -148,7 +148,7 @@ class _AppTextFieldState extends State<AppTextField> {
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppTheme.radius12),
               borderSide: BorderSide(
-                color: colorScheme.outline.withOpacity(0.5),
+                color: colorScheme.outline.withValues(alpha: 0.5),
               ),
             ),
             contentPadding: const EdgeInsets.symmetric(
@@ -181,7 +181,7 @@ class AppTextArea extends StatelessWidget {
   final int? maxLength;
 
   const AppTextArea({
-    Key? key,
+    super.key,
     required this.label,
     this.controller,
     this.helperText,
@@ -192,7 +192,7 @@ class AppTextArea extends StatelessWidget {
     this.minLines = 3,
     this.maxLines = 5,
     this.maxLength,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

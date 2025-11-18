@@ -1,10 +1,9 @@
-import 'package:hive/hive.dart';
 import '../models/task.dart';
 import '../models/user.dart';
 import '../../core/utils/constants.dart';
 
 /// TekTech Cache Models
-/// 
+///
 /// Hive-compatible cache versions of domain models
 /// - Type adapters for Hive serialization
 /// - Conversion to/from domain models

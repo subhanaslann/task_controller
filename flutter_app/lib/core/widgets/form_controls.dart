@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// TekTech AppCheckbox Component
-/// 
+///
 /// Consistent checkbox with label
 /// - WCAG AA minimum touch target
 /// - Semantic accessibility
@@ -13,12 +13,12 @@ class AppCheckbox extends StatelessWidget {
   final bool enabled;
 
   const AppCheckbox({
-    Key? key,
+    super.key,
     required this.checked,
     required this.onChanged,
     required this.label,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,9 @@ class AppCheckbox extends StatelessWidget {
               height: 48,
               child: Checkbox(
                 value: checked,
-                onChanged: enabled ? (value) => onChanged(value ?? false) : null,
+                onChanged: enabled
+                    ? (value) => onChanged(value ?? false)
+                    : null,
                 activeColor: AppTheme.primaryColor,
               ),
             ),
@@ -42,10 +44,10 @@ class AppCheckbox extends StatelessWidget {
               child: Text(
                 label,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: enabled
-                          ? AppTheme.textPrimaryColor
-                          : AppTheme.textDisabledColor,
-                    ),
+                  color: enabled
+                      ? AppTheme.textPrimaryColor
+                      : AppTheme.textDisabledColor,
+                ),
               ),
             ),
           ],
@@ -56,7 +58,7 @@ class AppCheckbox extends StatelessWidget {
 }
 
 /// TekTech AppSwitch Component
-/// 
+///
 /// Consistent switch with label and optional description
 /// - WCAG AA minimum touch target
 /// - Semantic accessibility
@@ -68,13 +70,13 @@ class AppSwitch extends StatelessWidget {
   final bool enabled;
 
   const AppSwitch({
-    Key? key,
+    super.key,
     required this.checked,
     required this.onChanged,
     required this.label,
     this.description,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +96,18 @@ class AppSwitch extends StatelessWidget {
                   Text(
                     label,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: enabled
-                              ? AppTheme.textPrimaryColor
-                              : AppTheme.textDisabledColor,
-                        ),
+                      color: enabled
+                          ? AppTheme.textPrimaryColor
+                          : AppTheme.textDisabledColor,
+                    ),
                   ),
                   if (description != null) ...[
                     const SizedBox(height: 4),
                     Text(
                       description!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppTheme.textSecondaryColor,
-                          ),
+                        color: AppTheme.textSecondaryColor,
+                      ),
                     ),
                   ],
                 ],
@@ -119,7 +121,7 @@ class AppSwitch extends StatelessWidget {
                 child: Switch(
                   value: checked,
                   onChanged: enabled ? onChanged : null,
-                  activeColor: AppTheme.primaryColor,
+                  activeTrackColor: AppTheme.primaryColor,
                 ),
               ),
             ),

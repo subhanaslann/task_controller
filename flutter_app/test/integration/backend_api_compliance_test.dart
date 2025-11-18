@@ -1,14 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_app/data/datasources/api_service.dart';
-import 'package:flutter_app/core/storage/secure_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Backend API Compliance Tests
 /// Based on backend-test-prompt.json specifications
 ///
 /// NOTE: These tests require a running backend server on http://localhost:8080
-/// and seeded test data. Run `npm run prisma:seed` in the server directory first.
+/// and seeded test data. Run `npm run debugPrint:seed` in the server directory first.
 ///
 /// Test credentials from seed data:
 /// - Admin/Manager: john@acme.com / manager123
@@ -17,15 +14,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   group('Backend API Compliance Tests', () {
-    late ApiService apiService;
-    late SecureStorage secureStorage;
-    String? authToken;
-
     setUpAll(() async {
       FlutterSecureStorage.setMockInitialValues({});
-      secureStorage = SecureStorage();
-      final dio = Dio(BaseOptions(baseUrl: 'http://localhost:8080'));
-      apiService = ApiService(dio, baseUrl: 'http://localhost:8080');
     });
 
     group('1. Health & Infrastructure', () {
@@ -50,7 +40,8 @@ void main() {
         // expect(response.token, isNotEmpty);
         // expect(response.user.role, UserRole.teamManager);
         // expect(response.organization, isNotNull);
-        expect(true, true); // Placeholder
+        expect(email, isNotEmpty); // Placeholder using email
+        expect(password, isNotEmpty); // Placeholder using password
       });
 
       test('AUTH_02: should login with username (Member)', () async {

@@ -1,9 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/data/models/user.dart';
 import 'package:flutter_app/data/models/organization.dart';
-import 'package:flutter_app/data/models/task.dart';
 import 'package:flutter_app/core/utils/constants.dart';
 
 /// Integration tests for API endpoints
@@ -50,15 +50,17 @@ void main() {
           if (authToken != null) {
             options.headers['Authorization'] = 'Bearer $authToken';
           }
-          print('REQUEST: ${options.method} ${options.path}');
+          debugPrint('REQUEST: ${options.method} ${options.path}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print('RESPONSE: ${response.statusCode} ${response.statusMessage}');
+          debugPrint(
+            'RESPONSE: ${response.statusCode} ${response.statusMessage}',
+          );
           return handler.next(response);
         },
         onError: (error, handler) {
-          print('ERROR: ${error.message}');
+          debugPrint('ERROR: ${error.message}');
           return handler.next(error);
         },
       ),
@@ -106,8 +108,10 @@ void main() {
         userId = response.user.id;
         organizationId = response.user.organizationId;
 
-        print('✅ Logged in as: ${response.user.name} (${response.user.role})');
-        print('✅ Organization: ${response.organization.name}');
+        debugPrint(
+          '✅ Logged in as: ${response.user.name} (${response.user.role})',
+        );
+        debugPrint('✅ Organization: ${response.organization.name}');
       });
 
       test('1.3 Login - Invalid credentials should fail with 401', () async {
@@ -122,7 +126,7 @@ void main() {
         } catch (e) {
           // Retrofit/Dio may throw DioException or type error when parsing invalid response
           expect(e, anyOf(isA<DioException>(), isA<TypeError>()));
-          print('✅ Invalid login correctly rejected');
+          debugPrint('✅ Invalid login correctly rejected');
         }
       });
 
@@ -145,10 +149,10 @@ void main() {
           expect(response.data.user.role, UserRole.teamManager);
           expect(response.data.token, isNotEmpty);
 
-          print('✅ Registered team: ${response.data.organization.name}');
+          debugPrint('✅ Registered team: ${response.data.organization.name}');
         } catch (e) {
           if (e is DioException && e.response?.statusCode == 409) {
-            print('⚠️  Registration skipped - email already exists');
+            debugPrint('⚠️  Registration skipped - email already exists');
           } else {
             rethrow;
           }
@@ -170,7 +174,7 @@ void main() {
         final response = await apiService.getTasks('my_active');
 
         expect(response.tasks, isA<List>());
-        print('✅ Found ${response.tasks.length} active tasks');
+        debugPrint('✅ Found ${response.tasks.length} active tasks');
 
         // Verify task structure if tasks exist
         if (response.tasks.isNotEmpty) {
@@ -189,14 +193,14 @@ void main() {
         final response = await apiService.getTasks('team_active');
 
         expect(response.tasks, isA<List>());
-        print('✅ Found ${response.tasks.length} team active tasks');
+        debugPrint('✅ Found ${response.tasks.length} team active tasks');
       });
 
       test('2.3 Get My Completed Tasks', () async {
         final response = await apiService.getTasks('my_done');
 
         expect(response.tasks, isA<List>());
-        print('✅ Found ${response.tasks.length} completed tasks');
+        debugPrint('✅ Found ${response.tasks.length} completed tasks');
 
         // Verify all tasks are DONE
         for (final task in response.tasks) {
@@ -220,12 +224,13 @@ void main() {
         final response = await apiService.createMemberTask(request);
 
         expect(response.task, isNotNull);
-        expect(response.task!.title, request.title);
-        expect(response.task!.priority, Priority.high);
-        expect(response.task!.assigneeId, userId); // Auto-assigned to self
-        expect(response.task!.status, TaskStatus.todo); // Default status
+        final task = response.task;
+        expect(task.title, request.title);
+        expect(task.priority, Priority.high);
+        expect(task.assigneeId, userId); // Auto-assigned to self
+        expect(task.status, TaskStatus.todo); // Default status
 
-        print('✅ Created task: ${response.task!.id}');
+        debugPrint('✅ Created task: ${task.id}');
       });
 
       test('2.5 Invalid scope should fail', () async {
@@ -235,7 +240,7 @@ void main() {
         } catch (e) {
           // Retrofit/Dio may throw DioException or type error when parsing invalid response
           expect(e, anyOf(isA<DioException>(), isA<TypeError>()));
-          print('✅ Invalid scope correctly rejected');
+          debugPrint('✅ Invalid scope correctly rejected');
         }
       });
     });
@@ -257,8 +262,8 @@ void main() {
         expect(response.data['data']['id'], organizationId);
         expect(response.data['data']['name'], isNotEmpty);
 
-        print('✅ Organization endpoint: GET /organization');
-        print('✅ Response format: {message, data}');
+        debugPrint('✅ Organization endpoint: GET /organization');
+        debugPrint('✅ Response format: {message, data}');
       });
 
       test('3.2 Get Organization Stats - FIXED ENDPOINT', () async {
@@ -274,8 +279,8 @@ void main() {
         expect(response.data['data']['taskCount'], isA<int>());
         expect(response.data['data']['topicCount'], isA<int>());
 
-        print('✅ Stats endpoint: GET /organization/stats');
-        print('✅ Response format: {message, data}');
+        debugPrint('✅ Stats endpoint: GET /organization/stats');
+        debugPrint('✅ Response format: {message, data}');
       });
     });
 
@@ -288,7 +293,7 @@ void main() {
         final response = await apiService.getTopicsForUser();
 
         expect(response.topics, isA<List>());
-        print('✅ Found ${response.topics.length} active topics');
+        debugPrint('✅ Found ${response.topics.length} active topics');
 
         // Verify topic structure if topics exist
         if (response.topics.isNotEmpty) {
@@ -310,10 +315,12 @@ void main() {
           final response = await apiService.getTopics();
 
           expect(response.topics, isA<List>());
-          print('✅ Admin can view ${response.topics.length} topics');
+          debugPrint('✅ Admin can view ${response.topics.length} topics');
         } catch (e) {
           if (e is DioException && e.response?.statusCode == 403) {
-            print('⚠️  User does not have admin privileges - test skipped');
+            debugPrint(
+              '⚠️  User does not have admin privileges - test skipped',
+            );
           } else {
             rethrow;
           }
@@ -325,7 +332,7 @@ void main() {
           final response = await apiService.getUsers();
 
           expect(response.users, isA<List>());
-          print('✅ Admin can view ${response.users.length} users');
+          debugPrint('✅ Admin can view ${response.users.length} users');
 
           // Verify user structure
           if (response.users.isNotEmpty) {
@@ -345,7 +352,9 @@ void main() {
           }
         } catch (e) {
           if (e is DioException && e.response?.statusCode == 403) {
-            print('⚠️  User does not have admin privileges - test skipped');
+            debugPrint(
+              '⚠️  User does not have admin privileges - test skipped',
+            );
           } else {
             rethrow;
           }
@@ -461,9 +470,9 @@ void main() {
           expect(task.createdAt, isNotEmpty);
           expect(task.updatedAt, isNotEmpty);
 
-          print('✅ Task model validation passed');
+          debugPrint('✅ Task model validation passed');
         } else {
-          print('⚠️  No tasks to validate - skipped');
+          debugPrint('⚠️  No tasks to validate - skipped');
         }
       });
     });

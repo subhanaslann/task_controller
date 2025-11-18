@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// TekTech UserAvatar Component
-/// 
+///
 /// Displays user avatar with initials fallback
 /// - Circular avatar with optional image
 /// - Initials fallback (first letters of firstName + lastName)
@@ -16,33 +16,36 @@ class UserAvatar extends StatelessWidget {
   final VoidCallback? onTap;
 
   const UserAvatar({
-    Key? key,
+    super.key,
     this.firstName,
     this.lastName,
     this.name,
     this.imageUrl,
     this.size = AvatarSize.medium,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final dimensions = _getDimensions(size);
-    
+
     // Use name if provided, otherwise use firstName/lastName
     final nameParts = name != null ? _splitName(name!) : (null, null);
     final effectiveFirstName = firstName ?? nameParts.$1;
     final effectiveLastName = lastName ?? nameParts.$2;
-    
+
     final initials = _getInitials(effectiveFirstName, effectiveLastName);
-    final backgroundColor = _getColorFromName(effectiveFirstName, effectiveLastName);
+    final backgroundColor = _getColorFromName(
+      effectiveFirstName,
+      effectiveLastName,
+    );
 
     final avatarLabel = effectiveFirstName != null || effectiveLastName != null
         ? 'Kullanıcı: ${effectiveFirstName ?? ''} ${effectiveLastName ?? ''}'
         : name != null
-            ? 'Kullanıcı: $name'
-            : 'Kullanıcı avatarı';
+        ? 'Kullanıcı: $name'
+        : 'Kullanıcı avatarı';
 
     final avatar = Semantics(
       label: avatarLabel,
@@ -50,28 +53,28 @@ class UserAvatar extends StatelessWidget {
       child: Container(
         width: dimensions.size,
         height: dimensions.size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-        image: imageUrl != null
-            ? DecorationImage(
-                image: NetworkImage(imageUrl!),
-                fit: BoxFit.cover,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: backgroundColor,
+          image: imageUrl != null
+              ? DecorationImage(
+                  image: NetworkImage(imageUrl!),
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
+        child: imageUrl == null
+            ? Center(
+                child: Text(
+                  initials,
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: dimensions.fontSize,
+                  ),
+                ),
               )
             : null,
-      ),
-      child: imageUrl == null
-          ? Center(
-              child: Text(
-                initials,
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: dimensions.fontSize,
-                ),
-              ),
-            )
-          : null,
       ),
     );
 
@@ -94,13 +97,15 @@ class UserAvatar extends StatelessWidget {
   }
 
   String _getInitials(String? firstName, String? lastName) {
-    final first = firstName?.isNotEmpty == true ? firstName![0].toUpperCase() : '';
+    final first = firstName?.isNotEmpty == true
+        ? firstName![0].toUpperCase()
+        : '';
     final last = lastName?.isNotEmpty == true ? lastName![0].toUpperCase() : '';
-    
+
     if (first.isEmpty && last.isEmpty) {
       return '?';
     }
-    
+
     return '$first$last';
   }
 
@@ -138,18 +143,11 @@ class UserAvatar extends StatelessWidget {
   }
 }
 
-enum AvatarSize {
-  small,
-  medium,
-  large,
-}
+enum AvatarSize { small, medium, large }
 
 class _AvatarDimensions {
   final double size;
   final double fontSize;
 
-  _AvatarDimensions({
-    required this.size,
-    required this.fontSize,
-  });
+  _AvatarDimensions({required this.size, required this.fontSize});
 }

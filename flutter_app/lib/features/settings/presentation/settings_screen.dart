@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+// ignore: depend_on_referenced_packages
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../core/providers/theme_provider.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/providers.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
@@ -39,9 +40,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final currentOrganization = ref.watch(currentOrganizationProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
+      appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         children: [
           // Appearance Section
@@ -130,7 +129,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ListTile(
                   leading: const Icon(Icons.info_outline),
                   title: const Text('App Version'),
-                  subtitle: Text(_appVersion.isNotEmpty ? _appVersion : 'Loading...'),
+                  subtitle: Text(
+                    _appVersion.isNotEmpty ? _appVersion : 'Loading...',
+                  ),
                 ),
                 const Divider(height: 1),
                 ListTile(
@@ -218,7 +219,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   void _showThemeDialog() {
     final currentTheme = ref.read(themeProvider);
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -226,37 +227,40 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            RadioListTile<ThemeMode>(
+            ListTile(
               title: const Text('Light'),
-              value: ThemeMode.light,
-              groupValue: currentTheme,
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(themeProvider.notifier).setThemeMode(value);
-                  Navigator.of(context).pop();
-                }
+              leading: Icon(
+                currentTheme == ThemeMode.light
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+              ),
+              onTap: () {
+                ref.read(themeProvider.notifier).setThemeMode(ThemeMode.light);
+                Navigator.of(context).pop();
               },
             ),
-            RadioListTile<ThemeMode>(
+            ListTile(
               title: const Text('Dark'),
-              value: ThemeMode.dark,
-              groupValue: currentTheme,
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(themeProvider.notifier).setThemeMode(value);
-                  Navigator.of(context).pop();
-                }
+              leading: Icon(
+                currentTheme == ThemeMode.dark
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+              ),
+              onTap: () {
+                ref.read(themeProvider.notifier).setThemeMode(ThemeMode.dark);
+                Navigator.of(context).pop();
               },
             ),
-            RadioListTile<ThemeMode>(
+            ListTile(
               title: const Text('System Default'),
-              value: ThemeMode.system,
-              groupValue: currentTheme,
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(themeProvider.notifier).setThemeMode(value);
-                  Navigator.of(context).pop();
-                }
+              leading: Icon(
+                currentTheme == ThemeMode.system
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+              ),
+              onTap: () {
+                ref.read(themeProvider.notifier).setThemeMode(ThemeMode.system);
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -267,7 +271,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   void _showLanguageDialog() {
     final currentLocale = ref.read(localeProvider);
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -275,26 +279,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            RadioListTile<String>(
+            ListTile(
               title: const Text('English'),
-              value: 'en',
-              groupValue: currentLocale?.languageCode ?? 'en',
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(localeProvider.notifier).setLocale(Locale(value));
-                  Navigator.of(context).pop();
-                }
+              leading: Icon(
+                currentLocale.languageCode == 'en'
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+              ),
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale(const Locale('en'));
+                Navigator.of(context).pop();
               },
             ),
-            RadioListTile<String>(
+            ListTile(
               title: const Text('Türkçe'),
-              value: 'tr',
-              groupValue: currentLocale?.languageCode ?? 'en',
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(localeProvider.notifier).setLocale(Locale(value));
-                  Navigator.of(context).pop();
-                }
+              leading: Icon(
+                currentLocale.languageCode == 'tr'
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+              ),
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale(const Locale('tr'));
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -303,4 +309,3 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 }
-

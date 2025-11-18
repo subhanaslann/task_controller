@@ -7,7 +7,6 @@ import 'package:flutter_app/data/sync/connectivity_aware_sync_manager.dart';
 import 'package:flutter_app/data/sync/sync_manager.dart';
 import 'package:flutter_app/data/cache/cache_repository.dart';
 import 'package:flutter_app/data/repositories/task_repository.dart';
-import 'package:flutter_app/data/repositories/admin_repository.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/core/network/dio_client.dart';
 import 'package:flutter_app/core/storage/secure_storage.dart';
@@ -33,13 +32,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(syncManager);
 
@@ -60,13 +54,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(syncManager);
       await connectivityManager.init();
@@ -89,13 +78,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(syncManager);
       await connectivityManager.init();
@@ -121,13 +105,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(syncManager);
       await connectivityManager.init();
@@ -152,13 +131,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(syncManager);
       await connectivityManager.init();
@@ -189,13 +163,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(
         syncManager,
@@ -228,13 +197,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(
         syncManager,
@@ -262,13 +226,8 @@ void main() {
       final apiService = ApiService(dioClient.dio);
 
       final taskRepo = TaskRepository(apiService);
-      final adminRepo = AdminRepository(apiService);
 
-      final syncManager = SyncManager(
-        cacheRepo: cacheRepo,
-        taskRepo: taskRepo,
-        adminRepo: adminRepo,
-      );
+      final syncManager = SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 
       final connectivityManager = ConnectivityAwareSyncManager(
         syncManager,
@@ -280,9 +239,7 @@ void main() {
       expect(connectivityManager.isOnline, isFalse);
 
       // Simulate going online
-      mockConnectivity.simulateConnectivityChange(
-        [ConnectivityResult.wifi],
-      );
+      mockConnectivity.simulateConnectivityChange([ConnectivityResult.wifi]);
 
       // Wait for connectivity change to be processed
       await Future.delayed(const Duration(milliseconds: 100));
@@ -400,10 +357,12 @@ class _MockConnectivity implements Connectivity {
 
   /// Simulate connectivity change for testing
   void simulateConnectivityChange(List<ConnectivityResult> results) {
-    _isOnline = results.any((r) =>
-        r == ConnectivityResult.wifi ||
-        r == ConnectivityResult.mobile ||
-        r == ConnectivityResult.ethernet);
+    _isOnline = results.any(
+      (r) =>
+          r == ConnectivityResult.wifi ||
+          r == ConnectivityResult.mobile ||
+          r == ConnectivityResult.ethernet,
+    );
     _controller.add(results);
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/providers.dart';
 import '../../../core/utils/constants.dart';
 import 'my_active_tasks_screen.dart';
@@ -9,9 +8,11 @@ import 'team_active_tasks_screen.dart';
 import 'my_completed_tasks_screen.dart';
 import 'guest_topics_screen.dart';
 import '../../admin/presentation/admin_screen.dart';
+import '../../admin/presentation/admin_dialogs.dart';
+import '../../../data/datasources/api_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -44,8 +45,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildMainContent(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
-    final isAdmin = currentUser?.role == UserRole.admin ||
-                     currentUser?.role == UserRole.teamManager;
+    final isAdmin =
+        currentUser?.role == UserRole.admin ||
+        currentUser?.role == UserRole.teamManager;
     final isGuest = currentUser?.role == UserRole.guest;
     final screens = _getScreensForRole(currentUser?.role);
     final l10n = AppLocalizations.of(context);
@@ -60,9 +62,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: [
           PopupMenuButton<String>(
-              key: const Key('user_menu_button'),
-              icon: const Icon(Icons.account_circle),
-              onSelected: (String value) {
+            key: const Key('user_menu_button'),
+            icon: const Icon(Icons.account_circle),
+            onSelected: (String value) {
               switch (value) {
                 case 'admin':
                   Navigator.push(
@@ -294,16 +296,76 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       await authRepo.logout();
       ref.read(currentUserProvider.notifier).state = null;
 
-      if (mounted) {
+      if (mounted && context.mounted) {
         Navigator.of(context).pushReplacementNamed('/login');
       }
     }
   }
 
-  void _showCreateTaskDialog(BuildContext context) {
-    // TODO: Implement create task dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Create task functionality coming soon')),
-    );
+  void _showCreateTaskDialog(BuildContext context) async {
+    // Fetch topics and users for the dialog
+    try {
+      final adminRepo = ref.read(adminRepositoryProvider);
+      final topics = await adminRepo.getTopics();
+      final users = await adminRepo.getUsers();
+
+      if (!mounted || !context.mounted) return;
+
+      showDialog(
+        context: context,
+        builder: (context) => TaskCreateDialog(
+          topics: topics,
+          users: users,
+          onSave:
+              (
+                title,
+                topicId,
+                note,
+                assigneeId,
+                status,
+                priority,
+                dueDate,
+              ) async {
+                try {
+                  await ref
+                      .read(taskRepositoryProvider)
+                      .createTask(
+                        CreateTaskRequest(
+                          title: title,
+                          topicId: topicId,
+                          note: note,
+                          assigneeId: assigneeId,
+                          status: status,
+                          priority: priority,
+                          dueDate: dueDate,
+                        ),
+                      );
+
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Görev başarıyla oluşturuldu'),
+                      ),
+                    );
+                    // Refresh the current screen
+                    setState(() {});
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('Hata: $e')));
+                  }
+                }
+              },
+        ),
+      );
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Veriler yüklenemedi: $e')));
+      }
+    }
   }
 }

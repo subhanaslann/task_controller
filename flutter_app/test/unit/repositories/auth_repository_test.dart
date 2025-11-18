@@ -45,18 +45,24 @@ void main() {
         organization: testOrg,
       );
 
-      when(() => mockApiService.login(any())).thenAnswer((_) async => mockResponse);
+      when(
+        () => mockApiService.login(any()),
+      ).thenAnswer((_) async => mockResponse);
       when(() => mockStorage.saveToken(any())).thenAnswer((_) async => {});
-      when(() => mockStorage.saveOrganization(any())).thenAnswer((_) async => {});
+      when(
+        () => mockStorage.saveOrganization(any()),
+      ).thenAnswer((_) async => {});
 
       // Act
       final result = await repository.login('testuser@test.com', 'password123');
 
       // Assert
+      expect(result.user, isA<User>());
       expect(result.user.id, testUser.id);
       expect(result.user.email, testUser.email);
+      expect(result.organization, isA<Organization>());
       expect(result.organization.id, testOrg.id);
-      
+
       verify(() => mockApiService.login(any())).called(1);
       verify(() => mockStorage.saveToken('test-jwt-token')).called(1);
       verify(() => mockStorage.saveOrganization(any())).called(1);
@@ -64,24 +70,24 @@ void main() {
 
     test('login should throw exception on invalid credentials', () async {
       // Arrange
-      when(() => mockApiService.login(any())).thenThrow(
-        Exception('Invalid credentials'),
-      );
+      when(
+        () => mockApiService.login(any()),
+      ).thenThrow(Exception('Invalid credentials'));
 
       // Act & Assert
       expect(
         () => repository.login('wrong@test.com', 'wrongpass'),
         throwsException,
       );
-      
+
       verifyNever(() => mockStorage.saveToken(any()));
     });
 
     test('login should handle network error', () async {
       // Arrange
-      when(() => mockApiService.login(any())).thenThrow(
-        Exception('Network error'),
-      );
+      when(
+        () => mockApiService.login(any()),
+      ).thenThrow(Exception('Network error'));
 
       // Act & Assert
       expect(
@@ -106,7 +112,9 @@ void main() {
         return mockResponse;
       });
       when(() => mockStorage.saveToken(any())).thenAnswer((_) async => {});
-      when(() => mockStorage.saveOrganization(any())).thenAnswer((_) async => {});
+      when(
+        () => mockStorage.saveOrganization(any()),
+      ).thenAnswer((_) async => {});
 
       // Act
       await repository.login('testuser', 'mypassword');
@@ -131,9 +139,13 @@ void main() {
         ),
       );
 
-      when(() => mockApiService.register(any())).thenAnswer((_) async => mockResponse);
+      when(
+        () => mockApiService.register(any()),
+      ).thenAnswer((_) async => mockResponse);
       when(() => mockStorage.saveToken(any())).thenAnswer((_) async => {});
-      when(() => mockStorage.saveOrganization(any())).thenAnswer((_) async => {});
+      when(
+        () => mockStorage.saveOrganization(any()),
+      ).thenAnswer((_) async => {});
 
       // Act
       final result = await repository.register(
@@ -147,7 +159,7 @@ void main() {
       // Assert
       expect(result.user.role, UserRole.teamManager);
       expect(result.organization.name, testOrg.name);
-      
+
       verify(() => mockApiService.register(any())).called(1);
       verify(() => mockStorage.saveToken('new-team-token')).called(1);
       verify(() => mockStorage.saveOrganization(any())).called(1);
@@ -155,9 +167,9 @@ void main() {
 
     test('register should throw exception on duplicate email', () async {
       // Arrange
-      when(() => mockApiService.register(any())).thenThrow(
-        Exception('Email already registered'),
-      );
+      when(
+        () => mockApiService.register(any()),
+      ).thenThrow(Exception('Email already registered'));
 
       // Act & Assert
       expect(
@@ -170,15 +182,15 @@ void main() {
         ),
         throwsException,
       );
-      
+
       verifyNever(() => mockStorage.saveToken(any()));
     });
 
     test('register should validate password length', () async {
       // Arrange - password too short should be rejected by API
-      when(() => mockApiService.register(any())).thenThrow(
-        Exception('Password too short'),
-      );
+      when(
+        () => mockApiService.register(any()),
+      ).thenThrow(Exception('Password too short'));
 
       // Act & Assert
       expect(
@@ -241,7 +253,9 @@ void main() {
 
     test('getToken should return stored token', () async {
       // Arrange
-      when(() => mockStorage.getToken()).thenAnswer((_) async => 'stored-token');
+      when(
+        () => mockStorage.getToken(),
+      ).thenAnswer((_) async => 'stored-token');
 
       // Act
       final token = await repository.getToken();
@@ -264,31 +278,38 @@ void main() {
   });
 
   group('AuthRepository - Organization Storage', () {
-    test('getStoredOrganization should return organization from storage', () async {
-      // Arrange
-      final testOrg = TestData.testOrganization;
-      when(() => mockStorage.getOrganization()).thenAnswer((_) async => testOrg.toJson());
+    test(
+      'getStoredOrganization should return organization from storage',
+      () async {
+        // Arrange
+        final testOrg = TestData.testOrganization;
+        when(
+          () => mockStorage.getOrganization(),
+        ).thenAnswer((_) async => testOrg.toJson());
 
-      // Act
-      final result = await repository.getStoredOrganization();
+        // Act
+        final result = await repository.getStoredOrganization();
 
-      // Assert
-      expect(result, isNotNull);
-      expect(result!.id, testOrg.id);
-      expect(result.name, testOrg.name);
-      verify(() => mockStorage.getOrganization()).called(1);
-    });
+        // Assert
+        expect(result, isNotNull);
+        expect(result!.id, testOrg.id);
+        expect(result.name, testOrg.name);
+        verify(() => mockStorage.getOrganization()).called(1);
+      },
+    );
 
-    test('getStoredOrganization should return null when no organization stored', () async {
-      // Arrange
-      when(() => mockStorage.getOrganization()).thenAnswer((_) async => null);
+    test(
+      'getStoredOrganization should return null when no organization stored',
+      () async {
+        // Arrange
+        when(() => mockStorage.getOrganization()).thenAnswer((_) async => null);
 
-      // Act
-      final result = await repository.getStoredOrganization();
+        // Act
+        final result = await repository.getStoredOrganization();
 
-      // Assert
-      expect(result, null);
-    });
+        // Assert
+        expect(result, null);
+      },
+    );
   });
 }
-

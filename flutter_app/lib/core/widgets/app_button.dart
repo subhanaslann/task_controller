@@ -17,7 +17,7 @@ class AppButton extends StatefulWidget {
   final ButtonSize size;
 
   const AppButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.variant = ButtonVariant.primary,
@@ -27,7 +27,7 @@ class AppButton extends StatefulWidget {
     this.width,
     this.height,
     this.size = ButtonSize.medium,
-  }) : super(key: key);
+  });
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -160,8 +160,10 @@ class _AppButtonState extends State<AppButton> {
         return ElevatedButton.styleFrom(
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
-          disabledBackgroundColor: colorScheme.primary.withOpacity(0.38),
-          disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.38),
+          disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.38),
+          disabledForegroundColor: colorScheme.onPrimary.withValues(
+            alpha: 0.38,
+          ),
           padding: _getButtonPadding(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppTheme.radius8),
@@ -171,8 +173,12 @@ class _AppButtonState extends State<AppButton> {
         return ElevatedButton.styleFrom(
           backgroundColor: colorScheme.secondary,
           foregroundColor: colorScheme.onSecondary,
-          disabledBackgroundColor: colorScheme.secondary.withOpacity(0.38),
-          disabledForegroundColor: colorScheme.onSecondary.withOpacity(0.38),
+          disabledBackgroundColor: colorScheme.secondary.withValues(
+            alpha: 0.38,
+          ),
+          disabledForegroundColor: colorScheme.onSecondary.withValues(
+            alpha: 0.38,
+          ),
           padding: _getButtonPadding(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppTheme.radius8),
@@ -182,24 +188,26 @@ class _AppButtonState extends State<AppButton> {
         return OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
           foregroundColor: colorScheme.primary,
-          disabledForegroundColor: colorScheme.onSurface.withOpacity(0.38),
+          disabledForegroundColor: colorScheme.onSurface.withValues(
+            alpha: 0.38,
+          ),
           side: BorderSide(
             color: widget.onPressed != null && !widget.isLoading
                 ? colorScheme.outline
-                : colorScheme.outline.withOpacity(0.38),
+                : colorScheme.outline.withValues(alpha: 0.38),
             width: 1.0,
           ),
           padding: _getButtonPadding(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppTheme.radius8),
           ),
-        ).copyWith(elevation: MaterialStateProperty.all(0));
+        ).copyWith(elevation: WidgetStateProperty.all(0));
       case ButtonVariant.destructive:
         return ElevatedButton.styleFrom(
           backgroundColor: colorScheme.error,
           foregroundColor: colorScheme.onError,
-          disabledBackgroundColor: colorScheme.error.withOpacity(0.38),
-          disabledForegroundColor: colorScheme.onError.withOpacity(0.38),
+          disabledBackgroundColor: colorScheme.error.withValues(alpha: 0.38),
+          disabledForegroundColor: colorScheme.onError.withValues(alpha: 0.38),
           padding: _getButtonPadding(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppTheme.radius8),
@@ -209,7 +217,9 @@ class _AppButtonState extends State<AppButton> {
         return TextButton.styleFrom(
           backgroundColor: Colors.transparent,
           foregroundColor: colorScheme.primary,
-          disabledForegroundColor: colorScheme.onSurface.withOpacity(0.38),
+          disabledForegroundColor: colorScheme.onSurface.withValues(
+            alpha: 0.38,
+          ),
           padding: _getButtonPadding(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppTheme.radius8),

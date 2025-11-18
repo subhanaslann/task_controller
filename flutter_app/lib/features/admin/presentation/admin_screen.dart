@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:logger/logger.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/providers.dart';
 import '../../../data/datasources/api_service.dart';
@@ -14,13 +15,14 @@ import 'admin_dialogs.dart';
 import 'organization_tab.dart';
 
 class AdminScreen extends ConsumerStatefulWidget {
-  const AdminScreen({Key? key}) : super(key: key);
+  const AdminScreen({super.key});
 
   @override
   ConsumerState<AdminScreen> createState() => _AdminScreenState();
 }
 
-class _AdminScreenState extends ConsumerState<AdminScreen> with SingleTickerProviderStateMixin {
+class _AdminScreenState extends ConsumerState<AdminScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -77,6 +79,7 @@ class _UserManagementTab extends ConsumerStatefulWidget {
 }
 
 class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
+  final Logger _logger = Logger();
   Future<List<User>>? _usersFuture;
   Future<List<Topic>>? _topicsFuture;
 
@@ -142,9 +145,7 @@ class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
             final users = snapshot.data ?? [];
 
             if (users.isEmpty) {
-              return const Center(
-                child: Text('No users found'),
-              );
+              return const Center(child: Text('No users found'));
             }
 
             return RefreshIndicator(
@@ -175,48 +176,70 @@ class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
                             onPressed: () async {
                               final topics = await _topicsFuture;
                               if (!mounted || topics == null) return;
+                              if (!context.mounted) return;
                               showDialog(
                                 context: context,
                                 builder: (context) => UserEditDialog(
                                   user: user,
                                   topics: topics,
-                                  onSave: (String userId, String? name, String? role, bool? active, String? password, List<String>? visibleTopicIds) async {
-                                    try {
-                                      print('DEBUG: Updating user: $userId');
-                                      print('DEBUG: name=$name, role=$role, active=$active, visibleTopicIds=$visibleTopicIds');
-                                      
-                                      final request = UpdateUserRequest(
-                                        name: name,
-                                        role: role,
-                                        active: active,
-                                        password: password,
-                                        visibleTopicIds: visibleTopicIds,
-                                      );
-                                      
-                                      print('DEBUG: Request JSON: ${request.toJson()}');
-                                      
-                                      await ref.read(adminRepositoryProvider).updateUser(
-                                        userId,
-                                        request,
-                                      );
-                                      
-                                      print('DEBUG: User updated successfully');
-                                      _refresh();
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(content: Text('User updated')),
-                                        );
-                                      }
-                                    } catch (e, stackTrace) {
-                                      print('DEBUG: Error occurred: $e');
-                                      print('DEBUG: Stack trace: $stackTrace');
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text('Error: $e')),
-                                        );
-                                      }
-                                    }
-                                  },
+                                  onSave:
+                                      (
+                                        String userId,
+                                        String? name,
+                                        String? role,
+                                        bool? active,
+                                        String? password,
+                                        List<String>? visibleTopicIds,
+                                      ) async {
+                                        try {
+                                          _logger.d('Updating user: $userId');
+                                          _logger.d(
+                                            'name=$name, role=$role, active=$active, visibleTopicIds=$visibleTopicIds',
+                                          );
+
+                                          final request = UpdateUserRequest(
+                                            name: name,
+                                            role: role,
+                                            active: active,
+                                            password: password,
+                                            visibleTopicIds: visibleTopicIds,
+                                          );
+
+                                          _logger.d(
+                                            'Request JSON: ${request.toJson()}',
+                                          );
+
+                                          await ref
+                                              .read(adminRepositoryProvider)
+                                              .updateUser(userId, request);
+
+                                          _logger.i(
+                                            'User updated successfully',
+                                          );
+                                          _refresh();
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text('User updated'),
+                                              ),
+                                            );
+                                          }
+                                        } catch (e, stackTrace) {
+                                          _logger.e('Error occurred: $e');
+                                          _logger.e('Stack trace: $stackTrace');
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text('Error: $e'),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
                                 ),
                               );
                             },
@@ -238,36 +261,47 @@ class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
             onPressed: () async {
               final topics = await _topicsFuture;
               if (!mounted || topics == null) return;
+              if (!context.mounted) return;
               showDialog(
                 context: context,
                 builder: (context) => UserCreateDialog(
                   topics: topics,
-                  onSave: (String name, String username, String email, String password, String role, List<String>? visibleTopicIds) async {
-                    try {
-                      await ref.read(adminRepositoryProvider).createUser(
-                        CreateUserRequest(
-                          name: name,
-                          username: username,
-                          email: email,
-                          password: password,
-                          role: role,
-                          visibleTopicIds: visibleTopicIds,
-                        ),
-                      );
-                      _refresh();
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('User created')),
-                        );
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: $e')),
-                        );
-                      }
-                    }
-                  },
+                  onSave:
+                      (
+                        String name,
+                        String username,
+                        String email,
+                        String password,
+                        String role,
+                        List<String>? visibleTopicIds,
+                      ) async {
+                        try {
+                          await ref
+                              .read(adminRepositoryProvider)
+                              .createUser(
+                                CreateUserRequest(
+                                  name: name,
+                                  username: username,
+                                  email: email,
+                                  password: password,
+                                  role: role,
+                                  visibleTopicIds: visibleTopicIds,
+                                ),
+                              );
+                          _refresh();
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('User created')),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error: $e')),
+                            );
+                          }
+                        }
+                      },
                 ),
               );
             },
@@ -306,6 +340,8 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
     // This prevents test timing issues while still allowing normal operation
   }
 
+  // ignore: unused_element
+  /// Loads all data (tasks, topics, users) - kept for future manual refresh functionality
   void _loadData() {
     setState(() {
       _tasksFuture = _fetchTasksSafely();
@@ -340,15 +376,15 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
   }
 
   void _refresh() {
-    setState(() {
-      _tasksFuture = _fetchTasksSafely();
-    });
+    _loadData();
   }
 
   List<Task> _filterTasks(List<Task> tasks) {
     return tasks.where((task) {
-      bool matchesTopic = _selectedTopicFilter == null || task.topicId == _selectedTopicFilter;
-      bool matchesStatus = _selectedStatusFilter == null || task.status == _selectedStatusFilter;
+      bool matchesTopic =
+          _selectedTopicFilter == null || task.topicId == _selectedTopicFilter;
+      bool matchesStatus =
+          _selectedStatusFilter == null || task.status == _selectedStatusFilter;
       return matchesTopic && matchesStatus;
     }).toList();
   }
@@ -407,7 +443,8 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       itemCount: filteredTasks.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 0),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 0),
                       itemBuilder: (context, index) {
                         final task = filteredTasks[index];
                         return Stack(
@@ -431,7 +468,9 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
                                       borderRadius: BorderRadius.circular(20),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(
+                                            alpha: 0.1,
+                                          ),
                                           blurRadius: 4,
                                           offset: const Offset(0, 2),
                                         ),
@@ -441,15 +480,24 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.edit, size: 20),
-                                          onPressed: () => _showEditTaskDialog(task),
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            size: 20,
+                                          ),
+                                          onPressed: () =>
+                                              _showEditTaskDialog(task),
                                           tooltip: 'Edit',
                                           padding: const EdgeInsets.all(8),
                                           constraints: const BoxConstraints(),
                                         ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete, size: 20, color: Colors.red),
-                                          onPressed: () => _showDeleteConfirmation(task),
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            size: 20,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () =>
+                                              _showDeleteConfirmation(task),
                                           tooltip: 'Delete',
                                           padding: const EdgeInsets.all(8),
                                           constraints: const BoxConstraints(),
@@ -505,10 +553,12 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
                     ),
                     ...topics
                         .where((t) => t.isActive)
-                        .map((topic) => DropdownMenuItem(
-                              value: topic.id,
-                              child: Text(topic.title),
-                            )),
+                        .map(
+                          (topic) => DropdownMenuItem(
+                            value: topic.id,
+                            child: Text(topic.title),
+                          ),
+                        ),
                   ],
                   onChanged: (value) {
                     setState(() {
@@ -529,10 +579,12 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
                       value: null,
                       child: Text('All Statuses'),
                     ),
-                    ...TaskStatus.values.map((status) => DropdownMenuItem(
-                          value: status,
-                          child: Text(status.value),
-                        )),
+                    ...TaskStatus.values.map(
+                      (status) => DropdownMenuItem(
+                        value: status,
+                        child: Text(status.value),
+                      ),
+                    ),
                   ],
                   onChanged: (value) {
                     setState(() {
@@ -559,12 +611,17 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (task.topic != null) ...[
-                Text('Topic: ${task.topic!.title}',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  'Topic: ${task.topic!.title}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const Gap(8),
               ],
               if (task.note != null) ...[
-                const Text('Note:', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  'Note:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 Text(task.note!),
                 const Gap(8),
               ],
@@ -572,7 +629,8 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
               const Gap(4),
               Text('Priority: ${task.priority.value}'),
               const Gap(4),
-              if (task.assignee != null) Text('Assigned to: ${task.assignee!.name}'),
+              if (task.assignee != null)
+                Text('Assigned to: ${task.assignee!.name}'),
               if (task.dueDate != null) ...[
                 const Gap(4),
                 Text('Due: ${task.dueDate}'),
@@ -593,40 +651,51 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
   void _showCreateTaskDialog() async {
     final topics = await _topicsFuture;
     final users = await _usersFuture;
-    if (topics == null || users == null || !mounted) return;
+    if (!mounted) return;
 
     showDialog(
       context: context,
       builder: (context) => TaskCreateDialog(
         topics: topics,
         users: users,
-        onSave: (title, topicId, note, assigneeId, status, priority, dueDate) async {
-          try {
-            await ref.read(taskRepositoryProvider).createTask(
-              CreateTaskRequest(
-                title: title,
-                topicId: topicId,
-                note: note,
-                assigneeId: assigneeId,
-                status: status,
-                priority: priority,
-                dueDate: dueDate,
-              ),
-            );
-            _refresh();
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Task created')),
-              );
-            }
-          } catch (e) {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: $e')),
-              );
-            }
-          }
-        },
+        onSave:
+            (
+              title,
+              topicId,
+              note,
+              assigneeId,
+              status,
+              priority,
+              dueDate,
+            ) async {
+              try {
+                await ref
+                    .read(taskRepositoryProvider)
+                    .createTask(
+                      CreateTaskRequest(
+                        title: title,
+                        topicId: topicId,
+                        note: note,
+                        assigneeId: assigneeId,
+                        status: status,
+                        priority: priority,
+                        dueDate: dueDate,
+                      ),
+                    );
+                _refresh();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Task created')));
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                }
+              }
+            },
       ),
     );
   }
@@ -634,7 +703,7 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
   void _showEditTaskDialog(Task task) async {
     final topics = await _topicsFuture;
     final users = await _usersFuture;
-    if (topics == null || users == null || !mounted) return;
+    if (!mounted) return;
 
     showDialog(
       context: context,
@@ -642,34 +711,46 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
         task: task,
         topics: topics,
         users: users,
-        onSave: (taskId, title, topicId, note, assigneeId, status, priority, dueDate) async {
-          try {
-            await ref.read(taskRepositoryProvider).updateTask(
+        onSave:
+            (
               taskId,
-              UpdateTaskRequest(
-                title: title,
-                topicId: topicId,
-                note: note,
-                assigneeId: assigneeId,
-                status: status,
-                priority: priority,
-                dueDate: dueDate,
-              ),
-            );
-            _refresh();
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Task updated')),
-              );
-            }
-          } catch (e) {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: $e')),
-              );
-            }
-          }
-        },
+              title,
+              topicId,
+              note,
+              assigneeId,
+              status,
+              priority,
+              dueDate,
+            ) async {
+              try {
+                await ref
+                    .read(taskRepositoryProvider)
+                    .updateTask(
+                      taskId,
+                      UpdateTaskRequest(
+                        title: title,
+                        topicId: topicId,
+                        note: note,
+                        assigneeId: assigneeId,
+                        status: status,
+                        priority: priority,
+                        dueDate: dueDate,
+                      ),
+                    );
+                _refresh();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Task updated')));
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                }
+              }
+            },
       ),
     );
   }
@@ -691,16 +772,16 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
               try {
                 await ref.read(taskRepositoryProvider).deleteTask(task.id);
                 _refresh();
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Task deleted')),
-                  );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Task deleted')));
                 }
               } catch (e) {
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: $e')),
-                  );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
                 }
               }
             },
@@ -718,7 +799,8 @@ class _TopicManagementTab extends ConsumerStatefulWidget {
   const _TopicManagementTab();
 
   @override
-  ConsumerState<_TopicManagementTab> createState() => _TopicManagementTabState();
+  ConsumerState<_TopicManagementTab> createState() =>
+      _TopicManagementTabState();
 }
 
 class _TopicManagementTabState extends ConsumerState<_TopicManagementTab> {
@@ -776,9 +858,7 @@ class _TopicManagementTabState extends ConsumerState<_TopicManagementTab> {
             final topics = snapshot.data ?? [];
 
             if (topics.isEmpty) {
-              return const Center(
-                child: Text('No topics found'),
-              );
+              return const Center(child: Text('No topics found'));
             }
 
             return RefreshIndicator(
@@ -794,7 +874,9 @@ class _TopicManagementTabState extends ConsumerState<_TopicManagementTab> {
                     child: ListTile(
                       leading: const Icon(Icons.topic),
                       title: Text(topic.title),
-                      subtitle: topic.description != null ? Text(topic.description!) : null,
+                      subtitle: topic.description != null
+                          ? Text(topic.description!)
+                          : null,
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -809,30 +891,46 @@ class _TopicManagementTabState extends ConsumerState<_TopicManagementTab> {
                                 context: context,
                                 builder: (context) => TopicEditDialog(
                                   topic: topic,
-                                  onSave: (topicId, title, description, isActive) async {
-                                    try {
-                                      await ref.read(adminRepositoryProvider).updateTopic(
+                                  onSave:
+                                      (
                                         topicId,
-                                        UpdateTopicRequest(
-                                          title: title,
-                                          description: description,
-                                          isActive: isActive,
-                                        ),
-                                      );
-                                      _refresh();
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(content: Text('Topic updated')),
-                                        );
-                                      }
-                                    } catch (e) {
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text('Error: $e')),
-                                        );
-                                      }
-                                    }
-                                  },
+                                        title,
+                                        description,
+                                        isActive,
+                                      ) async {
+                                        try {
+                                          await ref
+                                              .read(adminRepositoryProvider)
+                                              .updateTopic(
+                                                topicId,
+                                                UpdateTopicRequest(
+                                                  title: title,
+                                                  description: description,
+                                                  isActive: isActive,
+                                                ),
+                                              );
+                                          _refresh();
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text('Topic updated'),
+                                              ),
+                                            );
+                                          }
+                                        } catch (e) {
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text('Error: $e'),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
                                 ),
                               );
                             },
@@ -857,12 +955,14 @@ class _TopicManagementTabState extends ConsumerState<_TopicManagementTab> {
                 builder: (context) => TopicCreateDialog(
                   onSave: (title, description) async {
                     try {
-                      await ref.read(adminRepositoryProvider).createTopic(
-                        CreateTopicRequest(
-                          title: title,
-                          description: description,
-                        ),
-                      );
+                      await ref
+                          .read(adminRepositoryProvider)
+                          .createTopic(
+                            CreateTopicRequest(
+                              title: title,
+                              description: description,
+                            ),
+                          );
                       _refresh();
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -871,9 +971,9 @@ class _TopicManagementTabState extends ConsumerState<_TopicManagementTab> {
                       }
                     } catch (e) {
                       if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: $e')),
-                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('Error: $e')));
                       }
                     }
                   },

@@ -1,0 +1,243 @@
+﻿Analyzing flutter_app...                                        
+
+   info - 'printTime' is deprecated and shouldn't be used. Use `dateTimeFormat` with `DateTimeFormat.onlyTimeAndSinceStart` or `DateTimeFormat.none` instead - lib\core\config\environment_config.dart:156:9 - deprecated_member_use
+   info - 'printTime' is deprecated and shouldn't be used. Use `dateTimeFormat` with `DateTimeFormat.onlyTimeAndSinceStart` or `DateTimeFormat.none` instead - lib\core\config\environment_config.dart:175:11 - deprecated_member_use
+   info - Dangling library doc comment - lib\core\exceptions\app_exception.dart:1:1 - dangling_library_doc_comments
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:22:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:29:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:37:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:45:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:54:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:62:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:70:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:80:3 - use_super_parameters
+   info - Parameters ''message', 'details', and 'statusCode'' could be super parameters - lib\core\exceptions\app_exception.dart:90:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:98:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:107:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:114:3 - use_super_parameters
+   info - Parameters ''message' and 'details'' could be super parameters - lib\core\exceptions\app_exception.dart:122:3 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:138:29 - deprecated_member_use
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\theme\app_theme.dart:242:9 - deprecated_member_use
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\theme\app_theme.dart:243:9 - deprecated_member_use
+   info - 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\theme\app_theme.dart:246:9 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:256:29 - deprecated_member_use
+   info - Angle brackets will be interpreted as HTML - lib\core\utils\result.dart:4:32 - unintended_html_in_doc_comment
+   info - Parameter 'message' could be a super parameter - lib\core\utils\result.dart:61:9 - use_super_parameters
+   info - Parameter 'message' could be a super parameter - lib\core\utils\result.dart:76:9 - use_super_parameters
+   info - Parameter 'message' could be a super parameter - lib\core\utils\result.dart:81:9 - use_super_parameters
+   info - Parameter 'message' could be a super parameter - lib\core\utils\result.dart:86:9 - use_super_parameters
+   info - 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre - lib\core\widgets\app_button.dart:204:31 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_dialog.dart:21:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_empty_state.dart:19:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\widgets\app_empty_state.dart:42:48 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_error_view.dart:18:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\app_loading_indicator.dart:15:9 - use_super_parameters
+   info - 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\widgets\app_skeleton_loader.dart:220:29 - deprecated_member_use
+   info - 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\widgets\app_skeleton_loader.dart:221:29 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\empty_state.dart:10:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\filter_bar.dart:26:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\filter_bar.dart:129:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\form_controls.dart:15:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\form_controls.dart:72:9 - use_super_parameters
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\core\widgets\form_controls.dart:124:19 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\helpers.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\helpers.dart:48:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\infinite_scroll_view.dart:23:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\loading_placeholder.dart:156:9 - use_super_parameters
+   info - 'red' is deprecated and shouldn't be used. Use (*.r * 255.0).round() & 0xff - lib\core\widgets\task_card.dart:40:35 - deprecated_member_use
+   info - 'green' is deprecated and shouldn't be used. Use (*.g * 255.0).round() & 0xff - lib\core\widgets\task_card.dart:41:35 - deprecated_member_use
+   info - 'blue' is deprecated and shouldn't be used. Use (*.b * 255.0).round() & 0xff - lib\core\widgets\task_card.dart:42:35 - deprecated_member_use
+   info - 'red' is deprecated and shouldn't be used. Use (*.r * 255.0).round() & 0xff - lib\core\widgets\task_card.dart:69:58 - deprecated_member_use
+   info - 'green' is deprecated and shouldn't be used. Use (*.g * 255.0).round() & 0xff - lib\core\widgets\task_card.dart:70:58 - deprecated_member_use
+   info - 'blue' is deprecated and shouldn't be used. Use (*.b * 255.0).round() & 0xff - lib\core\widgets\task_card.dart:71:58 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\core\widgets\user_avatar.dart:18:9 - use_super_parameters
+   info - Unnecessary braces in a string interpolation - lib\data\sync\connectivity_aware_sync_manager.dart:69:38 - unnecessary_brace_in_string_interps
+   info - Parameter 'key' could be a super parameter - lib\features\admin\presentation\admin_dialogs.dart:23:9 - use_super_parameters
+   info - The private field _selectedTopicIds could be 'final' - lib\features\admin\presentation\admin_dialogs.dart:37:15 - prefer_final_fields
+   info - Parameter 'key' could be a super parameter - lib\features\admin\presentation\admin_dialogs.dart:289:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\features\admin\presentation\admin_dialogs.dart:481:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\features\admin\presentation\admin_dialogs.dart:587:9 - use_super_parameters
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\admin\presentation\admin_dialogs.dart:636:17 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\admin\presentation\admin_dialogs.dart:667:17 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\features\admin\presentation\admin_dialogs.dart:841:9 - use_super_parameters
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\admin\presentation\admin_dialogs.dart:905:17 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\admin\presentation\admin_dialogs.dart:936:17 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\features\admin\presentation\admin_dialogs.dart:1101:9 - use_super_parameters
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:178:33 - use_build_context_synchronously
+   info - Don't invoke 'print' in production code - lib\features\admin\presentation\admin_screen.dart:192:43 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\presentation\admin_screen.dart:195:43 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\presentation\admin_screen.dart:207:43 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\presentation\admin_screen.dart:215:43 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\presentation\admin_screen.dart:229:43 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\presentation\admin_screen.dart:230:43 - avoid_print
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:266:17 - use_build_context_synchronously
+warning - The declaration '_loadData' isn't referenced - lib\features\admin\presentation\admin_screen.dart:343:8 - unused_element
+warning - The operand can't be 'null', so the condition is always 'false' - lib\features\admin\presentation\admin_screen.dart:654:16 - unnecessary_null_comparison
+warning - The operand can't be 'null', so the condition is always 'false' - lib\features\admin\presentation\admin_screen.dart:654:33 - unnecessary_null_comparison
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:688:21 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:694:21 - use_build_context_synchronously
+warning - The operand can't be 'null', so the condition is always 'false' - lib\features\admin\presentation\admin_screen.dart:706:16 - unnecessary_null_comparison
+warning - The operand can't be 'null', so the condition is always 'false' - lib\features\admin\presentation\admin_screen.dart:706:33 - unnecessary_null_comparison
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:743:21 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:749:21 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:777:21 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\admin\presentation\admin_screen.dart:783:21 - use_build_context_synchronously
+warning - The declaration '_getPasswordStrengthColor' isn't referenced - lib\features\auth\presentation\registration_screen.dart:60:9 - unused_element
+warning - The declaration '_getPasswordStrengthText' isn't referenced - lib\features\auth\presentation\registration_screen.dart:67:10 - unused_element
+   info - The imported package 'package_info_plus' isn't a dependency of the importing package - lib\features\settings\presentation\settings_screen.dart:4:8 - depend_on_referenced_packages
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:232:15 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:233:15 - deprecated_member_use
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:243:15 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:244:15 - deprecated_member_use
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:254:15 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:255:15 - deprecated_member_use
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:281:15 - deprecated_member_use
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\features\settings\presentation\settings_screen.dart:281:40 - invalid_null_aware_operator
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:282:15 - deprecated_member_use
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:292:15 - deprecated_member_use
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\features\settings\presentation\settings_screen.dart:292:40 - invalid_null_aware_operator
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\settings_screen.dart:293:15 - deprecated_member_use
+warning - The declaration '_showTopicDetails' isn't referenced - lib\features\tasks\presentation\guest_topics_screen.dart:83:8 - unused_element
+   info - 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead. This feature was deprecated after v3.18.0-0.1.pre - lib\features\tasks\presentation\guest_topics_screen.dart:233:44 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\tasks\presentation\home_screen.dart:298:22 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\tasks\presentation\member_task_dialog.dart:199:32 - use_build_context_synchronously
+   info - Don't invoke 'print' in production code - lib\features\tasks\presentation\member_task_dialog.dart:203:17 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\tasks\presentation\member_task_dialog.dart:204:17 - avoid_print
+   info - 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead. This feature was deprecated after v3.18.0-0.1.pre - lib\features\tasks\presentation\team_active_tasks_screen.dart:313:43 - deprecated_member_use
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:16:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:22:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:23:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:29:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:51:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:61:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:62:5 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:92:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:93:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:94:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:95:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:96:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:97:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:98:3 - avoid_print
+   info - Don't invoke 'print' in production code - scripts\bump_version.dart:99:3 - avoid_print
+   info - Don't invoke 'print' in production code - temp_enum_test.dart:4:3 - avoid_print
+   info - Don't invoke 'print' in production code - temp_enum_test.dart:5:3 - avoid_print
+   info - Don't invoke 'print' in production code - temp_enum_test.dart:6:3 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:73:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:97:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:100:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:109:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:121:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:139:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:158:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:175:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:201:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:221:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:248:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\admin_flow_test.dart:280:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:52:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:56:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:60:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:108:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:109:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:124:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:147:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:150:13 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:172:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:191:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:198:9 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\api_integration_test.dart:222:29 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - test\integration\api_integration_test.dart:223:29 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - test\integration\api_integration_test.dart:224:29 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - test\integration\api_integration_test.dart:225:29 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:227:9 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\api_integration_test.dart:227:47 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:237:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:259:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:260:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:276:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:277:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:290:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:312:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:315:13 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:327:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:347:13 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:463:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\api_integration_test.dart:465:11 - avoid_print
+warning - The value of the local variable 'userId' isn't used - test\integration\auth_flow_test.dart:24:11 - unused_local_variable
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:67:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:68:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:80:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:95:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:122:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:123:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:126:11 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:148:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:167:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:199:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:223:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:233:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\auth_flow_test.dart:243:7 - avoid_print
+warning - The value of the local variable 'email' isn't used - test\integration\backend_api_compliance_test.dart:32:15 - unused_local_variable
+warning - The value of the local variable 'password' isn't used - test\integration\backend_api_compliance_test.dart:33:15 - unused_local_variable
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:67:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:68:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:100:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:112:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:127:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:151:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:162:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:183:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:202:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:211:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:236:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:250:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:261:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:274:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:304:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\guest_flow_test.dart:306:9 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:67:27 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:68:27 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:69:27 - unnecessary_non_null_assertion
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:72:36 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:74:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:74:45 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:93:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:116:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:138:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:151:41 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:165:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:177:41 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:187:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:200:41 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:215:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:229:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:240:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:250:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:259:7 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:272:41 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:287:7 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:304:9 - avoid_print
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:321:9 - avoid_print
+warning - The '!' will have no effect because the receiver can't be null - test\integration\task_flow_test.dart:335:41 - unnecessary_non_null_assertion
+   info - Don't invoke 'print' in production code - test\integration\task_flow_test.dart:355:7 - avoid_print
+warning - Unused import: 'package:flutter_app/data/models/task.dart' - test\unit\models\topic_model_test.dart:2:8 - unused_import
+warning - Unused import: 'package:flutter_app/data/models/topic.dart' - test\unit\repositories\admin_repository_test.dart:3:8 - unused_import
+warning - Unused import: 'package:flutter_app/data/models/user.dart' - test\unit\repositories\admin_repository_test.dart:4:8 - unused_import
+warning - Unused import: 'package:flutter_app/data/models/organization.dart' - test\unit\repositories\auth_repository_test.dart:4:8 - unused_import
+warning - Unused import: 'package:flutter_app/data/models/user.dart' - test\unit\repositories\auth_repository_test.dart:5:8 - unused_import
+warning - Unused import: 'package:flutter_app/data/models/organization.dart' - test\unit\repositories\organization_repository_test.dart:2:8 - unused_import
+warning - Unused import: 'package:flutter_app/data/models/organization_stats.dart' - test\unit\repositories\organization_repository_test.dart:3:8 - unused_import
+   info - 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion - test\widgets\components\priority_badge_test.dart:54:26 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion - test\widgets\components\priority_badge_test.dart:66:26 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion - test\widgets\components\priority_badge_test.dart:78:26 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - test\widgets\task_card_widget_test.dart:311:9 - use_super_parameters
+
+flutter : 231 issues found. (ran in 2.9s)
+At line:1 char:1
++ flutter analyze --no-congratulate 2>&1 | Out-File 
+-FilePath analyze_o ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (231 issues fou 
+   nd. (ran in 2.9s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

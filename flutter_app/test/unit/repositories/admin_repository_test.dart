@@ -47,14 +47,17 @@ void main() {
         TestData.guestUser,
       ];
       final mockResponse = UsersResponse(users: testUsers);
-      
-      when(() => mockApiService.getUsers())
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getUsers(),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getUsers();
 
       // Assert
+      expect(result, isNotEmpty);
+      expect(result, isA<List<User>>());
       expect(result.length, 4);
       expect(result.any((u) => u.role == UserRole.admin), true);
       expect(result.any((u) => u.role == UserRole.teamManager), true);
@@ -63,14 +66,16 @@ void main() {
       verify(() => mockApiService.getUsers()).called(1);
     });
 
-    test('getUsers should throw on forbidden (member trying to access)', () async {
-      // Arrange
-      when(() => mockApiService.getUsers())
-          .thenThrow(Exception('Forbidden'));
+    test(
+      'getUsers should throw on forbidden (member trying to access)',
+      () async {
+        // Arrange
+        when(() => mockApiService.getUsers()).thenThrow(Exception('Forbidden'));
 
-      // Act & Assert
-      expect(() => repository.getUsers(), throwsException);
-    });
+        // Act & Assert
+        expect(() => repository.getUsers(), throwsException);
+      },
+    );
 
     test('createUser should create new member user', () async {
       // Arrange
@@ -81,9 +86,10 @@ void main() {
         email: 'newuser@test.com',
         role: UserRole.member,
       );
-      
-      when(() => mockApiService.createUser(any()))
-          .thenAnswer((_) async => UserResponse(user: newUser));
+
+      when(
+        () => mockApiService.createUser(any()),
+      ).thenAnswer((_) async => UserResponse(user: newUser));
 
       final request = CreateUserRequest(
         name: 'New User',
@@ -97,6 +103,7 @@ void main() {
       final result = await repository.createUser(request);
 
       // Assert
+      expect(result, isA<User>());
       expect(result.name, 'New User');
       expect(result.role, UserRole.member);
       verify(() => mockApiService.createUser(any())).called(1);
@@ -104,8 +111,9 @@ void main() {
 
     test('createUser should throw on user limit reached (15 max)', () async {
       // Arrange
-      when(() => mockApiService.createUser(any()))
-          .thenThrow(Exception('User limit reached'));
+      when(
+        () => mockApiService.createUser(any()),
+      ).thenThrow(Exception('User limit reached'));
 
       final request = CreateUserRequest(
         name: 'User',
@@ -119,39 +127,47 @@ void main() {
       expect(() => repository.createUser(request), throwsException);
     });
 
-    test('createUser should throw when team manager tries to create admin', () async {
-      // Arrange
-      when(() => mockApiService.createUser(any()))
-          .thenThrow(Exception('Forbidden'));
+    test(
+      'createUser should throw when team manager tries to create admin',
+      () async {
+        // Arrange
+        when(
+          () => mockApiService.createUser(any()),
+        ).thenThrow(Exception('Forbidden'));
 
-      final request = CreateUserRequest(
-        name: 'Admin',
-        username: 'admin',
-        email: 'admin@test.com',
-        password: 'password',
-        role: UserRole.admin.value,
-      );
+        final request = CreateUserRequest(
+          name: 'Admin',
+          username: 'admin',
+          email: 'admin@test.com',
+          password: 'password',
+          role: UserRole.admin.value,
+        );
 
-      // Act & Assert
-      expect(() => repository.createUser(request), throwsException);
-    });
+        // Act & Assert
+        expect(() => repository.createUser(request), throwsException);
+      },
+    );
 
-    test('createUser should throw when team manager tries to create another manager', () async {
-      // Arrange
-      when(() => mockApiService.createUser(any()))
-          .thenThrow(Exception('Forbidden'));
+    test(
+      'createUser should throw when team manager tries to create another manager',
+      () async {
+        // Arrange
+        when(
+          () => mockApiService.createUser(any()),
+        ).thenThrow(Exception('Forbidden'));
 
-      final request = CreateUserRequest(
-        name: 'Manager',
-        username: 'manager2',
-        email: 'manager2@test.com',
-        password: 'password',
-        role: UserRole.teamManager.value,
-      );
+        final request = CreateUserRequest(
+          name: 'Manager',
+          username: 'manager2',
+          email: 'manager2@test.com',
+          password: 'password',
+          role: UserRole.teamManager.value,
+        );
 
-      // Act & Assert
-      expect(() => repository.createUser(request), throwsException);
-    });
+        // Act & Assert
+        expect(() => repository.createUser(request), throwsException);
+      },
+    );
 
     test('updateUser should update user details', () async {
       // Arrange
@@ -162,13 +178,11 @@ void main() {
         active: false,
       );
 
-      when(() => mockApiService.updateUser(userId, any()))
-          .thenAnswer((_) async => UserResponse(user: updatedUser));
+      when(
+        () => mockApiService.updateUser(userId, any()),
+      ).thenAnswer((_) async => UserResponse(user: updatedUser));
 
-      final request = UpdateUserRequest(
-        name: 'Updated Name',
-        active: false,
-      );
+      final request = UpdateUserRequest(name: 'Updated Name', active: false);
 
       // Act
       final result = await repository.updateUser(userId, request);
@@ -182,16 +196,14 @@ void main() {
     test('updateUser should propagate exceptions', () async {
       // Arrange
       const userId = 'user-123';
-      when(() => mockApiService.updateUser(userId, any()))
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockApiService.updateUser(userId, any()),
+      ).thenThrow(Exception('Network error'));
 
       final request = UpdateUserRequest(active: false);
 
       // Act & Assert - Should throw
-      expect(
-        () => repository.updateUser(userId, request),
-        throwsException,
-      );
+      expect(() => repository.updateUser(userId, request), throwsException);
     });
   });
 
@@ -200,14 +212,16 @@ void main() {
       // Arrange
       final testTopics = TestData.topicList;
       final mockResponse = TopicsResponse(topics: testTopics);
-      
-      when(() => mockApiService.getTopics())
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getTopics(),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getTopics();
 
       // Assert
+      expect(result, isA<List<Topic>>());
       expect(result.length, 2);
       expect(result[0].title, 'Backend Development');
       expect(result[1].title, 'Frontend Development');
@@ -216,8 +230,7 @@ void main() {
 
     test('getTopics should throw on forbidden', () async {
       // Arrange
-      when(() => mockApiService.getTopics())
-          .thenThrow(Exception('Forbidden'));
+      when(() => mockApiService.getTopics()).thenThrow(Exception('Forbidden'));
 
       // Act & Assert
       expect(() => repository.getTopics(), throwsException);
@@ -232,9 +245,10 @@ void main() {
         isActive: true,
       );
       final mockResponse = TopicResponse(topic: newTopic);
-      
-      when(() => mockApiService.createTopic(any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.createTopic(any()),
+      ).thenAnswer((_) async => mockResponse);
 
       final request = CreateTopicRequest(
         title: 'New Topic',
@@ -252,8 +266,9 @@ void main() {
 
     test('createTopic should throw on validation error', () async {
       // Arrange
-      when(() => mockApiService.createTopic(any()))
-          .thenThrow(Exception('Validation error'));
+      when(
+        () => mockApiService.createTopic(any()),
+      ).thenThrow(Exception('Validation error'));
 
       final request = CreateTopicRequest(title: ''); // Empty title
 
@@ -270,9 +285,10 @@ void main() {
         isActive: false,
       );
       final mockResponse = TopicResponse(topic: updatedTopic);
-      
-      when(() => mockApiService.updateTopic(topicId, any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.updateTopic(topicId, any()),
+      ).thenAnswer((_) async => mockResponse);
 
       final request = UpdateTopicRequest(
         title: 'Updated Topic',
@@ -291,23 +307,22 @@ void main() {
     test('updateTopic should throw on topic not found', () async {
       // Arrange
       const topicId = 'non-existent-topic';
-      when(() => mockApiService.updateTopic(topicId, any()))
-          .thenThrow(Exception('Not found'));
+      when(
+        () => mockApiService.updateTopic(topicId, any()),
+      ).thenThrow(Exception('Not found'));
 
       final request = UpdateTopicRequest(title: 'Updated');
 
       // Act & Assert
-      expect(
-        () => repository.updateTopic(topicId, request),
-        throwsException,
-      );
+      expect(() => repository.updateTopic(topicId, request), throwsException);
     });
 
     test('deleteTopic should delete topic', () async {
       // Arrange
       const topicId = 'topic-to-delete';
-      when(() => mockApiService.deleteTopic(topicId))
-          .thenAnswer((_) async => {});
+      when(
+        () => mockApiService.deleteTopic(topicId),
+      ).thenAnswer((_) async => {});
 
       // Act
       await repository.deleteTopic(topicId);
@@ -319,8 +334,9 @@ void main() {
     test('deleteTopic should throw on topic not found', () async {
       // Arrange
       const topicId = 'non-existent-topic';
-      when(() => mockApiService.deleteTopic(topicId))
-          .thenThrow(Exception('Not found'));
+      when(
+        () => mockApiService.deleteTopic(topicId),
+      ).thenThrow(Exception('Not found'));
 
       // Act & Assert
       expect(() => repository.deleteTopic(topicId), throwsException);
@@ -332,8 +348,9 @@ void main() {
       // Arrange
       const topicId = 'topic-123';
       const userId = 'guest-user-id';
-      when(() => mockApiService.addGuestAccess(topicId, any()))
-          .thenAnswer((_) async => {});
+      when(
+        () => mockApiService.addGuestAccess(topicId, any()),
+      ).thenAnswer((_) async => {});
 
       // Act
       await repository.addGuestAccess(topicId, userId);
@@ -346,22 +363,21 @@ void main() {
       // Arrange
       const topicId = 'topic-123';
       const userId = 'non-guest-user'; // User is not a GUEST
-      when(() => mockApiService.addGuestAccess(topicId, any()))
-          .thenThrow(Exception('User must have GUEST role'));
+      when(
+        () => mockApiService.addGuestAccess(topicId, any()),
+      ).thenThrow(Exception('User must have GUEST role'));
 
       // Act & Assert
-      expect(
-        () => repository.addGuestAccess(topicId, userId),
-        throwsException,
-      );
+      expect(() => repository.addGuestAccess(topicId, userId), throwsException);
     });
 
     test('removeGuestAccess should revoke guest access from topic', () async {
       // Arrange
       const topicId = 'topic-123';
       const userId = 'guest-user-id';
-      when(() => mockApiService.removeGuestAccess(topicId, userId))
-          .thenAnswer((_) async => {});
+      when(
+        () => mockApiService.removeGuestAccess(topicId, userId),
+      ).thenAnswer((_) async => {});
 
       // Act
       await repository.removeGuestAccess(topicId, userId);
@@ -374,8 +390,9 @@ void main() {
       // Arrange
       const topicId = 'topic-123';
       const userId = 'guest-user-id';
-      when(() => mockApiService.removeGuestAccess(topicId, userId))
-          .thenThrow(Exception('Access not found'));
+      when(
+        () => mockApiService.removeGuestAccess(topicId, userId),
+      ).thenThrow(Exception('Access not found'));
 
       // Act & Assert
       expect(
@@ -385,4 +402,3 @@ void main() {
     });
   });
 }
-

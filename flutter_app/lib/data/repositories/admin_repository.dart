@@ -25,16 +25,8 @@ class AdminRepository {
 
   // Topics
   Future<List<Topic>> getTopics() async {
-    try {
-      print('DEBUG: getTopics çağrıldı');
-      final response = await _apiService.getTopics();
-      print('DEBUG: Topics başarıyla parse edildi: ${response.topics.length} adet');
-      return response.topics;
-    } catch (e, stackTrace) {
-      print('DEBUG: getTopics hatası: $e');
-      print('DEBUG: Stack trace: $stackTrace');
-      rethrow;
-    }
+    final response = await _apiService.getTopics();
+    return response.topics;
   }
 
   Future<Topic> createTopic(CreateTopicRequest request) async {

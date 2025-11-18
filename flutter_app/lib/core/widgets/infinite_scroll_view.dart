@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// TekTech InfiniteScrollView
-/// 
+///
 /// Generic widget for infinite scroll functionality
 /// - Automatically loads more when reaching bottom
 /// - Configurable threshold
@@ -21,7 +21,7 @@ class InfiniteScrollView extends StatefulWidget {
   final ScrollPhysics? physics;
 
   const InfiniteScrollView({
-    Key? key,
+    super.key,
     required this.itemBuilder,
     required this.itemCount,
     this.separatorBuilder,
@@ -33,7 +33,7 @@ class InfiniteScrollView extends StatefulWidget {
     this.loadMoreThreshold = 200.0,
     this.loadingIndicator,
     this.physics,
-  }) : super(key: key);
+  });
 
   @override
   State<InfiniteScrollView> createState() => _InfiniteScrollViewState();
@@ -96,7 +96,8 @@ class _InfiniteScrollViewState extends State<InfiniteScrollView> {
       itemCount: widget.itemCount + (widget.hasMore ? 1 : 0),
       separatorBuilder: (context, index) {
         if (widget.separatorBuilder != null && index < widget.itemCount) {
-          return widget.separatorBuilder!(context, index) ?? const SizedBox.shrink();
+          return widget.separatorBuilder!(context, index) ??
+              const SizedBox.shrink();
         }
         return const SizedBox.shrink();
       },
@@ -111,10 +112,7 @@ class _InfiniteScrollViewState extends State<InfiniteScrollView> {
     );
 
     if (widget.onRefresh != null) {
-      return RefreshIndicator(
-        onRefresh: widget.onRefresh!,
-        child: listView,
-      );
+      return RefreshIndicator(onRefresh: widget.onRefresh!, child: listView);
     }
 
     return listView;

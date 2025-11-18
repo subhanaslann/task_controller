@@ -6,16 +6,15 @@ import '../../../core/widgets/app_text_field.dart';
 import '../../../core/providers/providers.dart';
 import '../../../core/utils/constants.dart';
 import '../notifiers/organization_notifier.dart';
-import '../../../data/repositories/organization_repository.dart';
 
 final organizationNotifierProvider =
     StateNotifierProvider<OrganizationNotifier, OrganizationState>((ref) {
-  final repository = ref.watch(organizationRepositoryProvider);
-  return OrganizationNotifier(repository);
-});
+      final repository = ref.watch(organizationRepositoryProvider);
+      return OrganizationNotifier(repository);
+    });
 
 class OrganizationTab extends ConsumerStatefulWidget {
-  const OrganizationTab({Key? key}) : super(key: key);
+  const OrganizationTab({super.key});
 
   @override
   ConsumerState<OrganizationTab> createState() => _OrganizationTabState();
@@ -60,10 +59,7 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
             const Gap(16),
             Text(orgState.error!, style: const TextStyle(color: Colors.red)),
             const Gap(16),
-            AppButton(
-              text: 'Retry',
-              onPressed: _loadData,
-            ),
+            AppButton(text: 'Retry', onPressed: _loadData),
           ],
         ),
       );
@@ -113,8 +109,11 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                   const Gap(12),
                   _buildDetailRow('Team Name', organization?.teamName ?? 'N/A'),
                   const Gap(12),
-                  _buildDetailRow('Slug', organization?.slug ?? 'N/A',
-                      isReadOnly: true),
+                  _buildDetailRow(
+                    'Slug',
+                    organization?.slug ?? 'N/A',
+                    isReadOnly: true,
+                  ),
                   const Gap(12),
                   _buildDetailRow(
                     'Max Users',
@@ -171,8 +170,7 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                     _buildStatCard(
                       icon: Icons.task_alt,
                       title: 'Tasks',
-                      value:
-                          '${stats.activeTaskCount} / ${stats.taskCount}',
+                      value: '${stats.activeTaskCount} / ${stats.taskCount}',
                       subtitle: '${stats.completedTaskCount} completed',
                       color: Colors.green,
                     ),
@@ -181,15 +179,12 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                     _buildStatCard(
                       icon: Icons.category,
                       title: 'Topics',
-                      value:
-                          '${stats.activeTopicCount} / ${stats.topicCount}',
+                      value: '${stats.activeTopicCount} / ${stats.topicCount}',
                       subtitle: '${stats.activeTopicCount} active topics',
                       color: Colors.orange,
                     ),
                   ] else
-                    const Center(
-                      child: Text('No statistics available'),
-                    ),
+                    const Center(child: Text('No statistics available')),
                 ],
               ),
             ),
@@ -199,8 +194,12 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
     );
   }
 
-  Widget _buildDetailRow(String label, String value,
-      {bool isReadOnly = false, Color? valueColor}) {
+  Widget _buildDetailRow(
+    String label,
+    String value, {
+    bool isReadOnly = false,
+    Color? valueColor,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -246,16 +245,16 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: color, size: 32),
@@ -285,10 +284,7 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                 const Gap(4),
                 Text(
                   subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
@@ -299,11 +295,15 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
   }
 
   void _showEditOrganizationDialog(organization) {
-    final nameController = TextEditingController(text: organization?.name ?? '');
-    final teamNameController =
-        TextEditingController(text: organization?.teamName ?? '');
+    final nameController = TextEditingController(
+      text: organization?.name ?? '',
+    );
+    final teamNameController = TextEditingController(
+      text: organization?.teamName ?? '',
+    );
     final maxUsersController = TextEditingController(
-        text: organization?.maxUsers.toString() ?? '15');
+      text: organization?.maxUsers.toString() ?? '15',
+    );
     final currentUser = ref.read(currentUserProvider);
     final isAdmin = currentUser?.role == UserRole.admin;
 
@@ -347,7 +347,9 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
             text: 'Save',
             onPressed: () async {
               if (organization != null) {
-                await ref.read(organizationNotifierProvider.notifier).updateOrganization(
+                await ref
+                    .read(organizationNotifierProvider.notifier)
+                    .updateOrganization(
                       name: nameController.text.trim(),
                       teamName: teamNameController.text.trim(),
                       maxUsers: isAdmin
@@ -356,9 +358,12 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                     );
 
                 // Update currentOrganizationProvider
-                final updatedOrg = ref.read(organizationNotifierProvider).organization;
+                final updatedOrg = ref
+                    .read(organizationNotifierProvider)
+                    .organization;
                 if (updatedOrg != null) {
-                  ref.read(currentOrganizationProvider.notifier).state = updatedOrg;
+                  ref.read(currentOrganizationProvider.notifier).state =
+                      updatedOrg;
                 }
 
                 if (context.mounted) {
@@ -378,4 +383,3 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
@@ -64,8 +65,8 @@ void main() {
       authToken = response.token;
       userId = response.user.id;
 
-      print('✅ Login successful: ${response.user.name}');
-      print('✅ Organization: ${response.organization.name}');
+      debugPrint('✅ Login successful: ${response.user.name} (ID: $userId)');
+      debugPrint('✅ Organization: ${response.organization.name}');
     });
 
     test('should use stored token for authenticated requests', () async {
@@ -77,7 +78,7 @@ void main() {
 
       // Assert - Request succeeds with token
       expect(response.tasks, isA<List>());
-      print('✅ Authenticated request successful with stored token');
+      debugPrint('✅ Authenticated request successful with stored token');
     });
 
     test('should fail login with invalid credentials', () async {
@@ -92,7 +93,7 @@ void main() {
         fail('Should throw exception for invalid credentials');
       } catch (e) {
         expect(e, anyOf(isA<DioException>(), isA<TypeError>()));
-        print('✅ Invalid credentials correctly rejected');
+        debugPrint('✅ Invalid credentials correctly rejected');
       }
     });
   });
@@ -119,11 +120,13 @@ void main() {
         expect(response.data.user.role, UserRole.teamManager);
         expect(response.data.token, isNotEmpty);
 
-        print('✅ Registration successful: ${response.data.organization.name}');
-        print('✅ Manager created: ${response.data.user.name}');
+        debugPrint(
+          '✅ Registration successful: ${response.data.organization.name}',
+        );
+        debugPrint('✅ Manager created: ${response.data.user.name}');
       } catch (e) {
         if (e is DioException && e.response?.statusCode == 409) {
-          print('⚠️  Email already exists - skipping test');
+          debugPrint('⚠️  Email already exists - skipping test');
         } else {
           rethrow;
         }
@@ -145,7 +148,7 @@ void main() {
         fail('Should throw exception for duplicate email');
       } catch (e) {
         expect(e, anyOf(isA<DioException>(), isA<TypeError>()));
-        print('✅ Duplicate email correctly rejected');
+        debugPrint('✅ Duplicate email correctly rejected');
       }
     });
 
@@ -164,7 +167,7 @@ void main() {
         fail('Should throw exception for short password');
       } catch (e) {
         expect(e, anyOf(isA<DioException>(), isA<TypeError>()));
-        print('✅ Short password correctly rejected');
+        debugPrint('✅ Short password correctly rejected');
       }
     });
   });
@@ -196,7 +199,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 401);
         }
-        print('✅ Logout flow verified - requests fail without token');
+        debugPrint('✅ Logout flow verified - requests fail without token');
       }
     });
   });
@@ -220,7 +223,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 401);
         }
-        print('✅ Expired token correctly handled with 401');
+        debugPrint('✅ Expired token correctly handled with 401');
       }
     });
   });
@@ -230,7 +233,7 @@ void main() {
       // Note: This requires a deactivated test account
       // In real scenario, backend returns 401 with specific error message
 
-      print('⚠️  Inactive account test requires manual setup');
+      debugPrint('⚠️  Inactive account test requires manual setup');
       expect(true, true); // Placeholder test
     });
   });
@@ -240,7 +243,7 @@ void main() {
       // Note: This requires an inactive organization
       // In real scenario, backend returns 403 with specific error message
 
-      print('⚠️  Inactive organization test requires manual setup');
+      debugPrint('⚠️  Inactive organization test requires manual setup');
       expect(true, true); // Placeholder test
     });
   });

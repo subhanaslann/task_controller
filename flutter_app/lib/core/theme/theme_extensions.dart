@@ -3,7 +3,7 @@ import 'app_colors.dart';
 import 'design_tokens.dart';
 
 /// TekTech Custom Theme Extensions
-/// 
+///
 /// Theme extensions for custom component styles that aren't
 /// covered by default Material Theme
 
@@ -83,13 +83,17 @@ class CustomColorsExtension extends ThemeExtension<CustomColorsExtension> {
     double t,
   ) {
     if (other is! CustomColorsExtension) return this;
-    
+
     return CustomColorsExtension(
       priorityLow: Color.lerp(priorityLow, other.priorityLow, t)!,
       priorityNormal: Color.lerp(priorityNormal, other.priorityNormal, t)!,
       priorityHigh: Color.lerp(priorityHigh, other.priorityHigh, t)!,
       statusTodo: Color.lerp(statusTodo, other.statusTodo, t)!,
-      statusInProgress: Color.lerp(statusInProgress, other.statusInProgress, t)!,
+      statusInProgress: Color.lerp(
+        statusInProgress,
+        other.statusInProgress,
+        t,
+      )!,
       statusDone: Color.lerp(statusDone, other.statusDone, t)!,
       cardHover: Color.lerp(cardHover, other.cardHover, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
@@ -161,17 +165,17 @@ class CardStylesExtension extends ThemeExtension<CardStylesExtension> {
     double t,
   ) {
     if (other is! CardStylesExtension) return this;
-    
+
     return CardStylesExtension(
       padding: EdgeInsets.lerp(padding, other.padding, t)!,
       borderRadius: BorderRadius.lerp(borderRadius, other.borderRadius, t)!,
-      elevation: lerpDouble(elevation, other.elevation, t)!,
-      elevationHover: lerpDouble(elevationHover, other.elevationHover, t)!,
+      elevation: lerpDouble(elevation, other.elevation, t),
+      elevationHover: lerpDouble(elevationHover, other.elevationHover, t),
       shadow: t < 0.5 ? shadow : other.shadow,
       shadowHover: t < 0.5 ? shadowHover : other.shadowHover,
     );
   }
-  
+
   double lerpDouble(double a, double b, double t) {
     return a + (b - a) * t;
   }
@@ -235,7 +239,7 @@ class ButtonStylesExtension extends ThemeExtension<ButtonStylesExtension> {
     double t,
   ) {
     if (other is! ButtonStylesExtension) return this;
-    
+
     return ButtonStylesExtension(
       padding: EdgeInsets.lerp(padding, other.padding, t)!,
       borderRadius: BorderRadius.lerp(borderRadius, other.borderRadius, t)!,
@@ -243,7 +247,7 @@ class ButtonStylesExtension extends ThemeExtension<ButtonStylesExtension> {
       textStyle: TextStyle.lerp(textStyle, other.textStyle, t)!,
     );
   }
-  
+
   double lerpDouble(double a, double b, double t) {
     return a + (b - a) * t;
   }

@@ -138,7 +138,8 @@ class SeedData {
 
   // Demo tasks
   static final List<Task> tasks = [
-    // TODO tasks
+    // =========== Yapılacak Statüsündeki Görevler ===========
+    // Status: TaskStatus.todo
     Task(
       id: 'task-1',
       topicId: 'topic-1',
@@ -395,7 +396,7 @@ class SeedData {
       print('Topics: ${topics.length}');
       print('Tasks: ${tasks.length}');
       print(
-        '  - TODO: ${tasks.where((t) => t.status == TaskStatus.todo).length}',
+        '  - Yapılacak: ${tasks.where((t) => t.status == TaskStatus.todo).length}',
       );
       print(
         '  - IN_PROGRESS: ${tasks.where((t) => t.status == TaskStatus.inProgress).length}',

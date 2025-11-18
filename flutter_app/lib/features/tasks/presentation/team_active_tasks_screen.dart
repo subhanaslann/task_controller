@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/loading_placeholder.dart';
 import '../../../core/providers/providers.dart';
@@ -12,7 +11,9 @@ import '../../../core/utils/constants.dart';
 import 'member_task_dialog.dart';
 
 // Topic'leri tasks ile birlikte yükle
-final teamActiveTopicsProvider = FutureProvider.autoDispose<List<Topic>>((ref) async {
+final teamActiveTopicsProvider = FutureProvider.autoDispose<List<Topic>>((
+  ref,
+) async {
   final apiService = ref.watch(apiServiceProvider);
 
   // Tüm roller için /topics/active kullan (tasks dahil)
@@ -21,10 +22,11 @@ final teamActiveTopicsProvider = FutureProvider.autoDispose<List<Topic>>((ref) a
 });
 
 class TeamActiveTasksScreen extends ConsumerStatefulWidget {
-  const TeamActiveTasksScreen({Key? key}) : super(key: key);
+  const TeamActiveTasksScreen({super.key});
 
   @override
-  ConsumerState<TeamActiveTasksScreen> createState() => _TeamActiveTasksScreenState();
+  ConsumerState<TeamActiveTasksScreen> createState() =>
+      _TeamActiveTasksScreenState();
 }
 
 class _TeamActiveTasksScreenState extends ConsumerState<TeamActiveTasksScreen> {
@@ -41,7 +43,9 @@ class _TeamActiveTasksScreenState extends ConsumerState<TeamActiveTasksScreen> {
         data: (topics) {
           // Guest kullanıcılar için sadece görünür topic'leri filtrele
           final visibleTopics = currentUser?.role == UserRole.guest
-              ? topics.where((t) => currentUser!.visibleTopicIds.contains(t.id)).toList()
+              ? topics
+                    .where((t) => currentUser!.visibleTopicIds.contains(t.id))
+                    .toList()
               : topics.where((t) => t.isActive).toList();
 
           if (visibleTopics.isEmpty) {
@@ -62,10 +66,7 @@ class _TeamActiveTasksScreenState extends ConsumerState<TeamActiveTasksScreen> {
             separatorBuilder: (context, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final topic = visibleTopics[index];
-              return _TopicCard(
-                topic: topic,
-                currentUser: currentUser,
-              );
+              return _TopicCard(topic: topic, currentUser: currentUser);
             },
           );
         },
@@ -100,10 +101,7 @@ class _TopicCard extends ConsumerStatefulWidget {
   final Topic topic;
   final User? currentUser;
 
-  const _TopicCard({
-    required this.topic,
-    required this.currentUser,
-  });
+  const _TopicCard({required this.topic, required this.currentUser});
 
   @override
   ConsumerState<_TopicCard> createState() => _TopicCardState();
@@ -134,22 +132,22 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
                       Text(
                         widget.topic.title,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       if (widget.topic.description != null) ...[
                         const Gap(4),
                         Text(
                           widget.topic.description!,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Colors.grey[600],
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey[600]),
                         ),
                       ],
                       const Gap(4),
                       Text(
                         '${tasks.length} görev',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                             ),
                       ),
@@ -163,7 +161,9 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
                     });
                   },
                   icon: Icon(
-                    _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _expanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                   ),
                 ),
               ],
@@ -178,8 +178,12 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
                   icon: const Icon(Icons.add),
                   label: const Text('Kendime Görev Ekle'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-                    foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.secondaryContainer,
+                    foregroundColor: Theme.of(
+                      context,
+                    ).colorScheme.onSecondaryContainer,
                   ),
                 ),
               ),
@@ -192,20 +196,22 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     'Henüz görev yok',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
                   ),
                 )
               else
-                ...tasks.map((task) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: _TaskItemInTopic(
-                        task: task,
-                        isOwnTask: task.assigneeId == widget.currentUser?.id,
-                        onTap: () => _showTaskDetails(context, task),
-                      ),
-                    )),
+                ...tasks.map(
+                  (task) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _TaskItemInTopic(
+                      task: task,
+                      isOwnTask: task.assigneeId == widget.currentUser?.id,
+                      onTap: () => _showTaskDetails(context, task),
+                    ),
+                  ),
+                ),
             ],
           ],
         ),
@@ -227,7 +233,8 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
   }
 
   void _showTaskDetails(BuildContext context, Task task) {
-    final canEdit = task.assigneeId == widget.currentUser?.id &&
+    final canEdit =
+        task.assigneeId == widget.currentUser?.id &&
         widget.currentUser?.role == UserRole.member;
 
     showDialog(
@@ -241,11 +248,17 @@ class _TopicCardState extends ConsumerState<_TopicCard> {
             children: [
               Text(
                 task.title,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               if (task.note != null) ...[
                 const Gap(8),
-                const Text('Not:', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  'Not:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 Text(task.note!),
               ],
               const Gap(8),
@@ -297,7 +310,7 @@ class _TaskItemInTopic extends StatelessWidget {
       elevation: isOwnTask ? 3 : 1,
       color: isOwnTask
           ? Theme.of(context).colorScheme.primaryContainer
-          : Theme.of(context).colorScheme.surfaceVariant,
+          : Theme.of(context).colorScheme.surfaceContainerHighest,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -312,8 +325,10 @@ class _TaskItemInTopic extends StatelessWidget {
                     child: Text(
                       task.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: isOwnTask ? FontWeight.bold : FontWeight.w600,
-                          ),
+                        fontWeight: isOwnTask
+                            ? FontWeight.bold
+                            : FontWeight.w600,
+                      ),
                     ),
                   ),
                   _PriorityBadge(priority: task.priority),
@@ -323,9 +338,9 @@ class _TaskItemInTopic extends StatelessWidget {
                 const Gap(4),
                 Text(
                   task.note!,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey[700],
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -337,8 +352,8 @@ class _TaskItemInTopic extends StatelessWidget {
                   Text(
                     task.assignee?.name ?? 'Atanmamış',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
                   _StatusBadge(status: task.status),
                 ],
@@ -362,7 +377,7 @@ class _PriorityBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
@@ -399,7 +414,7 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(

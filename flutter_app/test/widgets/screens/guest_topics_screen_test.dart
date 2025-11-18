@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/core/widgets/empty_state.dart';
 import 'package:flutter_app/core/widgets/loading_placeholder.dart';
@@ -34,9 +33,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const GuestTopicsScreen(),
-        overrides: [
-          guestTopicsProvider.overrideWith((ref) async => []),
-        ],
+        overrides: [guestTopicsProvider.overrideWith((ref) async => [])],
       );
       await tester.pumpAndSettle();
 
@@ -74,9 +71,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const GuestTopicsScreen(),
-        overrides: [
-          guestTopicsProvider.overrideWith((ref) async => topics),
-        ],
+        overrides: [guestTopicsProvider.overrideWith((ref) async => topics)],
       );
       await tester.pumpAndSettle();
 
@@ -114,9 +109,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const GuestTopicsScreen(),
-        overrides: [
-          guestTopicsProvider.overrideWith((ref) async => topics),
-        ],
+        overrides: [guestTopicsProvider.overrideWith((ref) async => topics)],
       );
       await tester.pumpAndSettle();
 
@@ -160,9 +153,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const GuestTopicsScreen(),
-        overrides: [
-          guestTopicsProvider.overrideWith((ref) async => topics),
-        ],
+        overrides: [guestTopicsProvider.overrideWith((ref) async => topics)],
       );
 
       // Assert
@@ -200,9 +191,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const GuestTopicsScreen(),
-        overrides: [
-          guestTopicsProvider.overrideWith((ref) async => topics),
-        ],
+        overrides: [guestTopicsProvider.overrideWith((ref) async => topics)],
       );
       await tester.pumpAndSettle();
 

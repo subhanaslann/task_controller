@@ -103,6 +103,7 @@ void main() {
 
       // Assert
       expect(topic.tasks, isNotNull);
+      expect(topic.tasks, isA<List<Task>>());
       expect(topic.tasks!.length, 2);
       expect(topic.tasks![0].title, 'Task 1');
       expect(topic.tasks![1].title, 'Task 2');
@@ -118,9 +119,7 @@ void main() {
         'isActive': true,
         'createdAt': '2025-01-01T00:00:00.000Z',
         'updatedAt': '2025-01-02T00:00:00.000Z',
-        '_count': {
-          'tasks': 5,
-        },
+        '_count': {'tasks': 5},
       };
 
       // Act
@@ -274,9 +273,7 @@ void main() {
         'isActive': true,
         'createdAt': '2025-01-01T00:00:00.000Z',
         'updatedAt': '2025-01-02T00:00:00.000Z',
-        '_count': {
-          'tasks': 10,
-        },
+        '_count': {'tasks': 10},
       };
 
       // Act
@@ -295,9 +292,7 @@ void main() {
         'isActive': true,
         'createdAt': '2025-01-01T00:00:00.000Z',
         'updatedAt': '2025-01-02T00:00:00.000Z',
-        '_count': {
-          'tasks': 0,
-        },
+        '_count': {'tasks': 0},
       };
 
       // Act
@@ -368,4 +363,3 @@ void main() {
     });
   });
 }
-

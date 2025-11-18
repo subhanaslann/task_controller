@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/task_card.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/loading_placeholder.dart';
@@ -17,7 +16,7 @@ final myActiveTasksProvider = FutureProvider.autoDispose<List<Task>>((
 });
 
 class MyActiveTasksScreen extends ConsumerStatefulWidget {
-  const MyActiveTasksScreen({Key? key}) : super(key: key);
+  const MyActiveTasksScreen({super.key});
 
   @override
   ConsumerState<MyActiveTasksScreen> createState() =>

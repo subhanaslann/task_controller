@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/providers/providers.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+  const RegistrationScreen({super.key});
 
   @override
   ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -36,25 +35,25 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   double _calculatePasswordStrength(String password) {
     if (password.isEmpty) return 0.0;
-    
+
     double strength = 0.0;
-    
+
     // Length check
     if (password.length >= 8) strength += 0.2;
     if (password.length >= 12) strength += 0.1;
-    
+
     // Has lowercase
     if (password.contains(RegExp(r'[a-z]'))) strength += 0.2;
-    
+
     // Has uppercase
     if (password.contains(RegExp(r'[A-Z]'))) strength += 0.2;
-    
+
     // Has digit
     if (password.contains(RegExp(r'[0-9]'))) strength += 0.2;
-    
+
     // Has special character
     if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) strength += 0.1;
-    
+
     return strength.clamp(0.0, 1.0);
   }
 
@@ -112,7 +111,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       );
 
       ref.read(currentUserProvider.notifier).state = authResult.user;
-      ref.read(currentOrganizationProvider.notifier).state = authResult.organization;
+      ref.read(currentOrganizationProvider.notifier).state =
+          authResult.organization;
 
       if (mounted) {
         // Show success message
@@ -122,7 +122,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        
+
         // Navigate to home screen
         Navigator.of(context).pushReplacementNamed('/home');
       }
@@ -130,9 +130,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       setState(() {
         if (e.toString().contains('email is already registered') ||
             e.toString().contains('Email is already registered')) {
-          _errorMessage = 'This email is already registered. Please login instead.';
+          _errorMessage =
+              'This email is already registered. Please login instead.';
         } else if (e.toString().contains('slug')) {
-          _errorMessage = 'Could not create team. Please try different company/team names.';
+          _errorMessage =
+              'Could not create team. Please try different company/team names.';
         } else {
           _errorMessage = 'Registration failed. Please try again.';
         }
@@ -159,7 +161,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             end: Alignment.bottomCenter,
             colors: [
               colorScheme.primary,
-              colorScheme.primary.withOpacity(0.8),
+              colorScheme.primary.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -171,11 +173,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo/Branding
-                  Icon(
-                    Icons.business_center,
-                    size: 48,
-                    color: Colors.white,
-                  ),
+                  Icon(Icons.business_center, size: 48, color: Colors.white),
                   const Gap(8),
                   Text(
                     'Create Your Team',
@@ -305,10 +303,36 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                               validator: _validatePassword,
                               onChanged: (value) {
                                 setState(() {
-                                  _passwordStrength = _calculatePasswordStrength(value);
+                                  _passwordStrength =
+                                      _calculatePasswordStrength(value);
                                 });
                               },
                             ),
+                            if (_passwordController.text.isNotEmpty) ...[
+                              const Gap(8),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: LinearProgressIndicator(
+                                      value: _passwordStrength,
+                                      backgroundColor: Colors.grey[300],
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        _getPasswordStrengthColor(),
+                                      ),
+                                    ),
+                                  ),
+                                  const Gap(8),
+                                  Text(
+                                    _getPasswordStrengthText(),
+                                    style: TextStyle(
+                                      color: _getPasswordStrengthColor(),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                             const Gap(16),
 
                             // Register Button
@@ -332,7 +356,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       Text(
                         'Already have an account? ',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
                       TextButton(
@@ -359,4 +383,3 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     );
   }
 }
-

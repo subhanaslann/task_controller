@@ -29,7 +29,7 @@ void main() async {
 }
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
@@ -111,7 +111,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
 /// Connectivity status banner widget
 class ConnectivityStatusBanner extends ConsumerWidget {
-  const ConnectivityStatusBanner({Key? key}) : super(key: key);
+  const ConnectivityStatusBanner({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -130,7 +130,9 @@ class ConnectivityStatusBanner extends ConsumerWidget {
             color: Theme.of(context).colorScheme.errorContainer,
             border: Border(
               bottom: BorderSide(
-                color: Theme.of(context).colorScheme.error.withOpacity(0.3),
+                color: Theme.of(
+                  context,
+                ).colorScheme.error.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),

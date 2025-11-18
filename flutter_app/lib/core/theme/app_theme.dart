@@ -135,7 +135,7 @@ class AppTheme {
 
         outline: AppColors.outline,
         outlineVariant: AppColors.outlineVariant,
-        scrim: Colors.black.withOpacity(0.32),
+        scrim: Colors.black.withValues(alpha: 0.32),
       ),
       scaffoldBackgroundColor: AppColors.background,
       appBarTheme: AppBarTheme(
@@ -239,11 +239,8 @@ class AppTheme {
         errorContainer: AppColors.darkErrorContainer,
         onErrorContainer: AppColors.darkOnErrorContainer,
 
-        background: AppColors.darkBackground,
-        onBackground: AppColors.darkOnBackground,
         surface: AppColors.darkSurface,
         onSurface: AppColors.darkOnSurface,
-        surfaceVariant: AppColors.darkSurfaceVariant,
         onSurfaceVariant: AppColors.darkOnSurfaceVariant,
         surfaceContainerHighest: AppColors.darkSurfaceContainerHighest,
         surfaceContainerHigh: AppColors.darkSurfaceContainerHigh,
@@ -253,7 +250,7 @@ class AppTheme {
 
         outline: AppColors.darkOutline,
         outlineVariant: AppColors.darkOutlineVariant,
-        scrim: Colors.black.withOpacity(0.32),
+        scrim: Colors.black.withValues(alpha: 0.32),
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
       appBarTheme: AppBarTheme(

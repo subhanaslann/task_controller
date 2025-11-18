@@ -1,11 +1,11 @@
 import 'dart:io';
 
 /// TekTech Version Bump Script
-/// 
+///
 /// Automatically bumps version in pubspec.yaml
 /// Usage:
 ///   dart scripts/bump_version.dart [major|minor|patch]
-/// 
+///
 /// Examples:
 ///   dart scripts/bump_version.dart patch  // 1.0.0 -> 1.0.1
 ///   dart scripts/bump_version.dart minor  // 1.0.0 -> 1.1.0
@@ -13,20 +13,22 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    print('❌ Usage: dart scripts/bump_version.dart [major|minor|patch]');
+    stdout.writeln(
+      '❌ Usage: dart scripts/bump_version.dart [major|minor|patch]',
+    );
     exit(1);
   }
 
   final bumpType = args[0].toLowerCase();
   if (!['major', 'minor', 'patch'].contains(bumpType)) {
-    print('❌ Invalid bump type: $bumpType');
-    print('   Valid types: major, minor, patch');
+    stdout.writeln('❌ Invalid bump type: $bumpType');
+    stdout.writeln('   Valid types: major, minor, patch');
     exit(1);
   }
 
   final pubspecFile = File('pubspec.yaml');
   if (!pubspecFile.existsSync()) {
-    print('❌ pubspec.yaml not found');
+    stdout.writeln('❌ pubspec.yaml not found');
     exit(1);
   }
 
@@ -48,7 +50,7 @@ void main(List<String> args) {
   }
 
   if (currentVersion == null) {
-    print('❌ Version not found in pubspec.yaml');
+    stdout.writeln('❌ Version not found in pubspec.yaml');
     exit(1);
   }
 
@@ -58,8 +60,8 @@ void main(List<String> args) {
   final buildNumber = versionParts.length > 1 ? int.parse(versionParts[1]) : 1;
 
   if (versionNumbers.length != 3) {
-    print('❌ Invalid version format: $currentVersion');
-    print('   Expected format: x.y.z+build');
+    stdout.writeln('❌ Invalid version format: $currentVersion');
+    stdout.writeln('   Expected format: x.y.z+build');
     exit(1);
   }
 
@@ -89,12 +91,14 @@ void main(List<String> args) {
   lines[versionLineIndex] = 'version: $newVersion';
   pubspecFile.writeAsStringSync(lines.join('\n'));
 
-  print('✅ Version bumped: $currentVersion -> $newVersion');
-  print('');
-  print('📝 Next steps:');
-  print('   1. Review the changes');
-  print('   2. Commit: git add pubspec.yaml');
-  print('   3. Commit: git commit -m "chore: bump version to $newVersion"');
-  print('   4. Tag: git tag v$newVersion');
-  print('   5. Push: git push && git push --tags');
+  stdout.writeln('✅ Version bumped: $currentVersion -> $newVersion');
+  stdout.writeln('');
+  stdout.writeln('📝 Next steps:');
+  stdout.writeln('   1. Review the changes');
+  stdout.writeln('   2. Commit: git add pubspec.yaml');
+  stdout.writeln(
+    '   3. Commit: git commit -m "chore: bump version to $newVersion"',
+  );
+  stdout.writeln('   4. Tag: git tag v$newVersion');
+  stdout.writeln('   5. Push: git push && git push --tags');
 }

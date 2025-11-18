@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/core/widgets/loading_placeholder.dart';
-import 'package:flutter_app/data/repositories/task_repository.dart';
 import 'package:flutter_app/features/tasks/presentation/team_active_tasks_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/test_data.dart';
 import '../../helpers/test_helpers.dart';
 
-class MockTaskRepository extends Mock implements TaskRepository {}
-
 void main() {
-  late MockTaskRepository mockTaskRepo;
-
-  setUp(() {
-    mockTaskRepo = MockTaskRepository();
-  });
-
   group('TeamActiveTasksScreen - Read-Only Display', () {
     testWidgets('should display team tasks as read-only', (tester) async {
       // Arrange
-      final topics = [TestData.createTestTopic(tasks: [TestData.todoTask, TestData.inProgressTask])];
+      final topics = [
+        TestData.createTestTopic(
+          tasks: [TestData.todoTask, TestData.inProgressTask],
+        ),
+      ];
 
       // Act
       await pumpTestWidget(
@@ -45,9 +39,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const TeamActiveTasksScreen(),
-        overrides: [
-          teamActiveTopicsProvider.overrideWith((ref) async => []),
-        ],
+        overrides: [teamActiveTopicsProvider.overrideWith((ref) async => [])],
       );
       await tester.pumpAndSettle();
 

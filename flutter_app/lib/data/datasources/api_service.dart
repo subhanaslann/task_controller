@@ -5,7 +5,6 @@ import '../models/task.dart';
 import '../models/topic.dart';
 import '../models/organization.dart';
 import '../models/organization_stats.dart';
-import '../../core/utils/constants.dart';
 
 part 'api_service.g.dart';
 
@@ -179,32 +178,14 @@ class TopicsResponse {
 
   factory TopicsResponse.fromJson(Map<String, dynamic> json) {
     try {
-      print('DEBUG: TopicsResponse.fromJson başlatıldı');
-      print('DEBUG: Raw JSON keys: ${json.keys.toList()}');
-      print(
-        'DEBUG: Topics array uzunluğu: ${(json['topics'] as List?)?.length}',
-      );
-
       final topicsList = json['topics'] as List;
-      print(
-        'DEBUG: İlk topic raw data: ${topicsList.isNotEmpty ? topicsList[0] : "boş"}',
-      );
-
       final parsedTopics = topicsList.map((e) {
-        try {
-          final topicMap = e as Map<String, dynamic>;
-          print('DEBUG: Topic parse ediliyor: ${topicMap['id']}');
-          return Topic.fromJson(topicMap);
-        } catch (topicError) {
-          print('DEBUG: Topic parse hatası: $topicError');
-          print('DEBUG: Hatalı topic data: $e');
-          rethrow;
-        }
+        final topicMap = e as Map<String, dynamic>;
+        return Topic.fromJson(topicMap);
       }).toList();
 
       return TopicsResponse(topics: parsedTopics);
     } catch (e) {
-      print('DEBUG: TopicsResponse.fromJson HATA: $e');
       rethrow;
     }
   }
@@ -424,14 +405,10 @@ class TaskResponse {
 
   factory TaskResponse.fromJson(Map<String, dynamic> json) {
     try {
-      print('DEBUG: TaskResponse.fromJson başlatıldı');
-      print('DEBUG: JSON keys: ${json.keys.toList()}');
       final dynamic taskNode = json['task'];
 
       if (taskNode is Map<String, dynamic>) {
-        print('DEBUG: task alanı Map olarak bulundu');
         final task = Task.fromJson(taskNode);
-        print('DEBUG: Task başarıyla parse edildi');
         return TaskResponse(task: task);
       }
 
@@ -439,9 +416,6 @@ class TaskResponse {
       if (taskNode == null &&
           json.containsKey('id') &&
           json.containsKey('title')) {
-        print(
-          'DEBUG: task alanı yok, kök JSON Task gibi görünüyor. Fallback uygulanıyor.',
-        );
         final task = Task.fromJson(json);
         return TaskResponse(task: task);
       }
@@ -450,7 +424,6 @@ class TaskResponse {
         "Geçersiz TaskResponse: 'task' alanı yok veya beklenmeyen tip: ${taskNode.runtimeType}",
       );
     } catch (e) {
-      print('DEBUG: TaskResponse.fromJson HATA: $e');
       rethrow;
     }
   }

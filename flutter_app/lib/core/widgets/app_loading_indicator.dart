@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// TekTech AppLoadingIndicator Component
-/// 
+///
 /// Consistent loading indicator across the app
 /// - Circular progress indicator
 /// - Optional loading message
@@ -12,12 +12,7 @@ class AppLoadingIndicator extends StatelessWidget {
   final double? size;
   final Color? color;
 
-  const AppLoadingIndicator({
-    Key? key,
-    this.message,
-    this.size,
-    this.color,
-  }) : super(key: key);
+  const AppLoadingIndicator({super.key, this.message, this.size, this.color});
 
   @override
   Widget build(BuildContext context) {

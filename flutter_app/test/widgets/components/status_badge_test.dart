@@ -9,9 +9,7 @@ void main() {
       // Arrange & Act
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(status: TaskStatus.todo),
-          ),
+          home: Scaffold(body: StatusBadge(status: TaskStatus.todo)),
         ),
       );
 
@@ -24,9 +22,7 @@ void main() {
       // Arrange & Act
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(status: TaskStatus.inProgress),
-          ),
+          home: Scaffold(body: StatusBadge(status: TaskStatus.inProgress)),
         ),
       );
 
@@ -39,9 +35,7 @@ void main() {
       // Arrange & Act
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(status: TaskStatus.done),
-          ),
+          home: Scaffold(body: StatusBadge(status: TaskStatus.done)),
         ),
       );
 
@@ -51,12 +45,10 @@ void main() {
     });
 
     testWidgets('should apply correct colors for each status', (tester) async {
-      // Test TODO color
+      // Test TaskStatus.todo color
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(status: TaskStatus.todo),
-          ),
+          home: Scaffold(body: StatusBadge(status: TaskStatus.todo)),
         ),
       );
       await tester.pumpAndSettle();
@@ -64,9 +56,7 @@ void main() {
       // Test IN_PROGRESS color
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(status: TaskStatus.inProgress),
-          ),
+          home: Scaffold(body: StatusBadge(status: TaskStatus.inProgress)),
         ),
       );
       await tester.pumpAndSettle();
@@ -74,9 +64,7 @@ void main() {
       // Test DONE color
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(status: TaskStatus.done),
-          ),
+          home: Scaffold(body: StatusBadge(status: TaskStatus.done)),
         ),
       );
       await tester.pumpAndSettle();

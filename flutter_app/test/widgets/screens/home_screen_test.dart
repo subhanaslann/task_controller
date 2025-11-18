@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/features/tasks/presentation/home_screen.dart';
 import 'package:flutter_app/features/tasks/presentation/my_active_tasks_screen.dart';
 import 'package:flutter_app/features/tasks/presentation/my_completed_tasks_screen.dart';
 import 'package:flutter_app/features/tasks/presentation/team_active_tasks_screen.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_data.dart';
 import '../../helpers/test_helpers.dart';

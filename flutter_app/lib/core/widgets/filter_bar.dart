@@ -6,14 +6,11 @@ class FilterItem {
   final String id;
   final String label;
 
-  const FilterItem({
-    required this.id,
-    required this.label,
-  });
+  const FilterItem({required this.id, required this.label});
 }
 
 /// TekTech FilterBar Component
-/// 
+///
 /// Search bar with filterable chips
 /// - Search input with icon
 /// - Chip-based filters (multi-select)
@@ -27,14 +24,14 @@ class FilterBar extends StatelessWidget {
   final VoidCallback? onClearAll;
 
   const FilterBar({
-    Key? key,
+    super.key,
     required this.searchQuery,
     required this.onSearchChange,
     this.filters = const [],
     this.selectedFilters = const {},
     required this.onFilterToggle,
     this.onClearAll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +82,9 @@ class FilterBar extends StatelessWidget {
                                 label: Text(filter.label),
                                 selected: selectedFilters.contains(filter.id),
                                 onSelected: (_) => onFilterToggle(filter.id),
-                                selectedColor:
-                                    AppTheme.primaryColor.withOpacity(0.2),
+                                selectedColor: AppTheme.primaryColor.withValues(
+                                  alpha: 0.2,
+                                ),
                                 checkmarkColor: AppTheme.primaryColor,
                                 backgroundColor: Colors.grey.shade200,
                                 labelStyle: TextStyle(
@@ -95,8 +93,8 @@ class FilterBar extends StatelessWidget {
                                       : Colors.grey.shade700,
                                   fontWeight:
                                       selectedFilters.contains(filter.id)
-                                          ? FontWeight.w600
-                                          : FontWeight.normal,
+                                      ? FontWeight.w600
+                                      : FontWeight.normal,
                                 ),
                               ),
                             ),
@@ -129,11 +127,11 @@ class SearchBar extends StatelessWidget {
   final String placeholder;
 
   const SearchBar({
-    Key? key,
+    super.key,
     required this.query,
     required this.onQueryChange,
     this.placeholder = 'Ara...',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

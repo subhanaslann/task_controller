@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'sync_manager.dart';
 
 /// TekTech ConnectivityAwareSyncManager
-/// 
+///
 /// Enhanced sync manager with network connectivity awareness
 /// - Auto-sync when going online
 /// - Pause sync when offline
@@ -20,7 +20,7 @@ class ConnectivityAwareSyncManager {
   bool _hasInitialSync = false;
 
   ConnectivityAwareSyncManager(this._syncManager, {Connectivity? connectivity})
-      : _connectivity = connectivity ?? Connectivity();
+    : _connectivity = connectivity ?? Connectivity();
 
   /// Initialize and start connectivity monitoring
   Future<void> init() async {
@@ -39,7 +39,7 @@ class ConnectivityAwareSyncManager {
     if (_isOnline) {
       _logger.i('Starting auto-sync (online)');
       _syncManager.startAutoSync();
-      
+
       // Initial sync
       if (!_hasInitialSync) {
         await _performInitialSync();
@@ -66,7 +66,9 @@ class ConnectivityAwareSyncManager {
     final wasOnline = _isOnline;
     _isOnline = _isConnected(results);
 
-    _logger.i('Connectivity changed: ${results} (${_isOnline ? "online" : "offline"})');
+    _logger.i(
+      'Connectivity changed: $results (${_isOnline ? "online" : "offline"})',
+    );
 
     if (_isOnline && !wasOnline) {
       // Just came online - sync immediately
@@ -80,10 +82,10 @@ class ConnectivityAwareSyncManager {
   /// Handle going online
   void _handleOnline() {
     _logger.i('Device is online - resuming sync');
-    
+
     // Start auto-sync
     _syncManager.startAutoSync();
-    
+
     // Immediate sync to push dirty data and fetch fresh
     Future.delayed(const Duration(seconds: 1), () async {
       try {
@@ -116,10 +118,12 @@ class ConnectivityAwareSyncManager {
 
   /// Check if device has connectivity
   bool _isConnected(List<ConnectivityResult> results) {
-    return results.any((result) =>
-        result == ConnectivityResult.mobile ||
-        result == ConnectivityResult.wifi ||
-        result == ConnectivityResult.ethernet);
+    return results.any(
+      (result) =>
+          result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.ethernet,
+    );
   }
 
   /// Manual sync (respects connectivity)

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
@@ -64,8 +65,8 @@ void main() {
       expect(response.user.role, UserRole.guest);
       expect(response.user.visibleTopicIds, isA<List<String>>());
 
-      print('✅ Guest logged in successfully');
-      print('✅ Visible topics: ${response.user.visibleTopicIds.length}');
+      debugPrint('✅ Guest logged in successfully');
+      debugPrint('✅ Visible topics: ${response.user.visibleTopicIds.length}');
     });
   });
 
@@ -97,7 +98,7 @@ void main() {
           expect(task.assignee!.name, isNotEmpty);
         }
 
-        print('✅ Guest can view filtered team tasks');
+        debugPrint('✅ Guest can view filtered team tasks');
       }
     });
 
@@ -109,7 +110,7 @@ void main() {
       // (Backend filters based on GuestTopicAccess table)
       expect(response.tasks, isA<List>());
 
-      print('✅ Guest sees only accessible topic tasks');
+      debugPrint('✅ Guest sees only accessible topic tasks');
     });
   });
 
@@ -124,7 +125,9 @@ void main() {
       // Guest should only see topics they have access to
       // (Based on visibleTopicIds or GuestTopicAccess)
 
-      print('✅ Guest topic access filtered: ${response.topics.length} topics');
+      debugPrint(
+        '✅ Guest topic access filtered: ${response.topics.length} topics',
+      );
     });
   });
 
@@ -148,7 +151,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 403);
         }
-        print('✅ Guest cannot create tasks - correctly forbidden');
+        debugPrint('✅ Guest cannot create tasks - correctly forbidden');
       }
     });
   });
@@ -159,7 +162,7 @@ void main() {
       final tasksResponse = await apiService.getTasks('team_active');
 
       if (tasksResponse.tasks.isEmpty) {
-        print('⚠️  No tasks available for guest update test');
+        debugPrint('⚠️  No tasks available for guest update test');
         return;
       }
 
@@ -180,7 +183,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 403);
         }
-        print('✅ Guest cannot update tasks - correctly forbidden');
+        debugPrint('✅ Guest cannot update tasks - correctly forbidden');
       }
     });
   });
@@ -199,7 +202,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 403);
         }
-        print('✅ Guest cannot access admin topics - correctly forbidden');
+        debugPrint('✅ Guest cannot access admin topics - correctly forbidden');
       }
     });
 
@@ -208,7 +211,7 @@ void main() {
       try {
         final response = await dio.get('/admin/tasks');
         expect(response.statusCode, 403);
-        print('✅ Guest cannot access admin tasks - correctly forbidden');
+        debugPrint('✅ Guest cannot access admin tasks - correctly forbidden');
       } catch (e) {
         expect(
           e,
@@ -233,7 +236,7 @@ void main() {
         if (e is DioException) {
           expect(e.response?.statusCode, 403);
         }
-        print('✅ Guest cannot access user list - correctly forbidden');
+        debugPrint('✅ Guest cannot access user list - correctly forbidden');
       }
     });
   });
@@ -247,7 +250,7 @@ void main() {
       expect(response.tasks, isA<List>());
       expect(response.tasks.every((t) => t.status == TaskStatus.done), true);
 
-      print('✅ Guest can view own completed tasks (read-only)');
+      debugPrint('✅ Guest can view own completed tasks (read-only)');
     });
 
     test('should view organization details (read-only)', () async {
@@ -258,7 +261,7 @@ void main() {
       expect(response.statusCode, 200);
       expect(response.data['data']['name'], isNotEmpty);
 
-      print('✅ Guest can view organization details');
+      debugPrint('✅ Guest can view organization details');
     });
   });
 
@@ -271,7 +274,7 @@ void main() {
           data: {'name': 'Hacked Name'},
         );
         expect(response.statusCode, 403);
-        print('✅ Guest cannot update organization - correctly forbidden');
+        debugPrint('✅ Guest cannot update organization - correctly forbidden');
       } catch (e) {
         expect(
           e,
@@ -301,9 +304,9 @@ void main() {
         // Note: Backend is responsible for filtering
         // Frontend just receives what backend sends
 
-        print('✅ Guest field filtering verified');
+        debugPrint('✅ Guest field filtering verified');
       } else {
-        print('⚠️  No tasks available for filtering test');
+        debugPrint('⚠️  No tasks available for filtering test');
       }
     });
   });

@@ -8,7 +8,7 @@ import '../../../core/widgets/app_text_field.dart';
 import '../../../core/providers/providers.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -66,7 +66,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       );
 
       ref.read(currentUserProvider.notifier).state = authResult.user;
-      ref.read(currentOrganizationProvider.notifier).state = authResult.organization;
+      ref.read(currentOrganizationProvider.notifier).state =
+          authResult.organization;
 
       if (mounted) {
         // Navigate to home screen
@@ -75,10 +76,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     } catch (e) {
       final errorString = e.toString().toLowerCase();
       setState(() {
-        if (errorString.contains('deactivated') && errorString.contains('organization')) {
-          _errorMessage = 'Your organization has been deactivated. Please contact support.';
-        } else if (errorString.contains('deactivated') && errorString.contains('account')) {
-          _errorMessage = 'Your account has been deactivated. Contact your team manager.';
+        if (errorString.contains('deactivated') &&
+            errorString.contains('organization')) {
+          _errorMessage =
+              'Your organization has been deactivated. Please contact support.';
+        } else if (errorString.contains('deactivated') &&
+            errorString.contains('account')) {
+          _errorMessage =
+              'Your account has been deactivated. Contact your team manager.';
         } else {
           _errorMessage = 'Invalid username or password';
         }
@@ -170,12 +175,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                     children: [
                                       // Username field
                                       AppTextField(
-                                        label: l10n?.usernameOrEmail ?? 'Username or Email',
+                                        label:
+                                            l10n?.usernameOrEmail ??
+                                            'Username or Email',
                                         controller: _usernameController,
                                         prefixIcon: Icons.person,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return l10n?.validation_required ?? 'This field is required';
+                                            return l10n?.validation_required ??
+                                                'This field is required';
                                           }
                                           return null;
                                         },
@@ -189,7 +197,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         prefixIcon: Icons.lock,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return l10n?.validation_required ?? 'This field is required';
+                                            return l10n?.validation_required ??
+                                                'This field is required';
                                           }
                                           return null;
                                         },
@@ -206,7 +215,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                             ),
                                             border: Border.all(
                                               color: colorScheme.error
-                                                  .withOpacity(0.3),
+                                                  .withValues(alpha: 0.3),
                                               width: 1,
                                             ),
                                           ),
@@ -246,7 +255,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                       Center(
                                         child: TextButton(
                                           onPressed: () {
-                                            Navigator.of(context).pushNamed('/register');
+                                            Navigator.of(
+                                              context,
+                                            ).pushNamed('/register');
                                           },
                                           child: Text(
                                             'Don\'t have a team? Register here',

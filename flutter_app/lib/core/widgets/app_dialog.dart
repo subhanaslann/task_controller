@@ -3,7 +3,7 @@ import '../theme/app_theme.dart';
 import 'app_button.dart';
 
 /// TekTech AppDialog Component
-/// 
+///
 /// Modern dialog with consistent styling
 /// - Confirm dialog (yes/no actions)
 /// - Alert dialog (single action)
@@ -19,7 +19,7 @@ class AppDialog extends StatelessWidget {
   final ButtonVariant confirmButtonVariant;
 
   const AppDialog({
-    Key? key,
+    super.key,
     required this.title,
     this.message,
     this.icon,
@@ -28,7 +28,7 @@ class AppDialog extends StatelessWidget {
     this.dismissText = 'İptal',
     required this.onDismiss,
     this.confirmButtonVariant = ButtonVariant.primary,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +55,9 @@ class AppDialog extends StatelessWidget {
             // Title
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             // Message
@@ -112,14 +112,14 @@ class ConfirmDialog extends StatelessWidget {
   final String dismissText;
 
   const ConfirmDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.message,
     required this.onConfirm,
     required this.onDismiss,
     this.confirmText = 'Onayla',
     this.dismissText = 'İptal',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +144,12 @@ class AppAlertDialog extends StatelessWidget {
   final String buttonText;
 
   const AppAlertDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.message,
     required this.onDismiss,
     this.buttonText = 'Tamam',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -174,14 +174,14 @@ class CustomDialog extends StatelessWidget {
   final VoidCallback onDismiss;
 
   const CustomDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     this.confirmText = 'Tamam',
     required this.onConfirm,
     this.dismissText = 'İptal',
     required this.onDismiss,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -198,9 +198,9 @@ class CustomDialog extends StatelessWidget {
             // Title
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             // Custom content

@@ -8,12 +8,12 @@ class EmptyState extends StatelessWidget {
   final Widget? action;
 
   const EmptyState({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.message,
     this.action,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,7 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 80,
-              color: AppTheme.textDisabledColor,
-            ),
+            Icon(icon, size: 80, color: AppTheme.textDisabledColor),
             const SizedBox(height: AppTheme.spacing16),
             Text(
               title,
@@ -38,8 +34,8 @@ class EmptyState extends StatelessWidget {
             Text(
               message,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textSecondaryColor,
-                  ),
+                color: AppTheme.textSecondaryColor,
+              ),
               textAlign: TextAlign.center,
             ),
             if (action != null) ...[

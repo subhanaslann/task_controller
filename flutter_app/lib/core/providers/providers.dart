@@ -56,29 +56,27 @@ final cacheRepositoryProvider = Provider<CacheRepository>((ref) {
 final syncManagerProvider = Provider<SyncManager>((ref) {
   final cacheRepo = ref.watch(cacheRepositoryProvider);
   final taskRepo = ref.watch(taskRepositoryProvider);
-  final adminRepo = ref.watch(adminRepositoryProvider);
-  
-  return SyncManager(
-    cacheRepo: cacheRepo,
-    taskRepo: taskRepo,
-    adminRepo: adminRepo,
-  );
+
+  return SyncManager(cacheRepo: cacheRepo, taskRepo: taskRepo);
 });
 
-final connectivityAwareSyncManagerProvider = Provider<ConnectivityAwareSyncManager>((ref) {
-  final syncManager = ref.watch(syncManagerProvider);
-  return ConnectivityAwareSyncManager(syncManager);
-});
+final connectivityAwareSyncManagerProvider =
+    Provider<ConnectivityAwareSyncManager>((ref) {
+      final syncManager = ref.watch(syncManagerProvider);
+      return ConnectivityAwareSyncManager(syncManager);
+    });
 
 // Connectivity state provider
 final connectivityProvider = StreamProvider<bool>((ref) {
   final connectivity = Connectivity();
-  
+
   return connectivity.onConnectivityChanged.map((results) {
-    return results.any((result) =>
-        result == ConnectivityResult.mobile ||
-        result == ConnectivityResult.wifi ||
-        result == ConnectivityResult.ethernet);
+    return results.any(
+      (result) =>
+          result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.ethernet,
+    );
   });
 });
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/core/widgets/task_card.dart';
 import 'package:flutter_app/data/models/task.dart';
@@ -60,7 +59,9 @@ void main() {
       expect(find.text('To Do'), findsOneWidget);
     });
 
-    testWidgets('displays topic badge when topic exists', (WidgetTester tester) async {
+    testWidgets('displays topic badge when topic exists', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(TaskCard(task: testTask));
 
@@ -71,11 +72,11 @@ void main() {
       expect(find.text('Development'), findsOneWidget);
     });
 
-    testWidgets('displays note when showNote is true', (WidgetTester tester) async {
+    testWidgets('displays note when showNote is true', (
+      WidgetTester tester,
+    ) async {
       // Arrange
-      final widget = createTestWidget(
-        TaskCard(task: testTask, showNote: true),
-      );
+      final widget = createTestWidget(TaskCard(task: testTask, showNote: true));
 
       // Act
       await tester.pumpWidget(widget);
@@ -84,7 +85,9 @@ void main() {
       expect(find.text('Test note description'), findsOneWidget);
     });
 
-    testWidgets('does not display note when showNote is false', (WidgetTester tester) async {
+    testWidgets('does not display note when showNote is false', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         TaskCard(task: testTask, showNote: false),
@@ -101,10 +104,7 @@ void main() {
       // Arrange
       bool wasTapped = false;
       final widget = createTestWidget(
-        TaskCard(
-          task: testTask,
-          onTap: () => wasTapped = true,
-        ),
+        TaskCard(task: testTask, onTap: () => wasTapped = true),
       );
 
       // Act
@@ -128,14 +128,16 @@ void main() {
       expect(find.text('T'), findsWidgets);
     });
 
-    testWidgets('displays different priority colors', (WidgetTester tester) async {
+    testWidgets('displays different priority colors', (
+      WidgetTester tester,
+    ) async {
       // Test high priority
       final highPriorityTask = testTask;
       final highWidget = createTestWidget(TaskCard(task: highPriorityTask));
-      
+
       await tester.pumpWidget(highWidget);
       expect(find.text('High'), findsOneWidget);
-      
+
       // Test low priority
       final lowPriorityTask = Task(
         id: 'task-2',
@@ -148,7 +150,7 @@ void main() {
         updatedAt: DateTime.now().toIso8601String(),
       );
       final lowWidget = createTestWidget(TaskCard(task: lowPriorityTask));
-      
+
       await tester.pumpWidget(lowWidget);
       await tester.pump();
       expect(find.text('Low'), findsOneWidget);

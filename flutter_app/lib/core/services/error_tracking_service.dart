@@ -3,7 +3,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:logger/logger.dart';
 
 /// TekTech Error Tracking Service
-/// 
+///
 /// Sentry-based error tracking with:
 /// - Automatic crash reporting
 /// - PII (Personally Identifiable Information) scrubbing
@@ -25,24 +25,22 @@ class ErrorTrackingService {
       return;
     }
 
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = dsn;
-        options.environment = environment;
-        options.tracesSampleRate = tracesSampleRate;
-        options.enableAutoSessionTracking = enableAutoSessionTracking;
-        
-        // Debug mode settings
-        options.debug = kDebugMode;
-        
-        // PII scrubbing - remove sensitive data
-        options.beforeSend = _scrubPII;
-        options.beforeBreadcrumb = _scrubBreadcrumbPII;
+    await SentryFlutter.init((options) {
+      options.dsn = dsn;
+      options.environment = environment;
+      options.tracesSampleRate = tracesSampleRate;
+      options.enableAutoSessionTracking = enableAutoSessionTracking;
 
-        // Performance monitoring
-        options.enableAutoPerformanceTracing = true;
-      },
-    );
+      // Debug mode settings
+      options.debug = kDebugMode;
+
+      // PII scrubbing - remove sensitive data
+      options.beforeSend = _scrubPII;
+      options.beforeBreadcrumb = _scrubBreadcrumbPII;
+
+      // Performance monitoring
+      options.enableAutoPerformanceTracing = true;
+    });
 
     _initialized = true;
     _logger.i('ErrorTrackingService initialized (env: $environment)');
@@ -52,13 +50,13 @@ class ErrorTrackingService {
   static SentryEvent? _scrubPII(SentryEvent event, Hint hint) {
     // Remove sensitive fields from contexts
     final scrubbedContexts = _scrubContexts(event.contexts);
-    
+
     // Remove sensitive request data
     final scrubbedRequest = _scrubRequest(event.request);
-    
+
     // Remove sensitive user data (keep only non-PII fields)
     final scrubbedUser = _scrubUser(event.user);
-    
+
     return event.copyWith(
       contexts: scrubbedContexts,
       request: scrubbedRequest,
@@ -69,7 +67,7 @@ class ErrorTrackingService {
   /// Scrub PII from breadcrumbs
   static Breadcrumb? _scrubBreadcrumbPII(Breadcrumb? breadcrumb, Hint hint) {
     if (breadcrumb == null) return null;
-    
+
     // Remove sensitive data from breadcrumb data
     final scrubbedData = <String, dynamic>{};
     breadcrumb.data?.forEach((key, value) {
@@ -79,7 +77,7 @@ class ErrorTrackingService {
         scrubbedData[key] = '[REDACTED]';
       }
     });
-    
+
     return breadcrumb.copyWith(data: scrubbedData);
   }
 
@@ -94,27 +92,27 @@ class ErrorTrackingService {
       gpu: contexts.gpu,
       culture: contexts.culture,
     );
-    
+
     return scrubbed;
   }
 
   /// Scrub sensitive request data
   static SentryRequest? _scrubRequest(SentryRequest? request) {
     if (request == null) return null;
-    
+
     // Remove sensitive headers
     final scrubbedHeaders = <String, String>{};
-    request.headers?.forEach((key, value) {
+    request.headers.forEach((key, value) {
       if (!_isSensitiveKey(key)) {
         scrubbedHeaders[key] = value;
       } else {
         scrubbedHeaders[key] = '[REDACTED]';
       }
     });
-    
+
     // Remove sensitive query params
     final scrubbedQueryString = _scrubQueryString(request.queryString);
-    
+
     return request.copyWith(
       headers: scrubbedHeaders,
       queryString: scrubbedQueryString,
@@ -126,7 +124,7 @@ class ErrorTrackingService {
   /// Scrub sensitive user data
   static SentryUser? _scrubUser(SentryUser? user) {
     if (user == null) return null;
-    
+
     // Keep only non-PII fields
     return SentryUser(
       id: user.id, // User ID is okay if it's not email/name
@@ -142,10 +140,10 @@ class ErrorTrackingService {
   /// Scrub query string
   static String? _scrubQueryString(String? queryString) {
     if (queryString == null) return null;
-    
+
     final params = Uri.splitQueryString(queryString);
     final scrubbed = <String, String>{};
-    
+
     params.forEach((key, value) {
       if (!_isSensitiveKey(key)) {
         scrubbed[key] = value;
@@ -153,7 +151,7 @@ class ErrorTrackingService {
         scrubbed[key] = '[REDACTED]';
       }
     });
-    
+
     return Uri(queryParameters: scrubbed).query;
   }
 
@@ -176,7 +174,7 @@ class ErrorTrackingService {
       'credit_card',
       'card_number',
     ];
-    
+
     return sensitivePatterns.any((pattern) => lowerKey.contains(pattern));
   }
 
@@ -203,7 +201,7 @@ class ErrorTrackingService {
           if (extra != null) ...extra,
         }),
       );
-      
+
       _logger.d('Error reported to Sentry: $exception');
     } catch (e) {
       _logger.e('Failed to report error to Sentry', error: e);
@@ -231,17 +229,11 @@ class ErrorTrackingService {
   }
 
   /// Set user context (non-PII)
-  static void setUser({
-    required String id,
-    Map<String, dynamic>? data,
-  }) {
+  static void setUser({required String id, Map<String, dynamic>? data}) {
     if (!_initialized) return;
 
     Sentry.configureScope((scope) {
-      scope.setUser(SentryUser(
-        id: id,
-        data: data,
-      ));
+      scope.setUser(SentryUser(id: id, data: data));
     });
   }
 
@@ -293,7 +285,7 @@ class ErrorTrackingService {
   /// Close Sentry (call on app dispose)
   static Future<void> close() async {
     if (!_initialized) return;
-    
+
     await Sentry.close();
     _initialized = false;
     _logger.i('ErrorTrackingService closed');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 /// TekTech PriorityBadge Component
-/// 
+///
 /// Displays task priority as a colored badge with icon
 /// - Color-coded based on priority (low/normal/high)
 /// - Consistent sizing and styling
@@ -13,11 +13,11 @@ class PriorityBadge extends StatelessWidget {
   final double? fontSize;
 
   const PriorityBadge({
-    Key? key,
+    super.key,
     required this.priority,
     this.showIcon = true,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,36 +28,32 @@ class PriorityBadge extends StatelessWidget {
       label: 'Öncelik: ${config.label}',
       readOnly: true,
       child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: config.color.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: config.color.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (showIcon) ...[
-            Icon(
-              config.icon,
-              size: fontSize ?? 14,
-              color: config.color,
-            ),
-            const SizedBox(width: 4),
-          ],
-          Text(
-            config.label,
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: config.color,
-              fontWeight: FontWeight.w600,
-              fontSize: fontSize,
-            ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: config.color.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: config.color.withValues(alpha: 0.3),
+            width: 1,
           ),
-        ],
-      ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showIcon) ...[
+              Icon(config.icon, size: fontSize ?? 14, color: config.color),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              config.label,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: config.color,
+                fontWeight: FontWeight.w600,
+                fontSize: fontSize,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

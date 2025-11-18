@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/core/network/dio_client.dart';
 import 'package:flutter_app/core/storage/secure_storage.dart';
 import 'package:flutter_app/core/utils/constants.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {

@@ -12,7 +12,6 @@ import 'package:flutter_app/core/utils/constants.dart';
 
 void main() {
   group('Task Card Widget Tests', () {
-
     // Sample test data
     final sampleTask = Task(
       id: '123e4567-e89b-12d3-a456-426614174000',
@@ -22,7 +21,9 @@ void main() {
       status: TaskStatus.inProgress,
       priority: Priority.high,
       dueDate: DateTime.now().add(const Duration(days: 3)).toIso8601String(),
-      createdAt: DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
+      createdAt: DateTime.now()
+          .subtract(const Duration(days: 2))
+          .toIso8601String(),
       updatedAt: DateTime.now().toIso8601String(),
     );
 
@@ -32,8 +33,12 @@ void main() {
       assigneeId: 'user-123',
       status: TaskStatus.todo,
       priority: Priority.high,
-      dueDate: DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
-      createdAt: DateTime.now().subtract(const Duration(days: 5)).toIso8601String(),
+      dueDate: DateTime.now()
+          .subtract(const Duration(days: 1))
+          .toIso8601String(),
+      createdAt: DateTime.now()
+          .subtract(const Duration(days: 5))
+          .toIso8601String(),
       updatedAt: DateTime.now().toIso8601String(),
     );
 
@@ -43,18 +48,24 @@ void main() {
       assigneeId: 'user-123',
       status: TaskStatus.done,
       priority: Priority.normal,
-      createdAt: DateTime.now().subtract(const Duration(days: 10)).toIso8601String(),
-      updatedAt: DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
-      completedAt: DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
+      createdAt: DateTime.now()
+          .subtract(const Duration(days: 10))
+          .toIso8601String(),
+      updatedAt: DateTime.now()
+          .subtract(const Duration(days: 1))
+          .toIso8601String(),
+      completedAt: DateTime.now()
+          .subtract(const Duration(days: 1))
+          .toIso8601String(),
     );
 
-    testWidgets('Task card displays title correctly', (WidgetTester tester) async {
+    testWidgets('Task card displays title correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: sampleTask),
-            ),
+            home: Scaffold(body: TaskCardMock(task: sampleTask)),
           ),
         ),
       );
@@ -62,13 +73,13 @@ void main() {
       expect(find.text('Implement user authentication'), findsOneWidget);
     });
 
-    testWidgets('Task card shows priority badge with correct color', (WidgetTester tester) async {
+    testWidgets('Task card shows priority badge with correct color', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: sampleTask),
-            ),
+            home: Scaffold(body: TaskCardMock(task: sampleTask)),
           ),
         ),
       );
@@ -79,10 +90,9 @@ void main() {
 
       // Verify color (should be red for HIGH priority)
       final Container priorityContainer = tester.widget(
-        find.ancestor(
-          of: priorityBadge,
-          matching: find.byType(Container),
-        ).first,
+        find
+            .ancestor(of: priorityBadge, matching: find.byType(Container))
+            .first,
       );
 
       expect(
@@ -91,13 +101,13 @@ void main() {
       );
     });
 
-    testWidgets('Task card shows status badge correctly', (WidgetTester tester) async {
+    testWidgets('Task card shows status badge correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: sampleTask),
-            ),
+            home: Scaffold(body: TaskCardMock(task: sampleTask)),
           ),
         ),
       );
@@ -105,13 +115,13 @@ void main() {
       expect(find.text('IN_PROGRESS'), findsOneWidget);
     });
 
-    testWidgets('Overdue task shows red due date indicator', (WidgetTester tester) async {
+    testWidgets('Overdue task shows red due date indicator', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: overdueTask),
-            ),
+            home: Scaffold(body: TaskCardMock(task: overdueTask)),
           ),
         ),
       );
@@ -120,13 +130,13 @@ void main() {
       expect(find.textContaining('Overdue'), findsOneWidget);
     });
 
-    testWidgets('Completed task shows completion date', (WidgetTester tester) async {
+    testWidgets('Completed task shows completion date', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: completedTask),
-            ),
+            home: Scaffold(body: TaskCardMock(task: completedTask)),
           ),
         ),
       );
@@ -135,13 +145,13 @@ void main() {
       expect(find.byIcon(Icons.check_circle), findsOneWidget);
     });
 
-    testWidgets('Task with note shows note preview', (WidgetTester tester) async {
+    testWidgets('Task with note shows note preview', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: sampleTask),
-            ),
+            home: Scaffold(body: TaskCardMock(task: sampleTask)),
           ),
         ),
       );
@@ -150,7 +160,9 @@ void main() {
       expect(find.textContaining('Add JWT-based'), findsOneWidget);
     });
 
-    testWidgets('Task without note does not show note section', (WidgetTester tester) async {
+    testWidgets('Task without note does not show note section', (
+      WidgetTester tester,
+    ) async {
       final taskWithoutNote = Task(
         id: 'test-id',
         title: 'Simple task',
@@ -164,9 +176,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TaskCardMock(task: taskWithoutNote),
-            ),
+            home: Scaffold(body: TaskCardMock(task: taskWithoutNote)),
           ),
         ),
       );
@@ -198,7 +208,9 @@ void main() {
         );
       });
 
-      testWidgets('NORMAL priority shows blue color', (WidgetTester tester) async {
+      testWidgets('NORMAL priority shows blue color', (
+        WidgetTester tester,
+      ) async {
         final normalTask = sampleTask.copyWith(priority: Priority.normal);
 
         await tester.pumpWidget(
@@ -253,8 +265,12 @@ void main() {
         expect(statusBadge, findsOneWidget);
       });
 
-      testWidgets('IN_PROGRESS status shows amber color', (WidgetTester tester) async {
-        final inProgressTask = sampleTask.copyWith(status: TaskStatus.inProgress);
+      testWidgets('IN_PROGRESS status shows amber color', (
+        WidgetTester tester,
+      ) async {
+        final inProgressTask = sampleTask.copyWith(
+          status: TaskStatus.inProgress,
+        );
 
         await tester.pumpWidget(
           ProviderScope(
@@ -308,7 +324,7 @@ void main() {
 class TaskCardMock extends StatelessWidget {
   final Task task;
 
-  const TaskCardMock({Key? key, required this.task}) : super(key: key);
+  const TaskCardMock({super.key, required this.task});
 
   Color _getPriorityColor(Priority priority) {
     switch (priority) {
@@ -357,7 +373,9 @@ class TaskCardMock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final dueDateTime = task.dueDate != null ? DateTime.parse(task.dueDate!) : null;
+    final dueDateTime = task.dueDate != null
+        ? DateTime.parse(task.dueDate!)
+        : null;
     final isOverdue = dueDateTime != null && dueDateTime.isBefore(now);
 
     return Card(
@@ -463,11 +481,16 @@ class TaskCardMock extends StatelessWidget {
                       ),
                     ],
                     // Completed date
-                    if (task.status == TaskStatus.done && task.completedAt != null) ...[
+                    if (task.status == TaskStatus.done &&
+                        task.completedAt != null) ...[
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.check_circle, size: 16, color: Colors.green),
+                          const Icon(
+                            Icons.check_circle,
+                            size: 16,
+                            color: Colors.green,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             'Completed',

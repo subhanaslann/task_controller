@@ -1,12 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/data/datasources/api_service.dart';
 import 'package:flutter_app/core/utils/constants.dart';
 
 /// Integration tests for task management workflows
-/// 
+///
 /// These tests verify complete task CRUD flows from creation to deletion
-/// 
+///
 /// Note: Requires running backend server
 /// Run: cd server && npm run dev
 
@@ -22,21 +23,25 @@ void main() {
   String? createdTaskId;
 
   setUpAll(() {
-    dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      validateStatus: (status) => status != null && status < 500,
-    ));
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        validateStatus: (status) => status != null && status < 500,
+      ),
+    );
 
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        if (authToken != null) {
-          options.headers['Authorization'] = 'Bearer $authToken';
-        }
-        return handler.next(options);
-      },
-    ));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (authToken != null) {
+            options.headers['Authorization'] = 'Bearer $authToken';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
 
     apiService = ApiService(dio, baseUrl: baseUrl);
   });
@@ -64,14 +69,15 @@ void main() {
 
       // Assert
       expect(response.task, isNotNull);
-      expect(response.task!.title, contains('Integration Test Task'));
-      expect(response.task!.priority, Priority.high);
-      expect(response.task!.status, TaskStatus.todo);
+      final task = response.task;
+      expect(task.title, contains('Integration Test Task'));
+      expect(task.priority, Priority.high);
+      expect(task.status, TaskStatus.todo);
 
       // Store for subsequent tests
-      createdTaskId = response.task!.id;
+      createdTaskId = task.id;
 
-      print('✅ Task created: ${response.task!.id}');
+      debugPrint('✅ Task created: ${task.id}');
     });
 
     test('should refresh task list after creation', () async {
@@ -81,7 +87,7 @@ void main() {
       // Assert - Should include newly created task
       expect(response.tasks, isA<List>());
       expect(response.tasks.length, greaterThan(0));
-      
+
       if (createdTaskId != null) {
         final createdTask = response.tasks.firstWhere(
           (t) => t.id == createdTaskId,
@@ -90,7 +96,7 @@ void main() {
         expect(createdTask.id, createdTaskId);
       }
 
-      print('✅ Task list refreshed successfully');
+      debugPrint('✅ Task list refreshed successfully');
     });
   });
 
@@ -111,9 +117,9 @@ void main() {
         (t) => t.id == createdTaskId,
         orElse: () => throw Exception('Task not found'),
       );
-      
+
       expect(updatedTask.status, TaskStatus.inProgress);
-      print('✅ Task status updated to IN_PROGRESS');
+      debugPrint('✅ Task status updated to IN_PROGRESS');
     });
 
     test('should update task status to DONE and set completedAt', () async {
@@ -132,10 +138,10 @@ void main() {
         (t) => t.id == createdTaskId,
         orElse: () => throw Exception('Task not found in completed'),
       );
-      
+
       expect(completedTask.status, TaskStatus.done);
       expect(completedTask.completedAt, isNotNull);
-      print('✅ Task completed with completedAt timestamp');
+      debugPrint('✅ Task completed with completedAt timestamp');
     });
   });
 
@@ -148,7 +154,7 @@ void main() {
           priority: Priority.normal.value,
         ),
       );
-      final taskId = createResponse.task!.id;
+      final taskId = createResponse.task.id;
 
       // Act - Update task
       final updateResponse = await apiService.updateMemberTask(
@@ -162,7 +168,7 @@ void main() {
       // Assert
       expect(updateResponse.task.title, 'Updated Task Title');
       expect(updateResponse.task.priority, Priority.high);
-      print('✅ Task updated successfully');
+      debugPrint('✅ Task updated successfully');
     });
 
     test('should update task note', () async {
@@ -174,7 +180,7 @@ void main() {
           priority: Priority.normal.value,
         ),
       );
-      final taskId = createResponse.task!.id;
+      final taskId = createResponse.task.id;
 
       // Act - Update note
       final updateResponse = await apiService.updateMemberTask(
@@ -184,7 +190,7 @@ void main() {
 
       // Assert
       expect(updateResponse.task.note, 'Updated note');
-      print('✅ Task note updated successfully');
+      debugPrint('✅ Task note updated successfully');
     });
   });
 
@@ -197,7 +203,7 @@ void main() {
           priority: Priority.normal.value,
         ),
       );
-      final taskId = createResponse.task!.id;
+      final taskId = createResponse.task.id;
 
       // Verify task exists
       var tasks = await apiService.getTasks('my_active');
@@ -211,8 +217,8 @@ void main() {
       tasks = await apiService.getTasks('my_active');
       taskExists = tasks.tasks.any((t) => t.id == taskId);
       expect(taskExists, false);
-      
-      print('✅ Task deleted and removed from list');
+
+      debugPrint('✅ Task deleted and removed from list');
     });
   });
 
@@ -226,7 +232,7 @@ void main() {
       // Assert - Both requests succeed
       expect(firstFetch.tasks, isA<List>());
       expect(secondFetch.tasks, isA<List>());
-      print('✅ Task list can be refreshed');
+      debugPrint('✅ Task list can be refreshed');
     });
   });
 
@@ -237,7 +243,7 @@ void main() {
 
       // Assert - Only active tasks (TODO, IN_PROGRESS)
       expect(response.tasks.every((t) => t.status != TaskStatus.done), true);
-      print('✅ my_active scope returns only active tasks');
+      debugPrint('✅ my_active scope returns only active tasks');
     });
 
     test('should filter tasks by scope (team_active)', () async {
@@ -247,7 +253,7 @@ void main() {
       // Assert - All team active tasks
       expect(response.tasks, isA<List>());
       expect(response.tasks.every((t) => t.status != TaskStatus.done), true);
-      print('✅ team_active scope returns team tasks');
+      debugPrint('✅ team_active scope returns team tasks');
     });
 
     test('should filter tasks by scope (my_done)', () async {
@@ -256,7 +262,7 @@ void main() {
 
       // Assert - Only completed tasks
       expect(response.tasks.every((t) => t.status == TaskStatus.done), true);
-      print('✅ my_done scope returns only completed tasks');
+      debugPrint('✅ my_done scope returns only completed tasks');
     });
   });
 
@@ -269,7 +275,7 @@ void main() {
           priority: Priority.normal.value,
         ),
       );
-      final taskId = createResponse.task!.id;
+      final taskId = createResponse.task.id;
 
       // Act - Update status (simulating optimistic update)
       // In real app: Update local state immediately, then call API
@@ -281,10 +287,10 @@ void main() {
       // Verify update succeeded
       final tasks = await apiService.getTasks('my_active');
       final updatedTask = tasks.tasks.firstWhere((t) => t.id == taskId);
-      
+
       // Assert
       expect(updatedTask.status, TaskStatus.inProgress);
-      print('✅ Optimistic update flow verified');
+      debugPrint('✅ Optimistic update flow verified');
     });
   });
 
@@ -300,8 +306,11 @@ void main() {
         );
         fail('Should throw validation error');
       } catch (e) {
-        expect(e, anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()));
-        print('✅ Task creation validation error handled');
+        expect(
+          e,
+          anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()),
+        );
+        debugPrint('✅ Task creation validation error handled');
       }
     });
 
@@ -317,8 +326,11 @@ void main() {
         );
         fail('Should throw 404 error');
       } catch (e) {
-        expect(e, anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()));
-        print('✅ Non-existent task error handled');
+        expect(
+          e,
+          anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()),
+        );
+        debugPrint('✅ Non-existent task error handled');
       }
     });
   });
@@ -332,7 +344,7 @@ void main() {
           priority: Priority.normal.value,
         ),
       );
-      final taskId = createResponse.task!.id;
+      final taskId = createResponse.task.id;
 
       // Verify task in my_active
       var activeTasks = await apiService.getTasks('my_active');
@@ -352,8 +364,7 @@ void main() {
       final completedTasks = await apiService.getTasks('my_done');
       expect(completedTasks.tasks.any((t) => t.id == taskId), true);
 
-      print('✅ Task correctly moved from active to completed scope');
+      debugPrint('✅ Task correctly moved from active to completed scope');
     });
   });
 }
-

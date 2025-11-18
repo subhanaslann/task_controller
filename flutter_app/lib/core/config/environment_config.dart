@@ -2,17 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 /// TekTech Environment Configuration
-/// 
+///
 /// Environment-specific configuration for:
 /// - API endpoints
 /// - Log levels
 /// - Feature flags
 /// - Analytics/Error tracking DSN
-enum Environment {
-  development,
-  staging,
-  production,
-}
+enum Environment { development, staging, production }
 
 class EnvironmentConfig {
   final Environment environment;
@@ -22,7 +18,7 @@ class EnvironmentConfig {
   final bool enableAnalytics;
   final bool enableErrorTracking;
   final bool enableDebugLogs;
-  
+
   const EnvironmentConfig({
     required this.environment,
     required this.apiBaseUrl,
@@ -48,9 +44,14 @@ class EnvironmentConfig {
   static const staging = EnvironmentConfig(
     environment: Environment.staging,
     apiBaseUrl: 'https://staging-api.tektech.com/api',
-    // TODO: Replace with your actual Sentry DSN from sentry.io
-    // Get DSN: https://sentry.io → Project Settings → Client Keys (DSN)
-    sentryDsn: '', // 'https://YOUR_KEY@o123456.ingest.sentry.io/YOUR_PROJECT_ID'
+    // Sentry DSN Configuration:
+    // 1. Create a free account at https://sentry.io
+    // 2. Create a new Flutter project
+    // 3. Navigate to: Settings → Projects → [Your Project] → Client Keys (DSN)
+    // 4. Copy the DSN and paste it below
+    // Format: 'https://PUBLIC_KEY@ORGANIZATION_ID.ingest.sentry.io/PROJECT_ID'
+    // Leave empty to disable error tracking in staging
+    sentryDsn: '',
     logLevel: Level.info,
     enableAnalytics: true,
     enableErrorTracking: true,
@@ -61,9 +62,14 @@ class EnvironmentConfig {
   static const production = EnvironmentConfig(
     environment: Environment.production,
     apiBaseUrl: 'https://api.tektech.com/api',
-    // TODO: Replace with your actual Sentry DSN from sentry.io
-    // Get DSN: https://sentry.io → Project Settings → Client Keys (DSN)
-    sentryDsn: '', // 'https://YOUR_KEY@o123456.ingest.sentry.io/YOUR_PROJECT_ID'
+    // Sentry DSN Configuration:
+    // 1. Create a free account at https://sentry.io
+    // 2. Create a new Flutter project
+    // 3. Navigate to: Settings → Projects → [Your Project] → Client Keys (DSN)
+    // 4. Copy the DSN and paste it below
+    // Format: 'https://PUBLIC_KEY@ORGANIZATION_ID.ingest.sentry.io/PROJECT_ID'
+    // IMPORTANT: Add the actual DSN for production error tracking
+    sentryDsn: '',
     logLevel: Level.warning,
     enableAnalytics: true,
     enableErrorTracking: true,
@@ -76,11 +82,11 @@ class EnvironmentConfig {
     if (kDebugMode) {
       return development;
     }
-    
+
     // In release mode, check environment variable or use production
     // You can customize this logic based on flavor/environment
     const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'production');
-    
+
     switch (flavor) {
       case 'staging':
         return staging;
@@ -146,7 +152,7 @@ class AppLogger {
     if (_instance != null) return _instance!;
 
     final config = EnvironmentConfig.current;
-    
+
     _instance = Logger(
       filter: EnvironmentLogFilter(config.logLevel),
       printer: PrettyPrinter(
@@ -155,7 +161,7 @@ class AppLogger {
         lineLength: 120,
         colors: true,
         printEmojis: true,
-        printTime: true,
+        dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
       ),
       output: ConsoleOutput(),
     );
@@ -174,7 +180,7 @@ class AppLogger {
           lineLength: 120,
           colors: true,
           printEmojis: true,
-          printTime: true,
+          dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
         ),
         info: tag,
       ),

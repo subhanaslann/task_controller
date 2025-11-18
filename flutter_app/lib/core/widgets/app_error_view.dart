@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// TekTech AppErrorView Component
-/// 
+///
 /// Generic error display widget
 /// - Error icon
 /// - Error message
@@ -16,13 +16,13 @@ class AppErrorView extends StatelessWidget {
   final double iconSize;
 
   const AppErrorView({
-    Key? key,
+    super.key,
     required this.message,
     this.details,
     this.onRetry,
     this.icon = Icons.error_outline,
     this.iconSize = 64,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,7 @@ class AppErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: iconSize,
-              color: theme.colorScheme.error,
-            ),
+            Icon(icon, size: iconSize, color: theme.colorScheme.error),
             const SizedBox(height: AppTheme.spacing16),
             Text(
               message,

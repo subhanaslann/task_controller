@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_app/core/providers/providers.dart';
-import 'package:flutter_app/core/utils/constants.dart';
-import 'package:flutter_app/core/widgets/loading_placeholder.dart';
-import 'package:flutter_app/core/widgets/task_card.dart';
-import 'package:flutter_app/data/repositories/task_repository.dart';
-import 'package:flutter_app/features/tasks/presentation/my_active_tasks_screen.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_app/core/providers/providers.dart';
+import 'package:flutter_app/core/widgets/task_card.dart';
+import 'package:flutter_app/core/widgets/loading_placeholder.dart';
+import 'package:flutter_app/features/tasks/presentation/my_active_tasks_screen.dart';
+import 'package:flutter_app/data/repositories/task_repository.dart';
+import 'package:flutter_app/core/utils/constants.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/test_data.dart';
@@ -30,9 +28,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          myActiveTasksProvider.overrideWith((ref) async => tasks),
-        ],
+        overrides: [myActiveTasksProvider.overrideWith((ref) async => tasks)],
       );
       await tester.pumpAndSettle();
 
@@ -46,9 +42,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          myActiveTasksProvider.overrideWith((ref) async => []),
-        ],
+        overrides: [myActiveTasksProvider.overrideWith((ref) async => [])],
       );
       await tester.pumpAndSettle();
 
@@ -111,9 +105,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
-        ],
+        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
       );
       await tester.pumpAndSettle();
 
@@ -151,9 +143,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
-        ],
+        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
       );
       await tester.pumpAndSettle();
 
@@ -175,13 +165,11 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
-        ],
+        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
       );
       await tester.pumpAndSettle();
 
-      // Assert - TODO task is displayed with its details
+      // Assert - Task with TaskStatus.todo is displayed with its details
       expect(find.text('TODO Task'), findsOneWidget);
       // Verify TaskCard is rendered (which includes status badge internally)
       expect(find.byType(TaskCard), findsOneWidget);
@@ -197,9 +185,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
-        ],
+        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
       );
       await tester.pumpAndSettle();
 
@@ -219,9 +205,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
-        ],
+        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
       );
       await tester.pumpAndSettle();
 
@@ -243,9 +227,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
-        overrides: [
-          taskRepositoryProvider.overrideWith((ref) => mockTaskRepo),
-        ],
+        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
       );
       await tester.pumpAndSettle();
 

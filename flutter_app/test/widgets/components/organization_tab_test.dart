@@ -1,27 +1,22 @@
-// SKIPPED: This test file has compilation errors due to missing classes
-// OrganizationState and OrganizationNotifier are not implemented yet.
-// TODO: Re-enable this test once the required classes are implemented.
-
-import 'package:flutter_test/flutter_test.dart';
-
-void main() {
-  test('placeholder test - organization tab tests skipped', () {
-    // Tests are currently skipped due to missing implementation
-    expect(true, true);
-  });
-}
-
-/*
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/features/admin/presentation/organization_tab.dart';
+import 'package:flutter_app/features/admin/notifiers/organization_notifier.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/data/models/user.dart';
 import 'package:flutter_app/data/models/organization.dart';
 import 'package:flutter_app/data/models/organization_stats.dart';
 import 'package:flutter_app/core/utils/constants.dart';
 import '../../helpers/test_helpers.dart';
+
+// Mock OrganizationNotifier for testing
+class MockOrganizationNotifier extends OrganizationNotifier {
+  MockOrganizationNotifier() : super(null as dynamic);
+
+  void setState(OrganizationState newState) {
+    state = newState;
+  }
+}
 
 void main() {
   group('OrganizationTab Widget Tests', () {
@@ -33,8 +28,6 @@ void main() {
       email: 'admin@example.com',
       role: UserRole.admin,
       active: true,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
     );
 
     final testOrganization = Organization(
@@ -44,8 +37,8 @@ void main() {
       slug: 'test-org',
       isActive: true,
       maxUsers: 15,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      createdAt: DateTime.now().toIso8601String(),
+      updatedAt: DateTime.now().toIso8601String(),
     );
 
     final testStats = OrganizationStats(
@@ -72,11 +65,11 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
-          organizationNotifierProvider.overrideWith(
-            (ref) =>
-                OrganizationNotifier(ref.watch(organizationRepositoryProvider))
-                  ..updateState(orgState),
-          ),
+          organizationNotifierProvider.overrideWith((ref) {
+            final notifier = MockOrganizationNotifier();
+            notifier.setState(orgState);
+            return notifier;
+          }),
         ],
       );
       await tester.pumpAndSettle();
@@ -102,11 +95,11 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
-          organizationNotifierProvider.overrideWith(
-            (ref) =>
-                OrganizationNotifier(ref.watch(organizationRepositoryProvider))
-                  ..updateState(orgState),
-          ),
+          organizationNotifierProvider.overrideWith((ref) {
+            final notifier = MockOrganizationNotifier();
+            notifier.setState(orgState);
+            return notifier;
+          }),
         ],
       );
       await tester.pumpAndSettle();
@@ -119,18 +112,18 @@ void main() {
 
     testWidgets('should show loading state', (tester) async {
       // Arrange
-      final orgState = const OrganizationState(isLoading: true);
+      final orgState = OrganizationState(isLoading: true);
 
       await pumpTestWidget(
         tester,
         const OrganizationTab(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
-          organizationNotifierProvider.overrideWith(
-            (ref) =>
-                OrganizationNotifier(ref.watch(organizationRepositoryProvider))
-                  ..updateState(orgState),
-          ),
+          organizationNotifierProvider.overrideWith((ref) {
+            final notifier = MockOrganizationNotifier();
+            notifier.setState(orgState);
+            return notifier;
+          }),
         ],
       );
 
@@ -140,7 +133,7 @@ void main() {
 
     testWidgets('should show error state with retry button', (tester) async {
       // Arrange
-      final orgState = const OrganizationState(
+      final orgState = OrganizationState(
         error: 'Failed to load organization',
         isLoading: false,
       );
@@ -150,11 +143,11 @@ void main() {
         const OrganizationTab(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
-          organizationNotifierProvider.overrideWith(
-            (ref) =>
-                OrganizationNotifier(ref.watch(organizationRepositoryProvider))
-                  ..updateState(orgState),
-          ),
+          organizationNotifierProvider.overrideWith((ref) {
+            final notifier = MockOrganizationNotifier();
+            notifier.setState(orgState);
+            return notifier;
+          }),
         ],
       );
 
@@ -178,11 +171,11 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
-          organizationNotifierProvider.overrideWith(
-            (ref) =>
-                OrganizationNotifier(ref.watch(organizationRepositoryProvider))
-                  ..updateState(orgState),
-          ),
+          organizationNotifierProvider.overrideWith((ref) {
+            final notifier = MockOrganizationNotifier();
+            notifier.setState(orgState);
+            return notifier;
+          }),
         ],
       );
       await tester.pumpAndSettle();
@@ -205,11 +198,11 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
-          organizationNotifierProvider.overrideWith(
-            (ref) =>
-                OrganizationNotifier(ref.watch(organizationRepositoryProvider))
-                  ..updateState(orgState),
-          ),
+          organizationNotifierProvider.overrideWith((ref) {
+            final notifier = MockOrganizationNotifier();
+            notifier.setState(orgState);
+            return notifier;
+          }),
         ],
       );
       await tester.pumpAndSettle();
@@ -220,4 +213,3 @@ void main() {
     });
   });
 }
-*/

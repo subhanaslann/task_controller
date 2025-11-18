@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// TekTech AppSkeletonLoader Component
-/// 
+///
 /// Skeleton loading placeholders with shimmer effect
 /// - Card and list variants
 /// - Animated shimmer effect
@@ -12,17 +12,18 @@ class AppSkeletonLoader extends StatelessWidget {
   final int count;
 
   const AppSkeletonLoader({
-    Key? key,
+    super.key,
     this.type = SkeletonType.card,
     this.count = 3,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.all(AppTheme.spacing16),
       itemCount: count,
-      separatorBuilder: (context, index) => const SizedBox(height: AppTheme.spacing12),
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppTheme.spacing12),
       itemBuilder: (context, index) {
         switch (type) {
           case SkeletonType.card:
@@ -37,11 +38,7 @@ class AppSkeletonLoader extends StatelessWidget {
   }
 }
 
-enum SkeletonType {
-  card,
-  listTile,
-  taskCard,
-}
+enum SkeletonType { card, listTile, taskCard }
 
 class _SkeletonCard extends StatelessWidget {
   const _SkeletonCard();
@@ -202,9 +199,10 @@ class _ShimmerBoxState extends State<_ShimmerBox>
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..repeat();
-    _animation = Tween<double>(begin: -1.0, end: 2.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: -1.0,
+      end: 2.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -217,13 +215,13 @@ class _ShimmerBoxState extends State<_ShimmerBox>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     final baseColor = isDark
-        ? theme.colorScheme.surfaceVariant
-        : theme.colorScheme.surfaceVariant.withOpacity(0.3);
+        ? theme.colorScheme.surfaceContainerHighest
+        : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3);
     final highlightColor = isDark
         ? theme.colorScheme.surface
-        : Colors.white.withOpacity(0.8);
+        : Colors.white.withValues(alpha: 0.8);
 
     return AnimatedBuilder(
       animation: _animation,
