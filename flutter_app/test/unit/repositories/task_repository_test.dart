@@ -9,7 +9,8 @@ import '../../helpers/test_data.dart';
 
 class MockApiService extends Mock implements ApiService {}
 
-class FakeCreateMemberTaskRequest extends Fake implements CreateMemberTaskRequest {}
+class FakeCreateMemberTaskRequest extends Fake
+    implements CreateMemberTaskRequest {}
 
 class FakeUpdateTaskRequest extends Fake implements UpdateTaskRequest {}
 
@@ -38,9 +39,10 @@ void main() {
       // Arrange
       final testTasks = [TestData.todoTask, TestData.inProgressTask];
       final mockResponse = TasksResponse(tasks: testTasks);
-      
-      when(() => mockApiService.getTasks('my_active'))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getTasks('my_active'),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getMyActiveTasks();
@@ -54,8 +56,9 @@ void main() {
 
     test('getMyActiveTasks should throw on API error', () async {
       // Arrange
-      when(() => mockApiService.getTasks('my_active'))
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockApiService.getTasks('my_active'),
+      ).thenThrow(Exception('Network error'));
 
       // Act & Assert
       expect(() => repository.getMyActiveTasks(), throwsException);
@@ -63,11 +66,14 @@ void main() {
 
     test('getTeamActiveTasks should return all team active tasks', () async {
       // Arrange
-      final testTasks = TestData.taskList.where((t) => t.status != TaskStatus.done).toList();
+      final testTasks = TestData.taskList
+          .where((t) => t.status != TaskStatus.done)
+          .toList();
       final mockResponse = TasksResponse(tasks: testTasks);
-      
-      when(() => mockApiService.getTasks('team_active'))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getTasks('team_active'),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getTeamActiveTasks();
@@ -81,9 +87,10 @@ void main() {
     test('getTeamActiveTasks should handle empty list', () async {
       // Arrange
       final mockResponse = TasksResponse(tasks: []);
-      
-      when(() => mockApiService.getTasks('team_active'))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getTasks('team_active'),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getTeamActiveTasks();
@@ -96,9 +103,10 @@ void main() {
       // Arrange
       final testTasks = [TestData.completedTask];
       final mockResponse = TasksResponse(tasks: testTasks);
-      
-      when(() => mockApiService.getTasks('my_done'))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.getTasks('my_done'),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       final result = await repository.getMyCompletedTasks();
@@ -112,8 +120,9 @@ void main() {
 
     test('getMyCompletedTasks should throw on unauthorized access', () async {
       // Arrange
-      when(() => mockApiService.getTasks('my_done'))
-          .thenThrow(Exception('Unauthorized'));
+      when(
+        () => mockApiService.getTasks('my_done'),
+      ).thenThrow(Exception('Unauthorized'));
 
       // Act & Assert
       expect(() => repository.getMyCompletedTasks(), throwsException);
@@ -124,8 +133,20 @@ void main() {
     test('updateTaskStatus should update task to IN_PROGRESS', () async {
       // Arrange
       const taskId = 'task-123';
-      when(() => mockApiService.updateTaskStatus(taskId, any()))
-          .thenAnswer((_) async => {});
+      final mockResponse = TaskResponse(
+        task: Task(
+          id: taskId,
+          title: 'Test Task',
+          status: TaskStatus.inProgress,
+          priority: Priority.normal,
+          organizationId: 'org-123',
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
+        ),
+      );
+      when(
+        () => mockApiService.updateTaskStatus(taskId, any()),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       await repository.updateTaskStatus(taskId, TaskStatus.inProgress);
@@ -137,8 +158,21 @@ void main() {
     test('updateTaskStatus should update task to DONE', () async {
       // Arrange
       const taskId = 'task-456';
-      when(() => mockApiService.updateTaskStatus(taskId, any()))
-          .thenAnswer((_) async => {});
+      final mockResponse = TaskResponse(
+        task: Task(
+          id: taskId,
+          title: 'Test Task',
+          status: TaskStatus.done,
+          priority: Priority.normal,
+          organizationId: 'org-123',
+          createdAt: DateTime.now().toIso8601String(),
+          updatedAt: DateTime.now().toIso8601String(),
+          completedAt: DateTime.now().toIso8601String(),
+        ),
+      );
+      when(
+        () => mockApiService.updateTaskStatus(taskId, any()),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       await repository.updateTaskStatus(taskId, TaskStatus.done);
@@ -150,8 +184,9 @@ void main() {
     test('updateTaskStatus should throw on forbidden access', () async {
       // Arrange
       const taskId = 'other-user-task';
-      when(() => mockApiService.updateTaskStatus(taskId, any()))
-          .thenThrow(Exception('Forbidden'));
+      when(
+        () => mockApiService.updateTaskStatus(taskId, any()),
+      ).thenThrow(Exception('Forbidden'));
 
       // Act & Assert
       expect(
@@ -163,8 +198,9 @@ void main() {
     test('updateTaskStatus should throw on task not found', () async {
       // Arrange
       const taskId = 'non-existent-task';
-      when(() => mockApiService.updateTaskStatus(taskId, any()))
-          .thenThrow(Exception('Not found'));
+      when(
+        () => mockApiService.updateTaskStatus(taskId, any()),
+      ).thenThrow(Exception('Not found'));
 
       // Act & Assert
       expect(
@@ -182,9 +218,10 @@ void main() {
         status: TaskStatus.todo,
       );
       final mockResponse = TaskResponse(task: newTask);
-      
-      when(() => mockApiService.createMemberTask(any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.createMemberTask(any()),
+      ).thenAnswer((_) async => mockResponse);
 
       final request = CreateMemberTaskRequest(
         title: 'New Member Task',
@@ -202,8 +239,9 @@ void main() {
 
     test('createMemberTask should throw on validation error', () async {
       // Arrange
-      when(() => mockApiService.createMemberTask(any()))
-          .thenThrow(Exception('Validation error'));
+      when(
+        () => mockApiService.createMemberTask(any()),
+      ).thenThrow(Exception('Validation error'));
 
       final request = CreateMemberTaskRequest(
         title: '', // Empty title
@@ -223,9 +261,10 @@ void main() {
         priority: Priority.high,
       );
       final mockResponse = TaskResponse(task: updatedTask);
-      
-      when(() => mockApiService.updateMemberTask(taskId, any()))
-          .thenAnswer((_) async => mockResponse);
+
+      when(
+        () => mockApiService.updateMemberTask(taskId, any()),
+      ).thenAnswer((_) async => mockResponse);
 
       final request = UpdateTaskRequest(
         title: 'Updated Task',
@@ -244,8 +283,9 @@ void main() {
     test('updateMemberTask should throw on forbidden access', () async {
       // Arrange
       const taskId = 'other-user-task';
-      when(() => mockApiService.updateMemberTask(taskId, any()))
-          .thenThrow(Exception('Forbidden'));
+      when(
+        () => mockApiService.updateMemberTask(taskId, any()),
+      ).thenThrow(Exception('Forbidden'));
 
       final request = UpdateTaskRequest(title: 'Updated');
 
@@ -261,8 +301,9 @@ void main() {
       const taskId = 'my-task-to-delete';
       final mockResponse = DeleteResponse(success: true);
 
-      when(() => mockApiService.deleteMemberTask(taskId))
-          .thenAnswer((_) async => mockResponse);
+      when(
+        () => mockApiService.deleteMemberTask(taskId),
+      ).thenAnswer((_) async => mockResponse);
 
       // Act
       await repository.deleteMemberTask(taskId);
@@ -274,8 +315,9 @@ void main() {
     test('deleteMemberTask should throw on forbidden access', () async {
       // Arrange
       const taskId = 'other-user-task';
-      when(() => mockApiService.deleteMemberTask(taskId))
-          .thenThrow(Exception('Forbidden'));
+      when(
+        () => mockApiService.deleteMemberTask(taskId),
+      ).thenThrow(Exception('Forbidden'));
 
       // Act & Assert
       expect(() => repository.deleteMemberTask(taskId), throwsException);
@@ -289,9 +331,10 @@ void main() {
         title: 'Admin Created Task',
         assigneeId: 'other-user-id',
       );
-      
-      when(() => mockApiService.createTask(any()))
-          .thenAnswer((_) async => newTask);
+
+      when(
+        () => mockApiService.createTask(any()),
+      ).thenAnswer((_) async => newTask);
 
       final request = CreateTaskRequest(
         title: 'Admin Created Task',
@@ -311,8 +354,9 @@ void main() {
 
     test('createTask should throw on invalid assignee', () async {
       // Arrange
-      when(() => mockApiService.createTask(any()))
-          .thenThrow(Exception('Assignee not found'));
+      when(
+        () => mockApiService.createTask(any()),
+      ).thenThrow(Exception('Assignee not found'));
 
       final request = CreateTaskRequest(
         title: 'Task',
@@ -332,9 +376,10 @@ void main() {
         id: taskId,
         title: 'Admin Updated',
       );
-      
-      when(() => mockApiService.updateTask(taskId, any()))
-          .thenAnswer((_) async => updatedTask);
+
+      when(
+        () => mockApiService.updateTask(taskId, any()),
+      ).thenAnswer((_) async => updatedTask);
 
       final request = UpdateTaskRequest(title: 'Admin Updated');
 
@@ -349,8 +394,7 @@ void main() {
     test('deleteTask should delete any task in organization', () async {
       // Arrange
       const taskId = 'task-to-delete';
-      when(() => mockApiService.deleteTask(taskId))
-          .thenAnswer((_) async => {});
+      when(() => mockApiService.deleteTask(taskId)).thenAnswer((_) async => {});
 
       // Act
       await repository.deleteTask(taskId);
@@ -362,12 +406,12 @@ void main() {
     test('deleteTask should throw on task not found', () async {
       // Arrange
       const taskId = 'non-existent-task';
-      when(() => mockApiService.deleteTask(taskId))
-          .thenThrow(Exception('Not found'));
+      when(
+        () => mockApiService.deleteTask(taskId),
+      ).thenThrow(Exception('Not found'));
 
       // Act & Assert
       expect(() => repository.deleteTask(taskId), throwsException);
     });
   });
 }
-

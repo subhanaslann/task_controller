@@ -25,7 +25,7 @@ abstract class ApiService {
   Future<TasksResponse> getTasks(@Query('scope') String scope);
 
   @PATCH('/tasks/{id}/status')
-  Future<void> updateTaskStatus(
+  Future<TaskResponse> updateTaskStatus(
     @Path('id') String id,
     @Body() UpdateStatusRequest request,
   );
@@ -65,7 +65,9 @@ abstract class ApiService {
 
   // Member - Tasks (self-assign)
   @POST('/tasks')
-  Future<TaskResponse> createMemberTask(@Body() CreateMemberTaskRequest request);
+  Future<TaskResponse> createMemberTask(
+    @Body() CreateMemberTaskRequest request,
+  );
 
   @PATCH('/tasks/{id}')
   Future<TaskResponse> updateMemberTask(
@@ -125,9 +127,9 @@ class LoginRequest {
   LoginRequest({required this.usernameOrEmail, required this.password});
 
   Map<String, dynamic> toJson() => {
-        'usernameOrEmail': usernameOrEmail,
-        'password': password,
-      };
+    'usernameOrEmail': usernameOrEmail,
+    'password': password,
+  };
 }
 
 class AuthResponse {
@@ -179,11 +181,15 @@ class TopicsResponse {
     try {
       print('DEBUG: TopicsResponse.fromJson başlatıldı');
       print('DEBUG: Raw JSON keys: ${json.keys.toList()}');
-      print('DEBUG: Topics array uzunluğu: ${(json['topics'] as List?)?.length}');
-      
+      print(
+        'DEBUG: Topics array uzunluğu: ${(json['topics'] as List?)?.length}',
+      );
+
       final topicsList = json['topics'] as List;
-      print('DEBUG: İlk topic raw data: ${topicsList.isNotEmpty ? topicsList[0] : "boş"}');
-      
+      print(
+        'DEBUG: İlk topic raw data: ${topicsList.isNotEmpty ? topicsList[0] : "boş"}',
+      );
+
       final parsedTopics = topicsList.map((e) {
         try {
           final topicMap = e as Map<String, dynamic>;
@@ -195,7 +201,7 @@ class TopicsResponse {
           rethrow;
         }
       }).toList();
-      
+
       return TopicsResponse(topics: parsedTopics);
     } catch (e) {
       print('DEBUG: TopicsResponse.fromJson HATA: $e');
@@ -210,9 +216,7 @@ class TopicResponse {
   TopicResponse({required this.topic});
 
   factory TopicResponse.fromJson(Map<String, dynamic> json) {
-    return TopicResponse(
-      topic: Topic.fromJson(json['topic']),
-    );
+    return TopicResponse(topic: Topic.fromJson(json['topic']));
   }
 }
 
@@ -224,10 +228,10 @@ class CreateTopicRequest {
   CreateTopicRequest({required this.title, this.description, this.isActive});
 
   Map<String, dynamic> toJson() => {
-        'title': title,
-        if (description != null) 'description': description,
-        if (isActive != null) 'isActive': isActive,
-      };
+    'title': title,
+    if (description != null) 'description': description,
+    if (isActive != null) 'isActive': isActive,
+  };
 }
 
 class UpdateTopicRequest {
@@ -238,10 +242,10 @@ class UpdateTopicRequest {
   UpdateTopicRequest({this.title, this.description, this.isActive});
 
   Map<String, dynamic> toJson() => {
-        if (title != null) 'title': title,
-        if (description != null) 'description': description,
-        if (isActive != null) 'isActive': isActive,
-      };
+    if (title != null) 'title': title,
+    if (description != null) 'description': description,
+    if (isActive != null) 'isActive': isActive,
+  };
 }
 
 class UsersResponse {
@@ -262,9 +266,7 @@ class UserResponse {
   UserResponse({required this.user});
 
   factory UserResponse.fromJson(Map<String, dynamic> json) {
-    return UserResponse(
-      user: User.fromJson(json['user']),
-    );
+    return UserResponse(user: User.fromJson(json['user']));
   }
 }
 
@@ -288,14 +290,14 @@ class CreateUserRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'username': username,
-        'email': email,
-        'password': password,
-        'role': role,
-        if (active != null) 'active': active,
-        if (visibleTopicIds != null) 'visibleTopicIds': visibleTopicIds,
-      };
+    'name': name,
+    'username': username,
+    'email': email,
+    'password': password,
+    'role': role,
+    if (active != null) 'active': active,
+    if (visibleTopicIds != null) 'visibleTopicIds': visibleTopicIds,
+  };
 }
 
 class UpdateUserRequest {
@@ -305,15 +307,21 @@ class UpdateUserRequest {
   final String? password;
   final List<String>? visibleTopicIds;
 
-  UpdateUserRequest({this.name, this.role, this.active, this.password, this.visibleTopicIds});
+  UpdateUserRequest({
+    this.name,
+    this.role,
+    this.active,
+    this.password,
+    this.visibleTopicIds,
+  });
 
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (role != null) 'role': role,
-        if (active != null) 'active': active,
-        if (password != null) 'password': password,
-        if (visibleTopicIds != null) 'visibleTopicIds': visibleTopicIds,
-      };
+    if (name != null) 'name': name,
+    if (role != null) 'role': role,
+    if (active != null) 'active': active,
+    if (password != null) 'password': password,
+    if (visibleTopicIds != null) 'visibleTopicIds': visibleTopicIds,
+  };
 }
 
 class CreateTaskRequest {
@@ -336,14 +344,14 @@ class CreateTaskRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'title': title,
-        if (topicId != null) 'topicId': topicId,
-        if (note != null) 'note': note,
-        if (assigneeId != null) 'assigneeId': assigneeId,
-        'status': status,
-        'priority': priority,
-        if (dueDate != null) 'dueDate': dueDate,
-      };
+    'title': title,
+    if (topicId != null) 'topicId': topicId,
+    if (note != null) 'note': note,
+    if (assigneeId != null) 'assigneeId': assigneeId,
+    'status': status,
+    'priority': priority,
+    if (dueDate != null) 'dueDate': dueDate,
+  };
 }
 
 class UpdateTaskRequest {
@@ -366,14 +374,14 @@ class UpdateTaskRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        if (title != null) 'title': title,
-        if (topicId != null) 'topicId': topicId,
-        if (note != null) 'note': note,
-        if (assigneeId != null) 'assigneeId': assigneeId,
-        if (status != null) 'status': status,
-        if (priority != null) 'priority': priority,
-        if (dueDate != null) 'dueDate': dueDate,
-      };
+    if (title != null) 'title': title,
+    if (topicId != null) 'topicId': topicId,
+    if (note != null) 'note': note,
+    if (assigneeId != null) 'assigneeId': assigneeId,
+    if (status != null) 'status': status,
+    if (priority != null) 'priority': priority,
+    if (dueDate != null) 'dueDate': dueDate,
+  };
 }
 
 class GuestAccessRequest {
@@ -401,12 +409,12 @@ class CreateMemberTaskRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        if (topicId != null) 'topicId': topicId,
-        'title': title,
-        if (note != null) 'note': note,
-        if (priority != null) 'priority': priority,
-        if (dueDate != null) 'dueDate': dueDate,
-      };
+    if (topicId != null) 'topicId': topicId,
+    'title': title,
+    if (note != null) 'note': note,
+    if (priority != null) 'priority': priority,
+    if (dueDate != null) 'dueDate': dueDate,
+  };
 }
 
 class TaskResponse {
@@ -428,13 +436,19 @@ class TaskResponse {
       }
 
       // Fallback: bazı uçlarda task doğrudan kök düzeyinde gelebilir
-      if (taskNode == null && json.containsKey('id') && json.containsKey('title')) {
-        print('DEBUG: task alanı yok, kök JSON Task gibi görünüyor. Fallback uygulanıyor.');
+      if (taskNode == null &&
+          json.containsKey('id') &&
+          json.containsKey('title')) {
+        print(
+          'DEBUG: task alanı yok, kök JSON Task gibi görünüyor. Fallback uygulanıyor.',
+        );
         final task = Task.fromJson(json);
         return TaskResponse(task: task);
       }
 
-      throw FormatException("Geçersiz TaskResponse: 'task' alanı yok veya beklenmeyen tip: ${taskNode.runtimeType}");
+      throw FormatException(
+        "Geçersiz TaskResponse: 'task' alanı yok veya beklenmeyen tip: ${taskNode.runtimeType}",
+      );
     } catch (e) {
       print('DEBUG: TaskResponse.fromJson HATA: $e');
       rethrow;
@@ -473,12 +487,12 @@ class RegisterRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'companyName': companyName,
-        'teamName': teamName,
-        'managerName': managerName,
-        'email': email,
-        'password': password,
-      };
+    'companyName': companyName,
+    'teamName': teamName,
+    'managerName': managerName,
+    'email': email,
+    'password': password,
+  };
 }
 
 class RegisterResponse {
@@ -539,10 +553,10 @@ class UpdateOrganizationRequest {
   UpdateOrganizationRequest({this.name, this.teamName, this.maxUsers});
 
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (teamName != null) 'teamName': teamName,
-        if (maxUsers != null) 'maxUsers': maxUsers,
-      };
+    if (name != null) 'name': name,
+    if (teamName != null) 'teamName': teamName,
+    if (maxUsers != null) 'maxUsers': maxUsers,
+  };
 }
 
 class OrganizationStatsResponse {

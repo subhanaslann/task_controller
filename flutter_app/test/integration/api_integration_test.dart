@@ -21,8 +21,8 @@ void main() {
 
   // Test configuration
   const String baseUrl = 'http://localhost:8080';
-  const String testEmail = 'admin@test.com';
-  const String testPassword = 'admin123';
+  const String testEmail = 'john@acme.com'; // Team Manager from seed data
+  const String testPassword = 'manager123';
 
   // Test data storage
   String? authToken;
@@ -31,42 +31,44 @@ void main() {
 
   setUpAll(() {
     // Configure Dio for testing
-    dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      validateStatus: (status) {
-        // Accept all status codes to test error handling
-        return status != null && status < 500;
-      },
-    ));
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        validateStatus: (status) {
+          // Accept all status codes to test error handling
+          return status != null && status < 500;
+        },
+      ),
+    );
 
     // Add request interceptor for auth token
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        if (authToken != null) {
-          options.headers['Authorization'] = 'Bearer $authToken';
-        }
-        print('REQUEST: ${options.method} ${options.path}');
-        return handler.next(options);
-      },
-      onResponse: (response, handler) {
-        print('RESPONSE: ${response.statusCode} ${response.statusMessage}');
-        return handler.next(response);
-      },
-      onError: (error, handler) {
-        print('ERROR: ${error.message}');
-        return handler.next(error);
-      },
-    ));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (authToken != null) {
+            options.headers['Authorization'] = 'Bearer $authToken';
+          }
+          print('REQUEST: ${options.method} ${options.path}');
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          print('RESPONSE: ${response.statusCode} ${response.statusMessage}');
+          return handler.next(response);
+        },
+        onError: (error, handler) {
+          print('ERROR: ${error.message}');
+          return handler.next(error);
+        },
+      ),
+    );
 
     apiService = ApiService(dio, baseUrl: baseUrl);
   });
 
   group('API Integration Tests', () {
-
     group('1. Authentication', () {
-
       test('1.1 Health Check - Should return healthy status', () async {
         final response = await dio.get('/health');
 
@@ -87,7 +89,15 @@ void main() {
         expect(response.token, isNotEmpty);
         expect(response.user, isA<User>());
         expect(response.user.email, testEmail);
-        expect(response.user.role, isIn([UserRole.admin, UserRole.teamManager, UserRole.member, UserRole.guest]));
+        expect(
+          response.user.role,
+          isIn([
+            UserRole.admin,
+            UserRole.teamManager,
+            UserRole.member,
+            UserRole.guest,
+          ]),
+        );
         expect(response.organization, isA<Organization>());
         expect(response.organization.id, isNotEmpty);
 
@@ -147,10 +157,13 @@ void main() {
     });
 
     group('2. Task Management (requires auth)', () {
-
       setUp(() {
         // Ensure we have auth token
-        expect(authToken, isNotNull, reason: 'Authentication required for task tests');
+        expect(
+          authToken,
+          isNotNull,
+          reason: 'Authentication required for task tests',
+        );
       });
 
       test('2.1 Get My Active Tasks', () async {
@@ -165,7 +178,10 @@ void main() {
           expect(task.id, isNotEmpty);
           expect(task.title, isNotEmpty);
           expect(task.status, isIn([TaskStatus.todo, TaskStatus.inProgress]));
-          expect(task.priority, isIn([Priority.low, Priority.normal, Priority.high]));
+          expect(
+            task.priority,
+            isIn([Priority.low, Priority.normal, Priority.high]),
+          );
         }
       });
 
@@ -195,7 +211,10 @@ void main() {
           title: 'Test Task ${DateTime.now().millisecondsSinceEpoch}',
           note: 'This is a test task created by integration tests',
           priority: 'HIGH',
-          dueDate: DateTime.now().add(const Duration(days: 7)).toUtc().toIso8601String(),
+          dueDate: DateTime.now()
+              .add(const Duration(days: 7))
+              .toUtc()
+              .toIso8601String(),
         );
 
         final response = await apiService.createMemberTask(request);
@@ -222,7 +241,6 @@ void main() {
     });
 
     group('3. Organization Management', () {
-
       setUp(() {
         expect(authToken, isNotNull);
       });
@@ -262,7 +280,6 @@ void main() {
     });
 
     group('4. Topics', () {
-
       setUp(() {
         expect(authToken, isNotNull);
       });
@@ -284,7 +301,6 @@ void main() {
     });
 
     group('5. Admin Features (requires ADMIN/TEAM_MANAGER role)', () {
-
       setUp(() {
         expect(authToken, isNotNull);
       });
@@ -317,7 +333,15 @@ void main() {
             expect(user.id, isNotEmpty);
             expect(user.name, isNotEmpty);
             expect(user.email, isNotEmpty);
-            expect(user.role, isIn([UserRole.admin, UserRole.teamManager, UserRole.member, UserRole.guest]));
+            expect(
+              user.role,
+              isIn([
+                UserRole.admin,
+                UserRole.teamManager,
+                UserRole.member,
+                UserRole.guest,
+              ]),
+            );
           }
         } catch (e) {
           if (e is DioException && e.response?.statusCode == 403) {
@@ -330,7 +354,6 @@ void main() {
     });
 
     group('6. Error Handling', () {
-
       test('6.1 Unauthorized request (no token) should return 401', () async {
         final tempDio = Dio(BaseOptions(baseUrl: baseUrl));
         final tempApiService = ApiService(tempDio, baseUrl: baseUrl);
@@ -346,10 +369,12 @@ void main() {
       });
 
       test('6.2 Invalid token should return 401', () async {
-        final tempDio = Dio(BaseOptions(
-          baseUrl: baseUrl,
-          headers: {'Authorization': 'Bearer invalid_token_here'},
-        ));
+        final tempDio = Dio(
+          BaseOptions(
+            baseUrl: baseUrl,
+            headers: {'Authorization': 'Bearer invalid_token_here'},
+          ),
+        );
         final tempApiService = ApiService(tempDio, baseUrl: baseUrl);
 
         try {
@@ -369,7 +394,6 @@ void main() {
     });
 
     group('7. Data Model Validation', () {
-
       setUp(() {
         expect(authToken, isNotNull);
       });
@@ -387,7 +411,15 @@ void main() {
         expect(user.name, isNotEmpty);
         expect(user.username, isNotEmpty);
         expect(user.email, isNotEmpty);
-        expect(user.role, isIn([UserRole.admin, UserRole.teamManager, UserRole.member, UserRole.guest]));
+        expect(
+          user.role,
+          isIn([
+            UserRole.admin,
+            UserRole.teamManager,
+            UserRole.member,
+            UserRole.guest,
+          ]),
+        );
         expect(user.active, isA<bool>());
 
         // Optional fields
@@ -418,8 +450,14 @@ void main() {
 
           expect(task.id, isNotEmpty);
           expect(task.title, isNotEmpty);
-          expect(task.status, isIn([TaskStatus.todo, TaskStatus.inProgress, TaskStatus.done]));
-          expect(task.priority, isIn([Priority.low, Priority.normal, Priority.high]));
+          expect(
+            task.status,
+            isIn([TaskStatus.todo, TaskStatus.inProgress, TaskStatus.done]),
+          );
+          expect(
+            task.priority,
+            isIn([Priority.low, Priority.normal, Priority.high]),
+          );
           expect(task.createdAt, isNotEmpty);
           expect(task.updatedAt, isNotEmpty);
 

@@ -33,7 +33,7 @@ async function main() {
       teamName: 'Engineering Team',
       slug: 'acme-engineering',
       isActive: true,
-      maxUsers: 15,
+      maxUsers: 50,
     },
   });
 
@@ -161,7 +161,7 @@ async function main() {
       teamName: 'Product Team',
       slug: 'tech-startup-product',
       isActive: true,
-      maxUsers: 15,
+      maxUsers: 50,
     },
   });
 
@@ -296,7 +296,7 @@ async function main() {
       teamName: 'Creative Team',
       slug: 'design-agency-creative',
       isActive: true,
-      maxUsers: 15,
+      maxUsers: 50,
     },
   });
 

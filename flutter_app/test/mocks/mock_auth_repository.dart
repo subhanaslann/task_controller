@@ -2,7 +2,7 @@ import 'package:flutter_app/data/models/user.dart';
 import 'package:flutter_app/core/utils/constants.dart';
 
 /// Mock AuthRepository for testing
-/// 
+///
 /// Simulates auth operations with predefined responses
 class MockAuthRepository {
   bool _isLoggedIn = false;
@@ -16,6 +16,7 @@ class MockAuthRepository {
     username: 'testuser',
     email: 'test@example.com',
     role: UserRole.member,
+    organizationId: 'org-1',
     active: true,
     visibleTopicIds: ['topic-1', 'topic-2'],
   );
@@ -26,6 +27,7 @@ class MockAuthRepository {
     username: 'admin',
     email: 'admin@example.com',
     role: UserRole.admin,
+    organizationId: 'org-1',
     active: true,
     visibleTopicIds: [],
   );

@@ -24,21 +24,25 @@ void main() {
   String? userId;
 
   setUpAll(() {
-    dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      validateStatus: (status) => status != null && status < 500,
-    ));
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        validateStatus: (status) => status != null && status < 500,
+      ),
+    );
 
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        if (authToken != null) {
-          options.headers['Authorization'] = 'Bearer $authToken';
-        }
-        return handler.next(options);
-      },
-    ));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (authToken != null) {
+            options.headers['Authorization'] = 'Bearer $authToken';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
 
     apiService = ApiService(dio, baseUrl: baseUrl);
   });
@@ -185,9 +189,13 @@ void main() {
         await apiService.getTasks('my_active');
         fail('Should fail without token');
       } catch (e) {
-        expect(e, anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()));
-        final dioError = e as DioException;
-        expect(dioError.response?.statusCode, 401);
+        expect(
+          e,
+          anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()),
+        );
+        if (e is DioException) {
+          expect(e.response?.statusCode, 401);
+        }
         print('✅ Logout flow verified - requests fail without token');
       }
     });
@@ -196,7 +204,8 @@ void main() {
   group('AUTH_FLOW_04: Session Expiration', () {
     test('should handle expired token (401 error)', () async {
       // Arrange - Use expired token
-      final expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJleHAiOjE2MDAwMDAwMDB9.xxx';
+      final expiredToken =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjMiLCJleHAiOjE2MDAwMDAwMDB9.xxx';
       authToken = expiredToken;
 
       // Act & Assert
@@ -204,9 +213,13 @@ void main() {
         await apiService.getTasks('my_active');
         fail('Should fail with expired token');
       } catch (e) {
-        expect(e, anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()));
-        final dioError = e as DioException;
-        expect(dioError.response?.statusCode, 401);
+        expect(
+          e,
+          anyOf(isA<DioException>(), isA<TypeError>(), isA<FormatException>()),
+        );
+        if (e is DioException) {
+          expect(e.response?.statusCode, 401);
+        }
         print('✅ Expired token correctly handled with 401');
       }
     });
@@ -216,7 +229,7 @@ void main() {
     test('should detect inactive account error', () async {
       // Note: This requires a deactivated test account
       // In real scenario, backend returns 401 with specific error message
-      
+
       print('⚠️  Inactive account test requires manual setup');
       expect(true, true); // Placeholder test
     });
@@ -226,10 +239,9 @@ void main() {
     test('should detect inactive organization error', () async {
       // Note: This requires an inactive organization
       // In real scenario, backend returns 403 with specific error message
-      
+
       print('⚠️  Inactive organization test requires manual setup');
       expect(true, true); // Placeholder test
     });
   });
 }
-

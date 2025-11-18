@@ -68,7 +68,9 @@ export const createTaskSchema = z.object({
     note: z.string().optional(),
     status: z.enum(['TODO', 'IN_PROGRESS', 'DONE']).optional(),
     priority: z.enum(['LOW', 'NORMAL', 'HIGH']).optional(),
-    dueDate: z.string().datetime().optional(),
+    dueDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: 'Invalid date format',
+    }).optional(),
   }),
 });
 
@@ -81,7 +83,9 @@ export const updateTaskSchema = z.object({
     note: z.string().optional().nullable(),
     status: z.enum(['TODO', 'IN_PROGRESS', 'DONE']).optional(),
     priority: z.enum(['LOW', 'NORMAL', 'HIGH']).optional(),
-    dueDate: z.string().datetime().optional().nullable(),
+    dueDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: 'Invalid date format',
+    }).optional().nullable(),
   }),
 });
 
@@ -131,6 +135,8 @@ export const createMemberTaskSchema = z.object({
     note: z.string().optional(),
     status: z.enum(['TODO', 'IN_PROGRESS', 'DONE']).optional(),
     priority: z.enum(['LOW', 'NORMAL', 'HIGH']).optional(),
-    dueDate: z.string().datetime().optional(),
+    dueDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: 'Invalid date format',
+    }).optional(),
   }).strict(),
 });
