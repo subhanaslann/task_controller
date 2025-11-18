@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'https://api.diplomam.net';
+  // Use 10.0.2.2 to access localhost from Android emulator
+  static const String baseUrl = 'http://10.0.2.2:8080';
   static const String loginEndpoint = '/auth/login';
   static const String tasksEndpoint = '/tasks';
   static const String usersEndpoint = '/users';
