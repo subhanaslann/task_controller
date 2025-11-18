@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { hashPassword } from '../../src/utils/password';
 
 export const prisma = new PrismaClient({
   datasources: {
@@ -31,9 +31,9 @@ export async function setupTestDatabase() {
   await prisma.organization.deleteMany();
 
   // Hash passwords once
-  const managerPassword = await bcrypt.hash('manager123', 10);
-  const memberPassword = await bcrypt.hash('member123', 10);
-  const guestPassword = await bcrypt.hash('guest123', 10);
+  const managerPassword = await hashPassword('manager123');
+  const memberPassword = await hashPassword('member123');
+  const guestPassword = await hashPassword('guest123');
 
   // ===== ORGANIZATION 1: Acme Corporation =====
   const acmeOrg = await prisma.organization.create({

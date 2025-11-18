@@ -44,9 +44,10 @@ describe('8. Authorization & Security Tests', () => {
 
       // Error indicates missing authentication
       expect(response.body).toHaveProperty('error');
+      expect(response.body.error).toHaveProperty('message');
       expect(
-        response.body.error.toLowerCase().includes('token') ||
-          response.body.error.toLowerCase().includes('auth')
+        response.body.error.message.toLowerCase().includes('token') ||
+          response.body.error.message.toLowerCase().includes('auth')
       ).toBe(true);
     });
   });
@@ -62,7 +63,8 @@ describe('8. Authorization & Security Tests', () => {
 
       // Error indicates invalid token
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('token');
+      expect(response.body.error).toHaveProperty('message');
+      expect(response.body.error.message.toLowerCase()).toContain('token');
     });
   });
 
@@ -197,9 +199,10 @@ describe('8. Authorization & Security Tests', () => {
 
       // Users from inactive organizations cannot login
       expect(response.body).toHaveProperty('error');
+      expect(response.body.error).toHaveProperty('message');
 
       // Error indicates organization is inactive
-      expect(response.body.error.toLowerCase()).toContain('organization');
+      expect(response.body.error.message.toLowerCase()).toContain('organization');
     });
   });
 

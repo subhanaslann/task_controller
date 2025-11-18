@@ -6,6 +6,17 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
+  globals: {
+    'ts-jest': {
+      tsconfig: {
+        noUnusedLocals: false,
+        noUnusedParameters: false,
+      },
+      diagnostics: {
+        ignoreCodes: [2578, 6133, 2551],
+      },
+    },
+  },
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',

@@ -141,8 +141,8 @@ describe('7. Task Management - Admin Operations Tests', () => {
       // Error indicates assignee from different organization
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('organization') ||
-          response.body.error.toLowerCase().includes('assignee')
+        response.body.error.message.toLowerCase().includes('organization') ||
+          response.body.error.message.toLowerCase().includes('assignee')
       ).toBe(true);
 
       // Cannot assign tasks across organizations
@@ -224,7 +224,7 @@ describe('7. Task Management - Admin Operations Tests', () => {
 
       // Members cannot access admin endpoints
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('forbidden');
+      expect(response.body.error.message.toLowerCase()).toContain('forbidden');
     });
   });
 });

@@ -18,7 +18,7 @@ export const errorHandler = (
     requestId: req.requestId,
     method: req.method,
     url: req.originalUrl || req.url,
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get ? req.get('User-Agent') : undefined,
     ip: req.ip,
   });
 
@@ -30,7 +30,10 @@ export const errorHandler = (
     const message = firstError?.message || 'Validation failed';
     const errorMessage = field ? `${field}: ${message}` : message;
     res.status(400).json({
-      error: errorMessage,
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: errorMessage,
+      },
     });
     return;
   }
@@ -38,7 +41,10 @@ export const errorHandler = (
   // Handle custom app errors
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
-      error: err.message,
+      error: {
+        code: err.code,
+        message: err.message,
+      },
     });
     return;
   }
@@ -47,8 +53,11 @@ export const errorHandler = (
   if (err.name === 'PrismaClientKnownRequestError') {
     const prismaError = err as any;
     if (prismaError.code === 'P2002') {
-      res.status(400).json({
-        error: 'A record with this value already exists',
+      res.status(409).json({
+        error: {
+          code: 'DUPLICATE_ENTRY',
+          message: 'A record with this value already exists',
+        },
       });
       return;
     }
@@ -56,6 +65,9 @@ export const errorHandler = (
 
   // Default server error
   res.status(500).json({
-    error: 'An unexpected error occurred',
+    error: {
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'An unexpected error occurred',
+    },
   });
 };

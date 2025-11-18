@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { hashPassword } from '../src/utils/password';
 
 const prisma = new PrismaClient();
-
-const SALT_ROUNDS = 10;
 
 async function main() {
   console.log('🌱 Seeding database...');
@@ -16,9 +14,9 @@ async function main() {
   await prisma.organization.deleteMany();
 
   // Password hashes
-  const managerPasswordHash = await bcrypt.hash('manager123', SALT_ROUNDS);
-  const memberPasswordHash = await bcrypt.hash('member123', SALT_ROUNDS);
-  const guestPasswordHash = await bcrypt.hash('guest123', SALT_ROUNDS);
+  const managerPasswordHash = await hashPassword('manager123');
+  const memberPasswordHash = await hashPassword('member123');
+  const guestPasswordHash = await hashPassword('guest123');
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);

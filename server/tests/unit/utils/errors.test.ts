@@ -230,7 +230,7 @@ describe('Error Classes', () => {
       expect(error).toBeInstanceOf(AppError);
       expect(error.code).toBe('CROSS_ORGANIZATION_ACCESS');
       expect(error.message).toBe('Cannot access other org resources');
-      expect(error.statusCode).toBe(404);
+      expect(error.statusCode).toBe(403);
       expect(error.name).toBe('CrossOrganizationAccessError');
     });
 
@@ -316,7 +316,7 @@ describe('Error Classes', () => {
         { error: new OrganizationNotFoundError(), expectedStatus: 404 },
         { error: new OrganizationInactiveError(), expectedStatus: 403 },
         { error: new OrganizationUserLimitReachedError(), expectedStatus: 400 },
-        { error: new CrossOrganizationAccessError(), expectedStatus: 404 },
+        { error: new CrossOrganizationAccessError(), expectedStatus: 403 },
       ];
 
       errorStatusMap.forEach(({ error, expectedStatus }) => {

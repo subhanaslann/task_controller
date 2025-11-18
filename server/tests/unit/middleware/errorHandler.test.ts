@@ -30,7 +30,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Invalid credentials',
+      error: {
+        code: 'UNAUTHORIZED',
+        message: 'Invalid credentials',
+      },
     });
     expect(logger.error).toHaveBeenCalled();
   });
@@ -48,7 +51,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Resource not found',
+      error: {
+        code: 'NOT_FOUND',
+        message: 'Resource not found',
+      },
     });
   });
 
@@ -73,7 +79,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'email: Expected string, received number',
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'email: Expected string, received number',
+      },
     });
   });
 
@@ -98,7 +107,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'body.user.name: Required',
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'body.user.name: Required',
+      },
     });
   });
 
@@ -121,7 +133,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Validation failed',
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'Validation failed',
+      },
     });
   });
 
@@ -138,9 +153,12 @@ describe('ErrorHandler Middleware', () => {
     errorHandler(prismaError, req, res, next);
 
     // Assert
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(409);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'A record with this value already exists',
+      error: {
+        code: 'DUPLICATE_ENTRY',
+        message: 'A record with this value already exists',
+      },
     });
   });
 
@@ -157,7 +175,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'An unexpected error occurred',
+      error: {
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An unexpected error occurred',
+      },
     });
   });
 
@@ -242,7 +263,10 @@ describe('ErrorHandler Middleware', () => {
     // Assert
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: 'Invalid input data',
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'Invalid input data',
+      },
     });
   });
 });

@@ -312,16 +312,16 @@ describe('5. Topic Management Tests', () => {
           .get(`/admin/topics/${topicId}`)
           .set('Authorization', `Bearer ${techManagerToken}`);
 
-        // Returns 404 Not Found
-        expect(response.status).toBe(404);
+        // Returns 403 Forbidden
+        expect(response.status).toBe(403);
       } else {
         // Tech Startup manager tries to access Acme topic
         const response = await request(app)
           .get(`/admin/topics/${acmeTopicId}`)
           .set('Authorization', `Bearer ${techManagerToken}`);
 
-        // Returns 404 Not Found
-        expect(response.status).toBe(404);
+        // Returns 403 Forbidden
+        expect(response.status).toBe(403);
       }
 
       // Tech Startup manager cannot access Acme topics
@@ -342,7 +342,7 @@ describe('5. Topic Management Tests', () => {
 
       // Members cannot create topics
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('forbidden');
+      expect(response.body.error.message.toLowerCase()).toContain('forbidden');
     });
   });
 });

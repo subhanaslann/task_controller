@@ -49,7 +49,7 @@ describe('9. Data Validation & Error Handling Tests', () => {
 
       // Error message indicates missing title
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('title');
+      expect(response.body.error.message.toLowerCase()).toContain('title');
 
       // Zod validation is working
     });
@@ -71,10 +71,10 @@ describe('9. Data Validation & Error Handling Tests', () => {
       // Error indicates invalid status value
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.includes('TODO') ||
-          response.body.error.includes('IN_PROGRESS') ||
-          response.body.error.includes('DONE') ||
-          response.body.error.toLowerCase().includes('status')
+        response.body.error.message.includes('TODO') ||
+          response.body.error.message.includes('IN_PROGRESS') ||
+          response.body.error.message.includes('DONE') ||
+          response.body.error.message.toLowerCase().includes('status')
       ).toBe(true);
 
       // Valid statuses are: TODO, IN_PROGRESS, DONE
@@ -97,10 +97,10 @@ describe('9. Data Validation & Error Handling Tests', () => {
       // Error indicates invalid priority value
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.includes('LOW') ||
-          response.body.error.includes('NORMAL') ||
-          response.body.error.includes('HIGH') ||
-          response.body.error.toLowerCase().includes('priority')
+        response.body.error.message.includes('LOW') ||
+          response.body.error.message.includes('NORMAL') ||
+          response.body.error.message.includes('HIGH') ||
+          response.body.error.message.toLowerCase().includes('priority')
       ).toBe(true);
 
       // Valid priorities are: LOW, NORMAL, HIGH
@@ -125,7 +125,7 @@ describe('9. Data Validation & Error Handling Tests', () => {
 
       // Error indicates invalid email format
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('email');
+      expect(response.body.error.message.toLowerCase()).toContain('email');
     });
   });
 
@@ -142,16 +142,16 @@ describe('9. Data Validation & Error Handling Tests', () => {
           role: 'MEMBER',
         });
 
-      // Returns 400 Bad Request
-      expect(response.status).toBe(400);
+      // Returns 409 Conflict
+      expect(response.status).toBe(409);
 
       // Error indicates username already exists in organization
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('username') ||
-          response.body.error.toLowerCase().includes('already') ||
-          response.body.error.toLowerCase().includes('exists') ||
-          response.body.error.toLowerCase().includes('unique')
+        response.body.error.message.toLowerCase().includes('username') ||
+          response.body.error.message.toLowerCase().includes('already') ||
+          response.body.error.message.toLowerCase().includes('exists') ||
+          response.body.error.message.toLowerCase().includes('unique')
       ).toBe(true);
     });
   });
@@ -168,10 +168,10 @@ describe('9. Data Validation & Error Handling Tests', () => {
       // Error indicates invalid scope parameter
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('scope') ||
-          response.body.error.includes('my_active') ||
-          response.body.error.includes('team_active') ||
-          response.body.error.includes('my_done')
+        response.body.error.message.toLowerCase().includes('scope') ||
+          response.body.error.message.includes('my_active') ||
+          response.body.error.message.includes('team_active') ||
+          response.body.error.message.includes('my_done')
       ).toBe(true);
 
       // Valid scopes are: my_active, team_active, my_done
@@ -190,8 +190,8 @@ describe('9. Data Validation & Error Handling Tests', () => {
       // Error message is clear and informative
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('not found') ||
-          response.body.error.toLowerCase().includes('task')
+        response.body.error.message.toLowerCase().includes('not found') ||
+          response.body.error.message.toLowerCase().includes('task')
       ).toBe(true);
     });
   });
@@ -208,9 +208,9 @@ describe('9. Data Validation & Error Handling Tests', () => {
       // Error indicates invalid UUID format
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('uuid') ||
-          response.body.error.toLowerCase().includes('invalid') ||
-          response.body.error.toLowerCase().includes('id')
+        response.body.error.message.toLowerCase().includes('uuid') ||
+          response.body.error.message.toLowerCase().includes('invalid') ||
+          response.body.error.message.toLowerCase().includes('id')
       ).toBe(true);
     });
   });
@@ -231,8 +231,8 @@ describe('9. Data Validation & Error Handling Tests', () => {
       // Error indicates invalid date format
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('date') ||
-          response.body.error.toLowerCase().includes('invalid')
+        response.body.error.message.toLowerCase().includes('date') ||
+          response.body.error.message.toLowerCase().includes('invalid')
       ).toBe(true);
 
       // Date should be ISO 8601 format

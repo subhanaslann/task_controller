@@ -121,7 +121,10 @@ export function createApp() {
   // 404 handler
   app.use((_req, res) => {
     res.status(404).json({
-      error: 'Route not found',
+      error: {
+        code: 'NOT_FOUND',
+        message: 'Route not found',
+      },
     });
   });
 

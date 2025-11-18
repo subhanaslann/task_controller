@@ -41,6 +41,18 @@ jest.mock('../../../src/config/index', () => ({
 }));
 
 describe('Logger Utils', () => {
+  // Save winston configuration call state before any clears
+  let winstonCreateLoggerCalled: boolean;
+  let winstonFormatCombineCalled: boolean;
+  let winstonTransportsConsoleCalled: boolean;
+
+  beforeAll(() => {
+    // Capture winston calls that happened during module load
+    winstonCreateLoggerCalled = (winston.createLogger as unknown as jest.Mock).mock.calls.length > 0;
+    winstonFormatCombineCalled = (winston.format.combine as unknown as jest.Mock).mock.calls.length > 0;
+    winstonTransportsConsoleCalled = (winston.transports.Console as unknown as jest.Mock).mock.calls.length > 0;
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -171,15 +183,15 @@ describe('Logger Utils', () => {
 
   describe('winston configuration', () => {
     it('should create logger with winston', () => {
-      expect(winston.createLogger).toHaveBeenCalled();
+      expect(winstonCreateLoggerCalled).toBe(true);
     });
 
     it('should configure format methods', () => {
-      expect(winston.format.combine).toHaveBeenCalled();
+      expect(winstonFormatCombineCalled).toBe(true);
     });
 
     it('should configure console transport', () => {
-      expect(winston.transports.Console).toHaveBeenCalled();
+      expect(winstonTransportsConsoleCalled).toBe(true);
     });
   });
 });

@@ -226,7 +226,7 @@ describe('RequestLogger Middleware', () => {
 
     const req: any = createMockRequest({});
     delete req.ip;
-    delete req.connection;
+    req.connection = {};
 
     const res = createMockResponse();
     const next = createMockNext();

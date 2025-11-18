@@ -75,7 +75,7 @@ export class OrganizationUserLimitReachedError extends AppError {
 
 export class CrossOrganizationAccessError extends AppError {
   constructor(message: string = 'You do not have access to resources from another organization') {
-    super('CROSS_ORGANIZATION_ACCESS', message, 404);
+    super('CROSS_ORGANIZATION_ACCESS', message, 403);
     this.name = 'CrossOrganizationAccessError';
   }
 }

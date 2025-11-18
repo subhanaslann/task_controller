@@ -359,8 +359,8 @@ describe('6. Task Management - Member Operations Tests', () => {
           title: 'Unauthorized update',
         });
 
-      // Returns 404 Not Found
-      expect(response.status).toBe(404);
+      // Returns 403 Forbidden
+      expect(response.status).toBe(403);
 
       // Member from different org cannot access task
       // Organization isolation is enforced
@@ -408,7 +408,7 @@ describe('6. Task Management - Member Operations Tests', () => {
 
       // Guests cannot create tasks
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('guest');
+      expect(response.body.error.message.toLowerCase()).toContain('guest');
     });
   });
 

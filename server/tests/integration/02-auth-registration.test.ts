@@ -200,7 +200,8 @@ describe('2. Authentication & Registration Tests', () => {
 
       // Error message indicates invalid credentials
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error).toContain('credentials');
+      expect(response.body.error).toHaveProperty('message');
+      expect(response.body.error.message).toContain('credentials');
 
       // No token is returned
       expect(response.body).not.toHaveProperty('token');
@@ -219,11 +220,12 @@ describe('2. Authentication & Registration Tests', () => {
 
       // Error message does not reveal user existence (same as invalid password)
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error).toContain('credentials');
+      expect(response.body.error).toHaveProperty('message');
+      expect(response.body.error.message).toContain('credentials');
 
       // Should not indicate whether user exists or not
-      expect(response.body.error.toLowerCase()).not.toContain('not found');
-      expect(response.body.error.toLowerCase()).not.toContain('does not exist');
+      expect(response.body.error.message.toLowerCase()).not.toContain('not found');
+      expect(response.body.error.message.toLowerCase()).not.toContain('does not exist');
     });
   });
 
@@ -298,10 +300,10 @@ describe('2. Authentication & Registration Tests', () => {
 
       // Error message indicates email already exists
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('email');
+      expect(response.body.error.message.toLowerCase()).toContain('email');
       expect(
-        response.body.error.toLowerCase().includes('already') ||
-          response.body.error.toLowerCase().includes('exists')
+        response.body.error.message.toLowerCase().includes('already') ||
+          response.body.error.message.toLowerCase().includes('exists')
       ).toBe(true);
     });
   });
@@ -322,9 +324,9 @@ describe('2. Authentication & Registration Tests', () => {
       // Error indicates password too short (min 8 chars)
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('password') &&
-          (response.body.error.includes('8') ||
-            response.body.error.toLowerCase().includes('short'))
+        response.body.error.message.toLowerCase().includes('password') &&
+          (response.body.error.message.includes('8') ||
+            response.body.error.message.toLowerCase().includes('short'))
       ).toBe(true);
     });
   });

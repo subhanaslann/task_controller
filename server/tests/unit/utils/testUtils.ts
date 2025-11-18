@@ -79,24 +79,48 @@ export const createMockJwtPayload = (overrides?: any) => ({
 /**
  * Helper function to create a mock Express request
  */
-export const createMockRequest = (overrides?: any) => ({
-  headers: {},
-  params: {},
-  query: {},
-  body: {},
-  user: undefined,
-  ...overrides,
-});
+export const createMockRequest = (overrides?: any) => {
+  const req: any = {
+    headers: {},
+    params: {},
+    query: {},
+    body: {},
+    user: undefined,
+    get: jest.fn((headerName: string) => {
+      return req.headers[headerName.toLowerCase()];
+    }),
+    connection: {
+      remoteAddress: '127.0.0.1',
+    },
+    ip: '127.0.0.1',
+    method: 'GET',
+    url: '/',
+    ...overrides,
+  };
+  return req;
+};
 
 /**
  * Helper function to create a mock Express response
  */
 export const createMockResponse = () => {
+  const eventListeners: { [key: string]: Function[] } = {};
+
   const res: any = {
     status: jest.fn().mockReturnThis(),
     json: jest.fn().mockReturnThis(),
     send: jest.fn().mockReturnThis(),
     statusCode: 200,
+    headersSent: false,
+    on: jest.fn((event: string, callback: Function) => {
+      if (!eventListeners[event]) {
+        eventListeners[event] = [];
+      }
+      eventListeners[event].push(callback);
+      return res;
+    }),
+    getHeader: jest.fn(),
+    setHeader: jest.fn(),
   };
   return res;
 };

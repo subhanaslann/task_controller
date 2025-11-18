@@ -89,7 +89,7 @@ describe('4. User Management Tests', () => {
 
       // Members cannot list users
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('forbidden');
+      expect(response.body.error.message.toLowerCase()).toContain('forbidden');
     });
   });
 
@@ -153,7 +153,7 @@ describe('4. User Management Tests', () => {
 
       // Team Manager cannot create ADMIN users
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('admin');
+      expect(response.body.error.message.toLowerCase()).toContain('admin');
     });
   });
 
@@ -176,7 +176,7 @@ describe('4. User Management Tests', () => {
 
       // Team Manager cannot create other TEAM_MANAGER users
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('team manager');
+      expect(response.body.error.message.toLowerCase()).toContain('team manager');
     });
   });
 
@@ -285,14 +285,14 @@ describe('4. User Management Tests', () => {
   });
 
   describe('USER_09: Cross-Organization Access Prevention', () => {
-    it('should return 404 when accessing user from different organization', async () => {
+    it('should return 403 when accessing user from different organization', async () => {
       // Tech Startup manager tries to access Acme member
       const response = await request(app)
         .get(`/users/${acmeMemberId}`)
         .set('Authorization', `Bearer ${techManagerToken}`);
 
-      // Returns 404 Not Found
-      expect(response.status).toBe(404);
+      // Returns 403 Forbidden
+      expect(response.status).toBe(403);
 
       // Tech Startup manager cannot access Acme users
       expect(response.body).toHaveProperty('error');
@@ -374,9 +374,9 @@ describe('4. User Management Tests', () => {
       // Error message indicates limit exceeded
       expect(response.body).toHaveProperty('error');
       expect(
-        response.body.error.toLowerCase().includes('limit') ||
-          response.body.error.toLowerCase().includes('maximum') ||
-          response.body.error.includes('15')
+        response.body.error.message.toLowerCase().includes('limit') ||
+          response.body.error.message.toLowerCase().includes('maximum') ||
+          response.body.error.message.includes('15')
       ).toBe(true);
 
       // Limit is enforced per organization (15 users)

@@ -116,7 +116,7 @@ describe('3. Organization Management Tests', () => {
 
       // Member cannot update organization
       expect(response.body).toHaveProperty('error');
-      expect(response.body.error.toLowerCase()).toContain('forbidden');
+      expect(response.body.error.message.toLowerCase()).toContain('forbidden');
     });
   });
 
