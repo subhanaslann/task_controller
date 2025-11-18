@@ -10,6 +10,7 @@ class User {
   final String name;
   final String username;
   final String email;
+  final String? avatar;
   @JsonKey(name: 'role')
   final UserRole role;
   final bool active;
@@ -22,6 +23,7 @@ class User {
     required this.name,
     required this.username,
     required this.email,
+    this.avatar,
     required this.role,
     required this.active,
     this.visibleTopicIds = const [],

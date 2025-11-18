@@ -7,6 +7,7 @@ import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/task_repository.dart';
 import '../../data/repositories/admin_repository.dart';
 import '../../data/repositories/organization_repository.dart';
+import '../../data/repositories/user_repository.dart';
 import '../../data/cache/cache_repository.dart';
 import '../../data/sync/sync_manager.dart';
 import '../../data/sync/connectivity_aware_sync_manager.dart';
@@ -46,6 +47,11 @@ final adminRepositoryProvider = Provider<AdminRepository>((ref) {
 final organizationRepositoryProvider = Provider<OrganizationRepository>((ref) {
   final apiService = ref.watch(apiServiceProvider);
   return OrganizationRepository(apiService);
+});
+
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  final apiService = ref.watch(apiServiceProvider);
+  return UserRepository(apiService);
 });
 
 // Cache and Sync providers

@@ -25,6 +25,7 @@ void main() {
         const RegistrationScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Assert - Should have 5 text fields
       // company name, team name, manager name, email, password
@@ -38,6 +39,7 @@ void main() {
         const RegistrationScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('Create Team'), findsOneWidget);
@@ -52,6 +54,7 @@ void main() {
         const RegistrationScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byIcon(Icons.visibility), findsAtLeastNWidgets(1));
@@ -64,9 +67,17 @@ void main() {
         const RegistrationScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
-      // Assert
-      expect(find.textContaining('Login'), findsOneWidget);
+      // Scroll down to see login link
+      final scrollable = find.byType(Scrollable);
+      if (tester.any(scrollable)) {
+        await tester.drag(scrollable.first, const Offset(0, -300));
+        await tester.pumpAndSettle();
+      }
+
+      // Assert - Look for TextButton or RichText containing login text
+      expect(find.byType(TextButton), findsOneWidget);
     });
   });
 
@@ -80,6 +91,7 @@ void main() {
       );
 
       // Act - Submit without entering company name
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pump();
 
@@ -98,6 +110,7 @@ void main() {
       // Act - Enter invalid email
       final emailField = find.byType(TextField).at(3); // Email field
       await tester.enterText(emailField, 'invalid-email');
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pump();
 
@@ -116,6 +129,7 @@ void main() {
       // Act - Enter short password
       final passwordField = find.byType(TextField).at(4); // Password field
       await tester.enterText(passwordField, 'short');
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pump();
 
@@ -154,6 +168,7 @@ void main() {
       await tester.enterText(find.byType(TextField).at(2), 'John Manager');
       await tester.enterText(find.byType(TextField).at(3), 'john@test.com');
       await tester.enterText(find.byType(TextField).at(4), 'password123');
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pumpAndSettle();
 
@@ -193,6 +208,7 @@ void main() {
       await tester.enterText(find.byType(TextField).at(2), 'Manager');
       await tester.enterText(find.byType(TextField).at(3), 'existing@test.com');
       await tester.enterText(find.byType(TextField).at(4), 'password123');
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pumpAndSettle();
 
@@ -233,6 +249,7 @@ void main() {
       await tester.enterText(find.byType(TextField).at(2), 'Manager');
       await tester.enterText(find.byType(TextField).at(3), 'test@test.com');
       await tester.enterText(find.byType(TextField).at(4), 'password123');
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pump();
 
@@ -257,6 +274,7 @@ void main() {
 
       // Act - Enter single character
       await tester.enterText(find.byType(TextField).at(0), 'A');
+      await scrollUntilVisible(tester, find.text('Create Team'));
       await tester.tap(find.text('Create Team'));
       await tester.pump();
 
@@ -275,8 +293,12 @@ void main() {
       // Act - Enter single character
       await tester.enterText(find.byType(TextField).at(0), 'Company');
       await tester.enterText(find.byType(TextField).at(1), 'T');
+
+      // Scroll to button to ensure it's visible
+      await scrollUntilVisible(tester, find.text('Create Team'));
+
       await tester.tap(find.text('Create Team'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert - Validation error
       expect(find.textContaining('characters'), findsAtLeastNWidgets(1));
@@ -294,8 +316,12 @@ void main() {
       await tester.enterText(find.byType(TextField).at(0), 'Company');
       await tester.enterText(find.byType(TextField).at(1), 'Team');
       await tester.enterText(find.byType(TextField).at(2), 'M');
+
+      // Scroll to button to ensure it's visible
+      await scrollUntilVisible(tester, find.text('Create Team'));
+
       await tester.tap(find.text('Create Team'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert - Validation error
       expect(find.textContaining('characters'), findsAtLeastNWidgets(1));

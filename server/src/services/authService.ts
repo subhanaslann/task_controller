@@ -12,6 +12,7 @@ export interface LoginResult {
     name: string;
     username: string;
     email: string;
+    avatar: string | null;
     role: Role;
     active: boolean;
     visibleTopicIds: string[];
@@ -85,6 +86,7 @@ export const login = async (
       name: user.name,
       username: user.username,
       email: user.email,
+      avatar: user.avatar,
       role: user.role as Role,
       active: user.active,
       visibleTopicIds: user.accessibleTopics.map((a) => a.topicId),

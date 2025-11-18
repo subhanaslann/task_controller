@@ -15,7 +15,8 @@
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:seed:prod": "node dist/prisma/seed.js",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "regenerate-types": "node scripts/regenerate-types.js"
   },
   "keywords": [
     "task",

@@ -1105,6 +1105,216 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Veri başarıyla yüklendi'**
   String get dataLoadedSuccess;
+
+  /// No description provided for @pullToRefresh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenilemek için çekin'**
+  String get pullToRefresh;
+
+  /// No description provided for @releaseToRefresh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenilemek için bırakın'**
+  String get releaseToRefresh;
+
+  /// No description provided for @refreshing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenileniyor...'**
+  String get refreshing;
+
+  /// No description provided for @lastUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son güncelleme'**
+  String get lastUpdated;
+
+  /// No description provided for @filterBy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtrele'**
+  String get filterBy;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sırala'**
+  String get sortBy;
+
+  /// No description provided for @ascending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Artan'**
+  String get ascending;
+
+  /// No description provided for @descending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Azalan'**
+  String get descending;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtreleri Temizle'**
+  String get clearFilters;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtreleri Uygula'**
+  String get applyFilters;
+
+  /// No description provided for @noFiltersApplied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtre uygulanmadı'**
+  String get noFiltersApplied;
+
+  /// No description provided for @sortByDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih'**
+  String get sortByDate;
+
+  /// No description provided for @sortByPriority.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik'**
+  String get sortByPriority;
+
+  /// No description provided for @sortByStatus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Durum'**
+  String get sortByStatus;
+
+  /// No description provided for @sortByTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlık'**
+  String get sortByTitle;
+
+  /// No description provided for @filterByPriority.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceliğe Göre Filtrele'**
+  String get filterByPriority;
+
+  /// No description provided for @filterByStatus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duruma Göre Filtrele'**
+  String get filterByStatus;
+
+  /// No description provided for @filterByAssignee.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atanana Göre Filtrele'**
+  String get filterByAssignee;
+
+  /// No description provided for @filterByTopic.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konuya Göre Filtrele'**
+  String get filterByTopic;
+
+  /// No description provided for @viewOptions.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünüm Seçenekleri'**
+  String get viewOptions;
+
+  /// No description provided for @listView.
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste Görünümü'**
+  String get listView;
+
+  /// No description provided for @gridView.
+  ///
+  /// In tr, this message translates to:
+  /// **'Izgara Görünümü'**
+  String get gridView;
+
+  /// No description provided for @compactView.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kompakt Görünüm'**
+  String get compactView;
+
+  /// No description provided for @markAsRead.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okundu Olarak İşaretle'**
+  String get markAsRead;
+
+  /// No description provided for @markAsUnread.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okunmadı Olarak İşaretle'**
+  String get markAsUnread;
+
+  /// No description provided for @archive.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arşivle'**
+  String get archive;
+
+  /// No description provided for @unarchive.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arşivden Çıkar'**
+  String get unarchive;
+
+  /// No description provided for @duplicate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çoğalt'**
+  String get duplicate;
+
+  /// No description provided for @share.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaş'**
+  String get share;
+
+  /// No description provided for @advancedFilters.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişmiş Filtreler'**
+  String get advancedFilters;
+
+  /// No description provided for @quickFilters.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hızlı Filtreler'**
+  String get quickFilters;
+
+  /// No description provided for @savedFilters.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilmiş Filtreler'**
+  String get savedFilters;
+
+  /// No description provided for @createFilter.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtre Oluştur'**
+  String get createFilter;
+
+  /// No description provided for @saveFilter.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtreyi Kaydet'**
+  String get saveFilter;
+
+  /// No description provided for @filterName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Filtre Adı'**
+  String get filterName;
 }
 
 class _AppLocalizationsDelegate

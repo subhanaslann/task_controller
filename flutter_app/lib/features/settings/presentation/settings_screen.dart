@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:io';
+import 'dart:convert';
 
 import '../../../core/providers/theme_provider.dart';
 import '../../../core/providers/locale_provider.dart';
@@ -83,16 +84,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           backgroundColor: AppColors.primary.withValues(
                             alpha: 0.1,
                           ),
-                          child: Text(
-                            currentUser.name.isNotEmpty
-                                ? currentUser.name[0].toUpperCase()
-                                : 'U',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
-                            ),
-                          ),
+                          backgroundImage: currentUser.avatar != null
+                              ? MemoryImage(base64Decode(currentUser.avatar!))
+                              : null,
+                          child: currentUser.avatar == null
+                              ? Text(
+                                  currentUser.name.isNotEmpty
+                                      ? currentUser.name[0].toUpperCase()
+                                      : 'U',
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primary,
+                                  ),
+                                )
+                              : null,
                         ),
                         Positioned(
                           right: 0,
@@ -358,14 +364,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             const Gap(24),
             AvatarPicker(
-              onImageSelected: (File? file) {
+              onImageSelected: (File? file) async {
                 Navigator.pop(context);
                 if (file != null && context.mounted) {
-                  // TODO: Implement avatar upload
-                  AppSnackbar.showInfo(
-                    context: context,
-                    message: 'Avatar update coming soon!',
-                  );
+                  await _uploadAvatar(file);
                 }
               },
             ),
@@ -374,6 +376,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _uploadAvatar(File avatarFile) async {
+    try {
+      // Show loading indicator
+      if (!mounted) return;
+
+      final userRepo = ref.read(userRepositoryProvider);
+      final updatedUser = await userRepo.updateProfile(avatarFile: avatarFile);
+
+      // Update current user provider with new data
+      ref.read(currentUserProvider.notifier).state = updatedUser;
+
+      if (mounted && context.mounted) {
+        AppSnackbar.showSuccess(
+          context: context,
+          message: 'Avatar updated successfully!',
+        );
+      }
+    } catch (e) {
+      if (mounted && context.mounted) {
+        AppSnackbar.showError(
+          context: context,
+          message: 'Failed to update avatar: ${e.toString()}',
+        );
+      }
+    }
   }
 
   Future<void> _handleLogout() async {

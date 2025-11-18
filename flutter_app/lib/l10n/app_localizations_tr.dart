@@ -527,4 +527,109 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get dataLoadedSuccess => 'Veri başarıyla yüklendi';
+
+  @override
+  String get pullToRefresh => 'Yenilemek için çekin';
+
+  @override
+  String get releaseToRefresh => 'Yenilemek için bırakın';
+
+  @override
+  String get refreshing => 'Yenileniyor...';
+
+  @override
+  String get lastUpdated => 'Son güncelleme';
+
+  @override
+  String get filterBy => 'Filtrele';
+
+  @override
+  String get sortBy => 'Sırala';
+
+  @override
+  String get ascending => 'Artan';
+
+  @override
+  String get descending => 'Azalan';
+
+  @override
+  String get clearFilters => 'Filtreleri Temizle';
+
+  @override
+  String get applyFilters => 'Filtreleri Uygula';
+
+  @override
+  String get noFiltersApplied => 'Filtre uygulanmadı';
+
+  @override
+  String get sortByDate => 'Tarih';
+
+  @override
+  String get sortByPriority => 'Öncelik';
+
+  @override
+  String get sortByStatus => 'Durum';
+
+  @override
+  String get sortByTitle => 'Başlık';
+
+  @override
+  String get filterByPriority => 'Önceliğe Göre Filtrele';
+
+  @override
+  String get filterByStatus => 'Duruma Göre Filtrele';
+
+  @override
+  String get filterByAssignee => 'Atanana Göre Filtrele';
+
+  @override
+  String get filterByTopic => 'Konuya Göre Filtrele';
+
+  @override
+  String get viewOptions => 'Görünüm Seçenekleri';
+
+  @override
+  String get listView => 'Liste Görünümü';
+
+  @override
+  String get gridView => 'Izgara Görünümü';
+
+  @override
+  String get compactView => 'Kompakt Görünüm';
+
+  @override
+  String get markAsRead => 'Okundu Olarak İşaretle';
+
+  @override
+  String get markAsUnread => 'Okunmadı Olarak İşaretle';
+
+  @override
+  String get archive => 'Arşivle';
+
+  @override
+  String get unarchive => 'Arşivden Çıkar';
+
+  @override
+  String get duplicate => 'Çoğalt';
+
+  @override
+  String get share => 'Paylaş';
+
+  @override
+  String get advancedFilters => 'Gelişmiş Filtreler';
+
+  @override
+  String get quickFilters => 'Hızlı Filtreler';
+
+  @override
+  String get savedFilters => 'Kaydedilmiş Filtreler';
+
+  @override
+  String get createFilter => 'Filtre Oluştur';
+
+  @override
+  String get saveFilter => 'Filtreyi Kaydet';
+
+  @override
+  String get filterName => 'Filtre Adı';
 }

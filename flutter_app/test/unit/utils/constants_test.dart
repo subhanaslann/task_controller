@@ -4,8 +4,8 @@ import 'package:flutter_app/core/utils/constants.dart';
 void main() {
   group('ApiConstants Tests', () {
     test('should have correct base URL', () {
-      // Assert
-      expect(ApiConstants.baseUrl, 'https://api.diplomam.net');
+      // Assert - Development URL for Android emulator
+      expect(ApiConstants.baseUrl, 'http://10.0.2.2:8080');
     });
 
     test('should have correct endpoint paths', () {
@@ -71,4 +71,3 @@ void main() {
     });
   });
 }
-

@@ -523,4 +523,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dataLoadedSuccess => 'Data loaded successfully';
+
+  @override
+  String get pullToRefresh => 'Pull to refresh';
+
+  @override
+  String get releaseToRefresh => 'Release to refresh';
+
+  @override
+  String get refreshing => 'Refreshing...';
+
+  @override
+  String get lastUpdated => 'Last updated';
+
+  @override
+  String get filterBy => 'Filter by';
+
+  @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get ascending => 'Ascending';
+
+  @override
+  String get descending => 'Descending';
+
+  @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get noFiltersApplied => 'No filters applied';
+
+  @override
+  String get sortByDate => 'Date';
+
+  @override
+  String get sortByPriority => 'Priority';
+
+  @override
+  String get sortByStatus => 'Status';
+
+  @override
+  String get sortByTitle => 'Title';
+
+  @override
+  String get filterByPriority => 'Filter by Priority';
+
+  @override
+  String get filterByStatus => 'Filter by Status';
+
+  @override
+  String get filterByAssignee => 'Filter by Assignee';
+
+  @override
+  String get filterByTopic => 'Filter by Topic';
+
+  @override
+  String get viewOptions => 'View Options';
+
+  @override
+  String get listView => 'List View';
+
+  @override
+  String get gridView => 'Grid View';
+
+  @override
+  String get compactView => 'Compact View';
+
+  @override
+  String get markAsRead => 'Mark as Read';
+
+  @override
+  String get markAsUnread => 'Mark as Unread';
+
+  @override
+  String get archive => 'Archive';
+
+  @override
+  String get unarchive => 'Unarchive';
+
+  @override
+  String get duplicate => 'Duplicate';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get advancedFilters => 'Advanced Filters';
+
+  @override
+  String get quickFilters => 'Quick Filters';
+
+  @override
+  String get savedFilters => 'Saved Filters';
+
+  @override
+  String get createFilter => 'Create Filter';
+
+  @override
+  String get saveFilter => 'Save Filter';
+
+  @override
+  String get filterName => 'Filter Name';
 }

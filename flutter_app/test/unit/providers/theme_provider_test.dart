@@ -13,9 +13,9 @@ void main() {
 
   // ==================== GROUP 1: INITIALIZATION TESTS ====================
   group('Initialization Tests', () {
-    test('initial state is ThemeMode.system', () {
+    test('initial state is ThemeMode.dark', () {
       final notifier = ThemeNotifier();
-      expect(notifier.state, ThemeMode.system);
+      expect(notifier.state, ThemeMode.dark);
     });
 
     test('loads saved theme mode from SharedPreferences on init', () async {
@@ -24,7 +24,9 @@ void main() {
 
       // Act
       final notifier = ThemeNotifier();
-      await Future.delayed(const Duration(milliseconds: 100)); // Wait for async load
+      await Future.delayed(
+        const Duration(milliseconds: 100),
+      ); // Wait for async load
 
       // Assert
       expect(notifier.state, ThemeMode.dark);
@@ -54,7 +56,7 @@ void main() {
       expect(notifier.state, ThemeMode.system);
     });
 
-    test('uses default system theme when SharedPreferences is empty', () async {
+    test('uses default dark theme when SharedPreferences is empty', () async {
       // Arrange - Empty SharedPreferences
       SharedPreferences.setMockInitialValues({});
 
@@ -63,7 +65,7 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 100));
 
       // Assert
-      expect(notifier.state, ThemeMode.system);
+      expect(notifier.state, ThemeMode.dark);
     });
 
     test('handles null theme key gracefully', () async {
@@ -75,7 +77,7 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 100));
 
       // Assert
-      expect(notifier.state, ThemeMode.system);
+      expect(notifier.state, ThemeMode.dark);
     });
 
     test('initialization is idempotent', () async {
@@ -99,13 +101,13 @@ void main() {
     test('setThemeMode updates state to new theme mode', () async {
       // Arrange
       final notifier = ThemeNotifier();
-      expect(notifier.state, ThemeMode.system);
+      expect(notifier.state, ThemeMode.dark);
 
       // Act
-      await notifier.setThemeMode(ThemeMode.dark);
+      await notifier.setThemeMode(ThemeMode.light);
 
       // Assert
-      expect(notifier.state, ThemeMode.dark);
+      expect(notifier.state, ThemeMode.light);
     });
 
     test('setThemeMode persists theme to SharedPreferences', () async {
@@ -181,13 +183,13 @@ void main() {
 
     test('setThemeMode updates state immediately', () async {
       final notifier = ThemeNotifier();
-      expect(notifier.state, ThemeMode.system);
-
-      await notifier.setThemeMode(ThemeMode.dark);
       expect(notifier.state, ThemeMode.dark);
 
       await notifier.setThemeMode(ThemeMode.light);
       expect(notifier.state, ThemeMode.light);
+
+      await notifier.setThemeMode(ThemeMode.system);
+      expect(notifier.state, ThemeMode.system);
     });
   });
 
@@ -350,13 +352,13 @@ void main() {
 
     test('theme changes are reflected immediately', () async {
       final notifier = ThemeNotifier();
-      expect(notifier.state, ThemeMode.system);
+      expect(notifier.state, ThemeMode.dark);
 
       await notifier.setLight();
       expect(notifier.state, ThemeMode.light);
 
-      await notifier.setDark();
-      expect(notifier.state, ThemeMode.dark);
+      await notifier.setSystem();
+      expect(notifier.state, ThemeMode.system);
     });
 
     test('dispose does not crash', () {
@@ -383,20 +385,20 @@ void main() {
     test('can cycle through all theme modes', () async {
       final notifier = ThemeNotifier();
 
-      // System (default)
-      expect(notifier.state, ThemeMode.system);
+      // Dark (default)
+      expect(notifier.state, ThemeMode.dark);
 
       // Light
       await notifier.setLight();
       expect(notifier.state, ThemeMode.light);
 
-      // Dark
-      await notifier.setDark();
-      expect(notifier.state, ThemeMode.dark);
-
-      // Back to system
+      // System
       await notifier.setSystem();
       expect(notifier.state, ThemeMode.system);
+
+      // Back to dark
+      await notifier.setDark();
+      expect(notifier.state, ThemeMode.dark);
     });
 
     test('SharedPreferences keys are consistent', () async {

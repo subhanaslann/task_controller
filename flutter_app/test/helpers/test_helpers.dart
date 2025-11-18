@@ -11,9 +11,7 @@ Future<void> pumpTestWidget(
   await tester.pumpWidget(
     ProviderScope(
       overrides: overrides,
-      child: MaterialApp(
-        home: Scaffold(body: widget),
-      ),
+      child: MaterialApp(home: Scaffold(body: widget)),
     ),
   );
 }
@@ -89,4 +87,36 @@ Future<void> mockDelay([
   Duration duration = const Duration(milliseconds: 100),
 ]) {
   return Future.delayed(duration);
+}
+
+/// Scroll until a widget is visible
+Future<void> scrollUntilVisible(
+  WidgetTester tester,
+  Finder finder, {
+  Finder? scrollable,
+  double scrollDelta = -300.0,
+  int maxScrolls = 10,
+}) async {
+  scrollable ??= find.byType(Scrollable).first;
+
+  for (int i = 0; i < maxScrolls; i++) {
+    if (tester.any(finder)) {
+      // Widget found, try to make it visible
+      try {
+        await tester.ensureVisible(finder);
+        await tester.pumpAndSettle();
+        return;
+      } catch (e) {
+        // If ensureVisible fails, try manual scroll
+      }
+    }
+
+    // Scroll down
+    await tester.drag(scrollable, Offset(0, scrollDelta));
+    await tester.pumpAndSettle();
+
+    if (tester.any(finder)) {
+      return;
+    }
+  }
 }

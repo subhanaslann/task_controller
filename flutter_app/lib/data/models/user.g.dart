@@ -12,6 +12,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
   name: json['name'] as String,
   username: json['username'] as String,
   email: json['email'] as String,
+  avatar: json['avatar'] as String?,
   role: $enumDecode(_$UserRoleEnumMap, json['role']),
   active: json['active'] as bool,
   visibleTopicIds:
@@ -27,6 +28,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
   'name': instance.name,
   'username': instance.username,
   'email': instance.email,
+  'avatar': instance.avatar,
   'role': _$UserRoleEnumMap[instance.role]!,
   'active': instance.active,
   'visibleTopicIds': instance.visibleTopicIds,

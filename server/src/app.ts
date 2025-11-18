@@ -14,6 +14,7 @@ import adminTaskRoutes from './routes/adminTasks';
 import adminTopicRoutes from './routes/adminTopics';
 import topicRoutes from './routes/topics';
 import memberTaskRoutes from './routes/memberTasks';
+import profileRoutes from './routes/profile';
 import logger from './utils/logger';
 import { checkDatabaseHealth } from './db/connection';
 import { prisma } from './db/prisma';
@@ -111,6 +112,7 @@ export function createApp() {
   app.use('/auth', authRoutes); // Login
   app.use('/auth', registrationRoutes); // Team registration
   app.use('/organization', organizationRoutes); // Organization management
+  app.use('/profile', profileRoutes); // User profile management
   app.use('/tasks/view', taskRoutes); // View tasks (my_active, team_active, my_done)
   app.use('/tasks', memberTaskRoutes); // Member task CRUD (create/update/delete own tasks)
   app.use('/topics', topicRoutes); // Active topics

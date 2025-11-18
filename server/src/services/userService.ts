@@ -21,6 +21,12 @@ export interface UpdateUserInput {
   visibleTopicIds?: string[];
 }
 
+export interface UpdateProfileInput {
+  name?: string;
+  avatar?: string;
+  password?: string;
+}
+
 /**
  * Check if adding a user would exceed the organization's user limit
  */
@@ -96,6 +102,7 @@ export const createUser = async (
       name: true,
       username: true,
       email: true,
+      avatar: true,
       role: true,
       active: true,
       createdAt: true,
@@ -173,6 +180,7 @@ export const updateUser = async (
       name: true,
       username: true,
       email: true,
+      avatar: true,
       role: true,
       active: true,
       createdAt: true,
@@ -202,6 +210,53 @@ export const updateUser = async (
 };
 
 /**
+ * Update current user's profile (name, avatar, password)
+ */
+export const updateProfile = async (
+  userId: string,
+  organizationId: string,
+  input: UpdateProfileInput
+) => {
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      organizationId,
+    },
+  });
+
+  if (!existingUser) {
+    throw new NotFoundError('User not found');
+  }
+
+  const updateData: any = {};
+
+  if (input.name !== undefined) updateData.name = input.name;
+  if (input.avatar !== undefined) updateData.avatar = input.avatar;
+  if (input.password !== undefined) {
+    updateData.passwordHash = await hashPassword(input.password);
+  }
+
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data: updateData,
+    select: {
+      id: true,
+      organizationId: true,
+      name: true,
+      username: true,
+      email: true,
+      avatar: true,
+      role: true,
+      active: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return user;
+};
+
+/**
  * Get all users in an organization
  */
 export const getUsers = async (organizationId: string) => {
@@ -213,6 +268,7 @@ export const getUsers = async (organizationId: string) => {
       name: true,
       username: true,
       email: true,
+      avatar: true,
       role: true,
       active: true,
       createdAt: true,
@@ -251,6 +307,7 @@ export const getUser = async (userId: string, organizationId: string) => {
       name: true,
       username: true,
       email: true,
+      avatar: true,
       role: true,
       active: true,
       createdAt: true,

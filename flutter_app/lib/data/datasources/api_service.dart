@@ -116,6 +116,13 @@ abstract class ApiService {
 
   @GET('/organization/stats')
   Future<OrganizationStatsResponse> getOrganizationStats();
+
+  // Profile
+  @PATCH('/profile')
+  Future<ProfileResponse> updateProfile(@Body() UpdateProfileRequest request);
+
+  @GET('/profile')
+  Future<ProfileResponse> getProfile();
 }
 
 // Request/Response DTOs
@@ -544,5 +551,29 @@ class OrganizationStatsResponse {
       message: json['message'] as String?,
       stats: OrganizationStats.fromJson(json['data']),
     );
+  }
+}
+
+class UpdateProfileRequest {
+  final String? name;
+  final String? avatar;
+  final String? password;
+
+  UpdateProfileRequest({this.name, this.avatar, this.password});
+
+  Map<String, dynamic> toJson() => {
+    if (name != null) 'name': name,
+    if (avatar != null) 'avatar': avatar,
+    if (password != null) 'password': password,
+  };
+}
+
+class ProfileResponse {
+  final User data;
+
+  ProfileResponse({required this.data});
+
+  factory ProfileResponse.fromJson(Map<String, dynamic> json) {
+    return ProfileResponse(data: User.fromJson(json['data']));
   }
 }
