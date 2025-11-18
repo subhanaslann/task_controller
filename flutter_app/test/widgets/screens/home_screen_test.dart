@@ -183,12 +183,13 @@ void main() {
         ],
       );
 
-      // Act - Tap profile icon
+      // Act - Tap profile icon to open menu
       await tester.tap(find.byIcon(Icons.account_circle));
       await tester.pumpAndSettle();
 
-      // Assert - Menu should appear
-      expect(find.byType(PopupMenuButton), findsOneWidget);
+      // Assert - Menu items should appear (Profile and Logout are always visible)
+      expect(find.text('Profile'), findsOneWidget);
+      expect(find.text('Logout'), findsOneWidget);
     });
 
     testWidgets('should show Admin Mode option for TEAM_MANAGER', (

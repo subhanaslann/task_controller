@@ -450,8 +450,8 @@ class DeleteResponse {
 
   factory DeleteResponse.fromJson(Map<String, dynamic> json) {
     return DeleteResponse(
-      success: json['success'],
-      message: json['message'],
+      success: json['success'] as bool? ?? true, // Default to true if null
+      message: json['message'] as String?,
     );
   }
 }

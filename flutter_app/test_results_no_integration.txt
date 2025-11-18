@@ -1,0 +1,626 @@
+00:00 +0: loading C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart
+00:00 +0: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - JSON Serialization fromJson should correctly parse complete organization JSON
+00:00 +1: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - JSON Serialization fromJson should handle inactive organization
+00:00 +2: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - JSON Serialization fromJson should handle custom maxUsers limit
+00:00 +3: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - JSON Serialization toJson should correctly convert organization to JSON
+00:00 +4: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - JSON Serialization toJson should preserve isActive false state
+00:00 +5: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - Slug Format should handle kebab-case slug
+00:00 +6: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - Slug Format should handle slug with single word
+00:00 +7: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - Default Values should default maxUsers to 15
+00:00 +8: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - Default Values should default isActive to true
+00:00 +9: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - Data Validation should create organization with all required fields
+00:00 +10: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/organization_model_test.dart: Organization Model - Data Validation should handle organization with long names
+00:00 +11: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization fromJson should correctly parse complete task JSON
+00:00 +12: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization fromJson should handle TODO status
+00:00 +13: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization fromJson should handle DONE status with completedAt
+00:00 +14: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization fromJson should handle LOW priority
+00:00 +15: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization fromJson should handle minimal task (no optional fields)
+00:00 +16: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization toJson should correctly convert task to JSON
+00:00 +17: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - JSON Serialization toJson should convert status enum to uppercase string
+00:00 +18: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - Guest Filtering fromJson should preserve all fields for non-guest users
+00:00 +19: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - Guest Filtering fromJson should handle guest-filtered task (no note, no username)
+00:00 +20: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - copyWith copyWith should update status only
+00:00 +21: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - copyWith copyWith should update priority only
+00:00 +22: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - copyWith copyWith should update note
+00:00 +23: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - copyWith copyWith should update dueDate
+00:00 +24: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - copyWith copyWith should update multiple fields
+00:00 +25: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - Date Handling should parse ISO 8601 date strings
+00:00 +26: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/task_model_test.dart: Task Model - Date Handling should handle null dates
+00:00 +27: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization fromJson should correctly parse complete topic JSON
+00:00 +28: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization fromJson should handle topic without description
+00:00 +29: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization fromJson should handle inactive topic
+00:00 +30: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization fromJson should handle topic with tasks array
+00:00 +31: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization fromJson should handle topic with _count
+00:00 +32: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization toJson should correctly convert topic to JSON
+00:00 +33: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - JSON Serialization toJson should handle null description
+00:00 +34: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Tasks Array Handling should handle empty tasks array
+00:00 +35: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Tasks Array Handling should handle null tasks array
+00:00 +36: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Tasks Array Handling should parse tasks with different statuses
+00:00 +37: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Count Field should parse _count with tasks number
+00:00 +38: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Count Field should handle _count with zero tasks
+00:00 +39: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Count Field should handle missing _count field
+00:00 +40: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Data Validation should create topic with all required fields
+00:00 +41: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/topic_model_test.dart: Topic Model - Data Validation should handle topic with long description
+00:00 +42: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization fromJson should correctly parse valid JSON
+00:00 +43: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization fromJson should handle ADMIN role
+00:00 +44: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization fromJson should handle TEAM_MANAGER role
+00:00 +45: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization fromJson should handle GUEST role
+00:00 +46: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization fromJson should use default empty list for visibleTopicIds if missing
+00:00 +47: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization toJson should correctly convert user to JSON
+00:00 +48: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization toJson should convert role enum to uppercase string
+00:00 +49: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - JSON Serialization fromJson should handle inactive user
+00:00 +50: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - Data Validation should create user with all required fields
+00:00 +51: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - Data Validation should default visibleTopicIds to empty list
+00:00 +52: C:/Tektech/mini-task-tracker/flutter_app/test/unit/models/user_model_test.dart: User Model - Data Validation should preserve visibleTopicIds when provided
+00:01 +53: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/auth_interceptor_test.dart: AuthInterceptor Tests should create auth interceptor
+00:01 +54: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/auth_interceptor_test.dart: AuthInterceptor Tests should inject token into request headers when token exists
+00:01 +55: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/auth_interceptor_test.dart: AuthInterceptor Tests should not inject token when no token exists
+00:01 +56: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_client_test.dart: DioClient Tests should create dio instance with correct base URL
+00:01 +57: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_client_test.dart: DioClient Tests should have correct default headers
+00:01 +58: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_client_test.dart: DioClient Tests should have correct timeout settings
+00:01 +59: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_client_test.dart: DioClient Tests should have interceptors attached
+00:01 +60: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle connection timeout error
+00:01 +61: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle send timeout error
+00:01 +62: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle 401 unauthorized error
+00:01 +63: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle 403 forbidden error
+00:01 +64: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle 404 not found error
+00:01 +65: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle connection error
+00:01 +66: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/dio_error_handler_test.dart: DioErrorHandler Tests should handle cancel error
+00:01 +67: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/retry_interceptor_test.dart: RetryInterceptor Tests should create retry interceptor with default values
+00:01 +68: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/retry_interceptor_test.dart: RetryInterceptor Tests should create retry interceptor with custom max retries
+00:01 +69: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/retry_interceptor_test.dart: RetryInterceptor Tests should create retry interceptor with custom initial delay
+00:01 +70: C:/Tektech/mini-task-tracker/flutter_app/test/unit/network/retry_interceptor_test.dart: RetryInterceptor Tests should create retry interceptor with all custom parameters
+00:01 +71: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: (setUpAll)
+00:01 +71: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management getUsers should return all users in organization
+00:01 +72: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management getUsers should throw on forbidden (member trying to access)
+00:01 +73: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management createUser should create new member user
+00:01 +74: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management createUser should throw on user limit reached (15 max)
+00:01 +75: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management createUser should throw when team manager tries to create admin
+00:01 +76: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management createUser should throw when team manager tries to create another manager
+00:01 +77: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management updateUser should update user details
+00:02 +78: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - User Management updateUser should propagate exceptions
+00:02 +79: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management getTopics should return all topics
+DEBUG: getTopics çağrıldı
+DEBUG: Topics başarıyla parse edildi: 2 adet
+00:02 +80: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management getTopics should throw on forbidden
+DEBUG: getTopics çağrıldı
+DEBUG: getTopics hatası: Exception: Forbidden
+DEBUG: Stack trace: #0      When.thenThrow.<anonymous closure> (package:mocktail/src/mocktail.dart:249:7)
+#1      Mock.noSuchMethod (package:mocktail/src/mocktail.dart:131:37)
+#2      MockApiService.getTopics (file:///C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart:11:7)
+#3      AdminRepository.getTopics (package:flutter_app/data/repositories/admin_repository.dart:30:42)
+#4      main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart:223:31)
+#5      Throws.matchAsync (package:matcher/src/expect/throws_matcher.dart:86:23)
+#6      _expect (package:matcher/src/expect/expect.dart:109:26)
+#7      expect (package:matcher/src/expect/expect.dart:56:3)
+#8      expect (package:flutter_test/src/widget_tester.dart:473:18)
+#9      main.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart:223:7)
+#10     Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:242:19)
+<asynchronous suspension>
+#11     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:240:7)
+<asynchronous suspension>
+#12     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:282:9)
+<asynchronous suspension>
+
+00:02 +81: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management createTopic should create new topic
+00:02 +82: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management createTopic should throw on validation error
+00:02 +83: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management updateTopic should update topic details
+00:02 +84: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management updateTopic should throw on topic not found
+00:02 +85: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management deleteTopic should delete topic
+00:02 +86: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Topic Management deleteTopic should throw on topic not found
+00:02 +87: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Guest Access Management addGuestAccess should grant guest access to topic
+00:02 +88: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Guest Access Management addGuestAccess should throw on validation error
+00:02 +89: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Guest Access Management removeGuestAccess should revoke guest access from topic
+00:02 +90: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: AdminRepository - Guest Access Management removeGuestAccess should throw on access not found
+00:02 +91: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/admin_repository_test.dart: (tearDownAll)
+00:02 +91: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: (setUpAll)
+00:02 +91: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Login login should save token and return user with organization
+00:02 +92: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Login login should throw exception on invalid credentials
+00:02 +93: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Login login should handle network error
+00:02 +94: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Login login should pass correct credentials to API
+00:02 +95: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Register register should create new team and save token
+00:02 +96: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Register register should throw exception on duplicate email
+00:02 +97: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Register register should validate password length
+00:02 +98: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Logout logout should clear all stored data
+00:02 +99: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Logout logout should not throw if storage is already empty
+00:02 +100: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Token Management isLoggedIn should return true when token exists
+00:02 +101: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Token Management isLoggedIn should return false when token does not exist
+00:02 +102: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Token Management getToken should return stored token
+00:02 +103: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Token Management getToken should return null when no token exists
+00:02 +104: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Organization Storage getStoredOrganization should return organization from storage
+00:02 +105: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: AuthRepository - Organization Storage getStoredOrganization should return null when no organization stored
+00:02 +106: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/auth_repository_test.dart: (tearDownAll)
+00:02 +106: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: (setUpAll)
+00:02 +106: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Organization getOrganization should return organization from JWT token
+00:02 +107: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Organization getOrganization should throw on unauthorized
+00:02 +108: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Organization getOrganization should throw on inactive organization
+00:02 +109: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Organization getOrganization should throw on network error
+00:02 +110: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Update Organization updateOrganization should update name only
+00:02 +111: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Update Organization updateOrganization should update team name only
+00:02 +112: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Update Organization updateOrganization should update maxUsers (admin only)
+00:02 +113: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Update Organization updateOrganization should update multiple fields
+00:02 +114: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Update Organization updateOrganization should throw on forbidden (member trying to update)
+00:02 +115: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Update Organization updateOrganization should throw on validation error
+00:02 +116: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Statistics getOrganizationStats should return all statistics
+00:02 +117: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Statistics getOrganizationStats should validate logical relationships
+00:02 +118: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Statistics getOrganizationStats should handle zero counts
+00:02 +119: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Statistics getOrganizationStats should throw on unauthorized
+00:02 +120: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: OrganizationRepository - Get Statistics getOrganizationStats should throw on network error
+00:02 +121: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/organization_repository_test.dart: (tearDownAll)
+00:02 +121: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: (setUpAll)
+00:02 +121: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Get Tasks getMyActiveTasks should return user's active tasks
+00:02 +122: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Get Tasks getMyActiveTasks should throw on API error
+00:02 +123: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Get Tasks getTeamActiveTasks should return all team active tasks
+00:02 +124: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Get Tasks getTeamActiveTasks should handle empty list
+00:02 +125: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Get Tasks getMyCompletedTasks should return only completed tasks
+00:02 +126: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Get Tasks getMyCompletedTasks should throw on unauthorized access
+00:02 +127: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Update Task Status updateTaskStatus should update task to IN_PROGRESS
+00:03 +128: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Update Task Status updateTaskStatus should update task to DONE
+00:03 +129: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Update Task Status updateTaskStatus should throw on forbidden access
+00:03 +130: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Update Task Status updateTaskStatus should throw on task not found
+00:03 +131: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Member Operations createMemberTask should create and auto-assign task
+00:03 +132: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Member Operations createMemberTask should throw on validation error
+00:03 +133: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Member Operations updateMemberTask should update own task
+00:03 +134: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Member Operations updateMemberTask should throw on forbidden access
+00:03 +135: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Member Operations deleteMemberTask should delete own task
+00:03 +136: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Member Operations deleteMemberTask should throw on forbidden access
+00:03 +137: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Admin Operations createTask should allow assigning to any user
+00:03 +138: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Admin Operations createTask should throw on invalid assignee
+00:03 +139: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Admin Operations updateTask should update any task in organization
+00:03 +140: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Admin Operations deleteTask should delete any task in organization
+00:03 +141: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: TaskRepository - Admin Operations deleteTask should throw on task not found
+00:03 +142: C:/Tektech/mini-task-tracker/flutter_app/test/unit/repositories/task_repository_test.dart: (tearDownAll)
+00:03 +142: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should have startTiming method that returns DateTime
+00:03 +143: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call logScreenView without throwing
+00:03 +144: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call logLogin without throwing
+00:03 +145: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call logEvent without throwing
+00:03 +146: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call logTaskCreated without throwing
+00:03 +147: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call logTaskUpdated without throwing
+00:03 +148: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call logSearch without throwing
+00:03 +149: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call setUserId without throwing
+00:03 +150: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/analytics_service_test.dart: AnalyticsService Tests should call setUserProperty without throwing
+00:04 +151: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call reportError without throwing when not initialized
+[38;5;208m┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+[38;5;208m│ #0   ErrorTrackingService.reportError (package:flutter_app/core/services/error_tracking_service.dart:192:15)[0m
+[38;5;208m│ #1   main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart:16:48)[0m
+[38;5;208m├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄[0m
+[38;5;208m│ ⚠️ ErrorTrackingService not initialized, logging error locally[0m
+[38;5;208m└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+[38;5;196m┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+[38;5;196m│ Exception: Test error[0m
+[38;5;196m├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄[0m
+[38;5;196m│ #0   main.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart:12:37)[0m
+[38;5;196m│ #1   Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:242:19)[0m
+[38;5;196m│ #2   <asynchronous suspension>[0m
+[38;5;196m│ #3   Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:240:7)[0m
+[38;5;196m│ #4   <asynchronous suspension>[0m
+[38;5;196m│ #5   Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:282:9)[0m
+[38;5;196m│ #6   <asynchronous suspension>[0m
+[38;5;196m├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄[0m
+[38;5;196m│ ⛔ Error: Exception: Test error[0m
+[38;5;196m└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+00:04 +152: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call addBreadcrumb without throwing
+00:04 +153: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call setUser without throwing
+00:04 +154: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call clearUser without throwing
+00:04 +155: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call setTag without throwing
+00:04 +156: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call setContext without throwing
+00:04 +157: C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart: ErrorTrackingService Tests should call captureMessage without throwing
+[38;5;12m┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+[38;5;12m│ #0   ErrorTrackingService.captureMessage (package:flutter_app/core/services/error_tracking_service.dart:282:15)[0m
+[38;5;12m│ #1   main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/unit/services/error_tracking_service_test.dart:74:48)[0m
+[38;5;12m├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄[0m
+[38;5;12m│ 💡 Test message[0m
+[38;5;12m└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[0m
+00:04 +158: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should save and retrieve token
+00:04 +159: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should return null when no token is stored
+00:04 +160: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should delete token
+00:04 +161: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should check if token exists
+00:04 +162: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should save and retrieve organization data
+00:04 +163: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should return null when no organization is stored
+00:04 +164: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should delete organization data
+00:04 +165: C:/Tektech/mini-task-tracker/flutter_app/test/unit/storage/secure_storage_test.dart: SecureStorage Tests should clear all data
+00:05 +166: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: ApiConstants Tests should have correct base URL
+00:05 +167: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: ApiConstants Tests should have correct endpoint paths
+00:05 +168: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: TaskStatus Enum Tests should have correct values
+00:05 +169: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: TaskStatus Enum Tests should parse from string correctly
+00:05 +170: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: TaskStatus Enum Tests should return default value for invalid string
+00:05 +171: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: Priority Enum Tests should have correct values
+00:05 +172: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: Priority Enum Tests should parse from string correctly
+00:05 +173: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: Priority Enum Tests should return default value for invalid string
+00:05 +174: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/constants_test.dart: UserRole Enum Tests should have all required roles
+00:05 +175: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Days Remaining getDaysRemaining should return positive number for future date
+00:05 +176: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Days Remaining getDaysRemaining should return 0 for today
+00:05 +177: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Days Remaining getDaysRemaining should return negative number for past date
+00:05 +178: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isPast should return true for past date
+00:05 +179: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isPast should return false for today
+00:05 +180: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isPast should return false for future date
+00:05 +181: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isToday should return true for current date
+00:05 +182: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isToday should return false for yesterday
+00:05 +183: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isTomorrow should return true for next day
+00:05 +184: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isTomorrow should return false for today
+00:05 +185: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isYesterday should return true for previous day
+00:05 +186: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Checks isYesterday should return false for today
+00:05 +187: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Parsing parseIso8601 should parse full ISO 8601 date string
+00:05 +188: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Parsing parseIso8601 should parse date-only string
+00:05 +189: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Parsing parseIso8601 should return null for null input
+00:05 +190: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Parsing parseIso8601 should return null for empty string
+00:05 +191: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Parsing parseIso8601 should return null for invalid date string
+00:05 +192: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Formatting formatDate should format date with English locale
+00:05 +193: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Formatting formatShortDate should format as "dd MMM"
+00:05 +194: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Formatting formatLongDate should format as "dd MMMM yyyy"
+00:05 +195: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Formatting formatTime should format time only
+00:05 +196: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - Date Formatting formatDateTime should format date and time
+00:05 +197: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Format formatIso8601 should format valid ISO string (short)
+00:05 +198: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Format formatIso8601 should format valid ISO string (long)
+00:05 +199: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Format formatIso8601 should return null for null input
+00:05 +200: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/datetime_helper_test.dart: DateTimeHelper - ISO 8601 Format formatIso8601 should return null for invalid date string
+00:05 +201: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should execute action after specified duration
+00:05 +202: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +203: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +204: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +205: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +206: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +207: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +208: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +209: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +210: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +211: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +212: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +213: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +214: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +215: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +216: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +217: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel previous call when called multiple times
+00:05 +218: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +219: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +220: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +221: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +222: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +223: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +224: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +225: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +226: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +227: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +228: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +229: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +230: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:05 +231: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should cancel pending action when cancel is called
+00:06 +232: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should report isActive correctly
+00:06 +233: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/debounce_test.dart: Debouncer Tests should dispose timer correctly
+00:06 +234: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should create Success result
+00:06 +235: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should create Failure result
+00:06 +236: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should get data or null from Success
+00:06 +237: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should get null from Failure
+00:06 +238: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should get data or throw from Success
+00:06 +239: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should throw exception from Failure
+00:06 +240: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should get data or default value
+00:06 +241: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should map success data
+00:06 +242: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should not map failure
+00:06 +243: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should fold success result
+00:06 +244: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should fold failure result
+00:06 +245: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should flatMap success result
+00:06 +246: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: Result Tests should not flatMap failure result
+00:06 +247: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: AppException Tests should create NetworkException
+00:06 +248: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: AppException Tests should create ServerException
+00:06 +249: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: AppException Tests should create UnauthorizedException
+00:06 +250: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: AppException Tests should create ValidationException
+00:06 +251: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/result_test.dart: AppException Tests should create UnknownException
+00:06 +252: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Email Validation valid email should pass
+00:06 +253: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Email Validation email without @ should fail
+00:06 +254: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Email Validation email without domain should fail
+00:06 +255: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Email Validation empty email should fail
+00:06 +256: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Email Validation email with spaces should fail
+00:06 +257: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Password Validation password with 8+ characters should pass
+00:06 +258: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Password Validation password with 7 characters should fail
+00:06 +259: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Password Validation empty password should fail
+00:06 +260: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Password Validation password with exactly 8 characters should pass
+00:06 +261: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Username Validation username with 3+ characters should pass
+00:06 +262: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Username Validation username with 2 characters should fail
+00:06 +263: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Username Validation username with exactly 3 characters should pass
+00:06 +264: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Username Validation empty username should fail
+00:06 +265: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Username Validation username with special characters should fail
+00:06 +266: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Username Validation username with underscore should pass
+00:06 +267: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Required Field Validation non-empty string should pass
+00:06 +268: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Required Field Validation empty string should fail
+00:06 +269: C:/Tektech/mini-task-tracker/flutter_app/test/unit/utils/validation_test.dart: Required Field Validation whitespace string should fail
+00:06 +270: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/app_button_test.dart: AppButton Widget Tests renders button with text
+00:07 +271: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/badge_components_test.dart: StatusBadge Widget Tests displays correct text for TODO status
+00:07 +271: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/app_button_test.dart: AppButton Widget Tests calls onPressed when tapped
+
+Warning: A call to tap() with finder "Found 1 widget with type "AppButton": [
+  AppButton(dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#fbd8e]], state: _AppButtonState#56ac1),
+]" derived an Offset (Offset(400.0, 300.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+The finder corresponds to this RenderBox: RenderTransform#4a0f7
+The hit test result at that offset is: HitTestResult(HitTestEntry<HitTestTarget>#1ba9d(TextSpan(debugLabel: (((englishLike labelLarge 2021).merge((blackMountainView labelLarge).apply)).copyWith).merge(unknown), inherit: false, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), family: Roboto, size: 16.0, weight: 600, letterSpacing: 0.1, baseline: alphabetic, height: 1.4x, leadingDistribution: even, decoration: Color(alpha: 1.0000, red: 0.1137, green: 0.1059, blue: 0.1255, colorSpace: ColorSpace.sRGB) TextDecoration.none, "Test Button")), RenderParagraph#0a736@Offset(88.6, 11.5), RenderPositionedBox#8fde1@Offset(384.0, 288.0), RenderPadding#a84ed@Offset(400.0, 300.0), RenderPointerListener#a0bdd@Offset(400.0, 300.0), RenderSemanticsAnnotations#621d4@Offset(400.0, 300.0), RenderMouseRegion#744f7@Offset(400.0, 300.0), RenderSemanticsAnnotations#a81de@Offset(400.0, 300.0), _RenderInkFeatures#b7f7e@Offset(400.0, 300.0), RenderCustomPaint#903af@Offset(400.0, 300.0), RenderPhysicalShape#9d7d4@Offset(400.0, 300.0), RenderConstrainedBox#a4030@Offset(400.0, 300.0), _RenderInputPadding#4fdaa@Offset(400.0, 300.0), RenderSemanticsAnnotations#7006b@Offset(400.0, 300.0), RenderConstrainedBox#c23db@Offset(400.0, 300.0), RenderPointerListener#df61b@Offset(400.0, 300.0), RenderSemanticsGestureHandler#e5b33@Offset(400.0, 300.0), RenderSemanticsAnnotations#4d12e@Offset(400.0, 300.0), RenderRepaintBoundary#4aeea@Offset(400.0, 300.0), RenderIgnorePointer#45692@Offset(400.0, 300.0), _RenderSnapshotWidget#fc33c@Offset(400.0, 300.0), _RenderSnapshotWidget#25ba5@Offset(400.0, 300.0), _RenderSnapshotWidget#9e882@Offset(400.0, 300.0), _RenderSnapshotWidget#016e9@Offset(400.0, 300.0), RenderRepaintBoundary#c0056@Offset(400.0, 300.0), RenderSemanticsAnnotations#f551c@Offset(400.0, 300.0), RenderOffstage#8f86d@Offset(400.0, 300.0), RenderSemanticsAnnotations#52f2e@Offset(400.0, 300.0), _RenderTheater#ee456@Offset(400.0, 300.0), RenderAbsorbPointer#4d5fb@Offset(400.0, 300.0), RenderPointerListener#092a2@Offset(400.0, 300.0), RenderSemanticsAnnotations#8572f@Offset(400.0, 300.0), RenderCustomPaint#2179e@Offset(400.0, 300.0), RenderSemanticsAnnotations#87c9e@Offset(400.0, 300.0), RenderSemanticsAnnotations#006cc@Offset(400.0, 300.0), RenderTapRegionSurface#8c44d@Offset(400.0, 300.0), RenderSemanticsAnnotations#ef193@Offset(400.0, 300.0), RenderSemanticsAnnotations#655dc@Offset(400.0, 300.0), RenderSemanticsAnnotations#6bd11@Offset(400.0, 300.0), HitTestEntry<HitTestTarget>#34fab(_ReusableRenderView#f6a6f), HitTestEntry<HitTestTarget>#46a84(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2077:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1861:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1041:7)
+#3      main.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/widgets/app_button_test.dart:36:20)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+#6      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+00:07 +272: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/badge_components_test.dart: StatusBadge Widget Tests displays correct text for TODO status
+00:07 +273: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/badge_components_test.dart: StatusBadge Widget Tests displays correct text for TODO status
+00:07 +274: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/badge_components_test.dart: StatusBadge Widget Tests displays correct text for TODO status
+00:07 +275: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/badge_components_test.dart: StatusBadge Widget Tests displays correct text for TODO status
+00:07 +276: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +277: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +278: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +279: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +280: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +281: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +282: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +283: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +284: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +285: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +286: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +287: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +288: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_button_test.dart: AppButton - Variants should render primary button
+00:07 +289: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:07 +290: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:07 +291: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:07 +292: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:07 +293: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:07 +294: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:08 +295: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:08 +296: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should display confirmation dialog with title and message
+00:08 +297: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_empty_state_test.dart: AppEmptyState - Basic Rendering should display icon, title, and message
+00:08 +298: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_empty_state_test.dart: AppEmptyState - Basic Rendering should display icon, title, and message
+00:08 +299: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_empty_state_test.dart: AppEmptyState - Basic Rendering should display icon, title, and message
+00:08 +300: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_empty_state_test.dart: AppEmptyState - Basic Rendering should display icon, title, and message
+00:08 +301: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_empty_state_test.dart: AppEmptyState - Basic Rendering should display icon, title, and message
+00:08 +302: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_empty_state_test.dart: AppEmptyState - Basic Rendering should display icon, title, and message
+00:08 +303: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should return true on confirm
+00:08 +304: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should return true on confirm
+00:08 +305: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should return true on confirm
+00:08 +306: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_dialog_test.dart: AppDialog - Confirmation Dialog should return true on confirm
+00:08 +307: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +308: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +309: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +310: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +311: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +312: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +313: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +314: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +315: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_error_view_test.dart: AppErrorView - Basic Rendering should display error message
+00:08 +316: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_loading_indicator_test.dart: AppLoadingIndicator - Rendering should display circular progress indicator
+00:08 +317: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_loading_indicator_test.dart: AppLoadingIndicator - Rendering should display circular progress indicator
+00:08 +318: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_loading_indicator_test.dart: AppLoadingIndicator - Rendering should display circular progress indicator
+00:09 +319: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_loading_indicator_test.dart: AppLoadingIndicator - Rendering should display circular progress indicator
+00:09 +320: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_loading_indicator_test.dart: AppLoadingIndicator - Rendering should display circular progress indicator
+00:09 +321: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_skeleton_loader_test.dart: AppSkeletonLoader Widget Tests should render skeleton loader with default card type
+00:09 +322: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_skeleton_loader_test.dart: AppSkeletonLoader Widget Tests should render skeleton loader with default card type
+00:09 +323: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_skeleton_loader_test.dart: AppSkeletonLoader Widget Tests should render skeleton loader with default card type
+00:09 +324: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_snackbar_test.dart: AppSnackbar Widget Tests should show success snackbar with correct styling
+00:09 +325: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_snackbar_test.dart: AppSnackbar Widget Tests should show success snackbar with correct styling
+00:09 +326: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_snackbar_test.dart: AppSnackbar Widget Tests should show success snackbar with correct styling
+00:09 +327: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_snackbar_test.dart: AppSnackbar Widget Tests should show success snackbar with correct styling
+00:09 +328: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should render text field with label
+00:09 +329: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should render text field with label
+00:09 +330: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should render text field with label
+00:09 +331: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should render text field with label
+00:10 +332: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should render text field with label
+00:10 +333: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/empty_state_test.dart: EmptyState Widget Tests should render icon, title, and message
+00:10 +334: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/empty_state_test.dart: EmptyState Widget Tests should render icon, title, and message
+00:10 +335: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should accept text input
+00:10 +336: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/app_text_field_test.dart: AppTextField - Basic Rendering should accept text input
+00:10 +337: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +338: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +339: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +340: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +341: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +342: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +343: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +344: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +345: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +346: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +347: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +348: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +349: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/filter_bar_test.dart: FilterBar Widget Tests should render search field
+00:10 +350: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/form_controls_test.dart: AppCheckbox Widget Tests should render checkbox with label
+00:10 +351: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/form_controls_test.dart: AppCheckbox Widget Tests should render checkbox with label
+00:11 +352: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/form_controls_test.dart: AppCheckbox Widget Tests should render checkbox with label
+00:11 +353: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +354: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +355: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +356: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +357: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +358: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +359: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +360: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/infinite_scroll_view_test.dart: InfiniteScrollView Widget Tests should render list with correct item count
+00:11 +361: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +362: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +363: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +364: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +365: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +366: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +367: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +368: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +369: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should render loading placeholder with shimmer effect
+00:11 +370: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/form_controls_test.dart: AppSwitch Widget Tests should call onChanged when tapped
+00:11 +371: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/form_controls_test.dart: AppSwitch Widget Tests should be disabled when enabled is false
+00:11 +372: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/loading_placeholder_test.dart: LoadingPlaceholder Widget Tests should animate shimmer effect
+00:11 +373: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display HIGH priority badge
+00:11 +374: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display HIGH priority badge
+00:11 +375: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display HIGH priority badge
+00:12 +376: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display HIGH priority badge
+00:12 +377: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display HIGH priority badge
+00:12 +378: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display NORMAL priority badge
+00:12 +379: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/priority_badge_test.dart: PriorityBadge - Priority Levels should display LOW priority badge
+00:12 +380: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/user_avatar_test.dart: UserAvatar - Initials Generation should generate initials from full name
+00:12 +381: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/user_avatar_test.dart: UserAvatar - Initials Generation should generate initials from full name
+00:12 +382: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/user_avatar_test.dart: UserAvatar - Initials Generation should generate initials from full name
+00:12 +383: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/components/user_avatar_test.dart: UserAvatar - Initials Generation should generate initials from full name
+00:12 +384: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +385: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +386: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +387: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +388: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +389: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +390: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +391: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:12 +392: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/admin_dialogs_test.dart: UserCreateDialog Widget Tests should render user creation dialog
+00:13 +393: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/member_task_dialog_test.dart: MemberTaskDialog Widget Tests should render create task dialog
+00:13 +394: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/member_task_dialog_test.dart: MemberTaskDialog Widget Tests should render create task dialog
+00:13 +395: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/dialogs/member_task_dialog_test.dart: MemberTaskDialog Widget Tests should render create task dialog
+00:13 +396: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/admin_screen_test.dart: AdminScreen - Tab Bar Rendering should render tab bar with 4 tabs for TEAM_MANAGER
+00:13 +397: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/admin_screen_test.dart: AdminScreen - Tab Bar Rendering should render tab bar with 4 tabs for TEAM_MANAGER
+00:13 +398: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/admin_screen_test.dart: AdminScreen - Tab Bar Rendering should render tab bar with 4 tabs for TEAM_MANAGER
+00:13 +399: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/admin_screen_test.dart: AdminScreen - Tab Bar Rendering should render tab bar with 4 tabs for TEAM_MANAGER
+00:13 +400: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/admin_screen_test.dart: AdminScreen - Tab Bar Rendering should render tab bar with 4 tabs for TEAM_MANAGER
+00:13 +401: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:13 +402: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +403: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +404: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +405: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +406: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +407: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +408: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/guest_topics_screen_test.dart: GuestTopicsScreen Widget Tests should render loading state
+00:14 +409: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +410: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +411: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +412: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +413: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +414: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +415: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +416: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +417: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +418: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +419: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +420: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +421: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +422: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +423: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +424: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - Bottom Navigation should render bottom navigation with 3 tabs
+00:14 +425: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:14 +426: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:14 +427: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:14 +428: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:14 +429: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:15 +430: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:15 +431: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:15 +432: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:15 +433: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - UI Rendering should render all form fields
+00:15 +434: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +435: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +436: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +437: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +438: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +439: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +440: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +441: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +442: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +443: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +444: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +445: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_active_tasks_screen_test.dart: MyActiveTasksScreen - Task List Rendering should display task list when tasks exist
+00:15 +446: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_completed_tasks_screen_test.dart: MyCompletedTasksScreen - Completed Tasks Display should display completed tasks
+00:15 +447: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_completed_tasks_screen_test.dart: MyCompletedTasksScreen - Completed Tasks Display should display completed tasks
+00:15 +448: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_completed_tasks_screen_test.dart: MyCompletedTasksScreen - Completed Tasks Display should display completed tasks
+00:15 +449: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:15 +450: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +451: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +452: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +453: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +454: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +454: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - AppBar should show user menu on profile icon tap
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "PopupMenuButton<dynamic>": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart:191:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart line 191
+The test description was:
+  should show user menu on profile icon tap
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:16 +454 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +454 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/home_screen_test.dart: HomeScreen - AppBar should show user menu on profile icon tap [E]
+  Test failed. See exception logs above.
+  The test description was: should show user menu on profile icon tap
+  
+00:16 +455 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +456 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +457 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +458 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +459 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +460 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - UI Rendering should render all form fields
+00:16 +461 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_completed_tasks_screen_test.dart: MyCompletedTasksScreen - Pull to Refresh should refresh completed tasks on pull down
+00:16 +462 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_completed_tasks_screen_test.dart: MyCompletedTasksScreen - Pull to Refresh should refresh completed tasks on pull down
+00:16 +463 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/my_completed_tasks_screen_test.dart: MyCompletedTasksScreen - Pull to Refresh should refresh completed tasks on pull down
+00:16 +464 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - Login Flow should call login with correct credentials
+00:16 +465 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/login_screen_test.dart: LoginScreen - Login Flow should call login with correct credentials
+00:16 +466 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +467 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +468 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +469 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +470 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +471 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +472 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +473 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +474 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:16 +475 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:17 +476 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:17 +477 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/settings_screen_test.dart: SettingsScreen Widget Tests should render settings screen with app bar
+00:17 +478 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/team_active_tasks_screen_test.dart: TeamActiveTasksScreen - Read-Only Display should display team tasks as read-only
+00:17 +479 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/team_active_tasks_screen_test.dart: TeamActiveTasksScreen - Read-Only Display should display team tasks as read-only
+00:17 +480 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/team_active_tasks_screen_test.dart: TeamActiveTasksScreen - Read-Only Display should display team tasks as read-only
+00:17 +481 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/team_active_tasks_screen_test.dart: TeamActiveTasksScreen - Read-Only Display should display team tasks as read-only
+00:17 +482 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/team_active_tasks_screen_test.dart: TeamActiveTasksScreen - Read-Only Display should display team tasks as read-only
+00:17 +483 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +484 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +485 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +486 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +487 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +488 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +489 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +490 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +491 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests renders task title
+00:17 +492 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +493 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +494 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +495 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +496 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +497 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +498 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +499 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Task card displays title correctly
+00:18 +500 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_test.dart: TaskCard Widget Tests calls onTap when card is tapped
+00:18 +501 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +502 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +503 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +504 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +505 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +506 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +507 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +508 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +509 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show error on duplicate email
+00:18 +510 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/task_card_widget_test.dart: Task Card Widget Tests Priority Colors HIGH priority shows red color
+00:18 +511 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +512 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +513 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +514 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +515 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +516 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +517 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Registration Flow should show loading state during registration
+00:18 +518 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Field Validation should validate company name minimum length
+00:18 +519 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Field Validation should validate team name minimum length
+00:18 +520 -1: C:/Tektech/mini-task-tracker/flutter_app/test/widgets/screens/registration_screen_test.dart: RegistrationScreen - Field Validation should validate manager name minimum length
+00:19 +521 -1: Some tests failed.
