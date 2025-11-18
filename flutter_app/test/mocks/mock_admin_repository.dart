@@ -1,4 +1,3 @@
-import 'package:flutter_app/data/models/task.dart';
 import 'package:flutter_app/data/models/topic.dart';
 import 'package:flutter_app/data/models/user.dart';
 import 'package:flutter_app/data/repositories/admin_repository.dart';
@@ -27,10 +26,6 @@ class MockAdminRepository extends Mock implements AdminRepository {
     when(() => updateUser(any(), any())).thenAnswer((_) async => user);
   }
 
-  void mockDeleteUser() {
-    when(() => deleteUser(any())).thenAnswer((_) async => {});
-  }
-
   // Mock responses for topic management
   
   void mockGetTopics(List<Topic> topics) {
@@ -49,22 +44,14 @@ class MockAdminRepository extends Mock implements AdminRepository {
     when(() => deleteTopic(any())).thenAnswer((_) async => {});
   }
 
-  // Mock responses for task management (admin)
-  
-  void mockGetAllTasks(List<Task> tasks) {
-    when(() => getAllTasks()).thenAnswer((_) async => tasks);
+  // Mock responses for guest access
+
+  void mockAddGuestAccess() {
+    when(() => addGuestAccess(any(), any())).thenAnswer((_) async => {});
   }
 
-  void mockCreateAdminTask(Task task) {
-    when(() => createTask(any())).thenAnswer((_) async => task);
-  }
-
-  void mockUpdateAdminTask(Task task) {
-    when(() => updateTask(any(), any())).thenAnswer((_) async => task);
-  }
-
-  void mockDeleteAdminTask() {
-    when(() => deleteTask(any())).thenAnswer((_) async => {});
+  void mockRemoveGuestAccess() {
+    when(() => removeGuestAccess(any(), any())).thenAnswer((_) async => {});
   }
 }
 

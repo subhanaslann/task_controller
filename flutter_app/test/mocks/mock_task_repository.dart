@@ -1,162 +1,93 @@
 import 'package:flutter_app/data/models/task.dart';
-import 'package:flutter_app/core/utils/constants.dart';
-import 'package:flutter_app/data/datasources/api_service.dart';
+import 'package:flutter_app/data/repositories/task_repository.dart';
+import 'package:mocktail/mocktail.dart';
 
-/// Mock TaskRepository for testing
-/// 
-/// Simulates task operations with predefined responses
-class MockTaskRepository {
-  List<Task> _tasks = [];
+class MockTaskRepository extends Mock implements TaskRepository {
+  // Mock responses for task retrieval
 
-  MockTaskRepository() {
-    _tasks = _createMockTasks();
+  void mockGetMyActiveTasks(List<Task> tasks) {
+    when(() => getMyActiveTasks()).thenAnswer((_) async => tasks);
   }
 
-  Future<List<Task>> getMyActiveTasks() async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    return _tasks
-        .where((t) => t.status != TaskStatus.done && t.assigneeId == 'user-1')
-        .toList();
+  void mockGetMyActiveTasksError(Exception error) {
+    when(() => getMyActiveTasks()).thenThrow(error);
   }
 
-  Future<List<Task>> getTeamActiveTasks() async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    return _tasks.where((t) => t.status != TaskStatus.done).toList();
+  void mockGetTeamActiveTasks(List<Task> tasks) {
+    when(() => getTeamActiveTasks()).thenAnswer((_) async => tasks);
   }
 
-  Future<List<Task>> getMyCompletedTasks() async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    return _tasks
-        .where((t) => t.status == TaskStatus.done && t.assigneeId == 'user-1')
-        .toList();
+  void mockGetTeamActiveTasksError(Exception error) {
+    when(() => getTeamActiveTasks()).thenThrow(error);
   }
 
-  Future<void> updateTaskStatus(String taskId, TaskStatus status) async {
-    await Future.delayed(const Duration(milliseconds: 50));
-    
-    final index = _tasks.indexWhere((t) => t.id == taskId);
-    if (index == -1) {
-      throw Exception('Task not found');
-    }
-
-    _tasks[index] = _tasks[index].copyWith(status: status);
+  void mockGetMyCompletedTasks(List<Task> tasks) {
+    when(() => getMyCompletedTasks()).thenAnswer((_) async => tasks);
   }
 
-  Future<Task> createTask(CreateTaskRequest request) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    final newTask = Task(
-      id: 'task-${DateTime.now().millisecondsSinceEpoch}',
-      title: request.title,
-      note: request.note,
-      topicId: request.topicId,
-      assigneeId: request.assigneeId,
-      status: TaskStatus.fromString(request.status),
-      priority: Priority.fromString(request.priority),
-      dueDate: request.dueDate,
-      createdAt: DateTime.now().toIso8601String(),
-      updatedAt: DateTime.now().toIso8601String(),
-    );
-
-    _tasks.add(newTask);
-    return newTask;
+  void mockGetMyCompletedTasksError(Exception error) {
+    when(() => getMyCompletedTasks()).thenThrow(error);
   }
 
-  Future<Task> updateTask(String taskId, UpdateTaskRequest request) async {
-    await Future.delayed(const Duration(milliseconds: 100));
+  // Mock responses for task status update
 
-    final index = _tasks.indexWhere((t) => t.id == taskId);
-    if (index == -1) {
-      throw Exception('Task not found');
-    }
-
-    final updated = _tasks[index].copyWith(
-      status: request.status != null ? TaskStatus.fromString(request.status!) : null,
-      priority: request.priority != null ? Priority.fromString(request.priority!) : null,
-      note: request.note,
-      dueDate: request.dueDate,
-    );
-
-    _tasks[index] = updated;
-    return updated;
+  void mockUpdateTaskStatus() {
+    when(() => updateTaskStatus(any(), any())).thenAnswer((_) async => {});
   }
 
-  Future<void> deleteTask(String taskId) async {
-    await Future.delayed(const Duration(milliseconds: 50));
-    _tasks.removeWhere((t) => t.id == taskId);
+  void mockUpdateTaskStatusError(Exception error) {
+    when(() => updateTaskStatus(any(), any())).thenThrow(error);
   }
 
-  // Test helpers
-  void reset() {
-    _tasks = _createMockTasks();
+  // Mock responses for member task operations
+
+  void mockCreateMemberTask(Task task) {
+    when(() => createMemberTask(any())).thenAnswer((_) async => task);
   }
 
-  void setTasks(List<Task> tasks) {
-    _tasks = List.from(tasks);
+  void mockCreateMemberTaskError(Exception error) {
+    when(() => createMemberTask(any())).thenThrow(error);
   }
 
-  List<Task> getTasks() => List.from(_tasks);
+  void mockUpdateMemberTask(Task task) {
+    when(() => updateMemberTask(any(), any())).thenAnswer((_) async => task);
+  }
 
-  // Create mock tasks
-  List<Task> _createMockTasks() {
-    final now = DateTime.now();
-    
-    return [
-      Task(
-        id: 'task-1',
-        title: 'Complete project documentation',
-        note: 'Write comprehensive docs',
-        topicId: 'topic-1',
-        assigneeId: 'user-1',
-        status: TaskStatus.todo,
-        priority: Priority.high,
-        dueDate: now.add(const Duration(days: 2)).toIso8601String(),
-        createdAt: now.subtract(const Duration(days: 1)).toIso8601String(),
-        updatedAt: now.toIso8601String(),
-        topic: TopicRef(id: 'topic-1', title: 'Development'),
-        assignee: Assignee(id: 'user-1', name: 'Test User'),
-      ),
-      Task(
-        id: 'task-2',
-        title: 'Fix login bug',
-        topicId: 'topic-1',
-        assigneeId: 'user-1',
-        status: TaskStatus.inProgress,
-        priority: Priority.high,
-        dueDate: now.add(const Duration(days: 1)).toIso8601String(),
-        createdAt: now.subtract(const Duration(days: 2)).toIso8601String(),
-        updatedAt: now.toIso8601String(),
-        topic: TopicRef(id: 'topic-1', title: 'Development'),
-        assignee: Assignee(id: 'user-1', name: 'Test User'),
-      ),
-      Task(
-        id: 'task-3',
-        title: 'Code review',
-        topicId: 'topic-2',
-        assigneeId: 'user-2',
-        status: TaskStatus.todo,
-        priority: Priority.normal,
-        dueDate: now.add(const Duration(days: 3)).toIso8601String(),
-        createdAt: now.toIso8601String(),
-        updatedAt: now.toIso8601String(),
-        topic: TopicRef(id: 'topic-2', title: 'Review'),
-        assignee: Assignee(id: 'user-2', name: 'Other User'),
-      ),
-      Task(
-        id: 'task-4',
-        title: 'Update dependencies',
-        note: 'Update to latest versions',
-        topicId: 'topic-1',
-        assigneeId: 'user-1',
-        status: TaskStatus.done,
-        priority: Priority.low,
-        dueDate: now.subtract(const Duration(days: 1)).toIso8601String(),
-        createdAt: now.subtract(const Duration(days: 5)).toIso8601String(),
-        updatedAt: now.toIso8601String(),
-        completedAt: now.toIso8601String(),
-        topic: TopicRef(id: 'topic-1', title: 'Development'),
-        assignee: Assignee(id: 'user-1', name: 'Test User'),
-      ),
-    ];
+  void mockUpdateMemberTaskError(Exception error) {
+    when(() => updateMemberTask(any(), any())).thenThrow(error);
+  }
+
+  void mockDeleteMemberTask() {
+    when(() => deleteMemberTask(any())).thenAnswer((_) async => {});
+  }
+
+  void mockDeleteMemberTaskError(Exception error) {
+    when(() => deleteMemberTask(any())).thenThrow(error);
+  }
+
+  // Mock responses for admin task operations
+
+  void mockCreateTask(Task task) {
+    when(() => createTask(any())).thenAnswer((_) async => task);
+  }
+
+  void mockCreateTaskError(Exception error) {
+    when(() => createTask(any())).thenThrow(error);
+  }
+
+  void mockUpdateTask(Task task) {
+    when(() => updateTask(any(), any())).thenAnswer((_) async => task);
+  }
+
+  void mockUpdateTaskError(Exception error) {
+    when(() => updateTask(any(), any())).thenThrow(error);
+  }
+
+  void mockDeleteTask() {
+    when(() => deleteTask(any())).thenAnswer((_) async => {});
+  }
+
+  void mockDeleteTaskError(Exception error) {
+    when(() => deleteTask(any())).thenThrow(error);
   }
 }
