@@ -46,7 +46,7 @@ abstract class PaginatedListNotifier<T> extends StateNotifier<PaginatedListState
         items: items,
         isLoadingInitial: false,
         currentPage: 0,
-        hasMore: items.length >= 20,
+        hasMore: items.length == 20,
         searchQuery: searchQuery ?? state.searchQuery,
         filters: filters ?? state.filters,
       );
@@ -77,7 +77,8 @@ abstract class PaginatedListNotifier<T> extends StateNotifier<PaginatedListState
         items: [...state.items, ...newItems],
         isLoadingMore: false,
         currentPage: nextPage,
-        hasMore: newItems.length >= 20,
+        hasMore: newItems.length == 20,
+        error: null, // Clear error on success
       );
     } catch (e) {
       state = state.copyWith(
@@ -105,7 +106,7 @@ abstract class PaginatedListNotifier<T> extends StateNotifier<PaginatedListState
         items: items,
         isRefreshing: false,
         currentPage: 0,
-        hasMore: items.length >= 20,
+        hasMore: items.length == 20,
         error: null,
       );
     } catch (e) {

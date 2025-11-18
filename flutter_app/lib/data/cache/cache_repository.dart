@@ -17,36 +17,64 @@ class CacheRepository {
   late Box _tasksBox;
   late Box _usersBox;
   late Box _syncMetadataBox;
+  bool _isInitialized = false;
+
+  /// Check if repository is initialized
+  void _ensureInitialized() {
+    if (!_isInitialized) {
+      throw StateError('CacheRepository not initialized. Call init() first.');
+    }
+  }
 
   /// Initialize Hive and open boxes
-  Future<void> init() async {
-    // Initialize Hive for Flutter
-    await Hive.initFlutter();
+  Future<void> init([String? path]) async {
+    if (_isInitialized) return;
+
+    // Initialize Hive (use provided path for testing)
+    if (path != null) {
+      Hive.init(path);
+    } else {
+      await Hive.initFlutter();
+    }
 
     // Open boxes (JSON-based, no adapters needed)
     _tasksBox = await Hive.openBox(tasksBoxName);
     _usersBox = await Hive.openBox(usersBoxName);
     _syncMetadataBox = await Hive.openBox(syncMetadataBoxName);
+
+    _isInitialized = true;
   }
 
   // ==================== TASKS ====================
 
   /// Get all cached tasks
   Future<List<Task>> getAllTasks() async {
-    final cached = _tasksBox.values.map((json) => TaskCache.fromJson(Map<String, dynamic>.from(json))).toList();
-    return cached.map((c) => c.toTask()).toList();
+    _ensureInitialized();
+    try {
+      final cached = _tasksBox.values.map((json) => TaskCache.fromJson(Map<String, dynamic>.from(json))).toList();
+      return cached.map((c) => c.toTask()).toList();
+    } catch (e) {
+      // Return empty list on error (corrupted cache)
+      return [];
+    }
   }
 
   /// Get cached task by ID
   Future<Task?> getTask(String id) async {
-    final json = _tasksBox.get(id);
-    if (json == null) return null;
-    final cached = TaskCache.fromJson(Map<String, dynamic>.from(json));
-    return cached.toTask();
+    _ensureInitialized();
+    try {
+      final json = _tasksBox.get(id);
+      if (json == null) return null;
+      final cached = TaskCache.fromJson(Map<String, dynamic>.from(json));
+      return cached.toTask();
+    } catch (e) {
+      return null;
+    }
   }
 
   /// Cache tasks (replaces existing)
   Future<void> cacheTasks(List<Task> tasks) async {
+    _ensureInitialized();
     await _tasksBox.clear();
     for (var task in tasks) {
       final cached = TaskCache.fromTask(task);
@@ -59,6 +87,7 @@ class CacheRepository {
 
   /// Cache single task
   Future<void> cacheTask(Task task) async {
+    _ensureInitialized();
     final cached = TaskCache.fromTask(task);
     await _tasksBox.put(task.id, cached.toJson());
   }
@@ -128,8 +157,13 @@ class CacheRepository {
 
   /// Get all cached users
   Future<List<User>> getAllUsers() async {
-    final cached = _usersBox.values.map((json) => UserCache.fromJson(Map<String, dynamic>.from(json))).toList();
-    return cached.map((c) => c.toUser()).toList();
+    _ensureInitialized();
+    try {
+      final cached = _usersBox.values.map((json) => UserCache.fromJson(Map<String, dynamic>.from(json))).toList();
+      return cached.map((c) => c.toUser()).toList();
+    } catch (e) {
+      return [];
+    }
   }
 
   /// Get cached user by ID
@@ -189,6 +223,7 @@ class CacheRepository {
 
   /// Clear all cache
   Future<void> clearAll() async {
+    _ensureInitialized();
     await _tasksBox.clear();
     await _usersBox.clear();
     await _syncMetadataBox.clear();
