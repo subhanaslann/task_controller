@@ -11,7 +11,8 @@ import {
   getMyCompletedTasks,
   updateTaskStatus,
 } from '../services/taskService';
-import { ValidationError } from '../utils/errors';
+import { ValidationError, ForbiddenError } from '../utils/errors';
+import { Role } from '@prisma/client';
 type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 
 const router = Router();
@@ -63,6 +64,13 @@ router.patch(
       const userId = req.user!.id;
       const organizationId = req.user!.organizationId;
       const userRole = req.user!.role;
+
+      console.log('🔍 PATCH /tasks/:id/status - User Role:', userRole, 'Task ID:', id);
+
+      if (userRole === Role.GUEST) {
+        console.log('❌ Guest user attempting task update - FORBIDDEN');
+        throw new ForbiddenError('Guest users cannot update tasks');
+      }
 
       const task = await updateTaskStatus(
         id,
