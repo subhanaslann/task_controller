@@ -8,7 +8,16 @@ import 'package:flutter_app/data/models/task.dart';
 import 'package:flutter_app/core/utils/constants.dart';
 import '../../helpers/test_helpers.dart';
 
+import 'package:flutter_animate/flutter_animate.dart';
+
 void main() {
+  setUpAll(() {
+    Animate.restartOnHotReload = false;
+    // Speed up animations for testing
+    Animate.defaultDuration = Duration.zero;
+
+  });
+
   group('GuestTopicsScreen Widget Tests', () {
     testWidgets('should render loading state', (tester) async {
       // Arrange
@@ -113,6 +122,10 @@ void main() {
       );
       await tester.pumpAndSettle();
 
+      // Act - Expand topic
+      await tester.tap(find.text('Backend Development'));
+      await tester.pumpAndSettle();
+
       // Assert - Topic and task displayed
       expect(find.text('Backend Development'), findsOneWidget);
       expect(find.text('Implement feature'), findsOneWidget);
@@ -164,6 +177,11 @@ void main() {
       tester,
     ) async {
       // Arrange
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       final task = Task(
         id: 'task1',
         organizationId: 'org1',
@@ -194,6 +212,13 @@ void main() {
         overrides: [guestTopicsProvider.overrideWith((ref) async => topics)],
       );
       await tester.pumpAndSettle();
+
+      // Act - Expand topic
+      await tester.tap(find.text('Test Topic'));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+
+      print('DEBUG: Read-only task found: ${find.text('Read-only task').evaluate().length}');
 
       // Assert - Task should be visible but read-only
       expect(find.text('Read-only task'), findsOneWidget);

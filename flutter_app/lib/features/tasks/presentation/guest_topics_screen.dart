@@ -64,7 +64,10 @@ class GuestTopicsScreen extends ConsumerWidget {
               itemCount: activeTopics.length,
               itemBuilder: (context, index) {
                 final topic = activeTopics[index];
-                return _TopicTile(topic: topic)
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: _TopicTile(topic: topic),
+                )
                     .animate()
                     .fadeIn(delay: (50 * index).ms)
                     .slideX(begin: 0.1, end: 0);
@@ -114,6 +117,7 @@ class _TopicTileState extends State<_TopicTile> {
         widget.topic.tasks?.length ?? 0; // Assuming tasks are loaded in topic
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
           onTap: () {
@@ -244,6 +248,7 @@ class _GuestTaskItem extends StatelessWidget {
           borderRadius: AppRadius.borderRadiusSM,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
