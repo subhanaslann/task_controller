@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/core/widgets/loading_placeholder.dart';
 import 'package:flutter_app/features/tasks/presentation/team_active_tasks_screen.dart';
+import 'package:flutter_app/data/models/topic.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_data.dart';
@@ -53,24 +55,26 @@ void main() {
     });
 
     testWidgets('should show loading state while fetching', (tester) async {
+      final completer = Completer<List<Topic>>();
+
       // Act
       await pumpTestWidget(
         tester,
         const TeamActiveTasksScreen(),
         overrides: [
-          teamActiveTopicsProvider.overrideWith((ref) async {
-            await Future.delayed(const Duration(milliseconds: 50));
-            return [];
-          }),
+          teamActiveTopicsProvider.overrideWith((ref) => completer.future),
         ],
       );
+      
+      // Initial pump to process microtasks
       await tester.pump();
 
       // Assert - Loading placeholder shown
       expect(find.byType(LoadingPlaceholder), findsAtLeastNWidgets(1));
 
-      // Clean up pending timer
-      await tester.pump(const Duration(milliseconds: 50));
+      // Complete the future to finish the test cleanly
+      completer.complete([]);
+      await tester.pumpAndSettle();
     });
 
     testWidgets('should show error state on failure', (tester) async {

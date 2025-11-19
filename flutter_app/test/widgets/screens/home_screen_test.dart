@@ -9,6 +9,8 @@ import 'package:flutter_app/features/tasks/presentation/team_active_tasks_screen
 import '../../helpers/test_data.dart';
 import '../../helpers/test_helpers.dart';
 
+import 'package:flutter_app/features/tasks/presentation/guest_topics_screen.dart';
+
 void main() {
   group('HomeScreen - Bottom Navigation', () {
     testWidgets('should render bottom navigation with 3 tabs', (tester) async {
@@ -23,12 +25,13 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert
-      expect(find.byType(BottomNavigationBar), findsOneWidget);
-      expect(find.text('My Active'), findsOneWidget);
-      expect(find.text('Team Active'), findsOneWidget);
-      expect(find.text('My Completed'), findsOneWidget);
+      expect(find.byType(NavigationBar), findsOneWidget);
+      expect(find.text('My Tasks'), findsOneWidget);
+      expect(find.text('Team Tasks'), findsOneWidget);
+      expect(find.text('Completed'), findsOneWidget);
     });
 
     testWidgets('should switch tabs on tap', (tester) async {
@@ -43,13 +46,14 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Act - Tap Team Active tab
-      await tester.tap(find.text('Team Active'));
+      await tester.tap(find.text('Team Tasks'));
       await tester.pumpAndSettle();
 
       // Assert - Tab changed (verify by checking if content updated)
-      expect(find.text('Team Active'), findsOneWidget);
+      expect(find.text('Team Tasks'), findsOneWidget);
     });
 
     testWidgets('should render My Active tab by default', (tester) async {
@@ -64,12 +68,13 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert - First tab selected
-      final bottomNav = tester.widget<BottomNavigationBar>(
-        find.byType(BottomNavigationBar),
+      final bottomNav = tester.widget<NavigationBar>(
+        find.byType(NavigationBar),
       );
-      expect(bottomNav.currentIndex, 0);
+      expect(bottomNav.selectedIndex, 0);
     });
   });
 
@@ -86,6 +91,7 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byType(FloatingActionButton), findsOneWidget);
@@ -103,6 +109,7 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byType(FloatingActionButton), findsOneWidget);
@@ -118,8 +125,10 @@ void main() {
           myActiveTasksProvider.overrideWith((ref) async => []),
           myCompletedTasksProvider.overrideWith((ref) async => []),
           teamActiveTopicsProvider.overrideWith((ref) async => []),
+          guestTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byType(FloatingActionButton), findsNothing);
@@ -137,12 +146,13 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert - FAB visible on first tab
       expect(find.byType(FloatingActionButton), findsOneWidget);
 
       // Act - Switch to Team Active tab
-      await tester.tap(find.text('Team Active'));
+      await tester.tap(find.text('Team Tasks'));
       await tester.pumpAndSettle();
 
       // Assert - FAB should still be visible or hidden based on implementation
@@ -151,7 +161,7 @@ void main() {
   });
 
   group('HomeScreen - AppBar', () {
-    testWidgets('should render AppBar with profile icon', (tester) async {
+    testWidgets('should render AppBar with menu icon', (tester) async {
       // Arrange & Act
       await pumpTestWidget(
         tester,
@@ -163,13 +173,14 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byType(AppBar), findsOneWidget);
-      expect(find.byIcon(Icons.account_circle), findsOneWidget);
+      expect(find.byIcon(Icons.more_vert), findsOneWidget);
     });
 
-    testWidgets('should show user menu on profile icon tap', (tester) async {
+    testWidgets('should show user menu on menu icon tap', (tester) async {
       // Arrange
       await pumpTestWidget(
         tester,
@@ -181,9 +192,10 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Act - Tap profile icon to open menu
-      await tester.tap(find.byIcon(Icons.account_circle));
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       // Assert - Menu items should appear (Profile and Logout are always visible)
@@ -205,9 +217,10 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Act - Open menu
-      await tester.tap(find.byIcon(Icons.account_circle));
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       // Assert
@@ -226,9 +239,10 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Act - Open menu
-      await tester.tap(find.byIcon(Icons.account_circle));
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       // Assert
@@ -247,9 +261,10 @@ void main() {
           teamActiveTopicsProvider.overrideWith((ref) async => []),
         ],
       );
+      await tester.pumpAndSettle();
 
       // Act - Open menu
-      await tester.tap(find.byIcon(Icons.account_circle));
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       // Assert
