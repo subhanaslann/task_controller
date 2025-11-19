@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 /// Pump a widget wrapped in MaterialApp and ProviderScope for testing
 Future<void> pumpTestWidget(
@@ -11,7 +13,17 @@ Future<void> pumpTestWidget(
   await tester.pumpWidget(
     ProviderScope(
       overrides: overrides,
-      child: MaterialApp(home: Scaffold(body: widget)),
+      child: MaterialApp(
+        home: Scaffold(body: widget),
+        locale: const Locale('tr'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('tr'), Locale('en')],
+      ),
     ),
   );
 }
@@ -28,6 +40,14 @@ Future<void> pumpTestWidgetWithNavigation(
       overrides: overrides,
       child: MaterialApp(
         home: Scaffold(body: widget),
+        locale: const Locale('tr'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('tr'), Locale('en')],
         routes: {
           '/home': (context) => const Scaffold(body: Text('Home')),
           '/login': (context) => const Scaffold(body: Text('Login')),

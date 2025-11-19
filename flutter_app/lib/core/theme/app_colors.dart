@@ -198,9 +198,9 @@ class AppColors {
   // ========== APPLICATION-SPECIFIC COLORS ==========
 
   // Priority Colors (Semantic)
-  static const Color priorityHigh = red500; // #E94242
-  static const Color priorityNormal = amber500; // #F59E0B
-  static const Color priorityLow = blue500; // #3B82F6
+  static const Color priorityHigh = Color(0xFFEF4444); // Red
+  static const Color priorityNormal = Color(0xFF3B82F6); // Blue
+  static const Color priorityLow = Color(0xFF6B7280); // Gray
 
   // Status Colors (Semantic)
   static const Color statusTodo = gray500; // #6B7280

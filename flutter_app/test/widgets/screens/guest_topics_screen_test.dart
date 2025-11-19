@@ -145,7 +145,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert - Error state shown
-      expect(find.byIcon(Icons.error), findsAtLeastNWidgets(1));
+      expect(find.byIcon(Icons.error_outline), findsAtLeastNWidgets(1));
     });
 
     testWidgets('should support pull to refresh', (tester) async {

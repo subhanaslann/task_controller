@@ -275,10 +275,13 @@ class _GuestTaskItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Assigned: ${task.assignee?.name ?? 'Unassigned'}',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                Flexible(
+                  child: Text(
+                    'Assigned: ${task.assignee?.name ?? 'Unassigned'}',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.outline,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 StatusBadge(status: task.status),

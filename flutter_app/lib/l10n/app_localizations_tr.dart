@@ -39,7 +39,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get logout => 'Çıkış Yap';
 
   @override
-  String get login => 'Giriş Yap';
+  String get login => 'Sign In';
 
   @override
   String get email => 'E-posta';
@@ -258,7 +258,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get confirmLogout => 'Çıkış yapmak istediğinizden emin misiniz?';
 
   @override
-  String get validation_required => 'Bu alan zorunludur';
+  String get validation_required => 'This field is required';
 
   @override
   String get validation_email => 'Geçerli bir e-posta adresi girin';

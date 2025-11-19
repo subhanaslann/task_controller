@@ -39,7 +39,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
-  String get login => 'Login';
+  String get login => 'Sign In';
 
   @override
   String get email => 'Email';
