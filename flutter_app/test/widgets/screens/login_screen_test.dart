@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/features/auth/presentation/login_screen.dart';
@@ -25,6 +26,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byType(TextField), findsNWidgets(2)); // Username and password
@@ -38,6 +40,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.byIcon(Icons.visibility), findsOneWidget);
@@ -50,6 +53,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       final passwordField = tester.widget<TextField>(
         find.byType(TextField).last,
@@ -76,6 +80,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Assert
       expect(find.textContaining('Register'), findsOneWidget);
@@ -83,19 +88,16 @@ void main() {
 
     testWidgets('should show loading indicator during login', (tester) async {
       // Arrange
-      when(() => mockAuthRepo.login(any(), any())).thenAnswer((_) async {
-        await Future.delayed(const Duration(milliseconds: 500));
-        return AuthResult(
-          user: TestData.memberUser,
-          organization: TestData.testOrganization,
-        );
-      });
+      final completer = Completer<AuthResult>();
+      
+      when(() => mockAuthRepo.login(any(), any())).thenAnswer((_) => completer.future);
 
       await pumpTestWidget(
         tester,
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act - Enter credentials and submit
       await tester.enterText(find.byType(TextField).first, 'testuser');
@@ -104,11 +106,19 @@ void main() {
       await tester.pump();
 
       // Assert - Loading state active (button may show different state)
+      // Check for loading indicator inside button or disabled state
       final buttonFinder = find.byType(ElevatedButton);
       expect(buttonFinder, findsWidgets);
+      // Assuming AppButton shows CircularProgressIndicator when loading
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
-      // Clean up pending async (matches the 500ms delay in mock)
-      await tester.pump(const Duration(milliseconds: 500));
+      // Clean up - complete the future
+      completer.complete(AuthResult(
+        user: TestData.memberUser,
+        organization: TestData.testOrganization,
+      ));
+      await tester.pump();
+      await tester.pumpAndSettle();
     });
   });
 
@@ -120,10 +130,12 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(); // Wait for entry animations
 
       // Act - Submit without entering username
       await tester.tap(find.text('Sign In'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert - Validation error shown
       expect(find.textContaining('required'), findsAtLeastNWidgets(1));
@@ -136,11 +148,13 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(); // Wait for entry animations
 
       // Act - Enter username but not password
       await tester.enterText(find.byType(TextField).first, 'testuser');
       await tester.tap(find.text('Sign In'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert - Validation error shown
       expect(find.textContaining('required'), findsAtLeastNWidgets(1));
@@ -153,10 +167,12 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(); // Wait for entry animations
 
       // Act - Submit empty form
       await tester.tap(find.text('Sign In'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Assert - API not called
       verifyNever(() => mockAuthRepo.login(any(), any()));
@@ -185,6 +201,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act - Enter credentials and submit
       await tester.enterText(find.byType(TextField).first, 'testuser@test.com');
@@ -208,6 +225,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act
       await tester.enterText(find.byType(TextField).first, 'wrong@test.com');
@@ -230,6 +248,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act
       await tester.enterText(find.byType(TextField).first, 'test@test.com');
@@ -260,6 +279,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act - Enter username with spaces
       await tester.enterText(
@@ -287,6 +307,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act
       await tester.enterText(find.byType(TextField).first, 'test@test.com');
@@ -309,6 +330,7 @@ void main() {
         const LoginScreen(),
         overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepo)],
       );
+      await tester.pumpAndSettle();
 
       // Act
       await tester.enterText(find.byType(TextField).first, 'test@test.com');

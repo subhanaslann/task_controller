@@ -1,6 +1,10 @@
+import 'dart:async';
+import 'package:flutter_app/data/models/task.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/core/widgets/task_card.dart';
+import 'package:flutter_app/core/widgets/app_empty_state.dart';
 import 'package:flutter_app/core/widgets/loading_placeholder.dart';
 import 'package:flutter_app/features/tasks/presentation/my_active_tasks_screen.dart';
 import 'package:flutter_app/data/repositories/task_repository.dart';
@@ -19,6 +23,51 @@ void main() {
     mockTaskRepo = MockTaskRepository();
   });
 
+  // ... (previous tests)
+
+  group('MyActiveTasksScreen - Task Sorting', () {
+    testWidgets('should display tasks sorted by priority', (tester) async {
+      // Arrange
+      final completer = Completer<List<Task>>();
+      final tasks = [
+        TestData.createTestTask(id: 't1', title: 'Low Priority', priority: Priority.low),
+        TestData.createTestTask(
+          id: 't2',
+          title: 'High Priority',
+          priority: Priority.high,
+        ),
+        TestData.createTestTask(
+          id: 't3',
+          title: 'Normal Priority',
+          priority: Priority.normal,
+        ),
+      ];
+
+      // Act
+      await pumpTestWidget(
+        tester,
+        const MyActiveTasksScreen(),
+        overrides: [
+          myActiveTasksProvider.overrideWith((ref) => completer.future),
+        ],
+      );
+      
+      // Initial state should be loading
+      await tester.pump();
+      expect(find.byType(LoadingPlaceholder), findsAtLeastNWidgets(1));
+
+      // Complete with data
+      completer.complete(tasks);
+      await tester.pump(); // Process future completion
+      await tester.pumpAndSettle(); // Settle animations
+
+      // Assert - All tasks displayed
+      expect(find.text('Low Priority'), findsOneWidget);
+      // 'High Priority' appears in the task title AND the filter chip
+      expect(find.text('High Priority'), findsNWidgets(2));
+      expect(find.text('Normal Priority'), findsOneWidget);
+    });
+  });
   group('MyActiveTasksScreen - Task List Rendering', () {
     testWidgets('should display task list when tasks exist', (tester) async {
       // Arrange
@@ -53,24 +102,28 @@ void main() {
     testWidgets('should show loading indicator while fetching tasks', (
       tester,
     ) async {
+      // Arrange
+      final completer = Completer<List<Task>>();
+
       // Act
       await pumpTestWidget(
         tester,
         const MyActiveTasksScreen(),
         overrides: [
-          myActiveTasksProvider.overrideWith((ref) async {
-            await Future.delayed(const Duration(milliseconds: 50));
-            return [TestData.todoTask];
-          }),
+          myActiveTasksProvider.overrideWith((ref) => completer.future),
         ],
       );
+      
+      // Initial state (loading)
       await tester.pump();
 
-      // Assert - Loading placeholder shown (screen uses LoadingPlaceholder, not CircularProgressIndicator)
+      // Assert - Loading placeholder shown
       expect(find.byType(LoadingPlaceholder), findsAtLeastNWidgets(1));
 
-      // Clean up - complete the future to avoid pending timer
-      await tester.pump(const Duration(milliseconds: 50));
+      // Clean up - complete the future
+      completer.complete([TestData.todoTask]);
+      await tester.pump();
+      await tester.pumpAndSettle();
     });
 
     testWidgets('should show error state on API failure', (tester) async {
@@ -88,12 +141,13 @@ void main() {
 
       // Assert - Error message shown
       expect(
-        find.textContaining('error'),
+        find.textContaining('Error'),
         findsAtLeastNWidgets(1),
         reason: 'Error state should be displayed',
       );
     });
   });
+
 
   group('MyActiveTasksScreen - Pull to Refresh', () {
     testWidgets('should refresh tasks on pull down', (tester) async {
@@ -120,39 +174,7 @@ void main() {
     });
   });
 
-  group('MyActiveTasksScreen - Task Sorting', () {
-    testWidgets('should display tasks sorted by priority', (tester) async {
-      // Arrange - Tasks in random order
-      final tasks = [
-        TestData.createTestTask(title: 'Low Priority', priority: Priority.low),
-        TestData.createTestTask(
-          title: 'High Priority',
-          priority: Priority.high,
-        ),
-        TestData.createTestTask(
-          title: 'Normal Priority',
-          priority: Priority.normal,
-        ),
-      ];
 
-      when(
-        () => mockTaskRepo.getMyActiveTasks(),
-      ).thenAnswer((_) async => tasks);
-
-      // Act
-      await pumpTestWidget(
-        tester,
-        const MyActiveTasksScreen(),
-        overrides: [taskRepositoryProvider.overrideWith((ref) => mockTaskRepo)],
-      );
-      await tester.pumpAndSettle();
-
-      // Assert - All tasks displayed
-      expect(find.text('Low Priority'), findsOneWidget);
-      expect(find.text('High Priority'), findsOneWidget);
-      expect(find.text('Normal Priority'), findsOneWidget);
-    });
-  });
 
   group('MyActiveTasksScreen - Task Status Display', () {
     testWidgets('should display TODO status badge', (tester) async {

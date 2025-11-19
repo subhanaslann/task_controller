@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'package:flutter_app/data/models/task.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/core/utils/constants.dart';
@@ -63,24 +66,28 @@ void main() {
     });
 
     testWidgets('should show loading state while fetching', (tester) async {
+      // Arrange
+      final completer = Completer<List<Task>>();
+
       // Act
       await pumpTestWidget(
         tester,
         const MyCompletedTasksScreen(),
         overrides: [
-          myCompletedTasksProvider.overrideWith((ref) async {
-            await Future.delayed(const Duration(milliseconds: 50));
-            return [TestData.completedTask];
-          }),
+          myCompletedTasksProvider.overrideWith((ref) => completer.future),
         ],
       );
+      
+      // Initial state (loading)
       await tester.pump();
 
       // Assert - Loading placeholder shown
       expect(find.byType(LoadingPlaceholder), findsAtLeastNWidgets(1));
 
-      // Clean up pending timer
-      await tester.pump(const Duration(milliseconds: 50));
+      // Clean up - complete the future
+      completer.complete([TestData.completedTask]);
+      await tester.pump();
+      await tester.pumpAndSettle();
     });
 
     testWidgets('should show error state on failure', (tester) async {
@@ -97,7 +104,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.textContaining('error'), findsAtLeastNWidgets(1));
+      expect(find.textContaining('Error'), findsAtLeastNWidgets(1));
     });
   });
 

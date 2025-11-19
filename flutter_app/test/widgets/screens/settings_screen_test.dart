@@ -99,7 +99,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('Account'), findsWidgets);
+      expect(find.text('ACCOUNT'), findsOneWidget);
       expect(find.text('Test User'), findsOneWidget);
       expect(find.text('test@example.com'), findsOneWidget);
     });
