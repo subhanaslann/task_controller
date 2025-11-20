@@ -60,7 +60,7 @@ class _AdminScreenState extends ConsumerState<AdminScreen>
             Tab(icon: Icon(Icons.people), text: 'Users'),
             Tab(icon: Icon(Icons.task), text: 'Tasks'),
             Tab(icon: Icon(Icons.topic), text: 'Topics'),
-            Tab(icon: Icon(Icons.business), text: 'Org'),
+            Tab(icon: Icon(Icons.business), text: 'Organization'),
           ],
         ),
       ),
@@ -295,6 +295,7 @@ class _TaskManagementTabState extends ConsumerState<_TaskManagementTab> {
   }
 
   void _refresh() {
+    if (!mounted) return;
     setState(() {
       _tasksFuture = ref.read(taskRepositoryProvider).getTeamActiveTasks();
       _topicsFuture = ref.read(adminRepositoryProvider).getTopics();

@@ -15,7 +15,7 @@ void main() {
       );
 
       // Assert
-      expect(find.text('Yüksek'), findsOneWidget);
+      expect(find.text('High'), findsOneWidget);
     });
 
     testWidgets('should display NORMAL priority badge', (tester) async {
@@ -34,7 +34,7 @@ void main() {
       await pumpTestWidget(tester, const PriorityBadge(priority: Priority.low));
 
       // Assert
-      expect(find.text('Düşük'), findsOneWidget);
+      expect(find.text('Low'), findsOneWidget);
     });
   });
 

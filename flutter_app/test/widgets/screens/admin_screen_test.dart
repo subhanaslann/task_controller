@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/data/repositories/admin_repository.dart';
+import 'package:flutter_app/data/repositories/task_repository.dart';
 import 'package:flutter_app/data/models/user.dart';
 import 'package:flutter_app/data/models/topic.dart';
+import 'package:flutter_app/data/models/task.dart';
 import 'package:flutter_app/features/admin/presentation/admin_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -21,6 +23,15 @@ class MockAdminRepository implements AdminRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+// Mock TaskRepository
+class MockTaskRepository implements TaskRepository {
+  @override
+  Future<List<Task>> getTeamActiveTasks() async => [];
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 void main() {
   group('AdminScreen - Tab Bar Rendering', () {
     testWidgets('should render tab bar with 4 tabs for TEAM_MANAGER', (
@@ -33,6 +44,7 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -52,6 +64,7 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.adminUser),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -71,6 +84,7 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -85,15 +99,20 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
-          currentOrganizationProvider.overrideWith((ref) => TestData.testOrganization),
+          currentOrganizationProvider.overrideWith(
+            (ref) => TestData.testOrganization,
+          ),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
       // Act - Tap Tasks tab
       await tester.tap(find.text('Tasks'));
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300)); // Allow tab animation
+      await tester.pump(
+        const Duration(milliseconds: 300),
+      ); // Allow tab animation
 
       // Assert - Tab switched
       expect(find.text('Tasks'), findsWidgets);
@@ -107,6 +126,7 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -124,8 +144,11 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
-          currentOrganizationProvider.overrideWith((ref) => TestData.testOrganization),
+          currentOrganizationProvider.overrideWith(
+            (ref) => TestData.testOrganization,
+          ),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
       await tester.pump();
@@ -142,8 +165,11 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
-          currentOrganizationProvider.overrideWith((ref) => TestData.testOrganization),
+          currentOrganizationProvider.overrideWith(
+            (ref) => TestData.testOrganization,
+          ),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -163,8 +189,11 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
-          currentOrganizationProvider.overrideWith((ref) => TestData.testOrganization),
+          currentOrganizationProvider.overrideWith(
+            (ref) => TestData.testOrganization,
+          ),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -186,8 +215,11 @@ void main() {
         const AdminScreen(),
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
-          currentOrganizationProvider.overrideWith((ref) => TestData.testOrganization),
+          currentOrganizationProvider.overrideWith(
+            (ref) => TestData.testOrganization,
+          ),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -210,6 +242,7 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.adminUser),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 
@@ -225,6 +258,7 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => TestData.teamManagerUser),
           adminRepositoryProvider.overrideWith((ref) => MockAdminRepository()),
+          taskRepositoryProvider.overrideWith((ref) => MockTaskRepository()),
         ],
       );
 

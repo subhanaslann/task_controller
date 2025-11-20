@@ -25,7 +25,9 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadData();
+      if (mounted) {
+        _loadData();
+      }
     });
   }
 

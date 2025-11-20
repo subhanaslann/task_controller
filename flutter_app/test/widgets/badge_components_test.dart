@@ -7,7 +7,9 @@ import '../helpers/widget_test_helpers.dart';
 
 void main() {
   group('StatusBadge Widget Tests', () {
-    testWidgets('displays correct text for TODO status', (WidgetTester tester) async {
+    testWidgets('displays correct text for TODO status', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const StatusBadge(status: TaskStatus.todo),
@@ -17,10 +19,12 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Yapılacak'), findsOneWidget);
+      expect(find.text('To Do'), findsOneWidget);
     });
 
-    testWidgets('displays correct text for IN_PROGRESS status', (WidgetTester tester) async {
+    testWidgets('displays correct text for IN_PROGRESS status', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const StatusBadge(status: TaskStatus.inProgress),
@@ -30,10 +34,12 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Devam Ediyor'), findsOneWidget);
+      expect(find.text('In Progress'), findsOneWidget);
     });
 
-    testWidgets('displays correct text for DONE status', (WidgetTester tester) async {
+    testWidgets('displays correct text for DONE status', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const StatusBadge(status: TaskStatus.done),
@@ -43,10 +49,12 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Tamamlandı'), findsOneWidget);
+      expect(find.text('Done'), findsOneWidget);
     });
 
-    testWidgets('displays icon when showIcon is true', (WidgetTester tester) async {
+    testWidgets('displays icon when showIcon is true', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const StatusBadge(status: TaskStatus.todo, showIcon: true),
@@ -59,7 +67,9 @@ void main() {
       expect(find.byIcon(Icons.radio_button_unchecked), findsOneWidget);
     });
 
-    testWidgets('does not display icon when showIcon is false', (WidgetTester tester) async {
+    testWidgets('does not display icon when showIcon is false', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const StatusBadge(status: TaskStatus.todo, showIcon: false),
@@ -74,7 +84,9 @@ void main() {
   });
 
   group('PriorityBadge Widget Tests', () {
-    testWidgets('displays correct text for LOW priority', (WidgetTester tester) async {
+    testWidgets('displays correct text for LOW priority', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const PriorityBadge(priority: Priority.low),
@@ -84,10 +96,12 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Düşük'), findsOneWidget);
+      expect(find.text('Low'), findsOneWidget);
     });
 
-    testWidgets('displays correct text for NORMAL priority', (WidgetTester tester) async {
+    testWidgets('displays correct text for NORMAL priority', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const PriorityBadge(priority: Priority.normal),
@@ -100,7 +114,9 @@ void main() {
       expect(find.text('Normal'), findsOneWidget);
     });
 
-    testWidgets('displays correct text for HIGH priority', (WidgetTester tester) async {
+    testWidgets('displays correct text for HIGH priority', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const PriorityBadge(priority: Priority.high),
@@ -110,10 +126,12 @@ void main() {
       await tester.pumpWidget(widget);
 
       // Assert
-      expect(find.text('Yüksek'), findsOneWidget);
+      expect(find.text('High'), findsOneWidget);
     });
 
-    testWidgets('displays icon when showIcon is true', (WidgetTester tester) async {
+    testWidgets('displays icon when showIcon is true', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const PriorityBadge(priority: Priority.high, showIcon: true),
@@ -126,7 +144,9 @@ void main() {
       expect(find.byIcon(Icons.arrow_upward), findsOneWidget);
     });
 
-    testWidgets('uses custom fontSize when provided', (WidgetTester tester) async {
+    testWidgets('uses custom fontSize when provided', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createTestWidget(
         const PriorityBadge(priority: Priority.high, fontSize: 20),

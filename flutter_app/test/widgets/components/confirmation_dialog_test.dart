@@ -35,7 +35,7 @@ void main() {
       );
 
       // Assert
-      expect(find.text('Confirm'), findsOneWidget);
+      expect(find.text('Confirm'), findsWidgets); // Title and button
       expect(find.text('Cancel'), findsOneWidget);
     });
 
@@ -107,7 +107,7 @@ void main() {
       );
 
       // Assert - Dialog rendered
-      expect(find.text('Confirm'), findsOneWidget);
+      expect(find.text('Confirm'), findsWidgets); // Title and button
       expect(find.byType(FilledButton), findsOneWidget);
     });
   });
@@ -214,7 +214,7 @@ void main() {
       expect(find.text('Static Test'), findsOneWidget);
 
       // Close dialog
-      await tester.tap(find.text('Onayla')); // Default Turkish confirm
+      await tester.tap(find.text('Confirm')); // Default confirm button
       await tester.pumpAndSettle();
 
       expect(result, true);
@@ -245,11 +245,14 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert - Delete dialog shown with item name
-      expect(find.text('Sil'), findsOneWidget);
+      expect(
+        find.text('Delete'),
+        findsWidgets,
+      ); // Title and button both have "Delete"
       expect(find.textContaining('Test Item'), findsOneWidget);
 
       // Close dialog
-      await tester.tap(find.text('İptal'));
+      await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();
 
       expect(result, false);
@@ -285,7 +288,7 @@ void main() {
       expect(find.text('Extension Test'), findsOneWidget);
 
       // Close dialog
-      await tester.tap(find.text('İptal'));
+      await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();
 
       expect(result, false);
@@ -313,7 +316,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert - Delete dialog shown
-      expect(find.text('Sil'), findsOneWidget);
+      expect(
+        find.text('Delete'),
+        findsWidgets,
+      ); // Title and button both have "Delete"
       expect(find.textContaining('My Task'), findsOneWidget);
     });
   });

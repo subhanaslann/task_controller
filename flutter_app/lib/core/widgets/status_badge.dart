@@ -67,20 +67,20 @@ class StatusBadge extends StatelessWidget {
     switch (status) {
       case TaskStatus.todo:
         return _StatusConfig(
-          color: AppColors.statusTodo,  // Gray
+          color: AppColors.statusTodo, // Gray
           icon: Icons.radio_button_unchecked,
           label: l10n.statusTodo,
         );
       case TaskStatus.inProgress:
         return _StatusConfig(
-          color: AppColors.statusInProgress,  // WhatsApp Teal
+          color: AppColors.statusInProgress, // WhatsApp Teal
           icon: Icons.autorenew,
           label: l10n.statusInProgress,
         );
       case TaskStatus.done:
         return _StatusConfig(
-          color: AppColors.statusDone,  // WhatsApp Green
-          icon: Icons.check_circle,
+          color: AppColors.statusDone, // WhatsApp Green
+          icon: Icons.check_circle_outline,
           label: l10n.statusDone,
         );
     }

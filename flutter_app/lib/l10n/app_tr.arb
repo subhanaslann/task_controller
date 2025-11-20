@@ -16,7 +16,7 @@
   "settings": "Ayarlar",
   "logout": "Çıkış Yap",
 
-  "login": "Sign In",
+  "login": "Giriş Yap",
   "email": "E-posta",
   "username": "Kullanıcı Adı",
   "password": "Şifre",
@@ -101,7 +101,7 @@
   "confirmDeleteUser": "Bu kullanıcıyı silmek istediğinizden emin misiniz?",
   "confirmLogout": "Çıkış yapmak istediğinizden emin misiniz?",
 
-  "validation_required": "This field is required",
+  "validation_required": "Bu alan zorunludur",
   "validation_email": "Geçerli bir e-posta adresi girin",
   "validation_minLength": "En az {min} karakter olmalıdır",
   "@validation_minLength": {

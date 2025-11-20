@@ -55,6 +55,7 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -232,6 +233,7 @@ class _TopicCreateDialogState extends State<TopicCreateDialog> {
       title: const Text('Create Topic'),
       content: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -332,6 +334,7 @@ class _UserEditDialogState extends State<UserEditDialog> {
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -516,6 +519,7 @@ class _TopicEditDialogState extends State<TopicEditDialog> {
       title: const Text('Edit Topic'),
       content: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -621,6 +625,7 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -635,7 +640,7 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
               const Gap(16),
               // Topic dropdown
               DropdownButtonFormField<String>(
-                key: ValueKey(_selectedTopicId),
+                key: ValueKey('create_topic_$_selectedTopicId'),
                 initialValue: _selectedTopicId,
                 decoration: const InputDecoration(
                   labelText: 'Topic',
@@ -667,7 +672,7 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
               const Gap(16),
               // Assignee dropdown
               DropdownButtonFormField<String>(
-                key: ValueKey(_selectedAssigneeId),
+                key: ValueKey('create_assignee_$_selectedAssigneeId'),
                 initialValue: _selectedAssigneeId,
                 decoration: const InputDecoration(
                   labelText: 'Assignee',
@@ -892,6 +897,7 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -906,7 +912,7 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
               const Gap(16),
               // Topic dropdown
               DropdownButtonFormField<String>(
-                key: ValueKey(_selectedTopicId),
+                key: ValueKey('edit_topic_$_selectedTopicId'),
                 initialValue: _selectedTopicId,
                 decoration: const InputDecoration(
                   labelText: 'Topic',
@@ -938,7 +944,7 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
               const Gap(16),
               // Assignee dropdown
               DropdownButtonFormField<String>(
-                key: ValueKey(_selectedAssigneeId),
+                key: ValueKey('edit_assignee_$_selectedAssigneeId'),
                 initialValue: _selectedAssigneeId,
                 decoration: const InputDecoration(
                   labelText: 'Assignee',

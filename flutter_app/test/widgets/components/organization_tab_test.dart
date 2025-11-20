@@ -6,16 +6,39 @@ import 'package:flutter_app/core/providers/providers.dart';
 import 'package:flutter_app/data/models/user.dart';
 import 'package:flutter_app/data/models/organization.dart';
 import 'package:flutter_app/data/models/organization_stats.dart';
+import 'package:flutter_app/data/repositories/organization_repository.dart';
 import 'package:flutter_app/core/utils/constants.dart';
 import '../../helpers/test_helpers.dart';
 
 // Mock OrganizationNotifier for testing
 class MockOrganizationNotifier extends OrganizationNotifier {
-  MockOrganizationNotifier() : super(null as dynamic);
+  MockOrganizationNotifier() : super(FakeOrganizationRepository());
 
+  @override
   void setState(OrganizationState newState) {
     state = newState;
   }
+
+  @override
+  Future<void> refresh() async {
+    // Do nothing
+  }
+}
+
+class FakeOrganizationRepository implements OrganizationRepository {
+  @override
+  Future<Organization> getOrganization() async => throw UnimplementedError();
+
+  @override
+  Future<OrganizationStats> getOrganizationStats() async =>
+      throw UnimplementedError();
+
+  @override
+  Future<Organization> updateOrganization({
+    String? name,
+    String? teamName,
+    int? maxUsers,
+  }) async => throw UnimplementedError();
 }
 
 void main() {
@@ -65,6 +88,9 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
+          organizationRepositoryProvider.overrideWithValue(
+            FakeOrganizationRepository(),
+          ),
           organizationNotifierProvider.overrideWith((ref) {
             final notifier = MockOrganizationNotifier();
             notifier.setState(orgState);
@@ -95,6 +121,9 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
+          organizationRepositoryProvider.overrideWithValue(
+            FakeOrganizationRepository(),
+          ),
           organizationNotifierProvider.overrideWith((ref) {
             final notifier = MockOrganizationNotifier();
             notifier.setState(orgState);
@@ -119,6 +148,9 @@ void main() {
         const OrganizationTab(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
+          organizationRepositoryProvider.overrideWithValue(
+            FakeOrganizationRepository(),
+          ),
           organizationNotifierProvider.overrideWith((ref) {
             final notifier = MockOrganizationNotifier();
             notifier.setState(orgState);
@@ -143,6 +175,9 @@ void main() {
         const OrganizationTab(),
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
+          organizationRepositoryProvider.overrideWithValue(
+            FakeOrganizationRepository(),
+          ),
           organizationNotifierProvider.overrideWith((ref) {
             final notifier = MockOrganizationNotifier();
             notifier.setState(orgState);
@@ -171,6 +206,9 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
+          organizationRepositoryProvider.overrideWithValue(
+            FakeOrganizationRepository(),
+          ),
           organizationNotifierProvider.overrideWith((ref) {
             final notifier = MockOrganizationNotifier();
             notifier.setState(orgState);
@@ -198,6 +236,9 @@ void main() {
         overrides: [
           currentUserProvider.overrideWith((ref) => testUser),
           currentOrganizationProvider.overrideWith((ref) => testOrganization),
+          organizationRepositoryProvider.overrideWithValue(
+            FakeOrganizationRepository(),
+          ),
           organizationNotifierProvider.overrideWith((ref) {
             final notifier = MockOrganizationNotifier();
             notifier.setState(orgState);
@@ -205,6 +246,20 @@ void main() {
           }),
         ],
       );
+      await tester.pumpAndSettle();
+
+      // Debug
+      debugPrint('Finding Max Users...');
+      final maxUsersFinder = find.text('Max Users');
+      debugPrint('Found Max Users count: ${maxUsersFinder.evaluate().length}');
+
+      if (maxUsersFinder.evaluate().isEmpty) {
+        // debugPrint('Widget Tree:');
+        // debugPrint(tester.binding.rootElement.toStringDeep());
+      }
+
+      // Scroll to make sure it's visible
+      await tester.drag(find.byType(ListView), const Offset(0, -500));
       await tester.pumpAndSettle();
 
       // Assert

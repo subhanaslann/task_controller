@@ -15,14 +15,14 @@ Future<void> pumpTestWidget(
       overrides: overrides,
       child: MaterialApp(
         home: Scaffold(body: widget),
-        locale: const Locale('tr'),
+        locale: const Locale('en'),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [Locale('tr'), Locale('en')],
+        supportedLocales: const [Locale('en'), Locale('tr')],
       ),
     ),
   );
@@ -40,14 +40,14 @@ Future<void> pumpTestWidgetWithNavigation(
       overrides: overrides,
       child: MaterialApp(
         home: Scaffold(body: widget),
-        locale: const Locale('tr'),
+        locale: const Locale('en'),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [Locale('tr'), Locale('en')],
+        supportedLocales: const [Locale('en'), Locale('tr')],
         routes: {
           '/home': (context) => const Scaffold(body: Text('Home')),
           '/login': (context) => const Scaffold(body: Text('Login')),

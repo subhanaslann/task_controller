@@ -77,7 +77,7 @@ void main() {
 
       // Assert - Both content and overlay visible
       expect(find.text('Background Content'), findsOneWidget);
-      expect(find.byType(Stack), findsOneWidget);
+      expect(find.byKey(const Key('loading_overlay_stack')), findsOneWidget);
     });
 
     testWidgets('should use semi-transparent black overlay', (tester) async {
@@ -160,6 +160,9 @@ void main() {
 
       // Assert - Custom message shown
       expect(find.text('Saving data...'), findsOneWidget);
+
+      // Wait for dialog to close
+      await tester.pumpAndSettle();
     });
 
     testWidgets('LoadingOverlay.show() should handle errors', (tester) async {
@@ -252,7 +255,7 @@ void main() {
       // Assert - Original widget tree preserved
       expect(find.text('Line 1'), findsOneWidget);
       expect(find.text('Line 2'), findsOneWidget);
-      expect(find.byType(Column), findsOneWidget);
+      expect(find.byKey(const Key('loading_overlay_content')), findsOneWidget);
     });
 
     testWidgets('should work with complex child widgets', (tester) async {

@@ -32,8 +32,8 @@ class ConfirmationDialog extends StatelessWidget {
     required BuildContext context,
     required String title,
     required String message,
-    String confirmLabel = 'Onayla',
-    String cancelLabel = 'İptal',
+    String confirmLabel = 'Confirm',
+    String cancelLabel = 'Cancel',
     bool isDestructive = false,
     IconData? icon,
   }) async {
@@ -58,10 +58,11 @@ class ConfirmationDialog extends StatelessWidget {
   }) {
     return show(
       context: context,
-      title: 'Sil',
-      message: '$itemName silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.',
-      confirmLabel: 'Sil',
-      cancelLabel: 'İptal',
+      title: 'Delete',
+      message:
+          'Are you sure you want to delete $itemName? This action cannot be undone.',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
       isDestructive: true,
       icon: Icons.delete_outline,
     );
@@ -74,9 +75,7 @@ class ConfirmationDialog extends StatelessWidget {
 
     return AlertDialog(
       backgroundColor: theme.colorScheme.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: AppRadius.dialog,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.dialog),
       contentPadding: EdgeInsets.zero,
       content: Container(
         padding: EdgeInsets.all(AppSpacing.lg),
@@ -92,11 +91,7 @@ class ConfirmationDialog extends StatelessWidget {
                   color: confirmColor.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  size: 32,
-                  color: confirmColor,
-                ),
+                child: Icon(icon, size: 32, color: confirmColor),
               ),
               SizedBox(height: AppSpacing.md),
             ],
@@ -133,9 +128,7 @@ class ConfirmationDialog extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(false),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: theme.colorScheme.onSurface,
-                      side: BorderSide(
-                        color: theme.colorScheme.outline,
-                      ),
+                      side: BorderSide(color: theme.colorScheme.outline),
                       shape: RoundedRectangleBorder(
                         borderRadius: AppRadius.button,
                       ),
@@ -176,8 +169,8 @@ extension ConfirmationDialogExtension on BuildContext {
   Future<bool> showConfirmation({
     required String title,
     required String message,
-    String confirmLabel = 'Onayla',
-    String cancelLabel = 'İptal',
+    String confirmLabel = 'Confirm',
+    String cancelLabel = 'Cancel',
     bool isDestructive = false,
     IconData? icon,
   }) {
@@ -193,9 +186,6 @@ extension ConfirmationDialogExtension on BuildContext {
   }
 
   Future<bool> showDeleteConfirmation(String itemName) {
-    return ConfirmationDialog.showDelete(
-      context: this,
-      itemName: itemName,
-    );
+    return ConfirmationDialog.showDelete(context: this, itemName: itemName);
   }
 }

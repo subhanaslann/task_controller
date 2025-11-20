@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// No description provided for @login.
   ///
   /// In tr, this message translates to:
-  /// **'Sign In'**
+  /// **'Giriş Yap'**
   String get login;
 
   /// No description provided for @email.
@@ -593,7 +593,7 @@ abstract class AppLocalizations {
   /// No description provided for @validation_required.
   ///
   /// In tr, this message translates to:
-  /// **'This field is required'**
+  /// **'Bu alan zorunludur'**
   String get validation_required;
 
   /// No description provided for @validation_email.

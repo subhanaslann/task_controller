@@ -28,6 +28,8 @@ void main() {
 
   tearDown(() {
     syncManager.dispose();
+    reset(mockCacheRepo);
+    reset(mockTaskRepo);
   });
 
   group('SyncManager - Auto-sync', () {

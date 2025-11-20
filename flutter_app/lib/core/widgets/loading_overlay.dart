@@ -23,10 +23,12 @@ class LoadingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      key: const Key('loading_overlay_stack'),
       children: [
         child,
         if (isLoading)
           Container(
+            key: const Key('loading_overlay_container'),
             color: AppColors.black.withValues(alpha: 0.5),
             child: Center(
               child: Card(
@@ -37,6 +39,7 @@ class LoadingOverlay extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
+                    key: const Key('loading_overlay_content'),
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CircularProgressIndicator(
@@ -130,10 +133,6 @@ extension LoadingOverlayExtension on BuildContext {
     required Future<T> Function() future,
     String? message,
   }) {
-    return LoadingOverlay.show(
-      context: this,
-      future: future,
-      message: message,
-    );
+    return LoadingOverlay.show(context: this, future: future, message: message);
   }
 }

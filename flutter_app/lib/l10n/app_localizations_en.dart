@@ -27,7 +27,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get completedTasks => 'Completed';
 
   @override
-  String get admin => 'Admin';
+  String get admin => 'Admin Mode';
 
   @override
   String get profile => 'Profile';
