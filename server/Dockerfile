@@ -37,10 +37,6 @@ COPY --from=builder /app/dist ./dist
 # Copy Prisma client from builder
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# Copy entrypoint script
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 # Create data directory for SQLite
 RUN mkdir -p /app/data
 
@@ -51,5 +47,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:8080/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
-# Start server with entrypoint
-ENTRYPOINT ["docker-entrypoint.sh"]
+# Start server
+CMD ["sh", "-c", "npm run prisma:migrate:deploy && npm run prisma:seed:prod || true && node dist/index.js"]
