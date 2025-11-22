@@ -114,9 +114,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         companyName: _companyNameController.text.trim(),
         teamName: _teamNameController.text.trim(),
         managerName: _managerNameController.text.trim(),
-        username: _usernameController.text.trim().isNotEmpty
-            ? _usernameController.text.trim()
-            : null,
+        username: _usernameController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
@@ -124,6 +122,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       ref.read(currentUserProvider.notifier).state = authResult.user;
       ref.read(currentOrganizationProvider.notifier).state =
           authResult.organization;
+      
+      // Invalidate auth state to ensure router redirects correctly
+      ref.invalidate(isLoggedInProvider);
 
       if (mounted) {
         // Show success message with WhatsApp-style snackbar
@@ -301,15 +302,17 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                               ),
                               const Gap(16),
 
-                              // Username (Optional)
+                              // Username
                               AppTextField(
-                                label: 'Username (Optional)',
+                                label: 'Username',
                                 controller: _usernameController,
                                 prefixIcon: Icons.alternate_email,
+                                isRequired: true,
                                 validator: (value) {
-                                  if (value != null &&
-                                      value.isNotEmpty &&
-                                      value.length < 3) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Username is required';
+                                  }
+                                  if (value.length < 3) {
                                     return 'Username must be at least 3 characters';
                                   }
                                   return null;

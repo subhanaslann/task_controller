@@ -62,27 +62,25 @@ export async function registerTeamManager(data: RegisterTeamDto): Promise<Regist
     throw new ConflictError('Email is already registered');
   }
 
-  // Validate username uniqueness if provided
-  if (username) {
-    const existingUser = await prisma.user.findFirst({
-      where: { username },
-    });
-    if (existingUser) {
-      throw new ConflictError('Username is already taken');
-    }
+  // 2. Validate username uniqueness
+  const existingUser = await prisma.user.findFirst({
+    where: { username },
+  });
+  if (existingUser) {
+    throw new ConflictError('Username is already taken');
   }
 
-  // 2. Generate unique slug
+  // 3. Generate unique slug
   const baseSlug = generateSlug(companyName, teamName);
   if (!baseSlug) {
     throw new ValidationError('Could not generate valid slug from company and team names');
   }
   const slug = await ensureUniqueSlug(baseSlug);
 
-  // 3. Hash password
+  // 4. Hash password
   const passwordHash = await hashPassword(password);
 
-  // 4. Create organization and team manager in a transaction
+  // 5. Create organization and team manager in a transaction
   const result = await prisma.$transaction(async (tx) => {
     // Create organization
     const organization = await tx.organization.create({
@@ -100,7 +98,7 @@ export async function registerTeamManager(data: RegisterTeamDto): Promise<Regist
       data: {
         organizationId: organization.id,
         name: managerName,
-        username: username || email.split('@')[0], // Use provided username or email prefix
+        username, // Use provided username directly
         email,
         passwordHash,
         role: Role.TEAM_MANAGER,

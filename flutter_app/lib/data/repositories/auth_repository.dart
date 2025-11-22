@@ -22,7 +22,7 @@ class AuthRepository {
     required String companyName,
     required String teamName,
     required String managerName,
-    String? username,
+    required String username,
     required String email,
     required String password,
   }) async {

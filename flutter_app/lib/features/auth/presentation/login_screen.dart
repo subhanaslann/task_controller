@@ -49,6 +49,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref.read(currentUserProvider.notifier).state = authResult.user;
       ref.read(currentOrganizationProvider.notifier).state =
           authResult.organization;
+      
+      // Invalidate auth state to ensure router redirects correctly
+      ref.invalidate(isLoggedInProvider);
 
       if (mounted) {
         context.go(AppRoutes.home);

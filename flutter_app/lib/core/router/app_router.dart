@@ -142,7 +142,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           }
 
           // Check if user has admin role
-          final isAdmin = currentUser.role == UserRole.admin;
+          final isAdmin = currentUser.role == UserRole.admin || currentUser.role == UserRole.teamManager;
 
           if (!isAdmin) {
             // Non-admin users redirected to home
