@@ -22,6 +22,9 @@ RUN npm run build
 # Production stage
 FROM node:20-alpine
 
+# Install OpenSSL and other dependencies for Prisma
+RUN apk add --no-cache openssl libc6-compat
+
 WORKDIR /app
 
 # Copy package files
@@ -48,4 +51,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:8080/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start server
-CMD ["sh", "-c", "npm run prisma:migrate:deploy && npm run prisma:seed:prod || true && node dist/index.js"]
+CMD ["sh", "-c", "npm run prisma:migrate:deploy && npm run prisma:seed:prod || true && node dist/src/index.js"]
