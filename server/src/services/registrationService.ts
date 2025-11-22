@@ -54,12 +54,22 @@ async function isEmailTaken(email: string): Promise<boolean> {
  * Register a new team (organization) with a team manager
  */
 export async function registerTeamManager(data: RegisterTeamDto): Promise<RegisterTeamResponse> {
-  const { companyName, teamName, managerName, email, password } = data;
+  const { companyName, teamName, managerName, username, email, password } = data;
 
   // 1. Validate that email is not already in use
   const emailTaken = await isEmailTaken(email);
   if (emailTaken) {
     throw new ConflictError('Email is already registered');
+  }
+
+  // Validate username uniqueness if provided
+  if (username) {
+    const existingUser = await prisma.user.findFirst({
+      where: { username },
+    });
+    if (existingUser) {
+      throw new ConflictError('Username is already taken');
+    }
   }
 
   // 2. Generate unique slug
@@ -90,7 +100,7 @@ export async function registerTeamManager(data: RegisterTeamDto): Promise<Regist
       data: {
         organizationId: organization.id,
         name: managerName,
-        username: email.split('@')[0], // Use email prefix as username
+        username: username || email.split('@')[0], // Use provided username or email prefix
         email,
         passwordHash,
         role: Role.TEAM_MANAGER,

@@ -35,6 +35,7 @@ export interface RegisterTeamDto {
   companyName: string;
   teamName: string;
   managerName: string;
+  username?: string;
   email: string;
   password: string;
 }

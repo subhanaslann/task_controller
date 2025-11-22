@@ -455,6 +455,7 @@ class RegisterRequest {
   final String companyName;
   final String teamName;
   final String managerName;
+  final String? username;
   final String email;
   final String password;
 
@@ -462,6 +463,7 @@ class RegisterRequest {
     required this.companyName,
     required this.teamName,
     required this.managerName,
+    this.username,
     required this.email,
     required this.password,
   });
@@ -470,6 +472,7 @@ class RegisterRequest {
     'companyName': companyName,
     'teamName': teamName,
     'managerName': managerName,
+    if (username != null) 'username': username,
     'email': email,
     'password': password,
   };

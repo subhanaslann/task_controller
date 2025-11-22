@@ -23,6 +23,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final _companyNameController = TextEditingController();
   final _teamNameController = TextEditingController();
   final _managerNameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -34,6 +35,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     _companyNameController.dispose();
     _teamNameController.dispose();
     _managerNameController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -112,6 +114,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         companyName: _companyNameController.text.trim(),
         teamName: _teamNameController.text.trim(),
         managerName: _managerNameController.text.trim(),
+        username: _usernameController.text.trim().isNotEmpty
+            ? _usernameController.text.trim()
+            : null,
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
@@ -290,6 +295,22 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                   }
                                   if (value.length < 2) {
                                     return 'Name must be at least 2 characters';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const Gap(16),
+
+                              // Username (Optional)
+                              AppTextField(
+                                label: 'Username (Optional)',
+                                controller: _usernameController,
+                                prefixIcon: Icons.alternate_email,
+                                validator: (value) {
+                                  if (value != null &&
+                                      value.isNotEmpty &&
+                                      value.length < 3) {
+                                    return 'Username must be at least 3 characters';
                                   }
                                   return null;
                                 },

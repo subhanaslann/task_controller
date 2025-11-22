@@ -14,6 +14,7 @@ export const registerTeamSchema = z.object({
     companyName: z.string().min(2, 'Company name must be at least 2 characters').max(100, 'Company name must not exceed 100 characters'),
     teamName: z.string().min(2, 'Team name must be at least 2 characters').max(100, 'Team name must not exceed 100 characters'),
     managerName: z.string().min(2, 'Manager name must be at least 2 characters').max(100, 'Manager name must not exceed 100 characters'),
+    username: z.string().min(3, 'Username must be at least 3 characters').max(50, 'Username must not exceed 50 characters').optional(),
     email: z.string().email('Invalid email address'),
     password: z.string().min(8, 'Password must be at least 8 characters').max(100, 'Password must not exceed 100 characters'),
   }),
