@@ -355,6 +355,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> _handleLogout(BuildContext context) async {
+    debugPrint('🚪 HOME LOGOUT: Starting logout from Home screen');
+    
     final confirmed = await ConfirmationDialog.show(
       context: context,
       title: 'Logout',
@@ -366,13 +368,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
 
     if (confirmed) {
-      final authRepo = ref.read(authRepositoryProvider);
-      await authRepo.logout();
-      ref.read(currentUserProvider.notifier).state = null;
+      debugPrint('🚪 HOME LOGOUT: User confirmed');
+      
+      try {
+        final authRepo = ref.read(authRepositoryProvider);
+        await authRepo.logout();
+        debugPrint('🚪 HOME LOGOUT: Token cleared');
+        
+        // Clear all auth-related state
+        ref.read(currentUserProvider.notifier).state = null;
+        ref.read(currentOrganizationProvider.notifier).state = null;
+        debugPrint('🚪 HOME LOGOUT: Providers cleared');
+        
+        // CRITICAL: Invalidate isLoggedInProvider so Router knows we logged out
+        ref.invalidate(isLoggedInProvider);
+        debugPrint('🚪 HOME LOGOUT: Provider invalidated');
+        
+        // CRITICAL: Wait for provider to recalculate with new value (FALSE)
+        // This prevents Router from using stale/loading state
+        try {
+          await ref.read(isLoggedInProvider.future);
+          debugPrint('🚪 HOME LOGOUT: Provider recalculated');
+        } catch (e) {
+          // If provider throws (e.g., no token), that's expected
+          debugPrint('🚪 HOME LOGOUT: Provider recalculation done (with error, expected)');
+        }
 
-      if (mounted && context.mounted) {
-        context.go(AppRoutes.login);
+        if (mounted && context.mounted) {
+          debugPrint('🚪 HOME LOGOUT: Navigating to login');
+          
+          // Clear navigation stack
+          while (context.canPop()) {
+            context.pop();
+          }
+          
+          context.go(AppRoutes.login);
+          debugPrint('🚪 HOME LOGOUT: Navigation complete');
+        }
+      } catch (e, stackTrace) {
+        debugPrint('🚪 HOME LOGOUT: ERROR - $e');
+        debugPrint('Stack: $stackTrace');
+        
+        // Try to navigate anyway
+        if (mounted && context.mounted) {
+          context.go(AppRoutes.login);
+        }
       }
+    } else {
+      debugPrint('🚪 HOME LOGOUT: User cancelled');
     }
   }
 

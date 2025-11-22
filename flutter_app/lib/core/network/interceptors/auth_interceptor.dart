@@ -39,6 +39,31 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
+    // Handle Organization errors (404/403) - Invalid/Inactive Organization
+    // This happens if organization was deleted or deactivated but user still has token
+    if (err.response != null) {
+      final data = err.response?.data;
+      if (data is Map && data['error'] is Map) {
+        final code = data['error']['code'];
+        if (code == 'ORGANIZATION_NOT_FOUND' || 
+            code == 'ORGANIZATION_INACTIVE' ||
+            code == 'USER_DEACTIVATED') {
+          
+          _logger.e('Auth validity issue detected ($code), clearing session...');
+          
+          // Clear storage asynchronously but don't wait
+          _storage.clearAll().then((_) {
+            _logger.i('Session cleared');
+          }).catchError((e) {
+            _logger.e('Failed to clear session: $e');
+          });
+          
+          // Pass error through so UI/Router can handle it (redirect to login)
+          return handler.next(err);
+        }
+      }
+    }
+
     // Handle 401 Unauthorized
     if (err.response?.statusCode == 401) {
       _logger.w('Token expired, attempting refresh...');

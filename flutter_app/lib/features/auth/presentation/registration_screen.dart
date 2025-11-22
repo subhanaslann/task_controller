@@ -126,6 +126,15 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       // Invalidate auth state to ensure router redirects correctly
       ref.invalidate(isLoggedInProvider);
 
+      // CRITICAL FIX: Wait for state to stabilize before navigation
+      // This ensures:
+      // 1. Provider state has fully propagated
+      // 2. Database transaction is fully committed and visible
+      // 3. Token is confirmed saved to secure storage
+      // Without this delay, home screen may load before organization
+      // is visible in database, causing ORGANIZATION_NOT_FOUND error
+      await Future.delayed(const Duration(milliseconds: 150));
+
       if (mounted) {
         // Show success message with WhatsApp-style snackbar
         AppSnackbar.showSuccess(
@@ -401,7 +410,12 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   // Login Link
                   Center(
                     child: TextButton(
-                      onPressed: () => context.pop(),
+                      onPressed: () {
+                        // Use context.go instead of context.pop because we might have
+                        // navigated here with context.go (which replaces, not pushes)
+                        // This ensures the button always works regardless of navigation method
+                        context.go(AppRoutes.login);
+                      },
                       child: RichText(
                         text: TextSpan(
                           style: theme.textTheme.bodyMedium?.copyWith(

@@ -417,13 +417,54 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
 
     if (confirmed) {
-      final authRepo = ref.read(authRepositoryProvider);
-      await authRepo.logout();
-      ref.read(currentUserProvider.notifier).state = null;
+      debugPrint('🚪 SETTINGS LOGOUT: User confirmed logout');
+      
+      try {
+        final authRepo = ref.read(authRepositoryProvider);
+        await authRepo.logout();
+        debugPrint('🚪 SETTINGS LOGOUT: Token cleared');
+        
+        // Clear all auth-related state
+        ref.read(currentUserProvider.notifier).state = null;
+        ref.read(currentOrganizationProvider.notifier).state = null;
+        debugPrint('🚪 SETTINGS LOGOUT: Providers cleared');
+        
+        // CRITICAL: Invalidate isLoggedInProvider so Router knows we are logged out
+        ref.invalidate(isLoggedInProvider);
+        debugPrint('🚪 SETTINGS LOGOUT: Provider invalidated');
+        
+        // CRITICAL: Wait for provider to recalculate with new value (FALSE)
+        // This prevents Router from using stale/loading state
+        try {
+          await ref.read(isLoggedInProvider.future);
+          debugPrint('🚪 SETTINGS LOGOUT: Provider recalculated');
+        } catch (e) {
+          // If provider throws (e.g., no token), that's expected
+          debugPrint('🚪 SETTINGS LOGOUT: Provider recalculation done (expected)');
+        }
 
-      if (mounted && context.mounted) {
-        context.go(AppRoutes.login);
+        if (mounted && context.mounted) {
+          debugPrint('🚪 SETTINGS LOGOUT: Navigating to login');
+          
+          // Clear navigation stack
+          while (context.canPop()) {
+            context.pop();
+          }
+          
+          context.go(AppRoutes.login);
+          debugPrint('🚪 SETTINGS LOGOUT: Navigation complete');
+        }
+      } catch (e, stackTrace) {
+        debugPrint('🚪 SETTINGS LOGOUT: ERROR - $e');
+        debugPrint('Stack: $stackTrace');
+        
+        // Try to navigate anyway
+        if (mounted && context.mounted) {
+          context.go(AppRoutes.login);
+        }
       }
+    } else {
+      debugPrint('🚪 SETTINGS LOGOUT: User cancelled');
     }
   }
 

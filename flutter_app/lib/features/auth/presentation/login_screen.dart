@@ -40,11 +40,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     try {
+      debugPrint('🔐 Login started...');
       final authRepo = ref.read(authRepositoryProvider);
       final authResult = await authRepo.login(
         _usernameController.text.trim(),
         _passwordController.text,
       );
+      debugPrint('✅ Login API success, token saved');
 
       ref.read(currentUserProvider.notifier).state = authResult.user;
       ref.read(currentOrganizationProvider.notifier).state =
@@ -52,11 +54,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       
       // Invalidate auth state to ensure router redirects correctly
       ref.invalidate(isLoggedInProvider);
+      debugPrint('🔄 Provider invalidated');
+
+      // Add small delay to ensure state propagation and storage persistence
+      // preventing race conditions during navigation
+      await Future.delayed(const Duration(milliseconds: 150));
 
       if (mounted) {
+        debugPrint('🚀 Navigating to Home');
         context.go(AppRoutes.home);
       }
     } catch (e) {
+      debugPrint('❌ Login error: $e');
       final errorString = e.toString().toLowerCase();
       setState(() {
         if (errorString.contains('deactivated') &&
@@ -205,8 +214,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               // Registration link
                               Center(
                                 child: TextButton(
-                                  onPressed: () =>
-                                      context.go(AppRoutes.register),
+                                  onPressed: () async {
+                                    // Debug logs
+                                    debugPrint('🔘 Register button clicked');
+                                    
+                                    final authRepo = ref.read(authRepositoryProvider);
+                                    
+                                    // Check status before logout
+                                    final wasLoggedIn = await authRepo.isLoggedIn();
+                                    debugPrint('🔐 Status before logout: isLoggedIn=$wasLoggedIn');
+                                    
+                                    // Force logout
+                                    await authRepo.logout();
+                                    debugPrint('🧹 Logout executed');
+                                    
+                                    // Verify logout
+                                    final isLoggedInNow = await authRepo.isLoggedIn();
+                                    debugPrint('🔓 Status after logout: isLoggedIn=$isLoggedInNow');
+                                    
+                                    ref.invalidate(isLoggedInProvider);
+                                    debugPrint('🔄 Provider invalidated');
+                                    
+                                    if (context.mounted) {
+                                      debugPrint('🚀 Navigating to register...');
+                                      context.go(AppRoutes.register);
+                                    }
+                                  },
                                   child: Text(
                                     'Don\'t have a team? Register here',
                                     style: TextStyle(

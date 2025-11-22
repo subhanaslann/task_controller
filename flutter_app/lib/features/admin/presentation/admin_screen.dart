@@ -188,6 +188,24 @@ class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
                                         await ref
                                             .read(adminRepositoryProvider)
                                             .updateUser(userId, request);
+                                        
+                                        // CRITICAL: If updated user is the current logged-in user,
+                                        // update currentUserProvider so UI reflects role changes immediately
+                                        final currentUser = ref.read(currentUserProvider);
+                                        if (currentUser != null && currentUser.id == userId) {
+                                          debugPrint('⚠️ Updated user is current user - refreshing provider');
+                                          
+                                          // Fetch updated user data from backend
+                                          try {
+                                            final users = await ref.read(adminRepositoryProvider).getUsers();
+                                            final updatedUser = users.firstWhere((u) => u.id == userId);
+                                            ref.read(currentUserProvider.notifier).state = updatedUser;
+                                            debugPrint('✅ Current user provider updated with new role: ${updatedUser.role}');
+                                          } catch (e) {
+                                            debugPrint('❌ Failed to fetch updated user: $e');
+                                          }
+                                        }
+                                        
                                         _refresh();
                                         if (context.mounted) {
                                           AppSnackbar.showSuccess(
