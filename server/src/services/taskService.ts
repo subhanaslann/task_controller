@@ -190,6 +190,11 @@ export const createTask = async (organizationId: string, input: CreateTaskInput)
     if (!assignee) {
       throw new ValidationError('Assignee not found in your organization');
     }
+
+    // CRITICAL: Guest users cannot be assigned tasks
+    if (assignee.role === 'GUEST') {
+      throw new ValidationError('Cannot assign tasks to guest users');
+    }
   }
 
   return prisma.task.create({

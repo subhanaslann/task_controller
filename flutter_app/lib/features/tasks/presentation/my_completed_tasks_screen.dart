@@ -225,8 +225,8 @@ class _MyCompletedTasksScreenState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (task.topic != null) ...[
-                _buildDetailRow(Icons.topic, 'Topic', task.topic!.title),
+              if (task.topic != null && task.topic!.title != null) ...[
+                _buildDetailRow(Icons.topic, 'Topic', task.topic!.title!),
                 const Gap(12),
               ],
               if (task.note != null && task.note!.isNotEmpty) ...[

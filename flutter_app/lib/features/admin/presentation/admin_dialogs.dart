@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/utils/constants.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../data/models/user.dart';
 import '../../../data/models/topic.dart';
 import '../../../data/models/task.dart';
@@ -605,8 +606,8 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _noteController = TextEditingController();
-  String? _selectedTopicId;
-  String? _selectedAssigneeId;
+  String _selectedTopicId = '';
+  String _selectedAssigneeId = '';
   TaskStatus _selectedStatus = TaskStatus.todo;
   Priority _selectedPriority = Priority.normal;
   DateTime? _selectedDueDate;
@@ -620,8 +621,22 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final activeTopics = widget.topics.where((t) => t.isActive).toList();
+    // Filter out GUEST users - they cannot be assigned tasks
+    final activeUsers = widget.users
+        .where((u) => u.active && u.role != UserRole.guest)
+        .toList();
+
     return AlertDialog(
-      title: const Text('Create Task'),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      title: Row(
+        children: [
+          Icon(Icons.add_task, color: AppColors.primary),
+          const Gap(12),
+          const Text('Create New Task'),
+        ],
+      ),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -630,172 +645,289 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppTextField(
-                label: 'Title',
-                controller: _titleController,
-                isRequired: true,
-                validator: (val) =>
-                    val == null || val.isEmpty ? 'Required' : null,
-              ),
-              const Gap(16),
-              // Topic dropdown
-              DropdownButtonFormField<String>(
-                key: ValueKey('create_topic_$_selectedTopicId'),
-                initialValue: _selectedTopicId,
-                decoration: const InputDecoration(
-                  labelText: 'Topic',
-                  border: OutlineInputBorder(),
+              // Required indicator
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                items: [
-                  const DropdownMenuItem(value: null, child: Text('No Topic')),
-                  ...widget.topics
-                      .where((t) => t.isActive)
-                      .map(
-                        (topic) => DropdownMenuItem(
-                          value: topic.id,
-                          child: Text(topic.title),
-                        ),
-                      ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedTopicId = value;
-                  });
-                },
-              ),
-              const Gap(16),
-              AppTextField(
-                label: 'Note',
-                controller: _noteController,
-                maxLines: 3,
-              ),
-              const Gap(16),
-              // Assignee dropdown
-              DropdownButtonFormField<String>(
-                key: ValueKey('create_assignee_$_selectedAssigneeId'),
-                initialValue: _selectedAssigneeId,
-                decoration: const InputDecoration(
-                  labelText: 'Assignee',
-                  border: OutlineInputBorder(),
-                ),
-                items: [
-                  const DropdownMenuItem(
-                    value: null,
-                    child: Text('Unassigned'),
-                  ),
-                  ...widget.users
-                      .where((u) => u.active)
-                      .map(
-                        (user) => DropdownMenuItem(
-                          value: user.id,
-                          child: Text('${user.name} (${user.username})'),
-                        ),
-                      ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedAssigneeId = value;
-                  });
-                },
-              ),
-              const Gap(16),
-              // Status selector
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Status:',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                  const Gap(8),
-                  Wrap(
-                    spacing: 8,
-                    children: TaskStatus.values.map((status) {
-                      return FilterChip(
-                        label: Text(status.value),
-                        selected: _selectedStatus == status,
-                        onSelected: (selected) {
-                          if (selected) {
-                            setState(() {
-                              _selectedStatus = status;
-                            });
-                          }
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-              const Gap(16),
-              // Priority selector
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Priority:',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                  const Gap(8),
-                  Wrap(
-                    spacing: 8,
-                    children: Priority.values.map((priority) {
-                      return FilterChip(
-                        label: Text(priority.value),
-                        selected: _selectedPriority == priority,
-                        onSelected: (selected) {
-                          if (selected) {
-                            setState(() {
-                              _selectedPriority = priority;
-                            });
-                          }
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-              const Gap(16),
-              // Due Date picker
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.calendar_today),
-                title: Text(
-                  _selectedDueDate == null
-                      ? 'No Due Date'
-                      : 'Due: ${_selectedDueDate!.toLocal().toString().split(' ')[0]}',
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
+                child: Row(
                   children: [
-                    if (_selectedDueDate != null)
-                      IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            _selectedDueDate = null;
-                          });
-                        },
+                    Icon(Icons.info_outline, size: 16, color: AppColors.primary),
+                    const Gap(8),
+                    Expanded(
+                      child: Text(
+                        '* Required fields',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: _selectedDueDate ?? DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(
-                            const Duration(days: 365),
-                          ),
-                        );
-                        if (date != null) {
-                          setState(() {
-                            _selectedDueDate = date;
-                          });
-                        }
-                      },
                     ),
                   ],
                 ),
+              ),
+              const Gap(16),
+              // Title - REQUIRED
+              AppTextField(
+                label: 'Task Title *',
+                controller: _titleController,
+                isRequired: true,
+                prefixIcon: Icons.title,
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Title is required' : null,
+              ),
+              const Gap(16),
+              // Topic dropdown
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Topic (Project)',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  const Gap(8),
+                  if (activeTopics.isEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.warning_amber, size: 20, color: Colors.orange),
+                          const Gap(8),
+                          Expanded(
+                            child: Text(
+                              'No active topics. Create a topic first in Admin panel.',
+                              style: TextStyle(fontSize: 12, color: Colors.orange[800]),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    DropdownButtonFormField<String>(
+                      value: _selectedTopicId.isEmpty ? null : _selectedTopicId,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        prefixIcon: Icon(Icons.folder, color: AppColors.primary),
+                      ),
+                      hint: const Text('Select a topic (optional)'),
+                      items: activeTopics.map((topic) {
+                        return DropdownMenuItem(
+                          value: topic.id,
+                          child: Text(topic.title),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTopicId = value ?? '';
+                        });
+                      },
+                    ),
+                ],
+              ),
+              const Gap(16),
+              // Note
+              AppTextField(
+                label: 'Description (optional)',
+                controller: _noteController,
+                maxLines: 3,
+                prefixIcon: Icons.notes,
+              ),
+              const Gap(16),
+              // Assignee dropdown
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Assign To',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  const Gap(8),
+                  DropdownButtonFormField<String>(
+                    value: _selectedAssigneeId.isEmpty ? null : _selectedAssigneeId,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      prefixIcon: Icon(Icons.person, color: AppColors.primary),
+                    ),
+                    hint: const Text('Unassigned'),
+                    items: activeUsers.map((user) {
+                      return DropdownMenuItem(
+                        value: user.id,
+                        child: Text('${user.name} (@${user.username})'),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedAssigneeId = value ?? '';
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const Gap(16),
+              // Status and Priority - Compact Row
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Status *',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                          ),
+                        ),
+                        const Gap(8),
+                        DropdownButtonFormField<TaskStatus>(
+                          value: _selectedStatus,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            isDense: true,
+                          ),
+                          items: TaskStatus.values.map((status) {
+                            return DropdownMenuItem(
+                              value: status,
+                              child: Text(status.value, style: const TextStyle(fontSize: 14)),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                _selectedStatus = value;
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Gap(16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Priority *',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                          ),
+                        ),
+                        const Gap(8),
+                        DropdownButtonFormField<Priority>(
+                          value: _selectedPriority,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            isDense: true,
+                          ),
+                          items: Priority.values.map((priority) {
+                            return DropdownMenuItem(
+                              value: priority,
+                              child: Text(priority.value, style: const TextStyle(fontSize: 14)),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                _selectedPriority = value;
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(16),
+              // Due Date - Modern design
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Due Date',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  const Gap(8),
+                  InkWell(
+                    onTap: () async {
+                      final date = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDueDate ?? DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
+                      );
+                      if (date != null) {
+                        setState(() {
+                          _selectedDueDate = date;
+                        });
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: theme.dividerColor),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.calendar_today, size: 20, color: AppColors.primary),
+                          const Gap(12),
+                          Expanded(
+                            child: Text(
+                              _selectedDueDate == null
+                                  ? 'No due date'
+                                  : '${_selectedDueDate!.toLocal().toString().split(' ')[0]}',
+                              style: TextStyle(
+                                color: _selectedDueDate == null
+                                    ? theme.hintColor
+                                    : theme.colorScheme.onSurface,
+                              ),
+                            ),
+                          ),
+                          if (_selectedDueDate != null)
+                            IconButton(
+                              icon: const Icon(Icons.clear, size: 20),
+                              onPressed: () {
+                                setState(() {
+                                  _selectedDueDate = null;
+                                });
+                              },
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -807,14 +939,14 @@ class _TaskCreateDialogState extends State<TaskCreateDialog> {
           child: const Text('Cancel'),
         ),
         AppButton(
-          text: 'Create',
+          text: 'Create Task',
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               widget.onSave(
-                _titleController.text,
-                _selectedTopicId,
-                _noteController.text.isEmpty ? null : _noteController.text,
-                _selectedAssigneeId,
+                _titleController.text.trim(),
+                _selectedTopicId.isEmpty ? null : _selectedTopicId,
+                _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
+                _selectedAssigneeId.isEmpty ? null : _selectedAssigneeId,
                 _selectedStatus.value,
                 _selectedPriority.value,
                 _selectedDueDate != null

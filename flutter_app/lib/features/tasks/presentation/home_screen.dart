@@ -54,10 +54,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
+    final currentOrganization = ref.watch(currentOrganizationProvider);
     final isGuest = currentUser?.role == UserRole.guest;
     final screens = _getScreensForRole(currentUser?.role);
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+
+    // Determine the title based on user role and organization
+    final String appTitle;
+    if (currentOrganization != null) {
+      appTitle = isGuest 
+        ? '${currentOrganization.name}-${currentOrganization.teamName}'
+        : currentOrganization.name;
+    } else {
+      appTitle = 'TekTech';
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 autofocus: true,
               ).animate().fadeIn(duration: 200.ms)
             : Text(
-                isGuest ? 'TekTech-İşbirliği' : 'TekTech',
+                appTitle,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,

@@ -69,7 +69,7 @@ class TaskCard extends StatelessWidget {
                           borderRadius: AppRadius.borderRadiusSM,
                         ),
                         child: Text(
-                          task.topic!.title,
+                          task.topic?.title ?? 'No Topic',
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: colorScheme.onPrimaryContainer,
                             fontWeight: FontWeight.w500,
@@ -256,8 +256,8 @@ class TaskCard extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          task.assignee!.name.isNotEmpty
-              ? task.assignee!.name[0].toUpperCase()
+          (task.assignee?.name != null && task.assignee!.name!.isNotEmpty)
+              ? task.assignee!.name![0].toUpperCase()
               : '?',
           style: theme.textTheme.labelSmall?.copyWith(
             color: colorScheme.onPrimaryContainer,

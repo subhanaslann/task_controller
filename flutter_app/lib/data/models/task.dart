@@ -69,12 +69,12 @@ class Task {
 
 @JsonSerializable()
 class TopicRef {
-  final String id;
-  final String title;
+  final String? id;
+  final String? title;
 
   TopicRef({
-    required this.id,
-    required this.title,
+    this.id,
+    this.title,
   });
 
   factory TopicRef.fromJson(Map<String, dynamic> json) => _$TopicRefFromJson(json);
@@ -83,13 +83,13 @@ class TopicRef {
 
 @JsonSerializable()
 class Assignee {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
   final String? username;
 
   Assignee({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
     this.username,
   });
 

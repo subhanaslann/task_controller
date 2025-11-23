@@ -11,6 +11,7 @@ import '../../../data/models/topic.dart';
 import '../../../data/models/task.dart';
 import '../../../core/widgets/priority_badge.dart';
 import '../../../core/widgets/status_badge.dart';
+import '../../../data/repositories/task_repository.dart';
 
 final guestTopicsProvider = FutureProvider.autoDispose<List<Topic>>((
   ref,
@@ -18,18 +19,13 @@ final guestTopicsProvider = FutureProvider.autoDispose<List<Topic>>((
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return [];
 
-  // In real app, fetch topics from API
-  // For now returning empty list as per original logic or mock logic
-  // If admin repo has getTopics, we should use it if guest is allowed
-  // But original code returned empty list. I'll check admin repo usage.
-
-  // Assuming we want to show something if available:
+  // Fetch topics from /topics/active endpoint
+  // Backend automatically filters topics based on guest access
   try {
-    final adminRepo = ref.read(adminRepositoryProvider);
-    // This might fail if backend restricts guests from /topics endpoint
-    // But let's try
-    return await adminRepo.getTopics();
-  } catch (_) {
+    final taskRepo = ref.read(taskRepositoryProvider);
+    return await taskRepo.getActiveTopics();
+  } catch (e) {
+    debugPrint('Error fetching guest topics: $e');
     return [];
   }
 });
@@ -47,10 +43,8 @@ class GuestTopicsScreen extends ConsumerWidget {
         color: AppColors.primary,
         child: topicsAsync.when(
           data: (topics) {
-            // Filter only active topics for guests
-            final activeTopics = topics.where((t) => t.isActive).toList();
-
-            if (activeTopics.isEmpty) {
+            // Backend already filters topics based on guest access
+            if (topics.isEmpty) {
               return const AppEmptyState(
                 icon: Icons.lock_outline,
                 title: 'No Access',
@@ -61,9 +55,9 @@ class GuestTopicsScreen extends ConsumerWidget {
 
             return ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: activeTopics.length,
+              itemCount: topics.length,
               itemBuilder: (context, index) {
-                final topic = activeTopics[index];
+                final topic = topics[index];
                 return Align(
                   alignment: Alignment.topCenter,
                   child: _TopicTile(topic: topic),

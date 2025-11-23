@@ -1,11 +1,17 @@
 import '../datasources/api_service.dart';
 import '../models/task.dart';
+import '../models/topic.dart';
 import '../../core/utils/constants.dart';
 
 class TaskRepository {
   final ApiService _apiService;
 
   TaskRepository(this._apiService);
+
+  Future<List<Topic>> getActiveTopics() async {
+    final response = await _apiService.getTopicsForUser();
+    return response.topics;
+  }
 
   Future<List<Task>> getMyActiveTasks() async {
     final response = await _apiService.getTasks('my_active');

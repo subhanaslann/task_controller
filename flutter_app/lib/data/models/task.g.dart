@@ -57,7 +57,7 @@ const _$PriorityEnumMap = {
 };
 
 TopicRef _$TopicRefFromJson(Map<String, dynamic> json) =>
-    TopicRef(id: json['id'] as String, title: json['title'] as String);
+    TopicRef(id: json['id'] as String?, title: json['title'] as String?);
 
 Map<String, dynamic> _$TopicRefToJson(TopicRef instance) => <String, dynamic>{
   'id': instance.id,
@@ -65,8 +65,8 @@ Map<String, dynamic> _$TopicRefToJson(TopicRef instance) => <String, dynamic>{
 };
 
 Assignee _$AssigneeFromJson(Map<String, dynamic> json) => Assignee(
-  id: json['id'] as String,
-  name: json['name'] as String,
+  id: json['id'] as String?,
+  name: json['name'] as String?,
   username: json['username'] as String?,
 );
 
