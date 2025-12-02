@@ -10,6 +10,7 @@ import '../../../data/models/task.dart';
 
 // User Create Dialog
 class UserCreateDialog extends StatefulWidget {
+  final User? currentUser;
   final List<Topic> topics;
   final Function(
     String name,
@@ -23,6 +24,7 @@ class UserCreateDialog extends StatefulWidget {
 
   const UserCreateDialog({
     super.key,
+    this.currentUser,
     required this.topics,
     required this.onSave,
   });
@@ -112,6 +114,17 @@ class _UserCreateDialogState extends State<UserCreateDialog> {
                   Wrap(
                     spacing: 8,
                     children: [
+                      // TEAM_MANAGER kullanıcılar için TEAM_MANAGER seçeneği
+                      if (widget.currentUser?.role == UserRole.teamManager)
+                        FilterChip(
+                          label: const Text('Team Manager'),
+                          selected: _selectedRole == 'TEAM_MANAGER',
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedRole = 'TEAM_MANAGER';
+                            });
+                          },
+                        ),
                       FilterChip(
                         label: const Text('Member'),
                         selected: _selectedRole == 'MEMBER',
@@ -280,6 +293,7 @@ class _TopicCreateDialogState extends State<TopicCreateDialog> {
 
 // User Edit Dialog
 class UserEditDialog extends StatefulWidget {
+  final User? currentUser;
   final User user;
   final List<Topic> topics;
   final Function(
@@ -294,6 +308,7 @@ class UserEditDialog extends StatefulWidget {
 
   const UserEditDialog({
     super.key,
+    this.currentUser,
     required this.user,
     required this.topics,
     required this.onSave,
@@ -359,6 +374,17 @@ class _UserEditDialogState extends State<UserEditDialog> {
                   Wrap(
                     spacing: 8,
                     children: [
+                      // TEAM_MANAGER kullanıcılar için TEAM_MANAGER seçeneği
+                      if (widget.currentUser?.role == UserRole.teamManager)
+                        FilterChip(
+                          label: const Text('Team Manager'),
+                          selected: _selectedRole == 'TEAM_MANAGER',
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedRole = 'TEAM_MANAGER';
+                            });
+                          },
+                        ),
                       FilterChip(
                         label: const Text('Member'),
                         selected: _selectedRole == 'MEMBER',

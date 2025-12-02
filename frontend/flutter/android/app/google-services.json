@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486197260648",
+    "project_id": "taskcontroller-4c187",
+    "storage_bucket": "taskcontroller-4c187.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486197260648:android:b6c02bd05c1e47cc1926dd",
+        "android_client_info": {
+          "package_name": "com.minitasktracker.flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXeuX-eXUgCS4gtTS_oJ9MgwXmbjkZiVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

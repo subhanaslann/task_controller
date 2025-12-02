@@ -2,12 +2,12 @@ import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { deleteTopicSchema } from '../utils/validation';
 import { handleError, ValidationError, NotFoundError } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin } from '../utils/auth';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 
 export const deleteTopic = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = deleteTopicSchema.safeParse(request.data);
     if (!validationResult.success) {

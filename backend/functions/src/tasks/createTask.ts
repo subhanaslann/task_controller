@@ -2,13 +2,13 @@ import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { createTaskSchema, createMemberTaskSchema } from '../utils/validation';
 import { handleError, ValidationError, ForbiddenError } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin } from '../utils/auth';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 
-// Admin task creation (can assign to anyone)
+// Team Manager task creation (can assign to anyone)
 export const createTask = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = createTaskSchema.safeParse(request.data);
     if (!validationResult.success) {

@@ -1,7 +1,7 @@
 import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { handleError, ValidationError, NotFoundError } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin } from '../utils/auth';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 import { z } from 'zod';
 
 const deleteUserSchema = z.object({
@@ -11,7 +11,7 @@ const deleteUserSchema = z.object({
 export const deleteUser = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = deleteUserSchema.safeParse(request.data);
     if (!validationResult.success) {

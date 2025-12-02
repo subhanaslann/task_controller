@@ -48,8 +48,6 @@ enum Priority {
 }
 
 enum UserRole {
-  @JsonValue('ADMIN')
-  admin('ADMIN'),
   @JsonValue('TEAM_MANAGER')
   teamManager('TEAM_MANAGER'),
   @JsonValue('MEMBER')

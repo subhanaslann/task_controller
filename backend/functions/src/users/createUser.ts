@@ -5,12 +5,11 @@ import { createUserSchema } from '../utils/validation';
 import {
   handleError,
   ValidationError,
-  ForbiddenError,
   ConflictError,
   OrganizationUserLimitReachedError,
   NotFoundError
 } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin, setCustomClaims } from '../utils/auth';
+import { requireAuth, requireTeamManager, setCustomClaims } from '../utils/auth';
 
 async function checkActiveUserLimit(
   db: FirebaseFirestore.Firestore,
@@ -38,7 +37,7 @@ async function checkActiveUserLimit(
 export const createUser = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = createUserSchema.safeParse(request.data);
     if (!validationResult.success) {
@@ -48,14 +47,6 @@ export const createUser = onCall(async (request) => {
     const { name, username, email, password, role, active, visibleTopicIds } = validationResult.data;
     const db = admin.firestore();
     const { organizationId } = context;
-
-    // Permission checks
-    if (context.role === 'TEAM_MANAGER' && role === 'ADMIN') {
-      throw new ForbiddenError('Team Managers cannot create Admin users');
-    }
-    if (context.role === 'TEAM_MANAGER' && role === 'TEAM_MANAGER') {
-      throw new ForbiddenError('Team Managers cannot create other Team Manager users');
-    }
 
     // Check user limit if creating active user
     if (active !== false) {

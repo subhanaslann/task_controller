@@ -2,12 +2,12 @@ import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { createTopicSchema } from '../utils/validation';
 import { handleError, ValidationError } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin } from '../utils/auth';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 
 export const createTopic = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = createTopicSchema.safeParse(request.data);
     if (!validationResult.success) {

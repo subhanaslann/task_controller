@@ -33,8 +33,8 @@ export const updateTaskStatus = onCall(async (request) => {
 
     const currentData = taskDoc.data()!;
 
-    // Only admin/team manager or assignee can update task status
-    const isManager = role === 'ADMIN' || role === 'TEAM_MANAGER';
+    // Only team manager or assignee can update task status
+    const isManager = role === 'TEAM_MANAGER';
     const isAssignee = currentData.assigneeId === uid;
 
     if (!isManager && !isAssignee) {

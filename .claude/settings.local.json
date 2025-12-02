@@ -5,7 +5,10 @@
       "Bash(npm test:*)",
       "Bash(xargs:*)",
       "Bash(flutter test:*)",
-      "Bash(powershell -Command:*)"
+      "Bash(powershell -Command:*)",
+      "Bash(cat:*)",
+      "Bash(ls -la \"C:\\Tektech\\mini-task-tracker\\frontend\\flutter\"\" | grep -E \"test)",
+      "Bash(spec \")"
     ],
     "deny": [],
     "ask": []

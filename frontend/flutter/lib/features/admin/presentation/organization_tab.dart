@@ -94,8 +94,7 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                         ),
                       ),
                       const Spacer(),
-                      if (currentUser?.role == UserRole.admin ||
-                          currentUser?.role == UserRole.teamManager)
+                      if (currentUser?.role == UserRole.teamManager)
                         IconButton(
                           icon: const Icon(Icons.edit),
                           onPressed: () {
@@ -120,7 +119,7 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
                   _buildDetailRow(
                     'Max Users',
                     organization?.maxUsers.toString() ?? 'N/A',
-                    isReadOnly: currentUser?.role != UserRole.admin,
+                    isReadOnly: currentUser?.role != UserRole.teamManager,
                   ),
                   const Gap(12),
                   _buildDetailRow(
@@ -307,7 +306,7 @@ class _OrganizationTabState extends ConsumerState<OrganizationTab> {
       text: organization?.maxUsers.toString() ?? '15',
     );
     final currentUser = ref.read(currentUserProvider);
-    final isAdmin = currentUser?.role == UserRole.admin;
+    final isAdmin = currentUser?.role == UserRole.teamManager;
 
     showDialog(
       context: context,

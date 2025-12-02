@@ -19,6 +19,7 @@ async function ensureUniqueSlug(db: FirebaseFirestore.Firestore, baseSlug: strin
   let slug = baseSlug;
   let counter = 1;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const existing = await db.collection('organizations')
       .where('slug', '==', slug)

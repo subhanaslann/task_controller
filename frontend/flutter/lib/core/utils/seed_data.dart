@@ -17,9 +17,9 @@ class SeedData {
     User(
       id: 'user-1',
       name: 'Ahmet Yılmaz',
-      username: 'admin',
+      username: 'manager',
       email: 'ahmet.yilmaz@tektech.com',
-      role: UserRole.admin,
+      role: UserRole.teamManager,
       organizationId: 'org-tektech',
       active: true,
       visibleTopicIds: ['topic-1', 'topic-2', 'topic-3', 'topic-4', 'topic-5'],

@@ -1,20 +1,15 @@
 import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
-import { orgIdSchema } from '../utils/validation';
-import { handleError, ValidationError, NotFoundError } from '../utils/errors';
-import { requireAuth, requireAdmin } from '../utils/auth';
+import { handleError, NotFoundError } from '../utils/errors';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 
 export const activateOrg = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireAdmin(context);
+    requireTeamManager(context);
 
-    const validationResult = orgIdSchema.safeParse(request.data);
-    if (!validationResult.success) {
-      throw new ValidationError(validationResult.error.errors[0].message);
-    }
-
-    const { organizationId } = validationResult.data;
+    // TEAM_MANAGER can only activate their own organization
+    const { organizationId } = context;
     const db = admin.firestore();
 
     const orgRef = db.collection('organizations').doc(organizationId);

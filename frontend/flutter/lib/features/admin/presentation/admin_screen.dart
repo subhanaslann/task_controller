@@ -166,6 +166,7 @@ class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
                             showDialog(
                               context: context,
                               builder: (context) => UserEditDialog(
+                                currentUser: ref.read(currentUserProvider),
                                 user: user,
                                 topics: topics,
                                 onSave:
@@ -243,6 +244,7 @@ class _UserManagementTabState extends ConsumerState<_UserManagementTab> {
           showDialog(
             context: context,
             builder: (context) => UserCreateDialog(
+              currentUser: ref.read(currentUserProvider),
               topics: topics,
               onSave:
                   (

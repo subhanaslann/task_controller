@@ -55,12 +55,8 @@ export function requireRole(context: AuthContext, ...allowedRoles: Role[]): void
   }
 }
 
-export function requireTeamManagerOrAdmin(context: AuthContext): void {
-  requireRole(context, 'ADMIN', 'TEAM_MANAGER');
-}
-
-export function requireAdmin(context: AuthContext): void {
-  requireRole(context, 'ADMIN');
+export function requireTeamManager(context: AuthContext): void {
+  requireRole(context, 'TEAM_MANAGER');
 }
 
 export async function setCustomClaims(

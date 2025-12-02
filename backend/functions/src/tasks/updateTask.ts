@@ -2,13 +2,13 @@ import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { updateTaskSchema } from '../utils/validation';
 import { handleError, ValidationError, NotFoundError, ForbiddenError } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin } from '../utils/auth';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 
-// Admin task update (can update any task)
+// Team Manager task update (can update any task)
 export const updateTask = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = updateTaskSchema.safeParse(request.data);
     if (!validationResult.success) {

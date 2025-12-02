@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Enums
-export const RoleEnum = z.enum(['ADMIN', 'TEAM_MANAGER', 'MEMBER', 'GUEST']);
+export const RoleEnum = z.enum(['TEAM_MANAGER', 'MEMBER', 'GUEST']);
 export const TaskStatusEnum = z.enum(['TODO', 'IN_PROGRESS', 'DONE']);
 export const PriorityEnum = z.enum(['LOW', 'NORMAL', 'HIGH']);
 

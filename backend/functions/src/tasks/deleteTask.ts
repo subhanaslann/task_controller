@@ -2,13 +2,13 @@ import { onCall } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import { deleteTaskSchema } from '../utils/validation';
 import { handleError, ValidationError, NotFoundError, ForbiddenError } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin } from '../utils/auth';
+import { requireAuth, requireTeamManager } from '../utils/auth';
 
-// Admin task delete
+// Team Manager task delete
 export const deleteTask = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = deleteTaskSchema.safeParse(request.data);
     if (!validationResult.success) {

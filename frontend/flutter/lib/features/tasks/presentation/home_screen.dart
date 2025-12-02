@@ -174,9 +174,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     User? currentUser,
     AppLocalizations? l10n,
   ) {
-    final isAdmin =
-        currentUser?.role == UserRole.admin ||
-        currentUser?.role == UserRole.teamManager;
+    final isAdmin = currentUser?.role == UserRole.teamManager;
 
     return PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert, color: Colors.white),

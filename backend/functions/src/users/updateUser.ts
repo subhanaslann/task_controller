@@ -5,11 +5,10 @@ import { updateUserSchema } from '../utils/validation';
 import {
   handleError,
   ValidationError,
-  ForbiddenError,
   NotFoundError,
   OrganizationUserLimitReachedError
 } from '../utils/errors';
-import { requireAuth, requireTeamManagerOrAdmin, setCustomClaims } from '../utils/auth';
+import { requireAuth, requireTeamManager, setCustomClaims } from '../utils/auth';
 
 async function checkActiveUserLimit(
   db: FirebaseFirestore.Firestore,
@@ -24,7 +23,7 @@ async function checkActiveUserLimit(
   const orgData = orgDoc.data()!;
   const maxUsers = orgData.maxUsers || 15;
 
-  let query = db
+  const query = db
     .collection('organizations').doc(organizationId)
     .collection('users')
     .where('active', '==', true);
@@ -48,7 +47,7 @@ async function checkActiveUserLimit(
 export const updateUser = onCall(async (request) => {
   try {
     const context = await requireAuth(request);
-    requireTeamManagerOrAdmin(context);
+    requireTeamManager(context);
 
     const validationResult = updateUserSchema.safeParse(request.data);
     if (!validationResult.success) {
@@ -69,14 +68,6 @@ export const updateUser = onCall(async (request) => {
     }
 
     const existingData = userDoc.data()!;
-
-    // Permission checks
-    if (context.role === 'TEAM_MANAGER' && role === 'ADMIN') {
-      throw new ForbiddenError('Team Managers cannot promote users to Admin');
-    }
-    if (context.role === 'TEAM_MANAGER' && role === 'TEAM_MANAGER') {
-      throw new ForbiddenError('Team Managers cannot promote users to Team Manager');
-    }
 
     // If activating a currently inactive user, check limit
     if (active === true && !existingData.active) {
