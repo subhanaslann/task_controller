@@ -4,7 +4,8 @@
       "Bash(tree:*)",
       "Bash(npm test:*)",
       "Bash(xargs:*)",
-      "Bash(flutter test:*)"
+      "Bash(flutter test:*)",
+      "Bash(powershell -Command:*)"
     ],
     "deny": [],
     "ask": []

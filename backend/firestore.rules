@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getOrgId() {
+      return request.auth.token.organizationId;
+    }
+
+    function getUserRole() {
+      return request.auth.token.role;
+    }
+
+    function isOrgMember(orgId) {
+      return isAuthenticated() && getOrgId() == orgId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'ADMIN';
+    }
+
+    function isManagerOrAdmin() {
+      return isAuthenticated() && getUserRole() in ['ADMIN', 'TEAM_MANAGER'];
+    }
+
+    function isGuest() {
+      return isAuthenticated() && getUserRole() == 'GUEST';
+    }
+
+    // Organization rules
+    match /organizations/{orgId} {
+      // Any authenticated org member can read their organization
+      allow read: if isOrgMember(orgId);
+      // Only Cloud Functions can write (via Admin SDK)
+      allow write: if false;
+
+      // Users subcollection
+      match /users/{userId} {
+        // Any authenticated org member can read users list
+        allow read: if isOrgMember(orgId);
+        // Only Cloud Functions can write
+        allow write: if false;
+      }
+
+      // Topics subcollection
+      match /topics/{topicId} {
+        // Non-guest members can read all topics
+        // Guest users can only read topics they have access to
+        allow read: if isOrgMember(orgId) && (
+          !isGuest() ||
+          resource.data.accessControl[request.auth.uid] != null
+        );
+        // Only Cloud Functions can write
+        allow write: if false;
+      }
+
+      // Tasks subcollection
+      match /tasks/{taskId} {
+        // Non-guest members can read all tasks
+        // Guest users cannot read tasks directly
+        allow read: if isOrgMember(orgId) && !isGuest();
+        // Only Cloud Functions can write
+        allow write: if false;
+      }
+    }
+
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
